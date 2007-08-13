@@ -3,8 +3,8 @@ See also LICENSE.txt
 
 Meta::
 
-  Valid for:        SilvaForum 0.1 (SVN/Unreleased)
-  Author:           Todd Matsumato, Guido Wesdorp
+  Valid for:        SilvaForum 0.1 alpha 1
+  Author:           Todd Matsumoto, Guido Wesdorp
   Email:            todd@infrae.com
   Last author:      $Author$
   SVN Revision:     $Date$
