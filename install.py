@@ -34,7 +34,9 @@ def install(root):
     reg.register('add', 'Silva Forum Thread', ['add', 'Thread'])
     reg.register('add', 'Silva Forum Comment', ['add', 'Comment'])
 
-    # XXX public is done from Five views?!?
+    # public is done from Five views
+
+    configureAddables(root)
     
 def uninstall(root):
     reg = root.service_view_registry
@@ -46,7 +48,22 @@ def uninstall(root):
     reg.unregister('add', 'Silva Forum Comment')
 
     root.service_views.manage_delObjects(['SilvaForum'])
-    
+
+def configureAddables(root):
+    """Make sure the right items are addable in the root"""
+    non_addables = ('Silva Forum Thread',
+                    'Silva Forum Comment')
+    addables = ('Silva Forum',)
+    current_addables = root.get_silva_addables_allowed_in_publication()
+    new_addables = []
+    for a in current_addables:
+        if a not in non_addables:
+            new_addables.append(a)
+    for a in addables:
+        if a not in new_addables:
+            new_addables.append(a)
+    root.set_silva_addables_allowed_in_publication(new_addables)
+
 def is_installed(root):
     return hasattr(root.service_views, 'SilvaForum')
 
