@@ -70,6 +70,7 @@
   <silva:content
     content=".content.Comment"
     extension_name="SilvaForum"
+    icon="www/silvaforumcomment.gif"
     priority="-7"
     />
 
