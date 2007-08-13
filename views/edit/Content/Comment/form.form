@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<form>
+  <title></title>
+  <name>form</name>
+  <action></action>
+  <enctype></enctype>
+  <method>POST</method>
+  <i18n_domain>silva_forum</i18n_domain>
+  <i18n>comment_form</i18n>
+
+  <groups multiple="true">
+    <group>
+      <title>default</title>
+      <fields multiple="true">
+
+        <field><id>object_title</id> <type>TextAreaField</type>
+          <values>
+            <alternate_name></alternate_name>
+            <hidden type="int">0</hidden>
+            <max_linelength></max_linelength>
+            <max_length></max_length>
+            <max_lines></max_lines>
+            <width type="int">40</width>
+            <external_validator></external_validator>
+            <height type="int">2</height>
+            <required type="int">1</required>
+            <css_class></css_class>
+            <default></default>
+            <title>title</title>
+            <description></description>
+            <extra></extra>
+            <unicode type="int">1</unicode>
+          </values>
+          <tales>
+            <default>python:form.REQUEST.model.get_title()</default>
+          </tales>
+        </field>
+
+        <field><id>subtitle</id> <type>TextAreaField</type>
+          <values>
+            <alternate_name></alternate_name>
+            <hidden type="int">0</hidden>
+            <max_linelength></max_linelength>
+            <max_length></max_length>
+            <max_lines></max_lines>
+            <width type="int">40</width>
+            <external_validator></external_validator>
+            <height type="int">2</height>
+            <required type="int">1</required>
+            <css_class></css_class>
+            <default></default>
+            <title>subtitle</title>
+            <description></description>
+            <extra></extra>
+            <unicode type="int">1</unicode>
+          </values>
+          <tales>
+            <default>python:form.REQUEST.model.get_subtitle()</default>
+          </tales>
+        </field>
+
+        <field><id>text</id> <type>TextAreaField</type>
+          <values>
+            <alternate_name></alternate_name>
+            <hidden type="int">0</hidden>
+            <max_linelength></max_linelength>
+            <max_length></max_length>
+            <max_lines></max_lines>
+            <width type="int">40</width>
+            <external_validator></external_validator>
+            <height type="int">2</height>
+            <required type="int">1</required>
+            <css_class></css_class>
+            <default></default>
+            <title>text</title>
+            <description></description>
+            <extra></extra>
+            <unicode type="int">1</unicode>
+          </values>
+          <tales>
+            <default>python:form.REQUEST.model.get_text()</default>
+          </tales>
+        </field>
+
+      </fields>
+    </group>
+  </groups>
+</form>

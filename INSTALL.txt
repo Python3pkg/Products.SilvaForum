@@ -1,0 +1,35 @@
+Copyright (c) 2007 Infrae. All rights reserved.
+See also LICENSE.txt
+
+Meta::
+
+  Valid for:        SilvaForum 0.1 (SVN/Unreleased)
+  Author:           Todd Matsumato, Guido Wesdorp
+  Email:            todd@infrae.com
+  Last author:      $Author$
+  SVN Revision:     $Date$
+  Last modified:    $Rev$
+
+=====================
+Installing SilvaForum
+=====================
+
+Dependencies
+------------
+
+  * required:
+
+    SilvaForum depends on Silva 2.0 or later, and thus requires a fully working
+    Zope/Silva install
+
+Installation instructions
+-------------------------
+
+Unpack the SilvaForum-<version>.tar.gz tarball into the Products directory in
+which Silva is installed. Reboot Zope and visit http://<your host>/<silva
+root>/manage_services in your browser. Click on service_extensions, find the
+'SilvaForum' gray box and click the 'install' button.
+
+For information about usage of the product, and contact information, see
+README.txt.
+

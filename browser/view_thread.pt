@@ -1,0 +1,30 @@
+<div id="forum-main" tal:define="dummy view/set_content_type_and_nocache;
+                                 message request/message | view/handle_form">
+  <p id="forum-message" tal:content="message" tal:condition="message" />
+  <a tal:attributes="href string:${context/absolute_url}/create_comment.html">create comment</a>
+  <h1 tal:content="context/get_title" />
+  <div id="forum-thread-data">
+    <div class="forum-line">
+      <strong>creator:</strong>
+      <tal:block tal:replace="python:context.sec_get_creator_info().fullname()" />
+    </div>
+    <div class="forum-line">
+      <strong>creation date:</strong>
+      <tal:block tal:replace="python:view.format_datetime(context.get_creation_datetime())" />
+    </div>
+  </div>
+  <p tal:content="context/get_text" />
+  <div class="forum-content-item" tal:repeat="comment context/comments">
+    <h2 tal:content="comment/get_title" />
+    <p>
+      <strong>created on</strong>
+      <tal:block tal:content="python:view.format_datetime(comment.get_creation_datetime())" />
+      <strong>by</strong>
+      <tal:block tal:content="python:comment.sec_get_creator_info().fullname()" /><br />
+      <a tal:attributes="href comment/absolute_url">permalink</a>
+    </p>
+    <p tal:content="structure python:view.format_text(comment.get_text())" />
+  </div>
+  <a tal:attributes="href string:${context/absolute_url}/create_comment.html">create comment</a>
+</div>
+

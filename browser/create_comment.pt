@@ -1,0 +1,21 @@
+<html tal:define="message view/handle_form">
+  <head>
+    <title>Create a topic</title>
+  </head>
+  <body>
+    <p class="forum-message" tal:condition="message" tal:content="message" />
+    <form class="forum-form" id="forum-comment-form" method="post"
+          tal:attributes="action string:${context/absolute_url}/create_comment.html">
+      <strong>add comment</strong>
+      <div class="forum-form-field">
+        <div class="forum-strongdiv"><strong>subject</strong></div>
+        <input type="text" name="title" />
+      </div>
+      <div class="forum-form-field">
+        <div class="forum-strongdiv"><strong>body</strong></div>
+        <textarea name="text"></textarea>
+      </div>
+      <input type="submit" value="add comment" />
+    </form>
+  </body>
+</html>

@@ -1,0 +1,76 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:silva="http://infrae.com/ns/silvaconf"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="silva"
+    >
+
+  <!-- i18n -->
+  <!-- <i18n:registerTranslations directory="i18n" /> -->
+
+  <!--
+  <include package=".adapters" /> 
+  -->
+  <include package=".browser" />
+
+  <!-- define SilvaForum core as the root 'extension' -->
+  <silva:extension
+    name="SilvaForum"
+    title="Silva Forum"
+    depends="Silva"
+    />
+
+  <!-- permissions -->
+  <class class=".content.FiveViewable">
+    <require permission="zope.Public"
+             attributes="view" />
+    <require permission="silva.ReadSilvaContent"
+             attributes="preview" />
+  </class>
+  <class class=".content.Forum">
+    <require permission="silva.ChangeSilvaContent"
+             attributes="add_thread" />
+    <require permission="zope.Public"
+             attributes="threads" />
+  </class>
+  <class class=".content.Thread">
+    <require permission="silva.ChangeSilvaContent"
+             attributes="add_comment" />
+    <require permission="silva.ChangeSilvaContent"
+             attributes="set_text" />
+    <require permission="zope.Public"
+             attributes="comments" />
+    <require permission="zope.Public"
+             attributes="get_text" />
+  </class>
+  <class class=".content.Comment">
+    <require permission="zope.Public"
+             attributes="get_text" />
+    <require permission="silva.ChangeSilvaContent"
+             attributes="set_text" />
+  </class>
+
+  <!-- register content types -->
+
+  <!-- XXX not sure how to get the right factory called here... -->
+  <silva:content
+    content=".content.Forum"
+    extension_name="SilvaForum"
+    priority="-7"
+    />
+
+  <silva:content
+    content=".content.Thread"
+    extension_name="SilvaForum"
+    priority="-7"
+    />
+
+  <silva:content
+    content=".content.Comment"
+    extension_name="SilvaForum"
+    priority="-7"
+    />
+
+</configure>

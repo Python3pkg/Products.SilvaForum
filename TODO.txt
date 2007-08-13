@@ -1,0 +1,28 @@
+Copyright (c) 2007 Infrae. All rights reserved.
+See also LICENSE.txt
+
+Meta::
+  
+  Valid for:    SilvaForum 0.1 (SVN/Unreleased)
+  Author:       Todd Matsumato, Guido Wesdorp
+  Email:        todd@infrae.com
+  Last author:  $Author$
+  SVN:          $Date$ $Rev$
+
+===================
+TODO for SilvaForum
+===================
+
+* implement date/time formatting for front-end views (Todd suggested to use
+  nice formatting, different formatting for e.g. the current day, same month,
+  etc.)
+
+* emoticon support
+
+* add default css
+
+* in-depth analysis of PHP BB user interface as a blue-print for our
+  forum
+
+* get quoting and reply story properly defined and implemented
+
