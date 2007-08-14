@@ -26,3 +26,20 @@ TODO for SilvaForum
 
 * get quoting and reply story properly defined and implemented
 
+* subclass FiveViewable from object?
+
+* create interfaces.py
+
+* create interface API documentation
+
+* threads() method and comments() methods are a bit overengineered
+
+* handle_form -> update()
+
+* bail-out early in update()
+
+* consider returning a list of dictionaries with pre-processed information
+  instead of context/threads
+
+* same for context/comments
+
