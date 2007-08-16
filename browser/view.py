@@ -1,6 +1,9 @@
 from Products.Five import BrowserView
 from Products.Silva.browser.headers import Headers
 from Products.Silva import mangle
+from Products.SilvaForum.emoticons.emoticons import emoticons
+from Products.SilvaForum.dtformat.dtformat import format_dt
+from DateTime import DateTime
 from AccessControl import getSecurityManager, Unauthorized
 
 from urllib import quote as urlquote
@@ -10,11 +13,12 @@ minimal_add_role = 'Authenticated'
 # XXX hrmph, mixin :|
 class ViewBase(Headers):
     def format_datetime(self, dt):
-        return '%s %s, %s %02d:%02d' % (dt.aMonth(), dt.day(), dt.year(),
-                                        dt.hour(), dt.minute())
+        return format_dt(dt, DateTime())
 
     def format_text(self, text):
         text = mangle.entities(text)
+        text = emoticons(text,
+                         self.context.get_root().service_smilies.absolute_url())
         text = text.replace('\n', '<br />')
         return text
 
