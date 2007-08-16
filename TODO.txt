@@ -13,13 +13,13 @@ Meta::
 TODO for SilvaForum
 ===================
 
-* implement date/time formatting for front-end views (Todd suggested to use
-  nice formatting, different formatting for e.g. the current day, same month,
-  etc.)
+* add default css and layout phpBB like design
 
-* emoticon support
+* plug the rest of the emoticons in, in emoticons.py
 
-* add default css
+* views tal:repeat for emoticon interface
+
+* add emoticon support to thread presentation
 
 * in-depth analysis of PHP BB user interface as a blue-print for our
   forum
