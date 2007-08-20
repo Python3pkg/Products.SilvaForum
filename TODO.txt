@@ -3,7 +3,7 @@ See also LICENSE.txt
 
 Meta::
   
-  Valid for:    SilvaForum 0.1 alpha 1
+  Valid for:    SilvaForum 0.1 alpha 2 (SVN/Unreleased)
   Author:       Todd Matsumoto, Guido Wesdorp
   Email:        todd@infrae.com
   Last author:  $Author$
@@ -28,21 +28,4 @@ TODO for SilvaForum
 * output the emoticons on forms in a nice interface
 
 * get quoting and reply story properly defined and implemented
-
-* subclass FiveViewable from object?
-
-* create interfaces.py
-
-* create interface API documentation
-
-* threads() method and comments() methods are a bit overengineered
-
-* handle_form -> update()
-
-* bail-out early in update()
-
-* consider returning a list of dictionaries with pre-processed information
-  instead of context/threads
-
-* same for context/comments
 

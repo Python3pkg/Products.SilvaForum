@@ -91,8 +91,10 @@ class ThreadViewTest(SilvaTestCase.SilvaTestCase):
                                     name=u'index.html')
 
     def test_format_datetime(self):
+        # XXX this needs to either be removed, or test something useful...
         dt = DateTime('2007/01/01 01:00')
-        self.assertEquals('Jan 1, 2007 01:00', self.view.format_datetime(dt))
+        self.assertEquals('2007/01/01 01:00:00 GMT+1',
+                          self.view.format_datetime(dt))
 
 class CommentTest(SilvaTestCase.SilvaTestCase):
     def afterSetUp(self):

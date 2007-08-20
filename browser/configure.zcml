@@ -9,7 +9,7 @@
 
   <!-- views -->
   <browser:page
-      for="Products.SilvaForum.content.IForum"
+      for="Products.SilvaForum.interfaces.IForum"
       name="index.html"
       class=".view.ForumView"
       template="view_forum.pt"
@@ -17,7 +17,7 @@
       />
   
   <browser:page
-      for="Products.SilvaForum.content.IForum"
+      for="Products.SilvaForum.interfaces.IForum"
       name="create_thread.html"
       class=".view.ForumView"
       template="create_thread.pt"
@@ -25,7 +25,7 @@
       />
   
   <browser:page
-      for="Products.SilvaForum.content.IThread"
+      for="Products.SilvaForum.interfaces.IThread"
       name="index.html"
       class=".view.ThreadView"
       template="view_thread.pt"
@@ -33,7 +33,7 @@
       />
 
   <browser:page
-      for="Products.SilvaForum.content.IThread"
+      for="Products.SilvaForum.interfaces.IThread"
       name="create_comment.html"
       class=".view.ThreadView"
       template="create_comment.pt"
@@ -41,7 +41,7 @@
       />
 
   <browser:page
-      for="Products.SilvaForum.content.IComment"
+      for="Products.SilvaForum.interfaces.IComment"
       name="index.html"
       class=".view.CommentView"
       template="view_comment.pt"

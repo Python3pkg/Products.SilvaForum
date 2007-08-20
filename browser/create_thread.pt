@@ -1,4 +1,4 @@
-<html tal:define="message view/handle_form">
+<html tal:define="message view/update">
   <head>
     <title>Create a topic</title>
     <script type="text/javascript">

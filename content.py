@@ -9,17 +9,9 @@ from Products.Silva.Folder import Folder
 from Products.Silva.i18n import translate as _
 
 from Products.ZCatalog.CatalogPathAwareness import CatalogPathAware
+from interfaces import IForum, IThread, IComment
 
-class IForum(interface.Interface):
-    pass
-
-class IThread(interface.Interface):
-    pass
-
-class IComment(interface.Interface):
-    pass
-
-class FiveViewable:
+class FiveViewable(object):
     """ mixin to override .view()
 
         instead of using the view registry view() uses Five
@@ -27,7 +19,6 @@ class FiveViewable:
     def view(self):
         """ render the public Five view for this object
         """
-        content = self.get_viewable()
         view = getMultiAdapter((self, self.REQUEST), name=u'index.html')
         # XXX hrmph, had some strange context issues here ('view' would be
         # unwrapped in the template), but for some reason this seems to work
@@ -61,10 +52,13 @@ class Forum(FiveViewable, Publication):
         """
         # XXX note that this mostly exists because we intend to add more
         # functionality (e.g. searching, ordering) later
-        ret = []
-        for obj in self.objectValues('Silva Forum Thread'):
-            ret.append(obj)
-        return ret
+        return [{
+            'url': obj.absolute_url(),
+            'title': obj.get_title(),
+            'creation_datetime': obj.get_creation_datetime(),
+            'creator': obj.sec_get_creator_info().fullname(),
+            'commentlen': len(obj.comments()),
+        } for obj in self.objectValues('Silva Forum Thread')]
 
 class Thread(FiveViewable, Folder):
     interface.implements(IThread)
@@ -87,10 +81,13 @@ class Thread(FiveViewable, Folder):
     def comments(self):
         """ returns an iterable of all comments
         """
-        ret = []
-        for obj in self.objectValues('Silva Forum Comment'):
-            ret.append(obj)
-        return ret
+        return [{
+            'url': obj.absolute_url(),
+            'title': obj.get_title(),
+            'creator': obj.sec_get_creator_info().fullname(),
+            'creation_datetime': obj.get_creation_datetime(),
+            'text': obj.get_text(),
+        } for obj in self.objectValues('Silva Forum Comment')]
 
     def get_text(self):
         return self._text
