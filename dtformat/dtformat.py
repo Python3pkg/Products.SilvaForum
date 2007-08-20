@@ -39,7 +39,7 @@ def format_dt(formatdate, currentdate=None):
         ret[-2:] = [ret[-2] + ' and ' + ret[-1]]
     if not ret:
         return 'Just added'
-    return ', '.join(ret) + ' ago'
+    return 'Added ' + ', '.join(ret) + ' ago'
 
 # XXX oomph, bad name...
 def empty_singular_plural(num, unitname):

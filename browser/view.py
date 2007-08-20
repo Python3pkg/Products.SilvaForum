@@ -1,7 +1,7 @@
 from Products.Five import BrowserView
 from Products.Silva.browser.headers import Headers
 from Products.Silva import mangle
-from Products.SilvaForum.emoticons.emoticons import emoticons
+from Products.SilvaForum.emoticons.emoticons import emoticons, smileydata
 from Products.SilvaForum.dtformat.dtformat import format_dt
 from DateTime import DateTime
 from AccessControl import getSecurityManager, Unauthorized
@@ -21,6 +21,20 @@ class ViewBase(Headers):
                          self.context.get_root().service_smilies.absolute_url())
         text = text.replace('\n', '<br />')
         return text
+
+    def get_smiley_data(self):
+        ret = []
+        # walk through the dict
+        service_url = self.context.get_root().service_smilies.absolute_url()
+        # implement length check
+        # assign list of tuples
+        # process the longest to the shortest index values
+        for image, smileys in smileydata.items():
+            ret.append({
+                'text': smileys[0],
+                'href': service_url + '/' + image,
+            })
+        return ret
 
 class ForumView(ViewBase):
     """ view on IForum 

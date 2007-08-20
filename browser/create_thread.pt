@@ -1,21 +1,66 @@
 <html tal:define="message view/handle_form">
   <head>
     <title>Create a topic</title>
+    <script type="text/javascript">
+    // <![CDATA[ 
+
+        function add_smiley(text_to_add) {
+            /* add a smiley to the textarea
+            */
+            // XXX this is a bit scary... the DOM specs say text nodes can
+            // be split up, but afaik that never happens in browsers... if,
+            // however, people start reporting missing last bits of text, please
+            // fix this code... ;)
+            var textarea = document.getElementById('text');
+            var content = textarea.value;
+            var lastchar = content.charAt(content.length - 1);
+            if (lastchar && lastchar != ' ' && lastchar != '\t' && lastchar != '\n'
+                  && lastchar != '\r') {
+                content += ' ';
+            };
+            content += text_to_add + ' ';
+            // XXX please check the argument order here! might be wrong...
+            // stupid DOM :(
+            textarea.value = content;
+        };
+
+    // ]]>
+    </script>
   </head>
   <body>
     <p class="forum-message" tal:condition="message" tal:content="message" />
     <form class="forum-form" id="forum-comment-form" method="post"
           tal:attributes="action string:${context/absolute_url}/create_thread.html">
-      <strong>add thread</strong>
-      <div class="forum-form-field">
-        <div class="forum-strongdiv"><strong>topic</strong></div>
-        <input type="text" name="topic" />
-      </div>
-      <div class="forum-form-field">
-        <div class="forum-strongdiv"><strong>body</strong></div>
-        <textarea name="text"></textarea>
-      </div>
-      <input type="submit" value="add thread" />
+      <table border="1">
+        <tr>
+          <th width="300px">
+          <strong>Post a new topic</strong>
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <div class="forum-strongdiv"><strong>Subject</strong></div>
+          </td>
+          <td>
+            <input type="text" name="topic" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+          Emoticon interface
+          <div tal:repeat="smileydata view/get_smiley_data">
+            <img onclick="add_smiley(this.title)" tal:attributes="title smileydata/text; src smileydata/href" />
+          </div>
+          </td>
+          <td>
+          <div class="forum-form-field">
+            <div class="forum-strongdiv"><strong>body</strong></div>
+            <textarea name="text" id="text"></textarea>
+          </div>
+          <input type="submit" value="add thread" />
+          </td>
+        </tr>
+      </table>
     </form>
   </body>
 </html>

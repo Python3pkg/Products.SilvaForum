@@ -15,14 +15,17 @@ TODO for SilvaForum
 
 * add default css and layout phpBB like design
 
-* plug the rest of the emoticons in, in emoticons.py
+* views tal:repeat for emoticon interface (form input)
+    image title error (hanging colon)
+        get a list of the image/values
+        convert the smileydata dictionary to a list tuples
+            check the len on the value
+            process the list from longest to shortest
+            do this in view.py
 
-* views tal:repeat for emoticon interface
+* take out created dates
 
-* add emoticon support to thread presentation
-
-* in-depth analysis of PHP BB user interface as a blue-print for our
-  forum
+* output the emoticons on forms in a nice interface
 
 * get quoting and reply story properly defined and implemented
 

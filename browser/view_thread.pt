@@ -13,7 +13,7 @@
       <tal:block tal:replace="python:view.format_datetime(context.get_creation_datetime())" />
     </div>
   </div>
-  <p tal:content="context/get_text" />
+  <p tal:content="structure python:view.format_text(context.get_text())" />
   <div class="forum-content-item" tal:repeat="comment context/comments">
     <h2 tal:content="comment/get_title" />
     <p>

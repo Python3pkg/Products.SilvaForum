@@ -1,15 +1,15 @@
 <div id="forum-main" tal:define="dummy view/set_content_type_and_nocache;
                                  message request/message | nothing">
   <p id="forum-message" tal:content="message" tal:condition="message" />
-  <a tal:attributes="href string:${context/absolute_url}/create_thread.html">create topic</a>
-  <h1 tal:content="context/get_title" />
-  <table class="forum-content-table">
+  <!-- <a tal:attributes="href string:${context/absolute_url}/create_thread.html">New Topic</a> -->
+  <!-- <h1 tal:content="context/get_title" /> -->
+  <table class="forum-content-table" border="1">
     <thead>
       <tr>
-        <th>topic</th>
-        <th>creation date</th>
-        <th>creator</th>
-        <th>comments</th>
+        <th>Topics</th>
+        <th class="create-date-column">Created on</th>
+        <th class="author-column">Author</th>
+        <th class="comment-column">Comments</th>
       </tr>
     </thead>
     <tbody>
@@ -19,11 +19,11 @@
              tal:content="thread/get_title"></a>
         </td>
         <td tal:content="python:view.format_datetime(thread.get_creation_datetime())" />
-        <td tal:content="python:thread.sec_get_creator_info().fullname()" />
-        <td tal:content="python:len(thread.comments())" />
+        <td class="author-column" tal:content="python:thread.sec_get_creator_info().fullname()" />
+        <td class="comment-column" tal:content="python:len(thread.comments())" />
       </tr>
     </tbody>
   </table>
-  <a tal:attributes="href string:${context/absolute_url}/create_thread.html">create topic</a>
+  <a tal:attributes="href string:${context/absolute_url}/create_thread.html">New Topic</a>
 </div>
 
