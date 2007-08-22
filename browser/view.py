@@ -49,13 +49,13 @@ class ForumView(ViewBase):
             raise Unauthorized('need to be authenticated')
         topic = req['topic']
         if not topic.strip():
-            return 'please provide a topic'
+            return 'Please provide a subject'
         text = req['text']
         if not text.strip():
-            return 'please provide text'
+            return 'Please provide text'
         self.context.add_thread(topic, text)
         url = self.context.absolute_url()
-        msg = urlquote('topic added')
+        msg = urlquote('Topic added')
         req.response.redirect('%s?message=%s' % (url, msg))
 
 class ThreadView(ViewBase):
@@ -70,9 +70,11 @@ class ThreadView(ViewBase):
         if not sec.getUser().has_role(minimal_add_role):
             raise Unauthorized('need to be authenticated')
         title = req['title']
+        if not title.strip():
+            return 'Please provide a subject'
         text = req['text']
         if not title.strip() or not text.strip():
-            return 'title and text are both mandatory'
+            return 'Please provide text'
         comment = self.context.add_comment(title, text)
         url = self.context.absolute_url()
         msg = urlquote('comment added')

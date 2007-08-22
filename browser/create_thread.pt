@@ -28,7 +28,14 @@
           tal:attributes="href here/frontend.css/absolute_url" />
   </head>
   <body>
-    <p class="forum-message" tal:condition="message" tal:content="message" />
+    <!-- div this stuff -->
+    <table align="center" width="100%" border="1">
+      <tr>
+        <td align="center">
+          <p class="forum-message" tal:condition="message" tal:content="message" />
+        </td>
+      </tr>
+    </table>  
     <form class="forum-form" id="forum-comment-form" method="post"
           tal:attributes="action string:${context/absolute_url}/create_thread.html">
       <div id="post-span">
