@@ -3,14 +3,14 @@
   <table class="forum-content-table" border="1">
     <thead>
       <tr>
-        <td width="100px">Author</td>
-        <td width="500px">Message</td>
+        <td width="100px"><strong>Author</strong></td>
+        <td width="500px"><strong>Message</strong></td>
       </tr>
     </thead>
   </table>
   <table class="forum-content-table" border="1">
     <tr>
-      <td width="100px">
+      <td valign="top" width="100px">
         <strong>
           <p tal:replace="python:context.sec_get_creator_info().fullname()" />
         </strong>
@@ -25,7 +25,7 @@
   <table class="forum-content-table" border="1">
   <tal:block tal:repeat="comment context/comments">
     <tr>
-      <td width="100px">
+      <td valign="top" width="100px">
         <strong><tal:block tal:replace="python:context.sec_get_creator_info().fullname()" /></strong>
       </td>
       <td width="500px">

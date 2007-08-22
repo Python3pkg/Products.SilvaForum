@@ -5,7 +5,7 @@
     <thead>
       <tr>
         <th>Topics</th>
-        <th class="create-date-column">Created on</th>
+        <th class="create-date-column">Post date</th>
         <th class="author-column">Author</th>
         <th class="comment-column">Comments</th>
       </tr>
