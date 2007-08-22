@@ -1,8 +1,6 @@
 <div id="forum-main" tal:define="dummy view/set_content_type_and_nocache;
                                  message request/message | nothing">
   <p id="forum-message" tal:content="message" tal:condition="message" />
-  <!-- <a tal:attributes="href string:${context/absolute_url}/create_thread.html">New Topic</a> -->
-  <!-- <h1 tal:content="context/get_title" /> -->
   <table class="forum-content-table" border="1">
     <thead>
       <tr>
@@ -24,6 +22,7 @@
       </tr>
     </tbody>
   </table>
-  <a tal:attributes="href string:${context/absolute_url}/create_thread.html">New Topic</a>
+  <div class="submit">
+    <a tal:attributes="href string:${context/absolute_url}/create_thread.html">New Topic</a>
+  </div>
 </div>
-

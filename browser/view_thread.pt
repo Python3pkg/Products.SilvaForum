@@ -1,30 +1,43 @@
 <div id="forum-main" tal:define="dummy view/set_content_type_and_nocache;
                                  message request/message | nothing">
-  <p id="forum-message" tal:content="message" tal:condition="message" />
-  <a tal:attributes="href string:${context/absolute_url}/create_comment.html">create comment</a>
-  <h1 tal:content="context/get_title" />
-  <div id="forum-thread-data">
-    <div class="forum-line">
-      <strong>creator:</strong>
-      <tal:block tal:replace="python:context.sec_get_creator_info().fullname()" />
-    </div>
-    <div class="forum-line">
-      <strong>creation date:</strong>
-      <tal:block tal:replace="python:view.format_datetime(context.get_creation_datetime())" />
-    </div>
+  <table class="forum-content-table" border="1">
+    <thead>
+      <tr>
+        <td width="100px">Author</td>
+        <td width="500px">Message</td>
+      </tr>
+    </thead>
+  </table>
+  <table class="forum-content-table" border="1">
+    <tr>
+      <td width="100px">
+        <strong>
+          <p tal:replace="python:context.sec_get_creator_info().fullname()" />
+        </strong>
+      </td>
+      <td width="500px">
+        <p tal:replace="python:view.format_datetime(context.get_creation_datetime())" />
+        <h4 tal:content="context/get_title" /> 
+        <p tal:content="structure python:view.format_text(context.get_text())" />
+      </td>
+    </tr>
+  </table>
+  <table class="forum-content-table" border="1">
+  <tal:block tal:repeat="comment context/comments">
+    <tr>
+      <td width="100px">
+        <strong><tal:block tal:replace="python:context.sec_get_creator_info().fullname()" /></strong>
+      </td>
+      <td width="500px">
+        <p tal:replace="python:view.format_datetime(comment['creation_datetime'])" />
+        <a tal:attributes="href comment/url">permalink</a>
+        <h4 tal:content="comment/title" />
+        <p tal:content="structure python:view.format_text(comment['text'])" />
+      </td>
+    </tr>
+  </tal:block>
+  </table>
+  <div class="submit">
+    <a tal:attributes="href string:${context/absolute_url}/create_comment.html">create comment</a>
   </div>
-  <p tal:content="structure python:view.format_text(context.get_text())" />
-  <div class="forum-content-item" tal:repeat="comment context/comments">
-    <h2 tal:content="comment/title" />
-    <p>
-      <strong>created on</strong>
-      <tal:block tal:content="python:view.format_datetime(comment['creation_datetime'])" />
-      <strong>by</strong>
-      <tal:block tal:content="comment/creator" /><br />
-      <a tal:attributes="href comment/url">permalink</a>
-    </p>
-    <p tal:content="structure python:view.format_text(comment['text'])" />
-  </div>
-  <a tal:attributes="href string:${context/absolute_url}/create_comment.html">create comment</a>
 </div>
-

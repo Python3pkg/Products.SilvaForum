@@ -3,7 +3,6 @@
     <title>Create a topic</title>
     <script type="text/javascript">
     // <![CDATA[ 
-
         function add_smiley(text_to_add) {
             /* add a smiley to the textarea
             */
@@ -23,44 +22,41 @@
             // stupid DOM :(
             textarea.value = content;
         };
-
     // ]]>
     </script>
+    <link rel="stylesheet" type="text/css" media="all"
+          tal:attributes="href here/frontend.css/absolute_url" />
   </head>
   <body>
     <p class="forum-message" tal:condition="message" tal:content="message" />
     <form class="forum-form" id="forum-comment-form" method="post"
           tal:attributes="action string:${context/absolute_url}/create_thread.html">
-      <table border="1">
-        <tr>
-          <th width="300px">
-          <strong>Post a new topic</strong>
-          </th>
-        </tr>
-        <tr>
-          <td>
-            <div class="forum-strongdiv"><strong>Subject</strong></div>
-          </td>
-          <td>
-            <input type="text" name="topic" />
-          </td>
-        </tr>
-        <tr>
-          <td>
-          Emoticon interface
-          <div tal:repeat="smileydata view/get_smiley_data">
+      <div id="post-span">
+        <strong>Post a new topic</strong>
+      </div>
+      <div class="subject">
+        <strong>Subject</strong>
+      </div>
+      <div class="subject-input">
+        <input type="text" name="topic" size="79" />
+      </div>
+      <div id="emoticon-interface">
+        <strong>Body text</strong><br />
+        <strong>Emoticon interface</strong>
+        <div id="emoticons">
+          <div class="emoticon" tal:repeat="smileydata view/get_smiley_data">
             <img onclick="add_smiley(this.title)" tal:attributes="title smileydata/text; src smileydata/href" />
           </div>
-          </td>
-          <td>
-          <div class="forum-form-field">
-            <div class="forum-strongdiv"><strong>body</strong></div>
-            <textarea name="text" id="text"></textarea>
-          </div>
+        </div>
+      </div>
+      <div id="text-input">
+        <div>
+          <textarea name="text" id="text" rows="15" cols="67"></textarea>
+        </div>
+        <div class="submit">
           <input type="submit" value="add thread" />
-          </td>
-        </tr>
-      </table>
+        </div>
+      </div>  
     </form>
   </body>
 </html>
