@@ -13,19 +13,5 @@ Meta::
 TODO for SilvaForum
 ===================
 
-* add default css and layout phpBB like design
-
-* views tal:repeat for emoticon interface (form input)
-    image title error (hanging colon)
-        get a list of the image/values
-        convert the smileydata dictionary to a list tuples
-            check the len on the value
-            process the list from longest to shortest
-            do this in view.py
-
 * take out created dates
-
-* output the emoticons on forms in a nice interface
-
-* get quoting and reply story properly defined and implemented
 
