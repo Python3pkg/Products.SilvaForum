@@ -1,0 +1,27 @@
+Copyright (c) 2007 Infrae. All rights reserved.
+See also LICENSE.txt
+
+Meta::
+  
+  Valid for:        SilvaForum 0.1 alpha 2
+  Author:           Todd Matsumoto, Guido Wesdorp
+  Email:            todd@infrae.com
+  Last author:      $Author: guido $
+  SVN Revision:     $Date: 2007-08-20 23:24:20 +0200 (Mon, 20 Aug 2007) $
+  Last modified:    $Rev: 25523 $
+
+HISTORY
+=======
+
+0.1 alpha 1 to 0.1 alpha 2
+--------------------------
+
+* Added support for emoticons.
+
+* Added nice date/time formatting.
+
+* Several layout fixes.
+
+* Small code fixes and cleanups (see individual checkin messages for
+  API changes).
+
