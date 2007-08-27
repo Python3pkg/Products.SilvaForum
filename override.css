@@ -1,0 +1,81 @@
+/*_________________________________ FORUM LIST STYLES __________*/
+.forum-content-table {
+    border-collapse: collapse;
+    /*width: 100%;*/
+}
+
+.author-column, .comment-column {
+    width: 6em;
+    text-align: center;
+}
+
+.thread-author-column {
+    width: 15em;
+    text-align: center;
+}
+
+.thread-comment-column {
+    width: 45em;
+    text-align: center;
+}
+
+.create-date-column {
+    width: 18em;
+}
+
+.forum-message {
+    color: red;
+    text-align: center;
+    width: 100%;
+}
+
+/*_________________________________ EMOTICON STYLES __________*/
+#emoticon-interface {
+    width: 15em;
+    margin: .5em 0 0 .5em;
+    clear: both;
+    float: left;
+}
+
+#emoticons {
+    width: 8.2em;
+    height: 8.2em;
+    margin: .5em 0 0 .5em;
+    padding: .5em;
+    border: 1px solid black;
+}
+
+.emoticon {
+    margin: .3em;
+    float: left;
+}
+
+/*_________________________________ FORM STYLES __________*/
+
+#post-span {
+    width: 60em;
+    text-align: center
+}
+
+.subject {
+    width: 15em;
+    float: left;
+    margin: .5em 0 0 .5em;
+}
+.subject-input {
+    width: 44em;
+    float: left;
+    margin: .5em 0 0 0;
+}
+
+#text-input {
+    width: 44em;
+    float: left;
+    margin: .5em 0 0 0;
+}
+
+.submit {
+    margin: .5em 0 0 0;
+}
+
+
