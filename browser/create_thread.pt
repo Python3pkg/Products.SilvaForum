@@ -21,6 +21,7 @@
             // XXX please check the argument order here! might be wrong...
             // stupid DOM :(
             textarea.value = content;
+            textarea.focus();
         };
     // ]]>
     </script>

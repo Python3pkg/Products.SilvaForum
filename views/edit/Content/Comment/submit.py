@@ -25,16 +25,15 @@ if old_title != result['object_title']:
                     })
     changed.append(('title', translate(message)))
 
-for attr in ('author_name', 'author_email', 'text', 'subtitle'):
-    newvalue = result[attr]
-    if getattr(model, 'get_' + attr)() != newvalue:
-        getattr(model, 'set_' + attr)(newvalue)
-        model.sec_update_last_author_info()
-        changed.append((attr, translate(_('updated'))))
+newvalue = result['text']
+if model.get_text() != newvalue:
+    model.set_text(newvalue)
+    model.sec_update_last_author_info()
+    changed.append(translate(_('text updated')))
 
 # FIXME: should put in message
 # XXX: I don't understand the FIXME message.
 message = _("Properties changed: ${changed}",
             mapping={'changed': context.quotify_list_ext(changed)})
-return view.tab_edit(message_type="feedback", 
-    message=message)
+return view.tab_edit(message_type="feedback", message=message)
+

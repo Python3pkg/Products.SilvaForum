@@ -37,29 +37,6 @@
           </tales>
         </field>
 
-        <field><id>subtitle</id> <type>TextAreaField</type>
-          <values>
-            <alternate_name></alternate_name>
-            <hidden type="int">0</hidden>
-            <max_linelength></max_linelength>
-            <max_length></max_length>
-            <max_lines></max_lines>
-            <width type="int">40</width>
-            <external_validator></external_validator>
-            <height type="int">2</height>
-            <required type="int">1</required>
-            <css_class></css_class>
-            <default></default>
-            <title>subtitle</title>
-            <description></description>
-            <extra></extra>
-            <unicode type="int">1</unicode>
-          </values>
-          <tales>
-            <default>python:form.REQUEST.model.get_subtitle()</default>
-          </tales>
-        </field>
-
         <field><id>text</id> <type>TextAreaField</type>
           <values>
             <alternate_name></alternate_name>
