@@ -37,7 +37,7 @@
         </td>
       </tr>
     </table>
-    <form class="forum-form" id="forum-comment-form" method="post"
+    <form id="forum-comment-form" method="post"
           tal:attributes="action string:${context/absolute_url}/create_comment.html">
       <div id="post-span">
         <strong>Post a comment</strong>

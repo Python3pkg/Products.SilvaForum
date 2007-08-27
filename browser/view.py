@@ -24,11 +24,7 @@ class ViewBase(Headers):
 
     def get_smiley_data(self):
         ret = []
-        # walk through the dict
         service_url = self.context.get_root().service_smilies.absolute_url()
-        # implement length check
-        # assign list of tuples
-        # process the longest to the shortest index values
         for image, smileys in smileydata.items():
             ret.append({
                 'text': smileys[0],

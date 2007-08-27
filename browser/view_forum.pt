@@ -1,4 +1,4 @@
-<div id="forum-main" tal:define="dummy view/set_content_type_and_nocache;
+<div tal:define="dummy view/set_content_type_and_nocache;
                                  message request/message | nothing">
   <p class="forum-message" tal:content="message" tal:condition="message" />
   <table class="forum-content-table" border="1">
