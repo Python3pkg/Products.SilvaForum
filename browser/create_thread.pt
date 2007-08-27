@@ -29,10 +29,13 @@
   </head>
   <body>
     <!-- div this stuff -->
-    <table align="center" width="100%" border="1">
+    <!-- <table align="center" width="100%" border="1"> -->
+    <table class="forum-content-table">
       <tr>
-        <td align="center">
+        <td>
+          <div id="post-span">
           <p class="forum-message" tal:condition="message" tal:content="message" />
+          </div>
         </td>
       </tr>
     </table>  

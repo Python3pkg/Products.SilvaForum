@@ -46,7 +46,7 @@ class ForumView(ViewBase):
             return
         sec = getSecurityManager()
         if not sec.getUser().has_role(minimal_add_role):
-            raise Unauthorized('need to be authenticated')
+            raise Unauthorized('Sorry you need to be authorized to use this forum')
         topic = req['topic']
         if not topic.strip():
             return 'Please provide a subject'
@@ -68,7 +68,7 @@ class ThreadView(ViewBase):
             return
         sec = getSecurityManager()
         if not sec.getUser().has_role(minimal_add_role):
-            raise Unauthorized('need to be authenticated')
+            raise Unauthorized('Sorry you need to be authorized to use this forum')
         title = req['title']
         if not title.strip():
             return 'Please provide a subject'
@@ -77,7 +77,7 @@ class ThreadView(ViewBase):
             return 'Please provide text'
         comment = self.context.add_comment(title, text)
         url = self.context.absolute_url()
-        msg = urlquote('comment added')
+        msg = urlquote('Comment added')
         req.response.redirect('%s?message=%s' % (url, msg))
 
 class CommentView(ViewBase):
