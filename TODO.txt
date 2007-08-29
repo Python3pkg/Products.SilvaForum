@@ -27,14 +27,15 @@ TODO for SilvaForum
   name will not be listed when the user adds topics or comments
 
 * change message handling of forms to only output on no data
+  did this for comments, so if no data is entered it complains
+  for topic we at least need to have a subject or there is not link
+  on the list page
 
 * add a preview button to the submit forms
-
-* for form templates take out the "post-span" table and replace with a div
-
-* take out the empty div holding tal content in the frontend views
 
 * throw away the empty public directory in views since public views are in 
 the browser directory
 
 * find or make good forum icons
+
+* float right the permalink

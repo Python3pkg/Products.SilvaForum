@@ -47,8 +47,8 @@ class ForumView(ViewBase):
         if not topic.strip():
             return 'Please provide a subject'
         text = req['text']
-        if not text.strip():
-            return 'Please provide text'
+        #if not text.strip():
+        #    return 'Please provide text'
         self.context.add_thread(topic, text)
         url = self.context.absolute_url()
         msg = urlquote('Topic added')
@@ -65,12 +65,19 @@ class ThreadView(ViewBase):
         sec = getSecurityManager()
         if not sec.getUser().has_role(minimal_add_role):
             raise Unauthorized('Sorry you need to be authorized to use this forum')
+        
+        #title = req['title']
+        #if not title.strip():
+        #    return 'Please provide a subject'
+        #text = req['text']
+        #if not title.strip() or not text.strip():
+        #    return 'Please provide text'
+        
         title = req['title']
-        if not title.strip():
-            return 'Please provide a subject'
         text = req['text']
-        if not title.strip() or not text.strip():
-            return 'Please provide text'
+        if not title.strip() and not text.strip():
+            return 'Please fill in one of the two fields'
+
         comment = self.context.add_comment(title, text)
         url = self.context.absolute_url()
         msg = urlquote('Comment added')
