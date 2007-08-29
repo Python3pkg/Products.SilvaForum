@@ -71,7 +71,8 @@
       <tal:block tal:repeat="field form/get_fields">
       <tr class="even" tal:attributes="class python:repeat['field'].odd() and 'odd' or 'even'">
         <td class="align-right" i18n:translate="" tal:content="field/title">
-          title
+        <!-- <td class="align-right" i18n:translate=""> -->
+          Subject
         </td>
         <td>
           <input tal:replace="structure field/render" />
@@ -87,7 +88,7 @@
           colspan="2">
           <input class="button"
             type="submit"
-            value="change sample"
+            value="apply changes"
             title="access key: alt-c"
             accesskey="c"
             i18n:attributes="value;title"
@@ -100,11 +101,10 @@
 </form>
 
       </td>
-
       <tal:block replace="nothing">
         _____________________ right column _____________________ 
       </tal:block>
-      <td class="right">        
+      <td class="right">
         &nbsp;
       </td>
     </tr>

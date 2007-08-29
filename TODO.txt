@@ -1,0 +1,47 @@
+Copyright (c) 2007 Infrae. All rights reserved.
+See also LICENSE.txt
+
+Meta::
+  
+  Valid for:    SilvaForum 0.1 alpha 2
+  Author:       Todd Matsumoto, Guido Wesdorp
+  Email:        todd@infrae.com
+  Last author:  $Author$
+  SVN:          $Date$ $Rev$
+
+===================
+TODO for SilvaForum
+===================
+
+* do a comparison for final forum features Silva Forum against PHPbb
+
+* change access for users to viewer
+
+* build in java toggle for forms in thread list and comment list views
+
+* fix bug, the right users are not being loaded in as the authors of 
+thread/comments
+
+* change message handling of forms to only output on no data
+
+* add a preview button to the submit forms
+
+* in the smi edit of a thread/comment change the title input to a string input
+
+* in the smi edit of a thread/comment make the text field larger
+
+* in the smi edit of a thread/comment change title to the word subject
+
+* in the smi edit of a thread/comment take out right hand column, which is empty
+
+* in the smi edit of a thread/comment change the button to be more forum 
+descriptive
+
+* for form templates take out the "post-span" table and replace with a div
+
+* take out the empty div holding tal content in the frontend views
+
+* throw away the empty public directory in views since public views are in 
+the browser directory
+
+* find or make good forum icons

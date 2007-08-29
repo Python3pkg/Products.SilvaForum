@@ -40,3 +40,10 @@ point manual merging should not be required.
 For information about usage of the product, and contact information, see
 README.txt.
 
+IMPORTANT NOTE: to style the forum views, you will need to _manually_ copy
+the contents of the file 'override.css' to your layout (in a default Silva
+that can be done by _adding_ (not overwriting!) the contents of
+'/silva_root/frontend.css' in the ZMI, for SilvaLayout situations you will
+need to copy it to your layout CSS). This is a temporary solution, at a later
+point manual merging should not be required.
+
