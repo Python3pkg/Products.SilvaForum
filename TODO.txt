@@ -20,22 +20,15 @@ TODO for SilvaForum
 * build in java toggle for forms in thread list and comment list views
 
 * fix bug, the right users are not being loaded in as the authors of 
-thread/comments
+  thread/comments
+  might have something to do with sec_get_creator in contenty.py
+  if you assign a user in the ZMI without Manager/owner rights, then
+  go to the SMI and use the access tab to find the user, that users
+  name will not be listed when the user adds topics or comments
 
 * change message handling of forms to only output on no data
 
 * add a preview button to the submit forms
-
-* in the smi edit of a thread/comment change the title input to a string input
-
-* in the smi edit of a thread/comment make the text field larger
-
-* in the smi edit of a thread/comment change title to the word subject
-
-* in the smi edit of a thread/comment take out right hand column, which is empty
-
-* in the smi edit of a thread/comment change the button to be more forum 
-descriptive
 
 * for form templates take out the "post-span" table and replace with a div
 

@@ -13,28 +13,27 @@
     <group>
       <title>default</title>
       <fields multiple="true">
-
-        <field><id>object_title</id> <type>TextAreaField</type>
-          <values>
-            <alternate_name></alternate_name>
-            <hidden type="int">0</hidden>
+        
+        <field><id>object_title</id> <type>StringField</type>    
+          <values>    
+            <alternate_name></alternate_name>   
+            <hidden type="int">0</hidden>   
             <max_linelength></max_linelength>
-            <max_length></max_length>
+            <max_length></max_length>   
             <max_lines></max_lines>
             <width type="int">40</width>
-            <external_validator></external_validator>
-            <height type="int">2</height>
-            <required type="int">1</required>
-            <css_class></css_class>
-            <default></default>
-            <title>title</title>
+            <external_validator></external_validator>   
+            <required type="int">1</required>   
+            <css_class>store</css_class>   
+            <default></default>   
+            <title>subject</title>   
             <description></description>
-            <extra></extra>
-            <unicode type="int">1</unicode>
-          </values>
-          <tales>
+            <extra></extra>   
+            <unicode type="int">1</unicode>    
+          </values>   
+          <tales>   
             <default>python:form.REQUEST.model.get_title()</default>
-          </tales>
+          </tales>    
         </field>
 
         <field><id>text</id> <type>TextAreaField</type>
@@ -46,9 +45,9 @@
             <max_lines></max_lines>
             <width type="int">40</width>
             <external_validator></external_validator>
-            <height type="int">2</height>
+            <height type="int">8</height>
             <required type="int">1</required>
-            <css_class></css_class>
+            <css_class>store</css_class>
             <default></default>
             <title>text</title>
             <description></description>
