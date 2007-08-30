@@ -1,7 +1,32 @@
 <div tal:define="dummy view/set_content_type_and_nocache;
-                                 message request/message | nothing">
-  <p class="forum-message" tal:content="message" tal:condition="message" />
-  <table class="forum-content-table" border="1">
+                                 message view/update | nothing">
+  <script type="text/javascript">
+  // <![CDATA[ 
+      function add_smiley(text_to_add) {
+          /* add a smiley to the textarea
+          */
+          // XXX this is a bit scary... the DOM specs say text nodes can
+          // be split up, but afaik that never happens in browsers... if,
+          // however, people start reporting missing last bits of text, please
+          // fix this code... ;)
+          var textarea = document.getElementById('text');
+          var content = textarea.value;
+          var lastchar = content.charAt(content.length - 1);
+          if (lastchar && lastchar != ' ' && lastchar != '\t' && lastchar != '\n'
+                && lastchar != '\r') {
+              content += ' ';
+          };
+          content += text_to_add + ' ';
+          // XXX please check the argument order here! might be wrong...
+          // stupid DOM :(
+          textarea.value = content;
+          textarea.focus();
+      };
+
+  // ]]>
+  </script>
+  <div class="feedback" tal:condition="message" tal:content="message">message</div>    
+  <table class="forum-content-table">
     <thead>
       <tr>
         <th>Topics</th>
@@ -23,6 +48,66 @@
     </tbody>
   </table>
   <div class="submit">
-    <a tal:attributes="href string:${context/absolute_url}/create_thread.html">New Topic</a>
+    <form id="forum-thread-form" method="post"
+          tal:attributes="action context/absolute_url">
+      <div id="post-span">
+        Post a new topic
+      </div>
+      <div class="subject">
+        Subject
+      </div>
+      <div class="subject-input">
+        <input type="text" name="topic" size="80" />
+      </div>
+      <div id="emoticon-interface">
+        <p class="side-interface-text">Body text</p>
+        <p class="side-interface-text">Emoticon interface</p>
+        <div id="emoticons">
+          <div class="emoticon" tal:repeat="smileydata view/get_smiley_data">
+            <img onclick="add_smiley(this.title)" tal:attributes="title smileydata/text; src smileydata/href" />
+          </div>
+        </div>
+      </div>
+      <div id="text-input">
+        <textarea name="text" id="text" rows="15" cols="68"></textarea>
+        <div class="submit">
+          <input type="submit" value="add thread" />
+          <input type="preview" value="preview" />
+        </div>
+      </div>  
+    </form>
+    <!--
+    <script type="text/javascript">
+      // <![CDATA[
+
+      function _(id) {
+        return document.getElementById(id);
+      };
+
+      var alink = document.createElement('a');
+      var form = _('forum-thread-form');
+      alink.href = '#';
+      alink.onclick = function(evt) {
+        if (form.style.display == 'none') {
+          form.style.display = 'block';
+          this.replaceChild(document.createTextNode('hide form'), this.firstChild);
+        } else {
+          form.style.display = 'none';
+          this.replaceChild(document.createTextNode('new topic'), this.firstChild);
+        };
+        if (evt.preventDefault) {
+          evt.preventDefault();
+        } else {
+          evt.returnValue = false;
+        };
+        evt.cancelBubble = true;
+      };
+      alink.appendChild(document.createTextNode('new topic'));
+      form.parentNode.insertBefore(alink, form);
+      form.style.display = 'none';
+
+      // ]]>
+    </script>
+    -->
   </div>
 </div>

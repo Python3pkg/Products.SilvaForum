@@ -26,24 +26,26 @@
     // ]]>
     </script>
     <link rel="stylesheet" type="text/css" media="all"
+          tal:attributes="href here/forum.css/absolute_url" />
+    <link rel="stylesheet" type="text/css" media="all"
           tal:attributes="href here/frontend.css/absolute_url" />
-  </head>
+ </head>
   <body>
     <div class="feedback" tal:condition="message" tal:content="message">message</div>    
     <form id="forum-comment-form" method="post"
           tal:attributes="action string:${context/absolute_url}/create_comment.html">
       <div id="post-span">
-        <strong>Post a comment</strong>
+        Post a comment
       </div>
       <div class="subject">
-        <strong>Subject</strong>
+        Subject
       </div>  
       <div class="subject-input">
         <input type="text" name="title" size="79" />
       </div>
       <div id="emoticon-interface">
-        <strong>Body text</strong><br />
-        <strong>Emoticon interface</strong>
+        <span class="side-interface-text">Body text</span>
+        <span class="side-interface-text">Emoticon interface</span>
         <div id="emoticons">
           <div class="emoticon" tal:repeat="smileydata view/get_smiley_data">
             <img onclick="add_smiley(this.title)" tal:attributes="title smileydata/text; src smileydata/href" />
@@ -51,9 +53,7 @@
         </div>
       </div>
       <div id="text-input">
-        <div>
-          <textarea name="text" id="text" rows="15" cols="67"></textarea>
-        </div>
+        <textarea name="text" id="text" rows="15" cols="67"></textarea>
         <div class="submit">  
           <input type="submit" value="add comment" />
         </div>

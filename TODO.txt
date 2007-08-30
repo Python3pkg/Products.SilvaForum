@@ -18,6 +18,8 @@ TODO for SilvaForum
 * change access for users to viewer
 
 * build in java toggle for forms in thread list and comment list views
+  done, but not yet implemented. getting the css and preview functionality
+  done before implementing the java
 
 * fix bug, the right users are not being loaded in as the authors of 
   thread/comments
@@ -25,17 +27,19 @@ TODO for SilvaForum
   if you assign a user in the ZMI without Manager/owner rights, then
   go to the SMI and use the access tab to find the user, that users
   name will not be listed when the user adds topics or comments
+  guido checking it out
 
-* change message handling of forms to only output on no data
-  did this for comments, so if no data is entered it complains
-  for topic we at least need to have a subject or there is not link
-  on the list page
+* fix bug, unicode error, enter the following code into an input
+  field: ünîcødè :twisted:
+  use formulator for this hassle!!!
 
 * add a preview button to the submit forms
-
-* throw away the empty public directory in views since public views are in 
-the browser directory
+  added but not yet working
+  on preview click, going to reload the page
+  going to use formulator to get the passed parameters
 
 * find or make good forum icons
 
-* float right the permalink
+* hook in <link> tags
+
+* fix the postdata re-post problem

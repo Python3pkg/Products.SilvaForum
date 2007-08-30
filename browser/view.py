@@ -6,8 +6,6 @@ from Products.SilvaForum.dtformat.dtformat import format_dt
 from DateTime import DateTime
 from AccessControl import getSecurityManager, Unauthorized
 
-from urllib import quote as urlquote
-
 minimal_add_role = 'Authenticated'
 
 # XXX hrmph, mixin :|
@@ -51,8 +49,8 @@ class ForumView(ViewBase):
         #    return 'Please provide text'
         self.context.add_thread(topic, text)
         url = self.context.absolute_url()
-        msg = urlquote('Topic added')
-        req.response.redirect('%s?message=%s' % (url, msg))
+        msg = 'Topic added'
+        return msg
 
 class ThreadView(ViewBase):
     """ view on IThread 
@@ -80,8 +78,8 @@ class ThreadView(ViewBase):
 
         comment = self.context.add_comment(title, text)
         url = self.context.absolute_url()
-        msg = urlquote('Comment added')
-        req.response.redirect('%s?message=%s' % (url, msg))
+        msg = 'Comment added'
+        return msg
 
 class CommentView(ViewBase):
     pass
