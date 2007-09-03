@@ -26,8 +26,24 @@
   // ]]>
   </script>
   <div class="feedback" tal:condition="message" tal:content="message">message</div>    
-  <table class="forum-content-table">
+  <table class="forum-content-table" tal:define="threads context/threads;
+                                     start python:int(path('request/start | nothing') or 0);
+                                     batch python:modules['ZTUtils'].Batch(threads,
+                                                                           size=10,
+                                                                           start=start);
+                                     previous python:batch.previous;
+                                     next python:batch.next">
     <thead>
+      <tr>
+        <th>
+        <a tal:condition="previous"
+           tal:attributes="href string:${request/URL0}?start:int=${previous/first}"
+           href="previous_url">previous</a>
+        <a tal:condition="next"
+           tal:attributes="href string:${request/URL0}?start:int=${next/first}"
+           href="next_url">next</a>
+        </th>
+      </tr>
       <tr>
         <th>Topics</th>
         <th class="create-date-column">Post date</th>
@@ -36,7 +52,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr tal:repeat="thread context/threads">
+      <tr tal:repeat="thread batch">
         <td>
           <a tal:attributes="href thread/url"
              tal:content="thread/title"></a>
