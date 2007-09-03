@@ -58,7 +58,7 @@
   <silva:content
     content=".content.Forum"
     extension_name="SilvaForum"
-    icon="www/virtual_group.png"
+    icon="www/list_components.gif"
     priority="-7"
     />
 
