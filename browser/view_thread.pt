@@ -49,7 +49,7 @@
       <tr tal:repeat="comment context/comments">
         <td class="forum-td">
           <div class="author-name">
-          <tal:block tal:replace="python:context.sec_get_creator_info().fullname()" />
+          <tal:block tal:replace="comment/creator" />
           </div>
         </td>
         <td>
