@@ -96,6 +96,12 @@ class ThreadViewTest(SilvaTestCase.SilvaTestCase):
         self.assertEquals('2007/01/01 01:00:00 GMT+1',
                           self.view.format_datetime(dt))
 
+    def test_unicode_form_save_problems(self):
+        self.view.request['title'] = u'F\u00fb'.encode('UTF-8')
+        self.view.request['text'] = u'b\u00e4r'.encode('UTF-8')
+
+        self.view.update()
+
 class CommentTest(SilvaTestCase.SilvaTestCase):
     def afterSetUp(self):
         self.forum = self.addObject(self.getRoot(), 'Forum', 'forum1',
