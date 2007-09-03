@@ -15,31 +15,17 @@ TODO for SilvaForum
 
 * do a comparison for final forum features Silva Forum against PHPbb
 
-* change access for users to viewer
-
-* build in java toggle for forms in thread list and comment list views
+* build in javaSCRIPT toggle for forms in thread list and comment list views
   done, but not yet implemented. getting the css and preview functionality
-  done before implementing the java
-
-* fix bug, the right users are not being loaded in as the authors of 
-  thread/comments
-  might have something to do with sec_get_creator in contenty.py
-  if you assign a user in the ZMI without Manager/owner rights, then
-  go to the SMI and use the access tab to find the user, that users
-  name will not be listed when the user adds topics or comments
-  guido checking it out
-
-* fix bug, unicode error, enter the following code into an input
-  field: ünîcødè :twisted:
-  use formulator for this hassle!!!
+  done before implementing the javaSCRIPT
 
 * add a preview button to the submit forms
   added but not yet working
   on preview click, going to reload the page
-  going to use formulator to get the passed parameters
+  going to use formulator to get the passed parameters (20070903)
 
 * find or make good forum icons
 
 * hook in <link> tags
 
-* fix the postdata re-post problem
+* fix the postdata re-post problem (20070903)

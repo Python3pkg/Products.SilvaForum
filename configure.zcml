@@ -30,15 +30,15 @@
              attributes="preview" />
   </class>
   <class class=".content.Forum">
-    <require permission="silva.ChangeSilvaContent"
+    <require permission="silva.ReadSilvaContent"
              attributes="add_thread" />
     <require permission="zope.Public"
              attributes="threads" />
   </class>
   <class class=".content.Thread">
-    <require permission="silva.ChangeSilvaContent"
+    <require permission="silva.ReadSilvaContent"
              attributes="add_comment" />
-    <require permission="silva.ChangeSilvaContent"
+    <require permission="silva.ReadSilvaContent"
              attributes="set_text" />
     <require permission="zope.Public"
              attributes="comments" />
@@ -48,7 +48,7 @@
   <class class=".content.Comment">
     <require permission="zope.Public"
              attributes="get_text" />
-    <require permission="silva.ChangeSilvaContent"
+    <require permission="silva.ReadSilvaContent"
              attributes="set_text" />
   </class>
 
@@ -58,19 +58,21 @@
   <silva:content
     content=".content.Forum"
     extension_name="SilvaForum"
+    icon="www/virtual_group.png"
     priority="-7"
     />
 
   <silva:content
     content=".content.Thread"
     extension_name="SilvaForum"
+    icon="www/list_comments.gif"
     priority="-7"
     />
 
   <silva:content
     content=".content.Comment"
     extension_name="SilvaForum"
-    icon="www/silvaforumcomment.gif"
+    icon="www/comment.gif"
     priority="-7"
     />
 
