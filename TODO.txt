@@ -15,8 +15,6 @@ TODO for SilvaForum
 
 * do a comparison for final forum features Silva Forum against PHPbb
 
-* reverse order of list, most current to oldest
-
 * build in javaSCRIPT toggle for forms in thread list and comment list views
   done, but not yet implemented. getting the css and preview functionality
   done before implementing the javaSCRIPT

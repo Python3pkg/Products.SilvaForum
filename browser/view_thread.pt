@@ -52,25 +52,25 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td class="topic">
+      <tr class="topic">
+        <td>
           <div class="author-name">
-          <p tal:replace="python:context.sec_get_creator_info().fullname()" />
+            <p tal:replace="python:context.sec_get_creator_info().fullname()" />
           </div>
         </td>
-        <td class="topic">
+        <td>
           <p tal:replace="python:view.format_datetime(context.get_creation_datetime())" />
           <h4 tal:content="context/get_title" /> 
           <p tal:content="structure python:view.format_text(context.get_text())" />
         </td>
       </tr>
-      <tr tal:repeat="comment batch">
-        <td class="forum-td">
+      <tr class="forum-tr" tal:repeat="comment batch">
+        <td>
           <div class="author-name">
           <tal:block tal:replace="comment/creator" />
           </div>
         </td>
-        <td class="forum-td">
+        <td> 
           <a class="permalink" tal:attributes="href comment/url">permalink</a>
           <p tal:replace="python:view.format_datetime(comment['creation_datetime'])" />
           <h4 tal:content="comment/title" />

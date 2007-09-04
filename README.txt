@@ -38,7 +38,8 @@ SMI for moderation and maintenance purposes.
 Thanks
 ------
 
-Thanks Mark James of http://www.famfamfam.com/ for the great icons!
+Thank you Mark James of http://www.famfamfam.com/ for the great icons, which
+we used in the SMI views!
 
 Questions, remarks, etc.
 ------------------------

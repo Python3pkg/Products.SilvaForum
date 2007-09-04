@@ -77,6 +77,8 @@ class Thread(FiveViewable, Folder):
         self.manage_addProduct['SilvaForum'].manage_addComment(id, title)
         comment = getattr(self, id)
         comment.set_text(text)
+        comment.sec_update_last_author_info()
+        comment.sec_update_last_author_info()
         return comment
     
     def comments(self):
@@ -93,6 +95,8 @@ class Thread(FiveViewable, Folder):
         comments.reverse()
         return comments
 
+    # XXX this is a bit strange... Thread is a Folder type but still has
+    # text-data attributes
     def get_text(self):
         return self._text
 

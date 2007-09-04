@@ -54,7 +54,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr class="td_even" tal:repeat="thread batch">
+      <tr class="tr_even" tal:repeat="thread batch">
         <td>
           <a tal:attributes="href thread/url"
              tal:content="thread/title"></a>
