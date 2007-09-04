@@ -38,26 +38,23 @@
         <a tal:condition="previous"
            tal:attributes="href string:${request/URL0}?start:int=${previous/first}"
            href="previous_url">&laquo;</a>
-           <!-- condition statement: if int count greater than 10 place styled "previous" no link -->
         <a tal:condition="next"
            tal:attributes="href string:${request/URL0}?start:int=${next/first}"
            href="next_url">&raquo;</a>
-           <!-- condition statement: if nothing place styled "next" no link -->
-        <!-- <b tal:condition="not:next">no items next</b> -->
       </td>
     </tr>
   </table>
   <table class="forum-content-table">
-    <thead>
+    <thead class="thead">
       <tr>
         <th>Topics</th>
-        <th class="create-date-column">Post date</th>
-        <th class="author-column">Author</th>
-        <th class="comment-column">Comments</th>
+        <th>Post date</th>
+        <th>Author</th>
+        <th>Comments</th>
       </tr>
     </thead>
     <tbody>
-      <tr tal:repeat="thread batch">
+      <tr class="td_even" tal:repeat="thread batch">
         <td>
           <a tal:attributes="href thread/url"
              tal:content="thread/title"></a>
