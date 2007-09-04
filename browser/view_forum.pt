@@ -26,24 +26,29 @@
   // ]]>
   </script>
   <div class="feedback" tal:condition="message" tal:content="message">message</div>    
-  <table class="forum-content-table" tal:define="threads context/threads;
-                                     start python:int(path('request/start | nothing') or 0);
-                                     batch python:modules['ZTUtils'].Batch(threads,
-                                                                           size=10,
-                                                                           start=start);
-                                     previous python:batch.previous;
-                                     next python:batch.next">
-    <thead>
-      <tr>
-        <th>
+  <table tal:define="global threads context/threads;
+         global start python:int(path('request/start | nothing') or 0);
+         global batch python:modules['ZTUtils'].Batch(threads,
+                                                      size=10,
+                                                      start=start);
+         previous python:batch.previous;
+         next python:batch.next">
+    <tr>
+      <td class="pagination">
         <a tal:condition="previous"
            tal:attributes="href string:${request/URL0}?start:int=${previous/first}"
-           href="previous_url">previous</a>
+           href="previous_url">&laquo;</a>
+           <!-- condition statement: if int count greater than 10 place styled "previous" no link -->
         <a tal:condition="next"
            tal:attributes="href string:${request/URL0}?start:int=${next/first}"
-           href="next_url">next</a>
-        </th>
-      </tr>
+           href="next_url">&raquo;</a>
+           <!-- condition statement: if nothing place styled "next" no link -->
+        <!-- <b tal:condition="not:next">no items next</b> -->
+      </td>
+    </tr>
+  </table>
+  <table class="forum-content-table">
+    <thead>
       <tr>
         <th>Topics</th>
         <th class="create-date-column">Post date</th>

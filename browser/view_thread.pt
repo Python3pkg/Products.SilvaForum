@@ -26,7 +26,25 @@
     // ]]>
     </script>
   <div class="feedback" tal:content="message" tal:condition="message">message</div>
-  <table class="forum-content-table">
+  <table tal:define="global comments context/comments;
+         global start python:int(path('request/start | nothing') or 0);
+         global batch python:modules['ZTUtils'].Batch(comments,
+                                                      size=10,
+                                                      start=start);
+         previous python:batch.previous;
+         next python:batch.next">
+    <tr>
+      <td class="pagination">
+        <a tal:condition="previous"
+           tal:attributes="href string:${request/URL0}?start:int=${previous/first}"
+           href="previous_url">&laquo;</a>
+        <a tal:condition="next"
+           tal:attributes="href string:${request/URL0}?start:int=${next/first}"
+           href="next_url">&raquo;</a>
+      </td>
+    </tr>
+  </table>  
+  <table class="forum-content-table"> 
     <thead>
       <tr>
         <th class="thread-author-column">Author</th>
@@ -46,7 +64,7 @@
           <p tal:content="structure python:view.format_text(context.get_text())" />
         </td>
       </tr>
-      <tr tal:repeat="comment context/comments">
+      <tr tal:repeat="comment batch">
         <td class="forum-td">
           <div class="author-name">
           <tal:block tal:replace="comment/creator" />
