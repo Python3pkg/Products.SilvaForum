@@ -36,7 +36,8 @@ class ForumView(ViewBase):
 
     def update(self):
         req = self.request
-        if not req.has_key('topic') and not req.has_key('text'):
+        if (req.has_key('preview') or req.has_key('cancel') or
+                (not req.has_key('topic') and not req.has_key('text'))):
             return
         sec = getSecurityManager()
         if not sec.getUser().has_role(minimal_add_role):
@@ -57,11 +58,13 @@ class ThreadView(ViewBase):
 
     def update(self):
         req = self.request
-        if not req.has_key('title') and not req.has_key('text'):
+        if (req.has_key('preview') or req.has_key('cancel') or
+                (not req.has_key('title') and not req.has_key('text'))):
             return
         sec = getSecurityManager()
         if not sec.getUser().has_role(minimal_add_role):
-            raise Unauthorized('Sorry you need to be authorized to use this forum')
+            raise Unauthorized('Sorry, you need to be logged in to use '
+                               'this forum')
         
         title = unicode(req['title'], 'UTF-8')
         text = unicode(req['text'], 'UTF-8')

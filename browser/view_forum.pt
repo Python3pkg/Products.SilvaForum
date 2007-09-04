@@ -1,5 +1,11 @@
 <div tal:define="dummy view/set_content_type_and_nocache;
-                                 message view/update | nothing">
+                 message view/update | nothing;
+                 threads context/threads;
+                 start python:int(path('request/start | nothing') or 0);
+                 batch python:modules['ZTUtils'].Batch(threads,
+                                                       size=10,
+                                                       start=start);
+                 ">
   <script type="text/javascript">
   // <![CDATA[ 
       function add_smiley(text_to_add) {
@@ -26,11 +32,7 @@
   // ]]>
   </script>
   <div class="feedback" tal:condition="message" tal:content="message">message</div>    
-  <table tal:define="global threads context/threads;
-         global start python:int(path('request/start | nothing') or 0);
-         global batch python:modules['ZTUtils'].Batch(threads,
-                                                      size=10,
-                                                      start=start);
+  <table tal:define="
          previous python:batch.previous;
          next python:batch.next">
     <tr>
@@ -54,6 +56,25 @@
       </tr>
     </thead>
     <tbody>
+      <tal:block tal:condition="request/preview | nothing">
+        <!-- XXX grmbl, code duplication here... -->
+        <tr class="tr_even">
+          <td tal:content="request/topic" />
+          <td>not yet added</td>
+          <td class="author-column">unknown</td>
+          <td class="comment-column">0</td>
+        </tr>
+        <tr class="tr_even">
+          <td class="submit">
+            <form tal:attributes="action context/absolute_url">
+              <input type="hidden" name="topic" tal:attributes="value request/topic" />
+              <input type="hidden" name="text" tal:attributes="value python:request['text']" />
+              <input type="submit" name="submit" value="add thread" />
+              <input type="submit" name="cancel" value="cancel" />
+            </form>
+          </td>
+        </tr>
+      </tal:block>
       <tr class="tr_even" tal:repeat="thread batch">
         <td>
           <a tal:attributes="href thread/url"
@@ -90,7 +111,7 @@
         <textarea name="text" id="text" rows="15" cols="68"></textarea>
         <div class="submit">
           <input type="submit" value="add thread" />
-          <input type="preview" value="preview" />
+          <input type="submit" name="preview" value="preview" />
         </div>
       </div>  
     </form>
