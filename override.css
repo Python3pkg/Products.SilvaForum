@@ -1,81 +1,95 @@
 /*_________________________________ FORUM LIST STYLES __________*/
 .forum-content-table {
-    border-collapse: collapse;
-    /*width: 100%;*/
+	border: 1px solid black;
+	background: #FFFFFF;
+	width: 100%;
+}
+
+.thead {
+	background: #0088BB;
+}
+
+
+.tr-even {
+	background: #A9D0F5; 
 }
 
 .author-column, .comment-column {
-    width: 6em;
-    text-align: center;
+	width: 6em;
+	text-align: center;
 }
 
-.thread-author-column {
-    width: 15em;
-    text-align: center;
+.permalink {
+	float: right;
 }
 
-.thread-comment-column {
-    width: 45em;
-    text-align: center;
+.forum-tr{
+	vertical-align: top;
+	background: #A9D0F5;
 }
 
-.create-date-column {
-    width: 18em;
+.topic {
+	background: #44BBFF;
 }
 
-.forum-message {
-    color: red;
-    text-align: center;
-    width: 100%;
+.author-name {
+	font-weight: bold;
+	vertical-align: top;
+}
+
+.pagination {
+	width: 4em;
+	font-weight: bold;
 }
 
 /*_________________________________ EMOTICON STYLES __________*/
 #emoticon-interface {
-    width: 15em;
-    margin: .5em 0 0 .5em;
-    clear: both;
-    float: left;
+	width: 100%;
+	font-weight: bold;
 }
 
 #emoticons {
-    width: 8.2em;
-    height: 8.2em;
-    margin: .5em 0 0 .5em;
-    padding: .5em;
-    border: 1px solid black;
+	height: 1.8em;
+	margin: 0 0 0 0;
+	padding: 0 0 0 6.2em;
+	border: 1px solid black;
 }
 
 .emoticon {
-    margin: .3em;
-    float: left;
+	margin: .3em;
+	float: left;
 }
 
 /*_________________________________ FORM STYLES __________*/
-
 #post-span {
-    width: 60em;
-    text-align: center
-}
-
-.subject {
-    width: 15em;
-    float: left;
-    margin: .5em 0 0 .5em;
-}
-.subject-input {
-    width: 44em;
-    float: left;
-    margin: .5em 0 0 0;
+	width: 100%;
+	text-align: center;
+	font-weight: bold;
 }
 
 #text-input {
-    width: 44em;
-    float: left;
-    margin: .5em 0 0 0;
+	margin: .5em 0 0 0;
 }
 
+.subject {
+	font-weight: bold;
+}
+	
+.subject-input {
+	width: 100%;
+	margin: .5em 0 0 0;
+}
+
+.preview {
+	background: #EEEEEE;
+}
 .submit {
-    margin: .5em 0 0 0;
+	margin: .5em 0 0 0;
 }
 
+/*_________________________________ COMMENT STYLES __________*/
 
+#comment {
+	background: #A9D0F5;
+	border: 1px solid;
+}

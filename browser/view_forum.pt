@@ -57,7 +57,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr class="tr_even" tal:repeat="thread batch">
+      <tr class="tr-even" tal:repeat="thread batch">
         <td>
           <a tal:attributes="href thread/url"
              tal:content="thread/title"></a>
@@ -71,10 +71,10 @@
   <tal:block tal:condition="python:request.get('preview') and request.get('topic')">
     <table class="forum-content-table">
       <tbody>
-        <tr class="tr_even">
+        <tr class="preview">
           <th>preview</th>
         </tr>
-        <tr class="tr_even">
+        <tr class="preview">
           <td>
             <h4 tal:content="request/topic" />
             <p tal:content="structure python:view.format_text(request['text'])" />
@@ -85,10 +85,6 @@
   <div class="submit">
     <form id="forum-thread-form" method="post"
           tal:attributes="action context/absolute_url">
-          <!-- to use the same form assign values submit and preview
-               rather than the tal attribute refering to context/absolute_url
-               use python:and a then a script to receive the value which will
-               either commit the submit or reload the page preview -->
       <div id="post-span">
         Post a new topic
       </div>
@@ -114,10 +110,6 @@
         <div class="submit">
           <input type="submit" value="add thread" />
           <input type="submit" name="preview" value="preview" />
-          <!-- if value=="add thread":
-                   action=submit
-               else:
-                   action=reload -->
         </div>
       </div>  
     </form>

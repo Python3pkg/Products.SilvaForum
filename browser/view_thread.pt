@@ -84,12 +84,12 @@
   <tal:block tal:condition="python:request.get('preview') and (request.get('title') or request.get('text'))">
     <table class="forum-content-table">
       <tbody>
-        <tr class="forum-tr">
+        <tr class="preview">
           <th>
             preview
           </th>
         </tr>
-        <tr class="forum-tr">
+        <tr class="preview">
           <td> 
             <h4 tal:content="request/title" />
             <p tal:content="structure python:view.format_text(request['text'])" />
