@@ -1,4 +1,4 @@
-<div id="forum-main">
+<div id="comment">
   <tal:block tal:content="python:view.format_datetime(context.get_creation_datetime())" />
 , by <tal:block tal:content="python:context.sec_get_creator_info().fullname()" />
   <h4 tal:content="context/get_title" />

@@ -25,6 +25,10 @@ Primary
 * fix permalink button which doesn't register new changes done from the
   smi
 
+* fix emoticon support for subject fields in threads and comments
+
+* need to make it so that comments can be styled from the forum.css.
+
 Secondary
 ---------
 
@@ -35,3 +39,13 @@ Secondary
   done before implementing the javaSCRIPT
 
 * hook in <link> tags
+
+Issues
+------
+
+* author registration in the smi.
+    - if a user adds a comment to the list and you then go to the smi the
+    author is "unknown"
+
+    - if you click on that comment in the smi and edit it, applying the
+    changes, you then see the author is set properly
