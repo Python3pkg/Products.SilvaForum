@@ -13,17 +13,25 @@ Meta::
 TODO for SilvaForum
 ===================
 
+Primary
+-------
+
+* fix preview so that previewed material is displayed in the form at the the
+  bottom of the page
+
+* fix re-posting of data off the list page, same happens off of the smi
+  publish for a comment after hitting "apply changes" button
+
+* fix permalink button which doesn't register new changes done from the
+  smi
+
+Secondary
+---------
+
 * do a comparison for final forum features Silva Forum against PHPbb
 
 * build in javaSCRIPT toggle for forms in thread list and comment list views
   done, but not yet implemented. getting the css and preview functionality
   done before implementing the javaSCRIPT
 
-* add a preview button to the submit forms
-  added but not yet working
-  on preview click, going to reload the page
-  going to use formulator to get the passed parameters (20070903)
-
 * hook in <link> tags
-
-* fix the postdata re-post problem (20070903)
