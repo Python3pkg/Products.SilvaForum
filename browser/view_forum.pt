@@ -32,6 +32,7 @@
   // ]]>
   </script>
   <div class="feedback" tal:condition="message" tal:content="message">message</div>    
+  <div class="feedback" tal:condition="python:request.get('preview') and request.get('text') and not request.get('topic')">please provide a topic</div>    
   <table tal:define="
          previous python:batch.previous;
          next python:batch.next">
@@ -67,7 +68,7 @@
       </tr>
     </tbody>
   </table>
-  <tal:block tal:condition="request/preview | nothing">
+  <tal:block tal:condition="python:request.get('preview') and request.get('topic')">
     <table class="forum-content-table">
       <tbody>
         <tr class="tr_even">

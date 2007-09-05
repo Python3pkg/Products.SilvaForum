@@ -81,7 +81,7 @@
       </tr>
     </tbody>
   </table>
-  <tal:block tal:condition="request/preview | nothing">
+  <tal:block tal:condition="python:request.get('preview') and (request.get('title') or request.get('text'))">
     <table class="forum-content-table">
       <tbody>
         <tr class="forum-tr">
