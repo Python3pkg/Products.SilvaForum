@@ -6,9 +6,10 @@ from Products.SilvaForum.dtformat.dtformat import format_dt
 from DateTime import DateTime
 from AccessControl import getSecurityManager, Unauthorized
 
+from urllib import quote
+
 minimal_add_role = 'Authenticated'
 
-# XXX hrmph, mixin :|
 class ViewBase(Headers):
     def format_datetime(self, dt):
         return format_dt(dt, DateTime())
@@ -41,7 +42,8 @@ class ForumView(ViewBase):
             return
         sec = getSecurityManager()
         if not sec.getUser().has_role(minimal_add_role):
-            raise Unauthorized('Sorry you need to be authorized to use this forum')
+            raise Unauthorized('Sorry you need to be authorized to use this '
+                               'forum')
         topic = unicode(req['topic'], 'UTF-8')
         if not topic.strip():
             return 'Please provide a subject'
@@ -50,6 +52,9 @@ class ForumView(ViewBase):
         self.context.add_thread(topic, text)
         url = self.context.absolute_url()
         msg = 'Topic added'
+
+        req.response.redirect('%s?message=%s' % (self.context.absolute_url(),
+                                                 quote(msg)))
         return msg
 
 class ThreadView(ViewBase):
@@ -74,6 +79,9 @@ class ThreadView(ViewBase):
         comment = self.context.add_comment(title, text)
         url = self.context.absolute_url()
         msg = 'Comment added'
+        
+        req.response.redirect('%s?message=%s' % (self.context.absolute_url(),
+                                                 quote(msg)))
         return msg
 
 class CommentView(ViewBase):
