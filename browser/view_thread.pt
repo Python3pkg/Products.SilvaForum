@@ -54,32 +54,6 @@
       </tr>
     </thead>
     <tbody>
-      <tal:block tal:condition="request/preview | nothing">
-        <!-- XXX grmbl, code duplication here... -->
-        <tr class="forum-tr">
-          <td>
-            <div class="author-name">
-              unknown
-            </div>
-          </td>
-          <td> 
-            <a class="permalink" href="#">permalink</a>
-            <p>not yet added</p>
-            <h4 tal:content="request/title" />
-            <p tal:content="structure python:view.format_text(request['text'])" />
-          </td>
-        </tr>
-        <tr class="forum-tr">
-          <td class="submit">
-            <form tal:attributes="action context/absolute_url">
-              <input type="hidden" name="title" tal:attributes="value request/title" />
-              <input type="hidden" name="text" tal:attributes="value python:request['text']" />
-              <input type="submit" name="submit" value="add comment" />
-              <input type="submit" name="cancel" value="cancel" />
-            </form>
-          </td>
-        </tr>
-      </tal:block>
       <tr class="topic">
         <td>
           <div class="author-name">
@@ -107,6 +81,23 @@
       </tr>
     </tbody>
   </table>
+  <tal:block tal:condition="request/preview | nothing">
+    <table class="forum-content-table">
+      <tbody>
+        <tr class="forum-tr">
+          <th>
+            preview
+          </th>
+        </tr>
+        <tr class="forum-tr">
+          <td> 
+            <h4 tal:content="request/title" />
+            <p tal:content="structure python:view.format_text(request['text'])" />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </tal:block>
   <div class="submit">
     <form id="forum-comment-form" method="post"
           tal:attributes="action context/absolute_url">
@@ -117,7 +108,8 @@
         Subject
       </div>
       <div class="subject-input">
-        <input type="text" name="title" size="80" />
+        <input type="text" name="title" size="80"
+               tal:attributes="value request/title | nothing" />
       </div>
       <div id="emoticon-interface">
         <p class="side-interface-text">Body text</p>
@@ -129,7 +121,8 @@
         </div>
       </div>
       <div id="text-input">
-        <textarea name="text" id="text" rows="15" cols="68"></textarea>
+        <textarea name="text" id="text" rows="15" cols="68"
+                  tal:content="python:request.get('text')"></textarea>
         <div class="submit">
           <input type="submit" name="submit" value="add comment" />
           <input type="submit" name="preview" value="preview" />

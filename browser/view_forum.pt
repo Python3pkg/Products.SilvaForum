@@ -56,25 +56,6 @@
       </tr>
     </thead>
     <tbody>
-      <tal:block tal:condition="request/preview | nothing">
-        <!-- XXX grmbl, code duplication here... -->
-        <tr class="tr_even">
-          <td tal:content="request/topic" />
-          <td>not yet added</td>
-          <td class="author-column">unknown</td>
-          <td class="comment-column">0</td>
-        </tr>
-        <tr class="tr_even">
-          <td class="submit">
-            <form tal:attributes="action context/absolute_url">
-              <input type="hidden" name="topic" tal:attributes="value request/topic" />
-              <input type="hidden" name="text" tal:attributes="value python:request['text']" />
-              <input type="submit" name="submit" value="add thread" />
-              <input type="submit" name="cancel" value="cancel" />
-            </form>
-          </td>
-        </tr>
-      </tal:block>
       <tr class="tr_even" tal:repeat="thread batch">
         <td>
           <a tal:attributes="href thread/url"
@@ -86,6 +67,20 @@
       </tr>
     </tbody>
   </table>
+  <tal:block tal:condition="request/preview | nothing">
+    <table class="forum-content-table">
+      <tbody>
+        <tr class="tr_even">
+          <th>preview</th>
+        </tr>
+        <tr class="tr_even">
+          <td>
+            <h4 tal:content="request/topic" />
+            <p tal:content="structure python:view.format_text(request['text'])" />
+        </tr>
+      </tbody>
+    </table>
+  </tal:block>
   <div class="submit">
     <form id="forum-thread-form" method="post"
           tal:attributes="action context/absolute_url">
@@ -100,7 +95,8 @@
         Subject
       </div>
       <div class="subject-input">
-        <input type="text" name="topic" size="80" />
+        <input type="text" name="topic" size="80"
+               tal:attributes="value request/topic | nothing" />
       </div>
       <div id="emoticon-interface">
         <p class="side-interface-text">Body text</p>
@@ -112,7 +108,8 @@
         </div>
       </div>
       <div id="text-input">
-        <textarea name="text" id="text" rows="15" cols="68"></textarea>
+        <textarea name="text" id="text" rows="15" cols="68"
+                  tal:content="python:request.get('text')"></textarea>
         <div class="submit">
           <input type="submit" value="add thread" />
           <input type="submit" name="preview" value="preview" />
