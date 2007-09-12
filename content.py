@@ -77,8 +77,6 @@ class Thread(FiveViewable, Folder):
         self.manage_addProduct['SilvaForum'].manage_addComment(id, title)
         comment = getattr(self, id)
         comment.set_text(text)
-        comment.sec_update_last_author_info()
-        comment.sec_update_last_author_info()
         return comment
     
     def comments(self):
@@ -120,6 +118,17 @@ class Comment(FiveViewable, CatalogPathAware, Content, SimpleItem.SimpleItem):
 
     def set_text(self, text):
         self._text = text
+        self = self._get_self()
+        self.sec_update_last_author_info()
+
+    def _get_self(self):
+        # XXX hack to work around strange problem with Five: for some reason
+        # the acquisition path seems to be broken when traversing from a Five
+        # view: it ends up on a 'Products.Five.metaclass.SimpleViewClass'
+        # instead of the expected app root
+        pp = self.getPhysicalPath()
+        sroot = self.get_root()
+        return sroot.restrictedTraverse(pp)
 
     def is_published(self):
         return False # always allow removal of this object from the SMI
