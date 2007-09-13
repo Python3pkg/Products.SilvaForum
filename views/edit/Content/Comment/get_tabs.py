@@ -1,3 +1,8 @@
+# Copyright (c) 2007-2012 Infrae. All rights reserved.
+# See also LICENSES.txt
+# SilvaForum
+# Template
+
 # name, id/None, up_id, toplink_accesskey, tab_accesskey, uplink_accesskey
 from Products.Silva.i18n import translate as _
 

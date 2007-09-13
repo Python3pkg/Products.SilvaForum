@@ -3,7 +3,7 @@ See also LICENSE.txt
 
 Meta::
   
-  Valid for:    SilvaForum 0.1 alpha 2
+  Valid for:    SilvaForum 1.0 beta
   Author:       Todd Matsumoto, Guido Wesdorp
   Email:        todd@infrae.com
   Last author:  $Author$
@@ -19,20 +19,9 @@ Primary
 Secondary
 ---------
 
-* do a comparison for final forum features Silva Forum against PHPbb
-
-* build in javaSCRIPT toggle for forms in thread list and comment list views
-  done, but not yet implemented. getting the css and preview functionality
-  done before implementing the javaSCRIPT
-
-* hook in <link> tags
-
 Issues
 ------
 
-* author registration in the smi.
-    - if a user adds a comment to the list and you then go to the smi the
-    author is "unknown"
+* author registration in the smi. figured out a work around, but the real
+  reason for this bug is yet to be discovered.
 
-    - if you click on that comment in the smi and edit it, applying the
-    changes, you then see the author is set properly

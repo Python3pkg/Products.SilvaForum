@@ -1,3 +1,8 @@
+# Copyright (c) 2007-2012 Infrae. All rights reserved.
+# See also LICENSES.txt
+# SilvaForum
+# Python
+
 import unittest
 from dtformat import format_dt
 from datetime import datetime

@@ -1,3 +1,8 @@
+# Copyright (c) 2007-2012 Infrae. All rights reserved.
+# See also LICENSES.txt
+# SilvaForum
+# Python
+
 from datetime import datetime, timedelta
 
 def format_dt(formatdate, currentdate=None):

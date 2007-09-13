@@ -1,5 +1,8 @@
 # Copyright (c) 2007 Infrae. All rights reserved.
 # See also LICENSE.txt
+# SilvaForum
+# Python
+
 import SilvaTestCase
 from Testing.ZopeTestCase import utils
 from zope.component import getMultiAdapter

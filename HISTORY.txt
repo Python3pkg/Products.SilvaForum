@@ -3,7 +3,7 @@ See also LICENSE.txt
 
 Meta::
   
-  Valid for:        SilvaForum 0.1 (SVN/Unreleased)
+  Valid for:        SilvaForum 1.0 beta (SVN/Unreleased)
   Author:           Todd Matsumoto, Guido Wesdorp
   Email:            todd@infrae.com
   Last author:      $Author: guido $
@@ -13,7 +13,7 @@ Meta::
 HISTORY
 =======
 
-0.1 alpha 1 to 0.1 alpha 2
+1.0 beta
 --------------------------
 
 * Added support for emoticons.
@@ -25,3 +25,12 @@ HISTORY
 * Small code fixes and cleanups (see individual checkin messages for
   API changes).
 
+* Added preview button functionality.
+
+* Added javascript to hide the form, however this isn't implemented yet.
+
+* Added Several layout styles.
+
+* Added pagination, and sorted list orders newest to oldest.
+
+* Workout out a solution to authoring issue in the SMI.

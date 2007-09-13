@@ -1,3 +1,8 @@
+# Copyright (c) 2007-2012 Infrae. All rights reserved.
+# See also LICENSES.txt
+# SilvaForum
+# Python
+
 from Products.Silva.install import add_fss_directory_view
 import os
 

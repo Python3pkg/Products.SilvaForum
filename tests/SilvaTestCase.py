@@ -1,6 +1,7 @@
-#
-# SilvaTestCase
-#
+# Copyright (c) 2007-2012 Infrae. All rights reserved.
+# See also LICENSES.txt
+# SilvaForum
+# Python
 
 __version__ = '0.3.1'
 

@@ -1,3 +1,8 @@
+# Copyright (c) 2007-2012 Infrae. All rights reserved.
+# See also LICENSES.txt
+# SilvaForum
+# Python
+
 from Products.Silva import mangle
 from Products.Formulator.Errors import ValidationError, FormValidationError
 from Products.Silva.i18n import translate as _
