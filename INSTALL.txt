@@ -30,12 +30,43 @@ which Silva is installed. Reboot Zope and visit http://<your host>/<silva
 root>/manage_services in your browser. Click on service_extensions, find the
 'SilvaForum' gray box and click the 'install' button.
 
-IMPORTANT NOTE: to style the forum views, you will need to _manually_ copy
+IMPORTANT STYLING NOTES: 
+------------------------
+
+There are two ways to style the forum product, via override.css or editing
+head_inject and creating a forum.css DTML Method.
+
+Override
+To style the forum views, you will need to _manually_ copy
 the contents of the file 'override.css' to your layout (in a default Silva
 that can be done by _adding_ (not overwriting!) the contents of
 '/silva_root/frontend.css' in the ZMI, for SilvaLayout situations you will
 need to copy it to your layout CSS). This is a temporary solution, at a later
 point manual merging should not be required.
+
+Head_inject/forum.css
+After creating a forum object in the SMI go to the ZMI and open the
+head_inject file. Add the following tal:block to the head_inject file after
+the <tal:block replace="structure model/@@set_nocache" /></tal:block>:
+  
+  <tal:block tal:condition="python:model.meta_type == 'Silva Forum' 
+                            or model.meta_type == 'Silva Forum Thread'
+                            or model.meta_type == 'Silva Forum Comment'">
+    <tal:comment replace="nothing">
+      load custom styles for search form and search results
+      if we're viewing a Silva Forum instance
+    </tal:comment>
+    <link rel="stylesheet" type="text/css" media="all"
+      tal:define="metatypecss here/forum.css/absolute_url | nothing"
+      tal:condition="metatypecss"
+      tal:attributes="href metatypecss" />
+  </tal:block>
+
+Save the file. Now create a DTML Method. For the id and title fill in 
+forum.css, click add and edit, and delete the existing DTML stuff. Navigate
+to the SilvaForum directory and find override.css. Copy
+the contents of the css and paste them into the forum.css. Save the
+forum.css.
 
 For information about usage of the product, and contact information, see
 README.txt.
