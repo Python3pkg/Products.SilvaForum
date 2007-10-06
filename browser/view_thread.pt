@@ -110,9 +110,7 @@
     <div id="post-span">
       Post a new comment
     </div>
-    <div class="subject">
-      Subject
-    </div>
+    <h5>Subject</h5>
     <div class="subject-input">
       <input type="text"
         name="title"
@@ -120,7 +118,7 @@
         tal:attributes="value request/title | nothing"
       />
     </div>
-    <p class="side-interface-text">Messsage</p>
+    <h5>Messsage</h5>
     <div id="text-input">
       <textarea name="text"
         id="text"
