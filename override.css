@@ -1,23 +1,34 @@
 /* SilvaForum CSS */
 /*_________________________________ FORUM LIST STYLES __________*/
 .forum-content-table {
-	border: 1px solid black;
-	background: #FFFFFF;
+	border: 1px solid gray;
+	background-color: #afc3d7;
 	width: 100%;
 }
 
 .thead {
-	background: #0088BB;
+	background-color: #b0c4d7;
+  vertical-align: top;
 }
 
 
+.tr-odd {
+  background: #dde5ee;
+}
 .tr-even {
-	background: #A9D0F5; 
+  vertical-align: top;
+	background: #ccd9e6;
+}
+
+th.align-left {
+  text-align: left;
 }
 
 .author-column, .comment-column {
 	width: 6em;
-	text-align: center;
+}
+.comment-column {
+  text-align: right;
 }
 
 .permalink {
@@ -26,16 +37,15 @@
 
 .forum-tr{
 	vertical-align: top;
-	background: #A9D0F5;
+	background-color: #d4dee9;
 }
 
 .topic {
-	background: #44BBFF;
+	background: #ccd9e6;
 }
 
 .author-name {
 	font-weight: bold;
-	vertical-align: top;
 }
 
 .pagination {
@@ -44,16 +54,11 @@
 }
 
 /*_________________________________ EMOTICON STYLES __________*/
-#emoticon-interface {
-	width: 100%;
-	font-weight: bold;
-}
-
 #emoticons {
 	height: 1.8em;
 	margin: 0 0 0 0;
 	padding: 0 0 0 6.2em;
-	border: 1px solid black;
+	border: 1px solid gray;
 }
 
 .emoticon {
@@ -72,10 +77,6 @@
 	margin: .5em 0 0 0;
 }
 
-.subject {
-	font-weight: bold;
-}
-	
 .subject-input {
 	width: 100%;
 	margin: .5em 0 0 0;
@@ -109,3 +110,7 @@ input.store, textarea.store {
   !width: 94%; /* IE7 hack */
 }
 
+input[type="submit"] {
+  border-color: #3850B3;
+  color: #3138BA;
+}
