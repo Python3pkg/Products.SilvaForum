@@ -1,4 +1,4 @@
-<p><a href="../">Up to thread...</a></p>
+<p><a href="..">Up to thread...</a></p>
 <div id="comment">
   <tal:block content="python:view.format_datetime(context.get_creation_datetime())" />,
     by <tal:block content="python:context.sec_get_creator_info().fullname()" />
