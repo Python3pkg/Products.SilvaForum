@@ -49,18 +49,15 @@ After creating a forum object in the SMI go to the ZMI and open the
 head_inject file. Add the following tal:block to the head_inject file after
 the <tal:block replace="structure model/@@set_nocache" /></tal:block>:
   
-  <tal:block tal:condition="python:model.meta_type == 'Silva Forum' 
-                            or model.meta_type == 'Silva Forum Thread'
-                            or model.meta_type == 'Silva Forum Comment'">
-    <tal:comment replace="nothing">
-      load custom styles for search form and search results
-      if we're viewing a Silva Forum instance
-    </tal:comment>
-    <link rel="stylesheet" type="text/css" media="all"
-      tal:define="metatypecss here/forum.css/absolute_url | nothing"
-      tal:condition="metatypecss"
-      tal:attributes="href metatypecss" />
-  </tal:block>
+<tal:comment replace="nothing"> _______ SilvaForum CSS _______ </tal:comment>
+<tal:block condition="python:model.meta_type == 'Silva Forum' 
+                      or model.meta_type == 'Silva Forum Thread'
+                      or model.meta_type == 'Silva Forum Comment'">
+  <link rel="stylesheet" type="text/css" media="all"
+    tal:define="metatypecss here/forum.css/absolute_url | nothing"
+    tal:condition="metatypecss"
+    tal:attributes="href metatypecss" />
+</tal:block>
 
 Save the file. Now create a DTML Method. For the id and title fill in 
 forum.css, click add and edit, and delete the existing DTML stuff. Navigate
