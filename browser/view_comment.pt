@@ -1,6 +1,6 @@
 <div id="comment">
-  <tal:block tal:content="python:view.format_datetime(context.get_creation_datetime())" />
-, by <tal:block tal:content="python:context.sec_get_creator_info().fullname()" />
+  <tal:block content="python:view.format_datetime(context.get_creation_datetime())" />,
+    by <tal:block content="python:context.sec_get_creator_info().fullname()" />
   <h4 tal:content="context/get_title" />
   <p colspan="2" tal:content="structure python:view.format_text(context.get_text())" />
 </div>

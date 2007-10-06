@@ -1,152 +1,175 @@
-<div tal:define="dummy view/set_content_type_and_nocache;
-                 message python:view.update() or request.get('message');
-                 threads context/threads;
-                 start python:int(path('request/start | nothing') or 0);
-                 batch python:modules['ZTUtils'].Batch(threads,
-                                                       size=10,
-                                                       start=start);
-                 ">
-  <script type="text/javascript">
-  // <![CDATA[ 
-      function add_smiley(text_to_add) {
-          /* add a smiley to the textarea
-          */
-          // XXX this is a bit scary... the DOM specs say text nodes can
-          // be split up, but afaik that never happens in browsers... if,
-          // however, people start reporting missing last bits of text, please
-          // fix this code... ;)
-          var textarea = document.getElementById('text');
-          var content = textarea.value;
-          var lastchar = content.charAt(content.length - 1);
-          if (lastchar && lastchar != ' ' && lastchar != '\t' && lastchar != '\n'
-                && lastchar != '\r') {
-              content += ' ';
-          };
-          content += text_to_add + ' ';
-          // XXX please check the argument order here! might be wrong...
-          // stupid DOM :(
-          textarea.value = content;
-          textarea.focus();
-      };
+<tal:block define="
+  dummy view/set_content_type_and_nocache;
+  message python:view.update() or request.get('message');
+  threads context/threads;
+  start python:int(path('request/start | nothing') or 0);
+  batch python:modules['ZTUtils'].Batch(threads, size=10, start=start);
+">
+<script type="text/javascript">
+// <![CDATA[ 
+function add_smiley(text_to_add) {
+    /* add a smiley to the textarea
+    */
+    // XXX this is a bit scary... the DOM specs say text nodes can
+    // be split up, but afaik that never happens in browsers... if,
+    // however, people start reporting missing last bits of text, please
+    // fix this code... ;)
+    var textarea = document.getElementById('text');
+    var content = textarea.value;
+    var lastchar = content.charAt(content.length - 1);
+    if (lastchar && lastchar != ' ' && lastchar != '\t' && lastchar != '\n'
+          && lastchar != '\r') {
+        content += ' ';
+    };
+    content += text_to_add + ' ';
+    // XXX please check the argument order here! might be wrong...
+    // stupid DOM :(
+    textarea.value = content;
+    textarea.focus();
+};
 
-  // ]]>
-  </script>
-  <div class="feedback" tal:condition="message" tal:content="message">message</div>    
-  <div class="feedback" tal:condition="python:request.get('preview') and 
-                                              request.get('text') and not 
-                                              request.get('topic')">please provide a topic</div>    
-  <table tal:define="
-         previous python:batch.previous;
-         next python:batch.next">
+// ]]>
+</script>
+<div class="feedback" 
+  tal:condition="message" 
+  tal:content="message">
+  message
+</div>    
+<div class="feedback" 
+  tal:condition="python:request.get('preview') and request.get('text') and not 
+                 request.get('topic')">
+  <p>Please provide a topic.</p>
+</div>
+<table tal:define="
+  previous python:batch.previous;
+  next python:batch.next">
+  <tr>
+    <td class="pagination">
+      <a tal:condition="previous"
+        tal:attributes="href string:${request/URL0}?start:int=${previous/first}"
+        href="previous_url">&laquo;</a>
+      <a tal:condition="next"
+        tal:attributes="href string:${request/URL0}?start:int=${next/first}"
+        href="next_url">&raquo;</a>
+    </td>
+  </tr>
+</table>
+<table class="forum-content-table">
+  <thead class="thead">
     <tr>
-      <td class="pagination">
-        <a tal:condition="previous"
-           tal:attributes="href string:${request/URL0}?start:int=${previous/first}"
-           href="previous_url">&laquo;</a>
-        <a tal:condition="next"
-           tal:attributes="href string:${request/URL0}?start:int=${next/first}"
-           href="next_url">&raquo;</a>
-      </td>
+      <th>Topics</th>
+      <th>Post date</th>
+      <th>Author</th>
+      <th>Comments</th>
     </tr>
-  </table>
+  </thead>
+  <tbody>
+    <tr class="tr-even" 
+      tal:repeat="thread batch">
+      <td>
+        <a tal:attributes="href thread/url"
+           tal:content="thread/title">
+        </a>
+      </td>
+      <td tal:content="python:view.format_datetime(thread['creation_datetime'])" />
+      <td class="author-column" 
+        tal:content="thread/creator" />
+      <td class="comment-column" 
+        tal:content="thread/commentlen" />
+    </tr>
+  </tbody>
+</table>
+<tal:block tal:condition="python:request.get('preview') and request.get('topic')">
   <table class="forum-content-table">
-    <thead class="thead">
-      <tr>
-        <th>Topics</th>
-        <th>Post date</th>
-        <th>Author</th>
-        <th>Comments</th>
-      </tr>
-    </thead>
     <tbody>
-      <tr class="tr-even" tal:repeat="thread batch">
+      <tr class="preview">
+        <th>preview</th>
+      </tr>
+      <tr class="preview">
         <td>
-          <a tal:attributes="href thread/url"
-             tal:content="thread/title"></a>
-        </td>
-        <td tal:content="python:view.format_datetime(thread['creation_datetime'])" />
-        <td class="author-column" tal:content="thread/creator" />
-        <td class="comment-column" tal:content="thread/commentlen" />
+          <h4 tal:content="request/topic" />
+          <p tal:content="structure python:view.format_text(request['text'])" />
       </tr>
     </tbody>
   </table>
-  <tal:block tal:condition="python:request.get('preview') and request.get('topic')">
-    <table class="forum-content-table">
-      <tbody>
-        <tr class="preview">
-          <th>preview</th>
-        </tr>
-        <tr class="preview">
-          <td>
-            <h4 tal:content="request/topic" />
-            <p tal:content="structure python:view.format_text(request['text'])" />
-        </tr>
-      </tbody>
-    </table>
-  </tal:block>
-  <div class="submit">
-    <form id="forum-thread-form" method="post"
-          tal:attributes="action context/absolute_url">
-      <div id="post-span">
-        Post a new topic
-      </div>
-      <div class="subject">
-        Subject
-      </div>
-      <div class="subject-input">
-        <input type="text" name="topic" size="80"
-               tal:attributes="value request/topic | nothing" />
-      </div>
-      <div id="emoticon-interface">
-        <p class="side-interface-text">Body text</p>
-        <p class="side-interface-text">Emoticon interface</p>
-        <div id="emoticons">
-          <div class="emoticon" tal:repeat="smileydata view/get_smiley_data">
-            <img onclick="add_smiley(this.title)" tal:attributes="title smileydata/text; src smileydata/href" />
-          </div>
+</tal:block>
+<div class="submit">
+  <form id="forum-thread-form" 
+    method="post"
+    tal:attributes="action context/absolute_url">
+    <div id="post-span">
+      Post a new topic
+    </div>
+    <div class="subject">
+      Subject
+    </div>
+    <div class="subject-input">
+      <input type="text" 
+        name="topic" 
+        size="80"
+        tal:attributes="value request/topic | nothing"
+      />
+    </div>
+    <div id="emoticon-interface">
+      <p class="side-interface-text">Body text</p>
+      <p class="side-interface-text">Emoticon interface</p>
+      <div id="emoticons">
+        <div class="emoticon" tal:repeat="smileydata view/get_smiley_data">
+          <img onclick="add_smiley(this.title)"
+            tal:attributes="title smileydata/text; src smileydata/href"
+          />
         </div>
       </div>
-      <div id="text-input">
-        <textarea name="text" id="text" rows="15" cols="68"
-                  tal:content="python:request.get('text')"></textarea>
-        <div class="submit">
-          <input type="submit" value="add thread" />
-          <input type="submit" name="preview" value="preview" />
-        </div>
-      </div>  
-    </form>
-    <!--
-    <script type="text/javascript">
-      // <![CDATA[
+    </div>
+    <div id="text-input">
+      <textarea name="text" 
+        id="text" 
+        rows="15" 
+        cols="68"
+        tal:content="python:request.get('text')"></textarea>
+      <div class="submit">
+        <input type="submit" 
+          value="add thread"
+        />
+        <input type="submit" 
+          name="preview"
+          value="preview"
+        />
+      </div>
+    </div>  
+  </form>
+  <!--
+  <script type="text/javascript">
+    // <![CDATA[
 
-      function _(id) {
-        return document.getElementById(id);
+    function _(id) {
+      return document.getElementById(id);
+    };
+
+    var alink = document.createElement('a');
+    var form = _('forum-thread-form');
+    alink.href = '#';
+    alink.onclick = function(evt) {
+      if (form.style.display == 'none') {
+        form.style.display = 'block';
+        this.replaceChild(document.createTextNode('hide form'), this.firstChild);
+      } else {
+        form.style.display = 'none';
+        this.replaceChild(document.createTextNode('new topic'), this.firstChild);
       };
-
-      var alink = document.createElement('a');
-      var form = _('forum-thread-form');
-      alink.href = '#';
-      alink.onclick = function(evt) {
-        if (form.style.display == 'none') {
-          form.style.display = 'block';
-          this.replaceChild(document.createTextNode('hide form'), this.firstChild);
-        } else {
-          form.style.display = 'none';
-          this.replaceChild(document.createTextNode('new topic'), this.firstChild);
-        };
-        if (evt.preventDefault) {
-          evt.preventDefault();
-        } else {
-          evt.returnValue = false;
-        };
-        evt.cancelBubble = true;
+      if (evt.preventDefault) {
+        evt.preventDefault();
+      } else {
+        evt.returnValue = false;
       };
-      alink.appendChild(document.createTextNode('new topic'));
-      form.parentNode.insertBefore(alink, form);
-      form.style.display = 'none';
+      evt.cancelBubble = true;
+    };
+    alink.appendChild(document.createTextNode('new topic'));
+    form.parentNode.insertBefore(alink, form);
+    form.style.display = 'none';
 
-      // ]]>
-    </script>
-    -->
-  </div>
+    // ]]>
+  </script>
+  -->
 </div>
+</tal:block>
