@@ -130,11 +130,11 @@ function add_smiley(text_to_add) {
         tal:content="python:request.get('text')"></textarea>
       <div class="submit">
         <input type="submit"
-          value="add thread"
-        />
-        <input type="submit"
           name="preview"
           value="preview"
+        />
+        <input type="submit"
+          value="add thread"
         />
       </div>
     </div>

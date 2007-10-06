@@ -140,12 +140,12 @@
         tal:content="python:request.get('text')"></textarea>
       <div class="submit">
         <input type="submit"
-          name="submit"
-          value="add comment"
-        />
-        <input type="submit"
           name="preview"
           value="preview"
+        />
+        <input type="submit"
+          name="submit"
+          value="add comment"
         />
       </div>
     </div>
