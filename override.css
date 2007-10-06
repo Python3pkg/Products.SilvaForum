@@ -92,7 +92,8 @@ th.align-left {
 /*_________________________________ COMMENT STYLES __________*/
 
 #comment {
-  background: #A9D0F5;
+  background: #ccd9e6;
+  padding: 0.2em;
   border: 1px solid;
 }
 
