@@ -123,12 +123,13 @@ function add_smiley(text_to_add) {
         </div>
       </div>
       <div class="submit">
+        <input style="float:right"
+          type="submit"
+          value="add thread"
+        />
         <input type="submit"
           name="preview"
           value="preview"
-        />
-        <input type="submit"
-          value="add thread"
         />
       </div>
     </div>
