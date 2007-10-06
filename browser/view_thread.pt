@@ -53,8 +53,8 @@
 <table class="forum-content-table">
   <thead class="thead">
     <tr>
-      <th>Author</th>
-      <th>Message</th>
+      <th class="align-left">Author</th>
+      <th class="align-left">Message</th>
     </tr>
   </thead>
   <tbody>
@@ -91,7 +91,7 @@
   <table class="forum-content-table">
     <tbody>
       <tr class="preview">
-        <th>
+        <th class="align-left">
           preview
         </th>
       </tr>

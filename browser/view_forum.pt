@@ -57,10 +57,10 @@ function add_smiley(text_to_add) {
 <table class="forum-content-table">
   <thead class="thead">
     <tr>
-      <th>Topics</th>
-      <th>Post date</th>
-      <th>Author</th>
-      <th>Comments</th>
+      <th class="align-left">Topics</th>
+      <th class="align-left">Post date</th>
+      <th class="align-left">Author</th>
+      <th class="align-left">Comments</th>
     </tr>
   </thead>
   <tbody>
@@ -83,7 +83,7 @@ function add_smiley(text_to_add) {
   <table class="forum-content-table">
     <tbody>
       <tr class="preview">
-        <th>preview</th>
+        <th class="align-left">preview</th>
       </tr>
       <tr class="preview">
         <td>
@@ -97,14 +97,15 @@ function add_smiley(text_to_add) {
   <form id="forum-thread-form"
     method="post"
     tal:attributes="action context/absolute_url">
-    <div id="post-span">
+    <h2>
       Post a new topic
-    </div>
+    </2>
     <div class="subject">
       Subject
     </div>
     <div class="subject-input">
-      <input type="text"
+      <input class="store"
+        type="text"
         name="topic"
         size="80"
         tal:attributes="value request/topic | nothing"
@@ -112,7 +113,6 @@ function add_smiley(text_to_add) {
     </div>
     <div id="emoticon-interface">
       <p class="side-interface-text">Body text</p>
-      <p class="side-interface-text">Emoticon interface</p>
       <div id="emoticons">
         <div class="emoticon" tal:repeat="smileydata view/get_smiley_data">
           <img onclick="add_smiley(this.title)"
@@ -122,7 +122,8 @@ function add_smiley(text_to_add) {
       </div>
     </div>
     <div id="text-input">
-      <textarea name="text"
+      <textarea class="store"
+        name="text"
         id="text"
         rows="15"
         cols="68"
