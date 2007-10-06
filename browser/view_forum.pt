@@ -117,6 +117,13 @@ function add_smiley(text_to_add) {
         rows="15"
         cols="68"
         tal:content="python:request.get('text')"></textarea>
+      <div id="emoticons">
+        <div class="emoticon" tal:repeat="smileydata view/get_smiley_data">
+          <img onclick="add_smiley(this.title)"
+            tal:attributes="title smileydata/text; src smileydata/href"
+          />
+        </div>
+      </div>
       <div class="submit">
         <input type="submit"
           name="preview"
@@ -125,15 +132,6 @@ function add_smiley(text_to_add) {
         <input type="submit"
           value="add thread"
         />
-      </div>
-    </div>
-    <div id="emoticon-interface">
-      <div id="emoticons">
-        <div class="emoticon" tal:repeat="smileydata view/get_smiley_data">
-          <img onclick="add_smiley(this.title)"
-            tal:attributes="title smileydata/text; src smileydata/href"
-          />
-        </div>
       </div>
     </div>
   </form>

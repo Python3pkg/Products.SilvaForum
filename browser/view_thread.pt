@@ -127,6 +127,14 @@
         rows="15"
         cols="68"
         tal:content="python:request.get('text')"></textarea>
+      <div id="emoticons">
+        <div class="emoticon"
+          tal:repeat="smileydata view/get_smiley_data">
+          <img onclick="add_smiley(this.title)"
+            tal:attributes="title smileydata/text; src smileydata/href"
+          />
+        </div>
+      </div>
       <div class="submit">
         <input type="submit"
           name="preview"
@@ -136,16 +144,6 @@
           name="submit"
           value="add comment"
         />
-      </div>
-    </div>
-    <div id="emoticon-interface">
-      <div id="emoticons">
-        <div class="emoticon"
-          tal:repeat="smileydata view/get_smiley_data">
-          <img onclick="add_smiley(this.title)"
-            tal:attributes="title smileydata/text; src smileydata/href"
-          />
-        </div>
       </div>
     </div>
   </form>
