@@ -69,7 +69,8 @@ function add_smiley(text_to_add) {
       tal:repeat="thread batch">
       <td>
         <a tal:attributes="href thread/url"
-           tal:content="thread/title">
+          tal:content="thread/title">
+          subject
         </a>
       </td>
       <td tal:content="python:view.format_datetime(thread['creation_datetime'])" />
