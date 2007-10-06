@@ -100,9 +100,7 @@ function add_smiley(text_to_add) {
     <h3>
       Post a new topic
     </h3>
-    <div class="subject">
-      Subject
-    </div>
+    <p class="side-interface-text">Subject</p>
     <div class="subject-input">
       <input class="store"
         type="text"
@@ -111,16 +109,7 @@ function add_smiley(text_to_add) {
         tal:attributes="value request/topic | nothing"
       />
     </div>
-    <div id="emoticon-interface">
-      <p class="side-interface-text">Body text</p>
-      <div id="emoticons">
-        <div class="emoticon" tal:repeat="smileydata view/get_smiley_data">
-          <img onclick="add_smiley(this.title)"
-            tal:attributes="title smileydata/text; src smileydata/href"
-          />
-        </div>
-      </div>
-    </div>
+    <p class="side-interface-text">Messsage</p>
     <div id="text-input">
       <textarea class="store"
         name="text"
@@ -136,6 +125,15 @@ function add_smiley(text_to_add) {
         <input type="submit"
           value="add thread"
         />
+      </div>
+    </div>
+    <div id="emoticon-interface">
+      <div id="emoticons">
+        <div class="emoticon" tal:repeat="smileydata view/get_smiley_data">
+          <img onclick="add_smiley(this.title)"
+            tal:attributes="title smileydata/text; src smileydata/href"
+          />
+        </div>
       </div>
     </div>
   </form>

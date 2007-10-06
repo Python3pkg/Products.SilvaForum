@@ -120,18 +120,7 @@
         tal:attributes="value request/title | nothing"
       />
     </div>
-    <div id="emoticon-interface">
-      <p class="side-interface-text">Body text</p>
-      <p class="side-interface-text">Emoticon interface</p>
-      <div id="emoticons">
-        <div class="emoticon"
-          tal:repeat="smileydata view/get_smiley_data">
-          <img onclick="add_smiley(this.title)"
-            tal:attributes="title smileydata/text; src smileydata/href"
-          />
-        </div>
-      </div>
-    </div>
+    <p class="side-interface-text">Messsage</p>
     <div id="text-input">
       <textarea name="text"
         id="text"
@@ -147,6 +136,16 @@
           name="submit"
           value="add comment"
         />
+      </div>
+    </div>
+    <div id="emoticon-interface">
+      <div id="emoticons">
+        <div class="emoticon"
+          tal:repeat="smileydata view/get_smiley_data">
+          <img onclick="add_smiley(this.title)"
+            tal:attributes="title smileydata/text; src smileydata/href"
+          />
+        </div>
       </div>
     </div>
   </form>
