@@ -94,3 +94,18 @@
 	background: #A9D0F5;
 	border: 1px solid;
 }
+
+/* ____________________________________________________ form controls _______ */
+
+textarea {
+  padding: 0.1em;
+  border: 1px solid #599;
+  color: #337;
+  background: #E8F7EF;
+}
+
+input.store, textarea.store {
+  width: 99%;
+  !width: 94%; /* IE7 hack */
+}
+
