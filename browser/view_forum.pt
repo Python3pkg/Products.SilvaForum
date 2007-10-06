@@ -42,7 +42,8 @@ function add_smiley(text_to_add) {
 </div>
 <table tal:define="
   previous python:batch.previous;
-  next python:batch.next">
+  next python:batch.next"
+  tal:condition="python:previous or next">
   <tr>
     <td class="pagination">
       <a tal:condition="previous"
@@ -83,7 +84,7 @@ function add_smiley(text_to_add) {
   <table class="forum-content-table">
     <tbody>
       <tr class="preview">
-        <th class="align-left">preview</th>
+        <th class="align-left">Preview</th>
       </tr>
       <tr class="preview">
         <td>
