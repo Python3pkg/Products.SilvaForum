@@ -110,7 +110,8 @@
     <h3>Post a new comment</h3>
     <h5>Subject</h5>
     <div class="subject-input">
-      <input type="text"
+      <input class="store"
+        type="text"
         name="title"
         size="80"
         tal:attributes="value request/title | nothing"
@@ -118,7 +119,8 @@
     </div>
     <h5>Messsage</h5>
     <div id="text-input">
-      <textarea name="text"
+      <textarea class="store"
+        name="text"
         id="text"
         rows="15"
         cols="68"
