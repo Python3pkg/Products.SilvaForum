@@ -99,7 +99,7 @@ function add_smiley(text_to_add) {
     tal:attributes="action context/absolute_url">
     <h2>
       Post a new topic
-    </2>
+    </h2>
     <div class="subject">
       Subject
     </div>
