@@ -5,9 +5,9 @@
   start python:int(path('request/start | nothing') or 0);
   batch python:modules['ZTUtils'].Batch(comments, size=10, start=start);
 ">
-                                 
+
 <script type="text/javascript">
-// <![CDATA[ 
+// <![CDATA[
     function add_smiley(text_to_add) {
         /* add a smiley to the textarea
         */
@@ -31,7 +31,7 @@
 // ]]>
 </script>
 <div class="feedback"
-  tal:content="message" 
+  tal:content="message"
   tal:condition="message">
   message
 </div>
@@ -49,12 +49,12 @@
         href="next_url">&raquo;</a>
     </td>
   </tr>
-</table>  
-<table class="forum-content-table"> 
+</table>
+<table class="forum-content-table">
   <thead class="thead">
     <tr>
       <th>Author</th>
-      <th>Message</th> 
+      <th>Message</th>
     </tr>
   </thead>
   <tbody>
@@ -66,7 +66,7 @@
       </td>
       <td>
         <p tal:replace="python:view.format_datetime(context.get_creation_datetime())" />
-        <h4 tal:content="context/get_title" /> 
+        <h4 tal:content="context/get_title" />
         <p tal:content="structure python:view.format_text(context.get_text())" />
       </td>
     </tr>
@@ -77,7 +77,7 @@
         <tal:block tal:replace="comment/creator" />
         </div>
       </td>
-      <td> 
+      <td>
         <a class="permalink"
           tal:attributes="href comment/url">permalink</a>
         <p tal:replace="python:view.format_datetime(comment['creation_datetime'])" />
@@ -96,7 +96,7 @@
         </th>
       </tr>
       <tr class="preview">
-        <td> 
+        <td>
           <h4 tal:content="request/title" />
           <p tal:content="structure python:view.format_text(request['text'])" />
         </td>
@@ -108,7 +108,7 @@
   <form id="forum-comment-form" method="post"
     tal:attributes="action context/absolute_url">
     <div id="post-span">
-     Post a new comment 
+      Post a new comment
     </div>
     <div class="subject">
       Subject
@@ -148,7 +148,7 @@
           value="preview"
         />
       </div>
-    </div>  
+    </div>
   </form>
   <!--
   <script type="text/javascript">

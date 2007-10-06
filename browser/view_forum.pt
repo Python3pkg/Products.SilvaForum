@@ -6,7 +6,7 @@
   batch python:modules['ZTUtils'].Batch(threads, size=10, start=start);
 ">
 <script type="text/javascript">
-// <![CDATA[ 
+// <![CDATA[
 function add_smiley(text_to_add) {
     /* add a smiley to the textarea
     */
@@ -30,13 +30,13 @@ function add_smiley(text_to_add) {
 
 // ]]>
 </script>
-<div class="feedback" 
-  tal:condition="message" 
+<div class="feedback"
+  tal:condition="message"
   tal:content="message">
   message
-</div>    
-<div class="feedback" 
-  tal:condition="python:request.get('preview') and request.get('text') and not 
+</div>
+<div class="feedback"
+  tal:condition="python:request.get('preview') and request.get('text') and not
                  request.get('topic')">
   <p>Please provide a topic.</p>
 </div>
@@ -64,7 +64,7 @@ function add_smiley(text_to_add) {
     </tr>
   </thead>
   <tbody>
-    <tr class="tr-even" 
+    <tr class="tr-even"
       tal:repeat="thread batch">
       <td>
         <a tal:attributes="href thread/url"
@@ -72,9 +72,9 @@ function add_smiley(text_to_add) {
         </a>
       </td>
       <td tal:content="python:view.format_datetime(thread['creation_datetime'])" />
-      <td class="author-column" 
+      <td class="author-column"
         tal:content="thread/creator" />
-      <td class="comment-column" 
+      <td class="comment-column"
         tal:content="thread/commentlen" />
     </tr>
   </tbody>
@@ -94,7 +94,7 @@ function add_smiley(text_to_add) {
   </table>
 </tal:block>
 <div class="submit">
-  <form id="forum-thread-form" 
+  <form id="forum-thread-form"
     method="post"
     tal:attributes="action context/absolute_url">
     <div id="post-span">
@@ -104,8 +104,8 @@ function add_smiley(text_to_add) {
       Subject
     </div>
     <div class="subject-input">
-      <input type="text" 
-        name="topic" 
+      <input type="text"
+        name="topic"
         size="80"
         tal:attributes="value request/topic | nothing"
       />
@@ -122,21 +122,21 @@ function add_smiley(text_to_add) {
       </div>
     </div>
     <div id="text-input">
-      <textarea name="text" 
-        id="text" 
-        rows="15" 
+      <textarea name="text"
+        id="text"
+        rows="15"
         cols="68"
         tal:content="python:request.get('text')"></textarea>
       <div class="submit">
-        <input type="submit" 
+        <input type="submit"
           value="add thread"
         />
-        <input type="submit" 
+        <input type="submit"
           name="preview"
           value="preview"
         />
       </div>
-    </div>  
+    </div>
   </form>
   <!--
   <script type="text/javascript">
