@@ -60,7 +60,7 @@ function add_smiley(text_to_add) {
       <th class="align-left">Topics</th>
       <th class="align-left">Post date</th>
       <th class="align-left">Author</th>
-      <th class="align-left">Comments</th>
+      <th class="align-right">Comments</th>
     </tr>
   </thead>
   <tbody>
