@@ -30,6 +30,9 @@ function add_smiley(text_to_add) {
 
 // ]]>
 </script>
+<h2 tal:content="here/get_title">
+  forum title
+</h2>
 <div class="feedback"
   tal:condition="message"
   tal:content="message">
@@ -38,7 +41,7 @@ function add_smiley(text_to_add) {
 <div class="feedback"
   tal:condition="python:request.get('preview') and request.get('text') and not
                  request.get('topic')">
-  <p>Please provide a topic.</p>
+  Please provide a topic.
 </div>
 <table tal:define="
   previous python:batch.previous;
