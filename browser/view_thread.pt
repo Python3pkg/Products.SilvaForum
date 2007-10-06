@@ -1,4 +1,4 @@
-<tal:block tal:define="
+<tal:block define="
   dummy view/set_content_type_and_nocache;
   message python:view.update() or request.get('message');
   comments context/comments;
