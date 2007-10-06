@@ -89,8 +89,12 @@ function add_smiley(text_to_add) {
       </tr>
       <tr class="preview">
         <td>
-          <h4 tal:content="request/topic" />
-          <p tal:content="structure python:view.format_text(request['text'])" />
+          <h5 tal:content="request/topic">
+            topic
+          </h5>
+          <p tal:content="structure python:view.format_text(request['text'])">
+            message
+          </p>
       </tr>
     </tbody>
   </table>
