@@ -107,9 +107,7 @@
 <div class="submit">
   <form id="forum-comment-form" method="post"
     tal:attributes="action context/absolute_url">
-    <div id="post-span">
-      Post a new comment
-    </div>
+    <h3>Post a new comment</h3>
     <h5>Subject</h5>
     <div class="subject-input">
       <input type="text"

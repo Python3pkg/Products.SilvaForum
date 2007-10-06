@@ -97,9 +97,7 @@ function add_smiley(text_to_add) {
   <form id="forum-thread-form"
     method="post"
     tal:attributes="action context/absolute_url">
-    <h3>
-      Post a new topic
-    </h3>
+    <h3>Post a new topic</h3>
     <h5>Subject</h5>
     <div class="subject-input">
       <input class="store"
