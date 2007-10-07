@@ -80,6 +80,8 @@ function add_smiley(text_to_add) {
           <p tal:content="structure python:view.format_text(request['text'])">
             comment
           </p>
+        <td class="poster"></td>
+        <td class="comments"></td>
       </tr>
     </tal:block>
     <tr class="posting"
