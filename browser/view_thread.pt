@@ -93,7 +93,9 @@
         <p class="permalink">
           <a tal:attributes="href comment/url">permalink</a>
         </p>
-        <p tal:replace="python:view.format_datetime(comment['creation_datetime'])" />
+        <p tal:content="python:view.format_datetime(comment['creation_datetime'])">
+          datetime
+        </p>
         <h5 tal:content="comment/title">
           topic
         </h5>
