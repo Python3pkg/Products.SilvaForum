@@ -83,7 +83,7 @@
       <th class="align-left">Author</th>
       <th class="align-left">Comment</th>
     </tr>
-    <tal:block tal:condition="python:request.get('preview') and (request.get('title') or request.get('text'))">
+    <tal:preview condition="python:request.get('preview') and (request.get('title') or request.get('text'))">
       <tr class="preview">
         <td class="author">
           <p>Preview</p>
@@ -99,32 +99,35 @@
           </p>
         </td>
       </tr>
-    </tal:block>
-    <tr class="posting"
-      tal:repeat="comment batch">
-      <td class="author">
-        <p tal:content="comment/creator">
-          author
-        </p>
-      </td>
-      <td class="comment">
-        <p class="permalink">
-          <a tal:attributes="href comment/url">permalink</a>
-        </p>
-        <p class="datetime"
-          tal:content="python:view.format_datetime(comment['creation_datetime'])">
-          datetime
-        </p>
-        <h5 tal:define="subject comment/title"
-          tal:condition="subject"
-          tal:content="subject">
-          topic
-        </h5>
-        <p tal:content="structure python:view.format_text(comment['text'])">
-          comment
-        </p>
-      </td>
-    </tr>
+    </tal:preview>
+    <tal:loop repeat="comment batch">
+      <tal:def define="iterate repeat/comment/odd">
+        <tr tal:attributes="class python: iterate and 'even' or 'odd'">
+          <td class="author">
+            <p tal:content="comment/creator">
+              author
+            </p>
+          </td>
+          <td class="comment">
+            <p class="permalink">
+              <a tal:attributes="href comment/url">permalink</a>
+            </p>
+            <p class="datetime"
+              tal:content="python:view.format_datetime(comment['creation_datetime'])">
+              datetime
+            </p>
+            <h5 tal:define="subject comment/title"
+              tal:condition="subject"
+              tal:content="subject">
+              topic
+            </h5>
+            <p tal:content="structure python:view.format_text(comment['text'])">
+              comment
+            </p>
+          </td>
+        </tr>
+      </tal:def>
+    </tal:loop>
   </tbody>
 </table>
 <div class="submit">
