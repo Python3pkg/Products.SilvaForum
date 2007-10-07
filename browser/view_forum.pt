@@ -65,7 +65,7 @@ function add_smiley(text_to_add) {
     </tr>
   </thead>
   <tbody>
-    <tal:block tal:condition="python:request.get('preview') and request.get('topic')">
+    <tal:preview condition="python:request.get('preview') and request.get('topic')">
       <tr class="preview">
         <td class="topic">
           <p>
@@ -82,33 +82,37 @@ function add_smiley(text_to_add) {
           <p>0</p>
         </td>
       </tr>
-    </tal:block>
-    <tr class="posting"
-      tal:repeat="thread batch">
-      <td class="topic">
-        <p>
-          <a tal:attributes="href thread/url"
-            tal:content="thread/title">
-            subject
-          </a>
-        </p>
-      </td>
-      <td class="comment">
-        <p class="datetime" 
-          tal:content="python:view.format_datetime(thread['creation_datetime'])">
-          datatime
-        </p>
-      </td>
-      <td class="poster">
-        <p tal:content="thread/creator">
-          author
-        </p>
-      </td>
-      <td class="comments">
-        <p tal:content="thread/commentlen">
-          number
-        </p>
-    </tr>
+    </tal:preview>
+    <tal:loop repeat="thread batch">
+      <tal:def define="iterate repeat/thread/odd">
+        <tr tal:attributes="class python: iterate and 'even' or 'odd'">
+          <td class="topic">
+            <p>
+              <a tal:attributes="href thread/url"
+                tal:content="thread/title">
+                subject
+              </a>
+            </p>
+          </td>
+          <td class="comment">
+            <p class="datetime" 
+              tal:content="python:view.format_datetime(thread['creation_datetime'])">
+              datatime
+            </p>
+          </td>
+          <td class="poster">
+            <p tal:content="thread/creator">
+              author
+            </p>
+          </td>
+          <td class="comments">
+            <p tal:content="thread/commentlen">
+              number
+            </p>
+          </td>
+        </tr>
+      </tal:def>
+    </tal:loop>
   </tbody>
 </table>
 <div class="submit">
