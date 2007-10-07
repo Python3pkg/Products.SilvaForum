@@ -61,7 +61,7 @@
   </thead>
   <tbody>
     <tr class="topic">
-      <td class="author-name">
+      <td class="author">
         <p tal:content="python:context.sec_get_creator_info().fullname()">
           author
         </p>
@@ -82,9 +82,9 @@
       <th class="align-left">Author</th>
       <th class="align-left">Message</th>
     </tr>
-    <tr class="forum-tr"
+    <tr class="posting"
       tal:repeat="comment batch">
-      <td class="author-name">
+      <td class="author">
         <p tal:content="comment/creator">
           author
         </p>
@@ -96,7 +96,9 @@
         <p tal:content="python:view.format_datetime(comment['creation_datetime'])">
           datetime
         </p>
-        <h5 tal:content="comment/title">
+        <h5 tal:define="subject comment/title"
+          tal:condition="subject"
+          tal:content="subject">
           topic
         </h5>
         <p tal:content="structure python:view.format_text(comment['text'])">
@@ -116,8 +118,14 @@
       </tr>
       <tr class="preview">
         <td>
-          <h4 tal:content="request/title" />
-          <p tal:content="structure python:view.format_text(request['text'])" />
+          <h5 tal:define="subject request/title"
+            tal:condition="subject"
+            tal:content="subject">
+            subject
+          </h5>
+          <p tal:content="structure python:view.format_text(request['text'])">
+            message
+          </p>
         </td>
       </tr>
     </tbody>
