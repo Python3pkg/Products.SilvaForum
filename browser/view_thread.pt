@@ -106,11 +106,7 @@
         </p>
       </td>
     </tr>
-  </tbody>
-</table>
-<tal:block tal:condition="python:request.get('preview') and (request.get('title') or request.get('text'))">
-  <table class="forum-content-table">
-    <tbody>
+    <tal:block tal:condition="python:request.get('preview') and (request.get('title') or request.get('text'))">
       <tr class="preview">
         <td class="author">
           Preview
@@ -126,9 +122,9 @@
           </p>
         </td>
       </tr>
-    </tbody>
-  </table>
-</tal:block>
+    </tal:block>
+  </tbody>
+</table>
 <div class="submit">
   <form id="forum-comment-form"
     method="post"
