@@ -70,6 +70,20 @@ function add_smiley(text_to_add) {
     </tr>
   </thead>
   <tbody>
+    <tal:block tal:condition="python:request.get('preview') and request.get('topic')">
+      <tr class="preview">
+        <th class="align-left">Preview</th>
+      </tr>
+      <tr class="preview">
+        <td>
+          <h5 tal:content="request/topic">
+            topic
+          </h5>
+          <p tal:content="structure python:view.format_text(request['text'])">
+            message
+          </p>
+      </tr>
+    </tal:block>
     <tr class="posting"
       tal:repeat="thread batch">
       <td class="topic">
@@ -85,7 +99,7 @@ function add_smiley(text_to_add) {
           datatime
         </p>
       </td>
-      <td class="author">
+      <td class="poster">
         <p tal:content="thread/creator">
           author
         </p>
@@ -97,24 +111,6 @@ function add_smiley(text_to_add) {
     </tr>
   </tbody>
 </table>
-<tal:block tal:condition="python:request.get('preview') and request.get('topic')">
-  <table class="forum-content-table">
-    <tbody>
-      <tr class="preview">
-        <th class="align-left">Preview</th>
-      </tr>
-      <tr class="preview">
-        <td>
-          <h5 tal:content="request/topic">
-            topic
-          </h5>
-          <p tal:content="structure python:view.format_text(request['text'])">
-            message
-          </p>
-      </tr>
-    </tbody>
-  </table>
-</tal:block>
 <div class="submit">
   <form id="forum-thread-form"
     method="post"
