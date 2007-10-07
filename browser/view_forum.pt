@@ -67,7 +67,9 @@ function add_smiley(text_to_add) {
   <tbody>
     <tal:block tal:condition="python:request.get('preview') and request.get('topic')">
       <tr class="preview">
-        <td class="author">Preview</td>
+        <td class="author">
+          <p>Preview</p>
+        </td>
         <td class="comment">
           <h5 tal:content="request/topic">
             topic
