@@ -85,7 +85,7 @@
     <tal:block tal:condition="python:request.get('preview') and (request.get('title') or request.get('text'))">
       <tr class="preview">
         <td class="author">
-          Preview
+          <p>Preview</p>
         </td>
         <td class="message">
           <h5 tal:define="subject request/title"
