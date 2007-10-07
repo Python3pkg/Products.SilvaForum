@@ -1,5 +1,5 @@
 <div class="forum"
-  tal: define="
+  tal:define="
     dummy view/set_content_type_and_nocache;
     message python:view.update() or request.get('message');
     threads context/threads;
