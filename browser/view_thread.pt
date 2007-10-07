@@ -82,6 +82,23 @@
       <th class="align-left">Author</th>
       <th class="align-left">Message</th>
     </tr>
+    <tal:block tal:condition="python:request.get('preview') and (request.get('title') or request.get('text'))">
+      <tr class="preview">
+        <td class="author">
+          Preview
+        </td>
+        <td class="message">
+          <h5 tal:define="subject request/title"
+            tal:condition="subject"
+            tal:content="subject">
+            subject
+          </h5>
+          <p tal:content="structure python:view.format_text(request['text'])">
+            message
+          </p>
+        </td>
+      </tr>
+    </tal:block>
     <tr class="posting"
       tal:repeat="comment batch">
       <td class="author">
@@ -106,23 +123,6 @@
         </p>
       </td>
     </tr>
-    <tal:block tal:condition="python:request.get('preview') and (request.get('title') or request.get('text'))">
-      <tr class="preview">
-        <td class="author">
-          Preview
-        </td>
-        <td class="message">
-          <h5 tal:define="subject request/title"
-            tal:condition="subject"
-            tal:content="subject">
-            subject
-          </h5>
-          <p tal:content="structure python:view.format_text(request['text'])">
-            message
-          </p>
-        </td>
-      </tr>
-    </tal:block>
   </tbody>
 </table>
 <div class="submit">
