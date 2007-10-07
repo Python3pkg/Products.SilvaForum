@@ -67,7 +67,8 @@
         </p>
       </td>
       <td class="message">
-        <p tal:content="python:view.format_datetime(context.get_creation_datetime())">
+        <p class="datetime"
+          tal:content="python:view.format_datetime(context.get_creation_datetime())">
           datetime
         </p>
         <h4 tal:content="context/get_title">
@@ -110,7 +111,8 @@
         <p class="permalink">
           <a tal:attributes="href comment/url">permalink</a>
         </p>
-        <p tal:content="python:view.format_datetime(comment['creation_datetime'])">
+        <p class="datetime"
+          tal:content="python:view.format_datetime(comment['creation_datetime'])">
           datetime
         </p>
         <h5 tal:define="subject comment/title"
