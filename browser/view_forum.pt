@@ -94,9 +94,8 @@ function add_smiley(text_to_add) {
               </a>
             </p>
           </td>
-          <td class="comment">
-            <p class="datetime" 
-              tal:content="python:view.format_datetime(thread['creation_datetime'])">
+          <td class="datetime">
+            <p tal:content="python:view.format_datetime(thread['creation_datetime'])">
               datatime
             </p>
           </td>
