@@ -70,7 +70,7 @@ function add_smiley(text_to_add) {
     </tr>
   </thead>
   <tbody>
-    <tr class="tr-even"
+    <tr class="posting"
       tal:repeat="thread batch">
       <td>
         <a tal:attributes="href thread/url"
