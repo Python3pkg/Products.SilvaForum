@@ -129,6 +129,7 @@ function add_smiley(text_to_add) {
       <div id="emoticons">
         <div class="emoticon" tal:repeat="smileydata view/get_smiley_data">
           <img onclick="add_smiley(this.title)"
+            alt="emoticon"
             tal:attributes="title smileydata/text; src smileydata/href"
           />
         </div>
