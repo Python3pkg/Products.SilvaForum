@@ -69,7 +69,7 @@ function add_smiley(text_to_add) {
       <tr class="preview">
         <td class="topic">
           <p tal:content="request/topic">
-            topic
+            <a href=".">topic</a>
           </p>
         </td>
         <td class="datetime">
