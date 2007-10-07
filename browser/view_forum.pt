@@ -72,17 +72,28 @@ function add_smiley(text_to_add) {
   <tbody>
     <tr class="posting"
       tal:repeat="thread batch">
-      <td>
-        <a tal:attributes="href thread/url"
-          tal:content="thread/title">
-          subject
-        </a>
+      <td class="topic">
+        <p>
+          <a tal:attributes="href thread/url"
+            tal:content="thread/title">
+            subject
+          </a>
+        </p>
       </td>
-      <td tal:content="python:view.format_datetime(thread['creation_datetime'])" />
-      <td class="author-column"
-        tal:content="thread/creator" />
-      <td class="comment-column"
-        tal:content="thread/commentlen" />
+      <td class="datetime">
+        <p tal:content="python:view.format_datetime(thread['creation_datetime'])">
+          datatime
+        </p>
+      </td>
+      <td class="author">
+        <p tal:content="thread/creator">
+          author
+        </p>
+      </td>
+      <td class="comments">
+        <p tal:content="thread/commentlen">
+          number
+        </p>
     </tr>
   </tbody>
 </table>
