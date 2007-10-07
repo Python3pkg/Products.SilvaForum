@@ -138,7 +138,7 @@ function add_smiley(text_to_add) {
       <textarea class="store"
         name="text"
         id="text"
-        rows="15"
+        rows="10"
         cols="68"
         tal:content="python:request.get('text')"></textarea>
       <div id="emoticons">
