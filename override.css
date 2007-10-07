@@ -1,58 +1,87 @@
 /* SilvaForum CSS */
+div.forum {
+ margin-bottom: 1em;
+}
+
+table.previousnext td.pagination {
+  width: 4em;
+  font-weight: bold;
+}
+
 /*_________________________________ FORUM LIST STYLES __________*/
-.forum-content-table {
+table.forum-content-table {
   border: 1px solid gray;
   background-color: #afc3d7;
   width: 100%;
 }
 
-.thead {
+table.forum-content-table thead {
   background-color: #b0c4d7;
+}
+
+table.forum-content-table tr {
   vertical-align: top;
 }
 
-
-.tr-odd {
-  background-color: #dde5ee;
+table.forum-content-table tr.topic {
+  background: #ccd9e6;
 }
-.tr-even {
-  vertical-align: top;
+
+table.forum-content-table tr.preview {
+  background: #eaf6ef;
+}
+
+table.forum-content-table tr.odd {
+  background-color: #d4dee9;
+}
+table.forum-content-table tr.even {
   background-color: #ccd9e6;
 }
 
-th.align-left {
-  text-align: left;
+table.forum-content-table th, table.forum-content-table td {
+  padding-left: 0.3em;
+  padding-right: 0.3em;
 }
 
-.author-column, .comment-column {
-  width: 6em;
+table.forum-content-table th.align-left {
+  text-align: left;
 }
-.comment-column {
+table.forum-content-table th.align-right {
   text-align: right;
 }
 
-.permalink {
+table.forum-content-table td.author, table.forum-content-table td.comments {
+  width: 6em;
+}
+table.forum-content-table td.comments {
+  text-align: right;
+}
+
+table.forum-content-table td.author {
+  font-weight: bold;
+}
+
+table.forum-content-table h5 {
+  margin-top: 0.4em;
+}
+
+table.forum-content-table tr.preview h5 {
+  margin-top: 0.2em;
+}
+
+table.forum-content-table p {
+  margin-top: 0.3em;
+}
+
+table.forum-content-table p.datetime, table.forum-content-table p.permalink {
+  margin-top: 0.4em;
+  font-size: 90%;
+}
+
+table.forum-content-table p.permalink {
   float: right;
 }
 
-.forum-tr{
-  vertical-align: top;
-  background-color: #d4dee9;
-}
-
-.topic {
-  background: #ccd9e6;
-  vertical-align: top;
-}
-
-.author-name {
-  font-weight: bold;
-}
-
-.pagination {
-  width: 4em;
-  font-weight: bold;
-}
 
 /*_________________________________ EMOTICON STYLES __________*/
 #emoticons {
@@ -63,49 +92,30 @@ th.align-left {
   background-color: #d7e6e6;
 }
 
-.emoticon {
-  margin: .3em;
+div.emoticon {
+  margin: 0.3em;
   float: left;
 }
 
-/*_________________________________ FORM STYLES __________*/
-#post-span {
-  width: 100%;
-  text-align: center;
-  font-weight: bold;
-}
-
-#text-input {
-  margin: .5em 0 0 0;
-}
-
-.subject-input {
-  width: 100%;
-  margin: .5em 0 0 0;
-}
-
-.preview {
-  background: #EEEEEE;
-}
-.submit {
-  margin: .5em 0 0 0;
-}
-
-/*_________________________________ COMMENT STYLES __________*/
-
-#comment {
+/*_________________________________ PERMALINK STYLES __________*/
+div#comment {
   background: #ccd9e6;
   padding: 0.2em;
-  border: 1px solid;
+  border: 1px solid gray;
 }
 
-/* ____________________________________________________ form controls _______ */
+/*_________________________________ FORM STYLES __________*/
+div.submit {
+  margin: 0.5em 0 0 0;
+}
 
 textarea {
   padding: 0.1em;
   border: 1px solid #599;
   color: #337;
-  background: #E8F7EF;
+  background-color: #e8f7ef;
+  font-family: verdana,helvetica,arial,sans-serif;
+  font-size: 100%;
 }
 
 input.store, textarea.store {
@@ -114,6 +124,7 @@ input.store, textarea.store {
 }
 
 input[type="submit"] {
-  border-color: #3850B3;
-  color: #3138BA;
+  border-color: #3850b3;
+  color: #e8f7ef;
+  background-color: #455a82;
 }
