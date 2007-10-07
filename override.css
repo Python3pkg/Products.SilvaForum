@@ -92,24 +92,24 @@ table.forum-content-table p.permalink {
   background-color: #d7e6e6;
 }
 
-div.emoticon {
+div.forum div.emoticon {
   margin: 0.3em;
   float: left;
 }
 
 /*_________________________________ PERMALINK STYLES __________*/
-div#comment {
+div.forum div#comment {
   background: #ccd9e6;
   padding: 0.2em;
   border: 1px solid gray;
 }
 
 /*_________________________________ FORM STYLES __________*/
-div.submit {
+div.forum div.submit {
   margin: 0.5em 0 0 0;
 }
 
-textarea {
+div.forum textarea {
   padding: 0.1em;
   border: 1px solid #599;
   color: #337;
@@ -118,12 +118,12 @@ textarea {
   font-size: 100%;
 }
 
-input.store, textarea.store {
+div.forum input.store, textarea.store {
   width: 99%;
   !width: 94%; /* IE7 hack */
 }
 
-input[type="submit"] {
+div.forum input[type="submit"] {
   border-color: #3850b3;
   color: #e8f7ef;
   background-color: #455a82;
