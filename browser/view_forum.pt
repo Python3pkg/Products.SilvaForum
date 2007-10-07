@@ -41,7 +41,7 @@ function add_smiley(text_to_add) {
 <div class="feedback"
   tal:condition="python:request.get('preview') and request.get('text') and not
                  request.get('topic')">
-  Please provide a topic.
+  <span class="warning">Please provide a topic.</span>
 </div>
 <table tal:define="
   previous python:batch.previous;

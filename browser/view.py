@@ -74,7 +74,7 @@ class ThreadView(ViewBase):
         title = unicode(req['title'], 'UTF-8')
         text = unicode(req['text'], 'UTF-8')
         if not title.strip() and not text.strip():
-            return 'Please fill in one of the two fields'
+            return '<span class="warning">Please fill in one of the two fields.</span>'
 
         comment = self.context.add_comment(title, text)
         url = self.context.absolute_url()

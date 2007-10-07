@@ -31,8 +31,8 @@
 // ]]>
 </script>
 <div class="feedback"
-  tal:content="message"
-  tal:condition="message">
+  tal:condition="message"
+  tal:content="message">
   message
 </div>
 <table tal:define="
