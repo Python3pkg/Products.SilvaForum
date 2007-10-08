@@ -33,30 +33,20 @@ root>/manage_services in your browser. Click on service_extensions, find the
 IMPORTANT STYLING NOTES: 
 ------------------------
 
-There are two ways to style the forum product, via override.css or editing
-head_inject and creating a forum.css DTML Method.
+SilvaForum comes with it's own default layout which resides in the resources
+directory. This css can be replaced for any other housestyle css, however it
+is important to connect the css to the forum pages via the head_inject file
+in the ZMI. 
 
-Override
-To style the forum views, you will need to _manually_ copy
-the contents of the file 'override.css' to your layout (in a default Silva
-that can be done by _adding_ (not overwriting!) the contents of
-'/silva_root/frontend.css' in the ZMI, for SilvaLayout situations you will
-need to copy it to your layout CSS). This is a temporary solution, at a later
-point manual merging should not be required.
+Place the following tal:block in the head_inject file after the
+<tal:block replace="structure model/@@set_nocache" /></tal:block>:
 
-Head_inject/forum.css
-After creating a forum object in the SMI go to the ZMI and open the
-head_inject file. Add the following tal:block to the head_inject file after
-the <tal:block replace="structure model/@@set_nocache" /></tal:block>:
-  
 <tal:comment replace="nothing"> _______ SilvaForum CSS _______ </tal:comment>
 <tal:block condition="python:model.meta_type == 'Silva Forum' 
                       or model.meta_type == 'Silva Forum Thread'
                       or model.meta_type == 'Silva Forum Comment'">
   <link rel="stylesheet" type="text/css" media="all"
-    tal:define="metatypecss here/forum.css/absolute_url | nothing"
-    tal:condition="metatypecss"
-    tal:attributes="href metatypecss" />
+    tal:attributes="href python:context.get_root_url()+'/service_resources/SilvaForum/forum.css'" />
 </tal:block>
 
 Save the file. Now create a DTML Method. For the id and title fill in 
