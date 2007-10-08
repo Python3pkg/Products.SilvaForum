@@ -13,11 +13,7 @@ Meta::
 TODO for SilvaForum
 ===================
 
-Primary
--------
-
-Secondary
----------
+* add emoticons and smilies to service_resource directory
 
 Issues
 ------
@@ -25,3 +21,8 @@ Issues
 * author registration in the smi. figured out a work around, but the real
   reason for this bug is yet to be discovered.
 
+Bugs
+----
+
+* clicking on 'Silva Root' gives an error type: "NoViewError, no public
+  view defined"
