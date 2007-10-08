@@ -8,7 +8,7 @@ table.previousnext td.pagination {
   font-weight: bold;
 }
 
-/*_________________________________ FORUM LIST STYLES __________*/
+/*________________________________________ FORUM LISTING SELECTORS __________*/
 table.forum-content-table {
   border: 1px solid gray;
   background-color: #afc3d7;
@@ -53,12 +53,11 @@ table.forum-content-table th.align-right {
 table.forum-content-table td.author, table.forum-content-table td.comments {
   width: 6em;
 }
-table.forum-content-table td.comments {
-  text-align: right;
-}
-
 table.forum-content-table td.author {
   font-weight: bold;
+}
+table.forum-content-table td.comments {
+  text-align: right;
 }
 
 table.forum-content-table h5 {
@@ -83,7 +82,7 @@ table.forum-content-table p.permalink {
 }
 
 
-/*_________________________________ EMOTICON STYLES __________*/
+/*_____________________________________________ EMOTICON SELECTORS __________*/
 #emoticons {
   height: 1.8em;
   margin: 0 0 0 0;
@@ -97,14 +96,14 @@ div.forum div.emoticon {
   float: left;
 }
 
-/*_________________________________ PERMALINK STYLES __________*/
+/*____________________________________________ PERMALINK SELECTORS __________*/
 div.forum div#comment {
   background: #ccd9e6;
   padding: 0.2em;
   border: 1px solid gray;
 }
 
-/*_________________________________ FORM STYLES __________*/
+/*____________________________________________ FORM SELECTORS _______________*/
 div.forum div.submit {
   margin: 0.5em 0 0 0;
 }
@@ -128,3 +127,4 @@ div.forum input[type="submit"] {
   color: #e8f7ef;
   background-color: #455a82;
 }
+
