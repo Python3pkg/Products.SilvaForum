@@ -60,6 +60,7 @@ def uninstall(root):
     reg.unregister('add', 'Silva Forum Comment')
 
     root.service_views.manage_delObjects(['SilvaForum'])
+    root.service_resources.manage_delObjects(['SilvaForum'])
 
 def configureAddables(root):
     """Make sure the right items are addable in the root"""
