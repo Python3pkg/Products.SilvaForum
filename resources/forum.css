@@ -3,11 +3,31 @@ div.forum {
  margin-bottom: 1em;
 }
 
-table.previousnext td.pagination {
-  width: 4em;
+table.previousnext {
+  width: 100%;
   font-weight: bold;
 }
+table.previousnext td.previous {
+  width: 25%;
+  text-align: left;
+}
 
+table.previousnext td.info {
+  width: 50%;
+  text-align: center;
+}
+
+table.previousnext td.next {
+  width: 25%;
+  text-align: right;
+}
+
+/*________________________________________ FORUM LISTING SELECTORS __________*/
+table.forum-content-table {
+  border: 1px solid gray;
+  background-color: #afc3d7;
+  width: 100%;
+}
 /*________________________________________ FORUM LISTING SELECTORS __________*/
 table.forum-content-table {
   border: 1px solid gray;
