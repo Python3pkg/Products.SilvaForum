@@ -3,8 +3,7 @@
     dummy view/set_content_type_and_nocache;
     message python:view.update() or request.get('message');
     comments context/comments;
-    start python:int(path('request/start | nothing') or 0);
-    batch python:modules['ZTUtils'].Batch(comments, size=10, start=start);
+    batch python:context.service_views.Silva.getBatch(comments, size=10, orphan=0);
 ">
 
 <script type="text/javascript">
@@ -36,19 +35,43 @@
   tal:content="message">
   message
 </div>
-<table class="previousnext"
-  tal:define="
-    previous python:batch.previous;
-    next python:batch.next"
-  tal:condition="python:previous or next">
+<table class="previousnext">
   <tr>
     <td class="pagination">
-      <a tal:condition="previous"
-        tal:attributes="href string:${request/URL0}?start:int=${previous/first}"
-        href="previous_url">&laquo;</a>
-      <a tal:condition="next"
-        tal:attributes="href string:${request/URL0}?start:int=${next/first}"
-        href="next_url">&raquo;</a>
+      <tal:block condition="request/previous_batch_url | nothing">
+        <a href="previousbatch" accesskey="p"
+           title="See the previous result listing: alt-p"
+           tal:attributes="href request/previous_batch_url"> 
+        <img alt="Previous"
+             tal:define="image context/globals/left.gif"
+             tal:attributes="
+               src image/absolute_url;
+               width image/width;
+               height image/height;" />Previous</a>
+      </tal:block>
+    </td>  
+    <td class="info">
+      Showing results
+      <tal:block replace="batch/start" />
+      to
+      <tal:block replace="batch/end" />
+      of
+      <tal:block replace="python:len(comments)" />
+    </td>  
+    <td class="next">
+      <tal:block condition="request/next_batch_url | nothing">
+        <a href="nextbatch" accesskey="n"
+           title="See the next result listing: alt-n"
+           tal:attributes="href request/next_batch_url">
+           Next
+           <img alt="Next"
+                tal:define="image context/globals/right.gif"
+                tal:attributes="
+                  src image/absolute_url;
+                  width image/width;
+                  height image/height;" />
+        </a>
+      </tal:block>  
     </td>
   </tr>
 </table>

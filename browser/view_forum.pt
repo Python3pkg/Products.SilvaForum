@@ -51,7 +51,7 @@ function add_smiley(text_to_add) {
                src image/absolute_url;
                width image/width;
                height image/height;
-        "/>
+        " />
         Previous</a>
       </tal:block>
     </td>
