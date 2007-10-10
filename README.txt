@@ -35,8 +35,16 @@ this will serve as the root of the forum. The public views of the Forum allow
 (messages) to the threads. The threads and comments are accessible from the
 SMI for moderation and maintenance purposes.
 
+Authentication can be invoked for the public view of the forum by going to
+the SMI 'access' tab. In the pulldown menu for 'public view access
+restrictions for' choose the setting 'Authenticated' and click 'set
+restriction'.
+
 Thanks
 ------
+
+Thank you Bas Leeflang and Bijvoet Center http://www.bijvoet-center.nl/ for
+the initial assignment to build a simple forum.
 
 Thank you Mark James of http://www.famfamfam.com/ for the great icons, which
 we used in the SMI views!

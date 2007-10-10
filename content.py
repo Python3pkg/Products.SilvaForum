@@ -56,14 +56,14 @@ class Forum(FiveViewable, Publication):
         """
         # XXX note that this mostly exists because we intend to add more
         # functionality (e.g. searching, ordering) later
-        threads =  [{
+        threads = [{
             'url': obj.absolute_url(),
             'title': obj.get_title(),
             'creation_datetime': obj.get_creation_datetime(),
             'creator': obj.sec_get_creator_info().fullname(),
             'commentlen': len(obj.comments()),
         } for obj in self.objectValues('Silva Forum Thread')]
-        threads.reverse()
+        threads
         return threads
 
 class Thread(FiveViewable, Folder):
@@ -94,8 +94,7 @@ class Thread(FiveViewable, Folder):
             'creation_datetime': obj.get_creation_datetime(),
             'text': obj.get_text(),
         } for obj in self.objectValues('Silva Forum Comment')]
-        
-        comments.reverse()
+        comments
         return comments
 
     # XXX this is a bit strange... Thread is a Folder type but still has
