@@ -40,7 +40,7 @@
     <td class="previous">
       <tal:block condition="request/previous_batch_url | nothing">
         <a href="previousbatch" accesskey="p"
-          title="See the previous result listing: alt-p"
+          title="See the previous result listing: alt-b"
           tal:attributes="href request/previous_batch_url" 
         ><img alt="Previous"
           tal:define="image context/globals/left.gif"
@@ -48,7 +48,8 @@
             src image/absolute_url;
             width image/width;
             height image/height;
-        " />Previous</a>
+        " /><u>B</u>ack
+        </a>
       </tal:block>
     </td>  
     <td class="pagination">
@@ -64,7 +65,7 @@
         <a href="nextbatch" accesskey="n"
           title="See the next result listing: alt-n"
           tal:attributes="href request/next_batch_url">
-          Next<img alt="Next"
+          <u>N</u>ext<img alt="Next"
             tal:define="image context/globals/right.gif"
             tal:attributes="
               src image/absolute_url;
