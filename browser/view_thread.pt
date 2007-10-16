@@ -37,20 +37,21 @@
 </div>
 <table class="previousnext">
   <tr>
-    <td class="pagination">
+    <td class="previous">
       <tal:block condition="request/previous_batch_url | nothing">
         <a href="previousbatch" accesskey="p"
-           title="See the previous result listing: alt-p"
-           tal:attributes="href request/previous_batch_url"> 
+          title="See the previous result listing: alt-p"
+          tal:attributes="href request/previous_batch_url"> 
         <img alt="Previous"
-             tal:define="image context/globals/left.gif"
-             tal:attributes="
-               src image/absolute_url;
-               width image/width;
-               height image/height;" />Previous</a>
+          tal:define="image context/globals/left.gif"
+          tal:attributes="
+            src image/absolute_url;
+            width image/width;
+            height image/height;
+        " />Previous</a>
       </tal:block>
     </td>  
-    <td class="info">
+    <td class="pagination">
       Showing results
       <tal:block replace="batch/start" />
       to
@@ -61,15 +62,15 @@
     <td class="next">
       <tal:block condition="request/next_batch_url | nothing">
         <a href="nextbatch" accesskey="n"
-           title="See the next result listing: alt-n"
-           tal:attributes="href request/next_batch_url">
-           Next
-           <img alt="Next"
-                tal:define="image context/globals/right.gif"
-                tal:attributes="
-                  src image/absolute_url;
-                  width image/width;
-                  height image/height;" />
+          title="See the next result listing: alt-n"
+          tal:attributes="href request/next_batch_url">
+          Next<img alt="Next"
+            tal:define="image context/globals/right.gif"
+            tal:attributes="
+              src image/absolute_url;
+              width image/width;
+              height image/height;
+          " />
         </a>
       </tal:block>  
     </td>
