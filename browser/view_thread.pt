@@ -35,7 +35,7 @@
   tal:content="message">
   message
 </div>
-<table class="previousnext">
+<table class="pagination">
   <tr>
     <td class="previous">
       <tal:block condition="request/previous_batch_url | nothing">
@@ -53,7 +53,7 @@
         </a>
       </tal:block>
     </td>  
-    <td class="pagination">
+    <td class="info">
       Showing results
       <tal:block replace="batch/start" />
       to
