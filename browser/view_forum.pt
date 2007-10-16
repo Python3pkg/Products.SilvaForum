@@ -62,7 +62,7 @@ function add_smiley(text_to_add) {
       to
       <tal:block replace="batch/end" />
       of
-      <tal:block replace="python:len(comments)" />
+      <tal:block replace="python:len(threads)" />
     </td>  
     <td class="next">
       <tal:block condition="request/next_batch_url | nothing">
