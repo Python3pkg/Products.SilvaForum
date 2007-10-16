@@ -37,7 +37,7 @@
 </div>
 <table class="pagination"
   cellspacing="0"
-  tal:condition="python:len(threads) > 10">
+  tal:condition="python:len(comments) > 10">
   <tr>
     <td class="previous">
       <tal:block condition="request/previous_batch_url | nothing">
