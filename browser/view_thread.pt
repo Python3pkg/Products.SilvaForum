@@ -66,7 +66,8 @@
         <a href="nextbatch" accesskey="n"
           title="See the next result listing: alt-n"
           tal:attributes="href request/next_batch_url">
-          <u>N</u>ext<img alt="Next"
+          <u>N</u>ext
+          <img alt="Next"
             tal:define="image context/globals/right.gif"
             tal:attributes="
               src image/absolute_url;
