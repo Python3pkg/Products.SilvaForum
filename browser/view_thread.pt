@@ -41,8 +41,8 @@
       <tal:block condition="request/previous_batch_url | nothing">
         <a href="previousbatch" accesskey="p"
           title="See the previous result listing: alt-p"
-          tal:attributes="href request/previous_batch_url"> 
-        <img alt="Previous"
+          tal:attributes="href request/previous_batch_url" 
+        ><img alt="Previous"
           tal:define="image context/globals/left.gif"
           tal:attributes="
             src image/absolute_url;
@@ -70,8 +70,7 @@
               src image/absolute_url;
               width image/width;
               height image/height;
-          " />
-        </a>
+          " /></a>
       </tal:block>  
     </td>
   </tr>
