@@ -41,10 +41,27 @@
   <tr>
     <td class="previous">
       <tal:block condition="request/previous_batch_url | nothing">
-        <a href="previousbatch" accesskey="b"
+        <a href="previousbatch"
+          accesskey="f"
+          title="Go to the first result listing: alt-f"
+          tal:attributes="href request/previous_batch_url"
+          ><img class="control"
+            alt="Previous"
+            tal:define="image context/globals/leftdouble.gif"
+            tal:attributes="
+              src image/absolute_url;
+              width image/width;
+              height image/height;
+          " />
+        </a>
+      </tal:block>
+      <tal:block condition="request/previous_batch_url | nothing">
+        <a href="previousbatch"
+          accesskey="b"
           title="See the previous result listing: alt-b"
-          tal:attributes="href request/previous_batch_url" 
-          ><img alt="Previous"
+          tal:attributes="href request/previous_batch_url"
+          ><img class="control"
+            alt="Previous"
             tal:define="image context/globals/left.gif"
             tal:attributes="
               src image/absolute_url;
@@ -54,7 +71,7 @@
         <u>B</u>ack
         </a>
       </tal:block>
-    </td>  
+    </td>
     <td class="info">
       Showing results
       <tal:block replace="batch/start" />
@@ -62,14 +79,16 @@
       <tal:block replace="batch/end" />
       of
       <tal:block replace="python:len(comments)" />
-    </td>  
+    </td>
     <td class="next">
       <tal:block condition="request/next_batch_url | nothing">
-        <a href="nextbatch" accesskey="n"
+        <a href="nextbatch"
+          accesskey="n"
           title="See the next result listing: alt-n"
           tal:attributes="href request/next_batch_url">
           <u>N</u>ext
-          <img alt="Next"
+          <img class="control"
+            alt="Next"
             tal:define="image context/globals/right.gif"
             tal:attributes="
               src image/absolute_url;
@@ -77,7 +96,22 @@
               height image/height;
           " />
         </a>
-      </tal:block>  
+      </tal:block>
+      <tal:block condition="request/next_batch_url | nothing">
+        <a href="nextbatch" 
+          accesskey="l"
+          title="Go to the last result listing: alt-l"
+          tal:attributes="href request/next_batch_url">
+          <img class="control"
+            alt="Next"
+            tal:define="image context/globals/rightdouble.gif"
+            tal:attributes="
+              src image/absolute_url;
+              width image/width;
+              height image/height;
+          " />
+        </a>
+      </tal:block>
     </td>
   </tr>
 </table>
