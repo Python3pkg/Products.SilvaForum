@@ -146,23 +146,6 @@
       <th class="align-left">Author</th>
       <th class="align-left">Comment</th>
     </tr>
-    <tal:preview condition="python:request.get('preview') and (request.get('title') or request.get('text'))">
-      <tr class="preview">
-        <td class="author">
-          <p>Preview</p>
-        </td>
-        <td class="comment">
-          <h5 tal:define="subject request/title"
-            tal:condition="subject"
-            tal:content="subject">
-            subject
-          </h5>
-          <p tal:content="structure python:view.format_text(request['text'])">
-            comment
-          </p>
-        </td>
-      </tr>
-    </tal:preview>
     <tal:loop repeat="comment batch">
       <tal:def define="iterate repeat/comment/odd">
         <tr tal:attributes="class python: iterate and 'even' or 'odd'">
@@ -191,6 +174,23 @@
         </tr>
       </tal:def>
     </tal:loop>
+    <tal:preview condition="python:request.get('preview') and (request.get('title') or request.get('text'))">
+      <tr class="preview">
+        <td class="author">
+          <p>Preview</p>
+        </td>
+        <td class="comment">
+          <h5 tal:define="subject request/title"
+            tal:condition="subject"
+            tal:content="subject">
+            subject
+          </h5>
+          <p tal:content="structure python:view.format_text(request['text'])">
+            comment
+          </p>
+        </td>
+      </tr>
+    </tal:preview>
   </tbody>
 </table>
 <form id="forum-comment-form"

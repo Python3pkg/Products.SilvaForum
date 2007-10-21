@@ -94,24 +94,6 @@ function add_smiley(text_to_add) {
     </tr>
   </thead>
   <tbody>
-    <tal:preview condition="python:request.get('preview') and request.get('topic')">
-      <tr class="preview">
-        <td class="topic">
-          <p>
-            <a href="." tal:content="request/topic">topic</a>
-          </p>
-        </td>
-        <td class="datetime">
-          <p>Now</p>
-        </td>
-        <td class="author">
-          <p>Preview</p>
-        </td>
-        <td class="comments">
-          <p>0</p>
-        </td>
-      </tr>
-    </tal:preview>
     <tal:loop repeat="thread batch">
       <tal:def define="iterate repeat/thread/odd">
         <tr tal:attributes="class python: iterate and 'even' or 'odd'">
@@ -141,6 +123,24 @@ function add_smiley(text_to_add) {
         </tr>
       </tal:def>
     </tal:loop>
+    <tal:preview condition="python:request.get('preview') and request.get('topic')">
+      <tr class="preview">
+        <td class="topic">
+          <p>
+            <a href="." tal:content="request/topic">topic</a>
+          </p>
+        </td>
+        <td class="datetime">
+          <p>Now</p>
+        </td>
+        <td class="author">
+          <p>Preview</p>
+        </td>
+        <td class="comments">
+          <p>0</p>
+        </td>
+      </tr>
+    </tal:preview>
   </tbody>
 </table>
 <form id="forum-thread-form"
@@ -179,7 +179,7 @@ function add_smiley(text_to_add) {
   <div class="submit">
     <input style="float:right"
       type="submit"
-      value="add thread"
+      value="add topic"
     />
     <input type="submit"
       name="preview"
