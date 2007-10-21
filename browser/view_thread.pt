@@ -46,7 +46,7 @@
           title="Go to the first result listing: alt-f"
           tal:attributes="href request/previous_batch_url"
           ><img class="control"
-            alt="Previous"
+            alt="First"
             tal:define="image context/globals/leftdouble.gif"
             tal:attributes="
               src image/absolute_url;
@@ -76,7 +76,7 @@
       Showing items
       <tal:block replace="batch/start" />
       to
-      <tal:block replace="batch/end" />
+      <tal:block replace="batch/end" />,
       of
       <tal:block replace="python:len(comments)" />
     </td>
@@ -103,7 +103,7 @@
           title="Go to the last result listing: alt-l"
           tal:attributes="href request/next_batch_url">&nbsp;<img
             class="control"
-            alt="Next"
+            alt="Last"
             tal:define="image context/globals/rightdouble.gif"
             tal:attributes="
               src image/absolute_url;
