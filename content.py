@@ -79,6 +79,11 @@ class Forum(FiveViewable, Publication):
         threads
         return threads
 
+    def is_published(self):
+        # always return true to make that the object is always visible in public
+        # listings
+        return True
+
 class Thread(FiveViewable, Folder):
     interface.implements(IThread)
     meta_type = 'Silva Forum Thread'
@@ -124,6 +129,11 @@ class Thread(FiveViewable, Folder):
 
     def get_silva_addables_allowed(self):
         return ('Silva Forum Comment',)
+
+    def is_published(self):
+        # always return true to make that the object is always visible in public
+        # listings
+        return True
 
 class Comment(FiveViewable, CatalogPathAware, Content, SimpleItem.SimpleItem):
     interface.implements(IComment)
