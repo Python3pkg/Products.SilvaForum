@@ -41,22 +41,56 @@ class ForumTest(SilvaTestCase.SilvaTestCase):
         self.assertEquals(getattr(self.forum, newthread.id).absolute_url(),
                           newthread.absolute_url())
         self.assertEquals('topic text', newthread.get_text())
+        
+        # test id uniqueness
+        thread1 = self.forum.add_thread('this is title one', 'foo')
+        thread2 = self.forum.add_thread('this is title one', 'foo')
+        self.assertNotEquals(thread1.id, thread2.id)
 
-    def test_generate_id(self):
-        from Products.SilvaForum.content import _generate_id
-        class FakeObj(object):
-            def __init__(self):
-                self._lastid = 0
-        f = FakeObj()
-        previd = f._lastid
-        id1 = _generate_id(f)
-        setattr(f, id1, 1) # required to find out whether an id is unique
-        self.assertNotEquals(id1, previd)
-        f._lastid = previd
-        id2 = _generate_id(f)
-        setattr(f, id2, 1)
-        self.assertNotEquals(id1, previd)
-        self.assertNotEquals(id2, id1)
+    def test_generate_thread_id(self):
+        #from Products.SilvaForum.content import _generate_thread_id
+        
+        # test that the mangle is underscoring
+        test_id = 'testing_this_id_one'
+        gen_id = self.forum._generate_thread_id('testing this id one')
+        self.assertEquals(gen_id, test_id)
+
+        # test special characters in the thread
+        # needs special attention, test_forum.py needs to be able
+        # to handle bytes and i need to find out how to convert
+        # bytes back to normal
+        #test_id = 'test this thread for umlaut'
+        #gen_id = self.forum._generate_thread_id('test this thread for umlaut')
+        #self.assertEquals(gen_id, test_id)
+        
+        # test minimal length
+
+
+        # test that the id being generated is an underscored thread
+        # and unique
+        newthread = self.forum.add_thread('Topic test id', 'topic text too')
+        self.assertEquals('Topic_test_id', newthread.id)
+
+        # test reserved ids
+        test_id = 'Members'
+        gen_id = self.forum._generate_thread_id('Members')
+        self.assertEquals(gen_id, test_id)
+
+    #def test_generate_id(self):
+    #    from Products.SilvaForum.content import _generate_id
+    #    class FakeObj(object):
+    #        def __init__(self):
+    #            self._lastid = 0
+    #    f = FakeObj()
+    #    previd = f._lastid
+    #    id1 = _generate_id(f)
+    #    setattr(f, id1, 1) # required to find out whether an id is unique
+    #    self.assertNotEquals(id1, previd)
+    #    f._lastid = previd
+    #    id2 = _generate_id(f)
+    #    setattr(f, id2, 1)
+    #    self.assertNotEquals(id1, previd)
+    #    self.assertNotEquals(id2, id1)
 
 class ThreadTest(SilvaTestCase.SilvaTestCase):
     def afterSetUp(self):

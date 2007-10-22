@@ -7,6 +7,7 @@ from zope import interface
 from zope.component import getMultiAdapter
 from OFS import SimpleItem
 
+from Products.Silva import mangle
 from Products.Silva.Content import Content
 from Products.Silva.Publication import Publication
 from Products.Silva.SilvaObject import SilvaObject
@@ -42,10 +43,22 @@ class Forum(FiveViewable, Publication):
         super(Forum, self).__init__(*args, **kwargs)
         self._lastid = 0
     
+    def _generate_thread_id(self, topic):
+        # set the id [x]
+        # mange title [x]
+        # set to id [x]
+        # check if string is unique [x]
+        # if not unique use mangle.Id.new() [x]
+        id = mangle.Id(self, topic).cook()
+        while str(id) in self.objectIds():
+            id = mangle.Id.new(id)
+        return str(id)
+    
     def add_thread(self, topic, text):
         """ add a thread to the forum
         """
-        id = _generate_id(self)
+        #id = _generate_id(self)
+        id = self._generate_thread_id(topic)
         self.manage_addProduct['SilvaForum'].manage_addThread(id, topic)
         thread = getattr(self, id)
         thread.set_text(text)
@@ -74,11 +87,15 @@ class Thread(FiveViewable, Folder):
         super(Thread, self).__init__(*args, **kwargs)
         self._lastid = 0
         self._text = ''
+    
+    def _generate_comment_id(self, title, text):
+        pass
 
     def add_comment(self, title, text):
         """ add a comment to the thread
         """
         id = _generate_id(self)
+        #id = self._generate_comment_id(title, text)
         self.manage_addProduct['SilvaForum'].manage_addComment(id, title)
         comment = getattr(self, id)
         comment.set_text(text)
