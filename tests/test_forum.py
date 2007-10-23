@@ -63,8 +63,12 @@ class ForumTest(SilvaTestCase.SilvaTestCase):
         #gen_id = self.forum._generate_thread_id('test this thread for umlaut')
         #self.assertEquals(gen_id, test_id)
         
-        # test minimal length
+        # test string length
+        gen_id = self.forum._generate_thread_id('0000000000 0000000000 0000000000')
+        self.assertEquals(gen_id, '0000000000_000000000')
 
+        gen_id = self.forum._generate_thread_id('0000000000')
+        self.assertEquals(gen_id, '0000000000')
 
         # test that the id being generated is an underscored thread
         # and unique

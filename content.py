@@ -44,11 +44,14 @@ class Forum(FiveViewable, Publication):
         self._lastid = 0
     
     def _generate_thread_id(self, topic):
+        # check length of string [x]
         # set the id [x]
         # mange title [x]
         # set to id [x]
         # check if string is unique [x]
         # if not unique use mangle.Id.new() [x]
+        if len(topic) > 20:
+            topic = topic[:20]
         id = mangle.Id(self, topic).cook()
         while str(id) in self.objectIds():
             id = mangle.Id.new(id)
@@ -93,8 +96,18 @@ class Thread(FiveViewable, Folder):
         self._lastid = 0
         self._text = ''
     
-    def _generate_comment_id(self, title, text):
-        pass
+    #def _generate_comment_id(self, topic):
+        # check if there is a title or text
+        #   take one for the string
+        # set the id [x]
+        # mange title [x]
+        # set to id [x]
+        # check if string is unique [x]
+        # if not unique use mangle.Id.new() [x]
+        #id = mangle.Id(self, topic).cook()
+        #while str(id) in self.objectIds():
+        #    id = mangle.Id.new(id)
+        #return str(id)
 
     def add_comment(self, title, text):
         """ add a comment to the thread
