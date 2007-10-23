@@ -63,13 +63,20 @@ class Forum(FiveViewable, Publication):
         """
         id = self._generate_thread_id(topic)
         self.manage_addProduct['SilvaForum'].manage_addThread(id, topic)
-        thread = getattr(self, id)
+        thread = dict(self.objectItems()).get(id)
+        if thread is None:
+            # apparently zope refused to add the object, probably an id clash.
+            # for example (title, or add_thread). Thread objects themselves 
+            # have automaticly generated number parts if needed.
+            raise ValueError('Reserved id: "%s"' % id)
         thread.set_text(text)
         return thread
 
     def threads(self):
         """ returns an iterable of all threads (topics)
         """
+        # XXX Why not return a list of thread objects?
+
         # XXX note that this mostly exists because we intend to add more
         # functionality (e.g. searching, ordering) later
         threads = [{
@@ -119,7 +126,10 @@ class Thread(FiveViewable, Folder):
         else:
             id = self._generate_comment_id(text)
         self.manage_addProduct['SilvaForum'].manage_addComment(id, title)
-        comment = getattr(self, id)
+        comment = dict(self.objectItems()).get(id)
+        if comment is None:
+            # see add_thread comments
+            raise ValueError('Reserved id: "%s"' % id)
         comment.set_text(text)
         return comment
     

@@ -63,9 +63,13 @@ class ForumTest(SilvaTestCase.SilvaTestCase):
         #gen_id = self.forum._generate_thread_id('test this thread for umlaut')
         #self.assertEquals(gen_id, test_id)
         
+        # test valid id's
+        #thread = self.forum.add_thread('title', 'blah')
+        #self.assertEquals(thread.id, '')
+        
         # test repeat id's
-        thread1 = self.forum.add_thread('Title', 'blah1')
-        thread2 = self.forum.add_thread('Title', 'blah2')
+        thread1 = self.forum.add_thread('title ', 'blah1')
+        thread2 = self.forum.add_thread('title ', 'blah2')
         self.assertNotEquals(thread1.id, thread2.id)
        
         # test numeric repeat id
@@ -138,10 +142,9 @@ class ThreadTest(SilvaTestCase.SilvaTestCase):
         gen_id = self.thread._generate_comment_id('the comment id')
         self.assertEquals(gen_id, test_id)
         
-        # test repeat id's
-        comment1 = self.thread.add_comment('Title', 'blah1')
-        comment2 = self.thread.add_comment('Title', 'blah2')
-        self.assertNotEquals(comment1.id, comment2.id)
+        # test valid id's
+        #comment = self.thread.add_comment('title', 'blah1')
+        #self.assertNotEquals(comment.id, '')
        
         # test numeric repeat id
         comment1 = self.thread.add_comment('2007', 'blah1')
