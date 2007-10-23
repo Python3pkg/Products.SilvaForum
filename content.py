@@ -44,23 +44,23 @@ class Forum(FiveViewable, Publication):
         self._lastid = 0
     
     def _generate_thread_id(self, topic):
-        # check length of string [x]
-        # set the id [x]
-        # mange title [x]
-        # set to id [x]
-        # check if string is unique [x]
-        # if not unique use mangle.Id.new() [x]
         if len(topic) > 20:
             topic = topic[:20]
-        id = mangle.Id(self, topic).cook()
-        while str(id) in self.objectIds():
-            id = mangle.Id.new(id)
-        return str(id)
+        id = str(mangle.Id(self, topic).cook())
+        if id in self.objectIds():
+            highest = 1
+            for other_id in self.objectIds():
+                if other_id.startswith(id) and '__' in other_id:
+                    numpart = other_id.split('__')[-1]
+                    if numpart.isdigit():
+                        highest = int(numpart)
+            highest += 1
+            id = '%s__%s' % (id, highest)
+        return id
     
     def add_thread(self, topic, text):
         """ add a thread to the forum
         """
-        #id = _generate_id(self)
         id = self._generate_thread_id(topic)
         self.manage_addProduct['SilvaForum'].manage_addThread(id, topic)
         thread = getattr(self, id)
@@ -96,24 +96,28 @@ class Thread(FiveViewable, Folder):
         self._lastid = 0
         self._text = ''
     
-    #def _generate_comment_id(self, topic):
-        # check if there is a title or text
-        #   take one for the string
-        # set the id [x]
-        # mange title [x]
-        # set to id [x]
-        # check if string is unique [x]
-        # if not unique use mangle.Id.new() [x]
-        #id = mangle.Id(self, topic).cook()
-        #while str(id) in self.objectIds():
-        #    id = mangle.Id.new(id)
-        #return str(id)
-
+    def _generate_comment_id(self, string):
+        if len(string) > 20:
+            string = string[:20]
+        id = str(mangle.Id(self, string).cook())
+        if id in self.objectIds():
+            highest = 1
+            for other_id in self.objectIds():
+                if other_id.startswith(id) and '__' in other_id:
+                    numpart = other_id.split('__')[-1]
+                    if numpart.isdigit():
+                        highest = int(numpart)
+            highest += 1
+            id = '%s__%s' % (id, highest)
+        return id
+    
     def add_comment(self, title, text):
         """ add a comment to the thread
         """
-        id = _generate_id(self)
-        #id = self._generate_comment_id(title, text)
+        if title:
+            id = self._generate_comment_id(title)
+        else:
+            id = self._generate_comment_id(text)
         self.manage_addProduct['SilvaForum'].manage_addComment(id, title)
         comment = getattr(self, id)
         comment.set_text(text)
@@ -176,12 +180,4 @@ class Comment(FiveViewable, CatalogPathAware, Content, SimpleItem.SimpleItem):
 
     def is_published(self):
         return False # always allow removal of this object from the SMI
-
-def _generate_id(obj):
-    # XXX not very nice, and also not thread-safe...
-    while 1:
-        obj._lastid += 1
-        if hasattr(obj, str(obj._lastid)):
-            continue
-        return str(obj._lastid)
 
