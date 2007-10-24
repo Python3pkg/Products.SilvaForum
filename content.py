@@ -33,7 +33,19 @@ class FiveViewable(object):
 
     preview = view
 
-class Forum(FiveViewable, Publication):
+class ForumFolderBase(FiveViewable):
+    """ grmbl zope sux """
+    def _generate_id(self, string):
+        """ big time """
+        if len(string) > 20:
+            string = string[:20]
+        id = mangle.Id(self, string).cook()
+        while str(id) in self.objectIds() or not id.isValid():
+            id = id.new(False)
+        return str(id)
+    
+
+class Forum(ForumFolderBase, Publication):
     interface.implements(IForum)
     meta_type = 'Silva Forum'
 
@@ -43,25 +55,10 @@ class Forum(FiveViewable, Publication):
         super(Forum, self).__init__(*args, **kwargs)
         self._lastid = 0
     
-    def _generate_thread_id(self, topic):
-        if len(topic) > 20:
-            topic = topic[:20]
-        id = str(mangle.Id(self, topic).cook())
-        if id in self.objectIds():
-            highest = 1
-            for other_id in self.objectIds():
-                if other_id.startswith(id) and '__' in other_id:
-                    numpart = other_id.split('__')[-1]
-                    if numpart.isdigit():
-                        highest = int(numpart)
-            highest += 1
-            id = '%s__%s' % (id, highest)
-        return id
-    
     def add_thread(self, topic, text):
         """ add a thread to the forum
         """
-        id = self._generate_thread_id(topic)
+        id = self._generate_id(topic)
         self.manage_addProduct['SilvaForum'].manage_addThread(id, topic)
         thread = dict(self.objectItems()).get(id)
         if thread is None:
@@ -94,7 +91,7 @@ class Forum(FiveViewable, Publication):
         # listings
         return True
 
-class Thread(FiveViewable, Folder):
+class Thread(ForumFolderBase, Folder):
     interface.implements(IThread)
     meta_type = 'Silva Forum Thread'
 
@@ -103,28 +100,13 @@ class Thread(FiveViewable, Folder):
         self._lastid = 0
         self._text = ''
     
-    def _generate_comment_id(self, string):
-        if len(string) > 20:
-            string = string[:20]
-        id = str(mangle.Id(self, string).cook())
-        if id in self.objectIds():
-            highest = 1
-            for other_id in self.objectIds():
-                if other_id.startswith(id) and '__' in other_id:
-                    numpart = other_id.split('__')[-1]
-                    if numpart.isdigit():
-                        highest = int(numpart)
-            highest += 1
-            id = '%s__%s' % (id, highest)
-        return id
-    
     def add_comment(self, title, text):
         """ add a comment to the thread
         """
-        if title:
-            id = self._generate_comment_id(title)
-        else:
-            id = self._generate_comment_id(text)
+        idstring = title
+        if not idstring:
+            idstring = text
+        id = self._generate_id(idstring)
         self.manage_addProduct['SilvaForum'].manage_addComment(id, title)
         comment = dict(self.objectItems()).get(id)
         if comment is None:

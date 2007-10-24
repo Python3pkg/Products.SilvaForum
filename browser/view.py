@@ -1,6 +1,7 @@
 from Products.Five import BrowserView
 from Products.Silva.browser.headers import Headers
 from Products.Silva import mangle
+from Products.Silva import SilvaPermissions
 from Products.SilvaForum.emoticons.emoticons import emoticons, smileydata
 from Products.SilvaForum.dtformat.dtformat import format_dt
 from DateTime import DateTime
@@ -31,10 +32,16 @@ class ViewBase(Headers):
             })
         return ret
 
+    def trigger_sec(self):
+        sec = getSecurityManager()
+        if not sec.getUser().has_role(minimal_add_role):
+            raise Unauthorized('Sorry you need to be authorized to use this '
+                               'forum')
+
 class ForumView(ViewBase):
     """ view on IForum 
         The ForumView is a collection of threads """
-
+    
     def update(self):
         req = self.request
         if (req.has_key('preview') or req.has_key('cancel') or

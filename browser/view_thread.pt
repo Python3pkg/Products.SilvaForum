@@ -193,6 +193,7 @@
     </tal:preview>
   </tbody>
 </table>
+<a tal:attributes="href string:${context/absolute_url}/comment_form.html">post a comment</a>
 <form id="forum-comment-form"
   method="post"
   tal:attributes="action context/absolute_url">

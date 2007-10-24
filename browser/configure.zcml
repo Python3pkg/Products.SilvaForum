@@ -15,12 +15,28 @@
       template="view_forum.pt"
       permission="zope.Public"
       />
-  
+
+  <browser:page
+      for="Products.SilvaForum.interfaces.IForum"
+      name="thread_form.html"
+      class=".view.ForumView"
+      template="thread_form.pt"
+      permission="zope.Public"
+      />
+
   <browser:page
       for="Products.SilvaForum.interfaces.IThread"
       name="index.html"
       class=".view.ThreadView"
       template="view_thread.pt"
+      permission="zope.Public"
+      />
+
+  <browser:page
+      for="Products.SilvaForum.interfaces.IThread"
+      class=".view.ThreadView"
+      name="comment_form.html"
+      template="comment_form.pt"
       permission="zope.Public"
       />
 
@@ -33,4 +49,3 @@
       />
  
 </configure>
-
