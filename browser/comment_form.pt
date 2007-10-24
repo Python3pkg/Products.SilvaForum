@@ -1,5 +1,11 @@
-<script type="text/javascript">
-// <![CDATA[
+<html
+  tal:define="dummy view/trigger_sec">
+  <head>
+    <title>add new comment</title>
+  </head>
+  <body>
+    <script type="text/javascript">
+    // <![CDATA[
     function add_smiley(text_to_add) {
         /* add a smiley to the textarea
         */
@@ -20,44 +26,46 @@
         textarea.value = content;
         textarea.focus();
     };
-// ]]>
-</script>
-<form id="forum-comment-form"
-  method="post"
-  tal:attributes="action context/absolute_url">
-  <h3>Post a new comment</h3>
-  <h5>Subject</h5>
-  <input class="store"
-    type="text"
-    name="title"
-    size="80"
-    tal:attributes="value request/title | nothing"
-  />
-  <h5>Messsage</h5>
-  <textarea class="store"
-    name="text"
-    id="text"
-    rows="10"
-    cols="68"
-    tal:content="python:request.get('text')"></textarea>
-  <div id="emoticons">
-    <div class="emoticon"
-      tal:repeat="smileydata view/get_smiley_data">
-      <img onclick="add_smiley(this.title)"
-        alt="emoticon"
-        tal:attributes="title smileydata/text; src smileydata/href"
+    // ]]>
+    </script>
+    <form id="forum-comment-form"
+      method="post"
+      tal:attributes="action context/absolute_url">
+      <h3>Post a new comment</h3>
+      <h5>Subject</h5>
+      <input class="store"
+        type="text"
+        name="title"
+        size="80"
+        tal:attributes="value request/title | nothing"
       />
-    </div>
-  </div>
-  <div class="submit">
-    <input style="float:right"
-      type="submit"
-      name="submit"
-      value="add comment"
-    />
-    <input type="submit"
-      name="preview"
-      value="preview"
-    />
-  </div>
-</form>
+      <h5>Messsage</h5>
+      <textarea class="store"
+        name="text"
+        id="text"
+        rows="10"
+        cols="68"
+        tal:content="python:request.get('text')"></textarea>
+      <div id="emoticons">
+        <div class="emoticon"
+          tal:repeat="smileydata view/get_smiley_data">
+          <img onclick="add_smiley(this.title)"
+            alt="emoticon"
+            tal:attributes="title smileydata/text; src smileydata/href"
+          />
+        </div>
+      </div>
+      <div class="submit">
+        <input style="float:right"
+          type="submit"
+          name="submit"
+          value="add comment"
+        />
+        <input type="submit"
+          name="preview"
+          value="preview"
+        />
+      </div>
+    </form>
+  </body>
+</html>

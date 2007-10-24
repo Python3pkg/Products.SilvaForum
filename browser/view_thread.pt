@@ -8,26 +8,103 @@
 
 <script type="text/javascript">
 // <![CDATA[
-    function add_smiley(text_to_add) {
-        /* add a smiley to the textarea
-        */
-        // XXX this is a bit scary... the DOM specs say text nodes can
-        // be split up, but afaik that never happens in browsers... if,
-        // however, people start reporting missing last bits of text, please
-        // fix this code... ;)
-        var textarea = document.getElementById('text');
-        var content = textarea.value;
-        var lastchar = content.charAt(content.length - 1);
-        if (lastchar && lastchar != ' ' && lastchar != '\t' && lastchar != '\n'
-              && lastchar != '\r') {
-            content += ' ';
-        };
-        content += text_to_add + ' ';
-        // XXX please check the argument order here! might be wrong...
-        // stupid DOM :(
-        textarea.value = content;
-        textarea.focus();
+
+function getXHR() {
+    try{
+        return new XMLHttpRequest();
+    } catch(e) {
+        // not a Mozilla or Konqueror based browser
     };
+    try {
+        // XXX not sure if it's really better, but perhaps we should use
+        // the more verbose way (with version numbers and all) for A-X
+        // instantiation?
+        return new ActiveXObject('Microsoft.XMLHTTP');
+    } catch(e) {
+        // not IE either...
+    };
+    return undefined;
+};
+
+function load_async(path, callback, errback) {
+    /* load data from a path/url
+
+        on successful load <callback> is called with arguments 'status',
+        'content', on error <errback>, with the same arguments
+    */
+    if (!errback) {
+        errback = callback;
+    };
+    var xhr = getXHR();
+    xhr.open('GET', path, true);
+    var handler = function() {
+        if (xhr.readyState == 4) {
+            if (xhr.status != 200 && xhr.status != 302) {
+                errback(xhr.status, xhr.responseText);
+                return;
+            };
+            callback(xhr.status, xhr.responseText);
+        };
+    };
+    xhr.onreadystatechange = handler;
+    xhr.send('');
+};
+
+function add_form(placeholder) {
+    var add_form_handler = function(status, responsetext) {
+        // XXX hack hack hack... but it's JS anyway :|
+        var formhtml = responsetext.substring(responsetext.indexOf('form') - 1, responsetext.lastIndexOf('/form') + 6);
+        placeholder.innerHTML = formhtml;
+    };
+    var add_form_errhandler = function(status, responsetext) {
+        alert('error ' + status + ' loading data from url: ' + responsetext);
+    };
+    var url = placeholder.getAttribute('href') + '/comment_form.html';
+    load_async(url, add_form_handler, add_form_errhandler);
+};
+
+function del_form(placeholder) {
+    while (placeholder.hasChildNodes()) {
+        placeholder.removeChild(placeholder.lastChild);
+    };
+    placeholder.appendChild(document.createTextNode('\xa0'));
+};
+
+function toggle_form(evt) {
+    var placeholder = document.getElementById('form-placeholder');
+    if (placeholder.getElementsByTagName('form').length) {
+        del_form(placeholder);
+    } else {
+        add_form(placeholder);
+    };
+    if (evt.stopPropagation) {
+        evt.stopPropagation();
+    } else {
+        evt.returnValue = false;
+    };
+    evt.cancelBubble = true;
+    return false;
+};
+function add_smiley(text_to_add) {
+    /* add a smiley to the textarea
+    */
+    // XXX this is a bit scary... the DOM specs say text nodes can
+    // be split up, but afaik that never happens in browsers... if,
+    // however, people start reporting missing last bits of text, please
+    // fix this code... ;)
+    var textarea = document.getElementById('text');
+    var content = textarea.value;
+    var lastchar = content.charAt(content.length - 1);
+    if (lastchar && lastchar != ' ' && lastchar != '\t' && lastchar != '\n'
+          && lastchar != '\r') {
+        content += ' ';
+    };
+    content += text_to_add + ' ';
+    // XXX please check the argument order here! might be wrong...
+    // stupid DOM :(
+    textarea.value = content;
+    textarea.focus();
+};
 // ]]>
 </script>
 <div class="feedback"
@@ -193,8 +270,9 @@
     </tal:preview>
   </tbody>
 </table>
-<a tal:attributes="href string:${context/absolute_url}/comment_form.html">post a comment</a>
-<form id="forum-comment-form"
+<a tal:attributes="href string:${context/absolute_url}/comment_form.html" onclick="return toggle_form(event);">post a comment</a>
+<div id="form-placeholder" tal:attributes="href context/absolute_url">&#xa0;</div>
+<!--<form id="forum-comment-form"
   method="post"
   tal:attributes="action context/absolute_url">
   <h3>Post a new comment</h3>
@@ -232,7 +310,7 @@
       value="preview"
     />
   </div>
-</form>
+</form>-->
 <!--
 <script type="text/javascript">
   // <![CDATA[

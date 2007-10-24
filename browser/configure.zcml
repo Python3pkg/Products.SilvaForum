@@ -34,8 +34,8 @@
 
   <browser:page
       for="Products.SilvaForum.interfaces.IThread"
-      class=".view.ThreadView"
       name="comment_form.html"
+      class=".view.ThreadView"
       template="comment_form.pt"
       permission="zope.Public"
       />
