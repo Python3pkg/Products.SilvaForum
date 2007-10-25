@@ -34,14 +34,15 @@ class FiveViewable(object):
     preview = view
 
 class ForumFolderBase(FiveViewable):
-    """ grmbl zope sux """
+    """ Make topic or text string and id chop on character 20
+    """
     def _generate_id(self, string):
-        """ big time """
         if len(string) > 20:
             string = string[:20]
         id = mangle.Id(self, string).cook()
         while str(id) in self.objectIds() or not id.isValid():
-            id = id.new(False)
+            # override Zope reserved id names with False switch 
+	    id = id.new(False)
         return str(id)
     
 
