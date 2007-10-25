@@ -47,62 +47,21 @@ class ForumTest(SilvaTestCase.SilvaTestCase):
         thread2 = self.forum.add_thread('this is title one', 'foo')
         self.assertNotEquals(thread1.id, thread2.id)
 
-    def test_generate_thread_id(self):
-        #from Products.SilvaForum.content import _generate_thread_id
-        
-        # test that the mangle is underscoring
-        test_id = 'testing_this_id_one'
-        gen_id = self.forum._generate_thread_id('testing this id one')
-        self.assertEquals(gen_id, test_id)
-
-        # test special characters in the thread
-        # needs special attention, test_forum.py needs to be able
-        # to handle bytes and i need to find out how to convert
-        # bytes back to normal
-        #test_id = 'test this thread for umlaut'
-        #gen_id = self.forum._generate_thread_id('test this thread for umlaut')
-        #self.assertEquals(gen_id, test_id)
-        
-        # test valid id's
-        #thread = self.forum.add_thread('title', 'blah')
-        #self.assertEquals(thread.id, '')
-        
-        # test repeat id's
-        thread1 = self.forum.add_thread('title ', 'blah1')
-        thread2 = self.forum.add_thread('title ', 'blah2')
-        self.assertNotEquals(thread1.id, thread2.id)
-       
-        # test numeric repeat id
-        thread1 = self.forum.add_thread('2007', 'blah1')
-        thread2 = self.forum.add_thread('2007', 'blah2')
+    def test_generate_id(self):
+        # test double strings
+        thread1 = self.forum.add_thread('test one', 'foo')
+        thread2 = self.forum.add_thread('test one', 'foo')
         self.assertNotEquals(thread1.id, thread2.id)
         
-        # rare repeat case
-        thread1 = self.forum.add_thread('happy__2007', 'blah1')
-        thread2 = self.forum.add_thread('happy__2007', 'blah2')
-        self.assertNotEquals(thread1.id, thread2.id)
-        
-        # rarer repeat case
-        thread1 = self.forum.add_thread('happy  2007', 'blah1')
-        thread2 = self.forum.add_thread('happy  2007', 'blah2')
-        self.assertNotEquals(thread1.id, thread2.id)
+        # test unicode strings
+        test_id = 'ümlauts ümlauts'
+        gen_id = self.forum._generate_id('ümlauts ümlauts')
+        self.assertNotEquals(gen_id, test_id)
 
-        # test string length
-        gen_id = self.forum._generate_thread_id('0000000000 0000000000 0000000000')
-        self.assertEquals(gen_id, '0000000000_000000000')
-
-        gen_id = self.forum._generate_thread_id('0000000000')
-        self.assertEquals(gen_id, '0000000000')
-
-        # test that the id being generated is an underscored thread
-        # and unique
-        newthread = self.forum.add_thread('Topic test id', 'topic text too')
-        self.assertEquals('Topic_test_id', newthread.id)
-
-        # test reserved ids
-        test_id = 'Members'
-        gen_id = self.forum._generate_thread_id('Members')
-        self.assertEquals(gen_id, test_id)
+        # test invalid characters
+        test_id = 'What the @#@%##!!$#%^'
+        gen_id = self.forum._generate_id(test_id)
+        self.assertNotEquals(gen_id, test_id)
 
 class ThreadTest(SilvaTestCase.SilvaTestCase):
     def afterSetUp(self):
@@ -130,43 +89,6 @@ class ThreadTest(SilvaTestCase.SilvaTestCase):
         self.assertEquals(1,
                 len(self.thread.objectValues('Silva Forum Comment')))
     
-    def test_generate_comment_id(self):
-        comment = self.thread.add_comment('', 'comment text')
-        self.assertEquals(comment.id, 'comment_text')
-
-        comment = self.thread.add_comment('Title', '')
-        self.assertEquals(comment.id, 'Title')
-        
-        # test id generation
-        test_id = 'the_comment_id'
-        gen_id = self.thread._generate_comment_id('the comment id')
-        self.assertEquals(gen_id, test_id)
-        
-        # test valid id's
-        #comment = self.thread.add_comment('title', 'blah1')
-        #self.assertNotEquals(comment.id, '')
-       
-        # test numeric repeat id
-        comment1 = self.thread.add_comment('2007', 'blah1')
-        comment2 = self.thread.add_comment('2007', 'blah2')
-        self.assertNotEquals(comment1.id, comment2.id)
-        
-        # rare repeat case
-        comment1 = self.thread.add_comment('happy__2007', 'blah1')
-        comment2 = self.thread.add_comment('happy__2007', 'blah2')
-        self.assertNotEquals(comment1.id, comment2.id)
-        
-        # rarer repeat case
-        comment1 = self.thread.add_comment('happy  2007', 'blah1')
-        comment2 = self.thread.add_comment('happy  2007', 'blah2')
-        self.assertNotEquals(comment1.id, comment2.id)
-
-        gen_id = self.thread._generate_comment_id('0000000000 0000000000 00')
-        self.assertEquals(gen_id, '0000000000_000000000')
-
-        gen_id = self.thread._generate_comment_id('0000000000')
-        self.assertEquals(gen_id, '0000000000')
-
 class ThreadViewTest(SilvaTestCase.SilvaTestCase):
     def afterSetUp(self):
         self.forum = self.addObject(self.getRoot(), 'Forum', 'forum1',

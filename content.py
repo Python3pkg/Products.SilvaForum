@@ -3,6 +3,7 @@
 # SilvaForum
 # Python
 
+import re
 from zope import interface
 from zope.component import getMultiAdapter
 from OFS import SimpleItem
@@ -39,11 +40,20 @@ class ForumFolderBase(FiveViewable):
     def _generate_id(self, string):
         if len(string) > 20:
             string = string[:20]
-        id = mangle.Id(self, string).cook()
-        while str(id) in self.objectIds() or not id.isValid():
-            # override Zope reserved id names with False switch 
-	    id = id.new(False)
-        return str(id)
+        id = str(mangle.Id(self, string).cook())
+        # regex the cooked id and strip invalid characters
+        # replace multiple underscores with single underscores
+        id = re.compile('_+').sub('_', re.compile('[^a-zA-Z0-9_]').sub('_', id))
+        if id in self.objectIds():
+            highest = 1
+            for other_id in self.objectIds():
+                if other_id.startswith(id) and '__' in other_id:
+                    numpart = other_id.split('__')[-1]
+                    if numpart.isdigit():
+                        highest = int(numpart)
+            highest += 1
+            id = '%s__%s' % (id, highest)
+        return id
     
 
 class Forum(ForumFolderBase, Publication):
