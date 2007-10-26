@@ -57,7 +57,12 @@ function add_form(placeholder) {
         placeholder.innerHTML = formhtml;
     };
     var add_form_errhandler = function(status, responsetext) {
-        alert('error ' + status + ' loading data from url: ' + responsetext);
+        if (status == 401) {
+            alert('Please log in.');
+        } else {
+            alert('Unknown error ' + status);
+        }
+        // alert('error ' + status + ' loading data from url: ' + responsetext);
     };
     var url = placeholder.getAttribute('href') + '/comment_form.html';
     load_async(url, add_form_handler, add_form_errhandler);
