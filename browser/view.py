@@ -2,7 +2,7 @@ from Products.Five import BrowserView
 from Products.Silva.browser.headers import Headers
 from Products.Silva import mangle
 from Products.Silva import SilvaPermissions
-from Products.SilvaForum.emoticons.emoticons import emoticons, smileydata
+from Products.SilvaForum.resources.emoticons.emoticons import emoticons, smileydata
 from Products.SilvaForum.dtformat.dtformat import format_dt
 from DateTime import DateTime
 from AccessControl import getSecurityManager, Unauthorized
@@ -17,14 +17,16 @@ class ViewBase(Headers):
 
     def format_text(self, text):
         text = mangle.entities(text)
+        root = self.context.aq_inner.get_root()
         text = emoticons(text,
-                         self.context.get_root().service_smilies.absolute_url())
+            self.get_resources().emoticons.smilies.absolute_url())
         text = text.replace('\n', '<br />')
         return text
 
     def get_smiley_data(self):
         ret = []
-        service_url = self.context.get_root().service_smilies.absolute_url()
+        root = self.context.aq_inner.get_root()
+        service_url = self.get_resources().emoticons.smilies.absolute_url()
         for image, smileys in smileydata.items():
             ret.append({
                 'text': smileys[0],
@@ -37,6 +39,9 @@ class ViewBase(Headers):
         if not sec.getUser().has_role(minimal_add_role):
             raise Unauthorized('Sorry you need to be authorized to use this '
                                'forum')
+
+    def get_resources(self):
+        return self.context.aq_inner.get_root().service_resources.SilvaForum
 
 class ForumView(ViewBase):
     """ view on IForum 
@@ -84,6 +89,7 @@ class ThreadView(ViewBase):
             return 'Please fill in one of the two fields.'
 
         comment = self.context.add_comment(title, text)
+
         url = self.context.absolute_url()
         msg = 'Comment added'
         

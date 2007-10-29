@@ -12,10 +12,6 @@ def install(root):
                            'SilvaForum', __file__, 'views')
     add_fss_directory_view(root.service_resources,
                            'SilvaForum', __file__, 'resources')
-    add_fss_directory_view(root, 'service_smilies',
-                           os.path.abspath(os.path.join(os.path.dirname(__file__),
-                                           'emoticons', 'hack')),
-                           'smilies')
 
     root.manage_permission('Add Silva Forums',
                            ['Editor', 'ChiefEditor', 'Manager'])

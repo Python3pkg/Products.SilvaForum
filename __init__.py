@@ -9,5 +9,3 @@ from Products.Silva.fssite import registerDirectory
 def initialize(context):
     from Products.Silva.fssite import registerDirectory
     registerDirectory('resources', globals())
-    path = os.path.join('emoticons', 'smilies')
-    registerDirectory(path, globals())

@@ -37,13 +37,24 @@ class FiveViewable(object):
 class ForumFolderBase(FiveViewable):
     """ Make topic or text string and id chop on character 20
     """
+    reg_under = re.compile('_+')
+    reg_nonword = re.compile('\W')
+    reg_start_under = re.compile('^_+')
     def _generate_id(self, string):
         if len(string) > 20:
             string = string[:20]
         id = str(mangle.Id(self, string).cook())
         # regex the cooked id and strip invalid characters
         # replace multiple underscores with single underscores
-        id = re.compile('_+').sub('_', re.compile('[^a-zA-Z0-9_]').sub('_', id))
+        #reg1 = re.compile('_')
+        #reg2 = re.compile('\W')
+        #id = self.reg1.sub('_', self.reg2.sub('_', id))
+        #id = self.reg1.sub('_', self.reg2.sub('_', input))
+        id = self.reg_start_under.sub('',
+                self.reg_under.sub('_',
+                    self.reg_nonword.sub('_', id)))
+        if not id:
+            id = 'unknown'
         if id in self.objectIds():
             highest = 1
             for other_id in self.objectIds():
