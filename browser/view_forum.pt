@@ -226,6 +226,6 @@ function add_smiley(text_to_add) {
     </tal:preview>
   </tbody>
 </table>
-<a tal:attributes="href string:${context/absolute_url}/thread_form.html" onclick="return toggle_form(event);">post a thread</a>
+<a tal:attributes="href string:${context/absolute_url}/thread_form.html" onclick="return toggle_form(event);">post a topic</a>
 <div id="form-placeholder" tal:attributes="href context/absolute_url">&#xa0;</div>
 </div>
