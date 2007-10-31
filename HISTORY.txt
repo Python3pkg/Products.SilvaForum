@@ -16,6 +16,10 @@ HISTORY
 1.0 beta
 --------------------------
 
+* Changed the thread functionality to only take topics. Opted to take
+  out messages because they can't be edited in the SMI without some
+  considerable changes.
+
 * Added support for emoticons.
 
 * Added nice date/time formatting.

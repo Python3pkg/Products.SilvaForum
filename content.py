@@ -37,19 +37,21 @@ class FiveViewable(object):
 class ForumFolderBase(FiveViewable):
     """ Make topic or text string and id chop on character 20
     """
+    # initialize the regex conditions
     reg_under = re.compile('_+')
     reg_nonword = re.compile('\W')
     reg_start_under = re.compile('^_+')
     def _generate_id(self, string):
+        """ This produces a chopped string id from a title, or
+            text, or else uses unknown. For dublicates the
+            method adds 1.
+        """
         if len(string) > 20:
             string = string[:20]
         id = str(mangle.Id(self, string).cook())
         # regex the cooked id and strip invalid characters
         # replace multiple underscores with single underscores
-        #reg1 = re.compile('_')
-        #reg2 = re.compile('\W')
-        #id = self.reg1.sub('_', self.reg2.sub('_', id))
-        #id = self.reg1.sub('_', self.reg2.sub('_', input))
+        # if no string use 'unknown'
         id = self.reg_start_under.sub('',
                 self.reg_under.sub('_',
                     self.reg_nonword.sub('_', id)))
@@ -77,10 +79,11 @@ class Forum(ForumFolderBase, Publication):
         super(Forum, self).__init__(*args, **kwargs)
         self._lastid = 0
     
-    def add_thread(self, topic, text):
+    def add_thread(self, topic):
         """ add a thread to the forum
         """
         id = self._generate_id(topic)
+        #mangle.Id(id).isValid()
         self.manage_addProduct['SilvaForum'].manage_addThread(id, topic)
         thread = dict(self.objectItems()).get(id)
         if thread is None:
@@ -88,7 +91,6 @@ class Forum(ForumFolderBase, Publication):
             # for example (title, or add_thread). Thread objects themselves 
             # have automaticly generated number parts if needed.
             raise ValueError('Reserved id: "%s"' % id)
-        thread.set_text(text)
         return thread
 
     def threads(self):

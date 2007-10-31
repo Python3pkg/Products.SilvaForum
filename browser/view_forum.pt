@@ -91,14 +91,14 @@ function toggle_form(evt) {
 };
     
 function add_smiley(text_to_add) {
-    /* add a smiley to the textarea
+    /* add a smiley to the topic field
     */
     // XXX this is a bit scary... the DOM specs say text nodes can
     // be split up, but afaik that never happens in browsers... if,
     // however, people start reporting missing last bits of text, please
     // fix this code... ;)
-    var textarea = document.getElementById('text');
-    var content = textarea.value;
+    var topic = document.getElementById('topic');
+    var content = topic.value;
     var lastchar = content.charAt(content.length - 1);
     if (lastchar && lastchar != ' ' && lastchar != '\t' && lastchar != '\n'
           && lastchar != '\r') {
@@ -107,8 +107,8 @@ function add_smiley(text_to_add) {
     content += text_to_add + ' ';
     // XXX please check the argument order here! might be wrong...
     // stupid DOM :(
-    textarea.value = content;
-    textarea.focus();
+    topic.value = content;
+    topic.focus();
 };
 
 // ]]>
@@ -183,7 +183,7 @@ function add_smiley(text_to_add) {
           <td class="topic">
             <p>
               <a tal:attributes="href thread/url"
-                tal:content="thread/title">
+                tal:content="structure python:view.format_text(thread['title'])">
                 subject
               </a>
             </p>

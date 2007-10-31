@@ -15,13 +15,13 @@ class ViewBase(Headers):
     def format_datetime(self, dt):
         return format_dt(dt, DateTime())
 
-    def format_text(self, text):
-        text = mangle.entities(text)
+    def format_text(self, title):
+        title = mangle.entities(title)
         root = self.context.aq_inner.get_root()
-        text = emoticons(text,
+        title = emoticons(title,
             self.get_resources().emoticons.smilies.absolute_url())
-        text = text.replace('\n', '<br />')
-        return text
+        title = title.replace('\n', '<br />')
+        return title
 
     def get_smiley_data(self):
         ret = []
@@ -50,18 +50,15 @@ class ForumView(ViewBase):
     def update(self):
         req = self.request
         if (req.has_key('preview') or req.has_key('cancel') or
-                (not req.has_key('topic') and not req.has_key('text'))):
+                (not req.has_key('topic'))):
             return
+        
         sec = getSecurityManager()
         if not sec.getUser().has_role(minimal_add_role):
             raise Unauthorized('Sorry you need to be authorized to use this '
                                'forum')
         topic = unicode(req['topic'], 'UTF-8')
-        if not topic.strip():
-            return 'Please provide a subject'
-        text = unicode(req['text'], 'UTF-8')
-
-        self.context.add_thread(topic, text)
+        self.context.add_thread(topic)
         url = self.context.absolute_url()
         msg = 'Topic added'
 

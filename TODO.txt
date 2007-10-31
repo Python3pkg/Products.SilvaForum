@@ -18,6 +18,15 @@ TODO for SilvaForum
 Issues
 ------
 
+* Change the breadcrumb so it uses the format_text in view.py to
+  retrieve emoticons
+
+* Add an 'index' object to forum and threads, and build in interfaces for
+  editing these views in the SMI. For the moment decided to take out the
+  messages for threads.
+
+* Redo graphic design for adding a topic from the view_forum.pt view.
+
 * author registration in the smi. figured out a work around, but the real
   reason for this bug is yet to be discovered.
 

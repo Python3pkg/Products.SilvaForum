@@ -216,12 +216,9 @@ function add_smiley(text_to_add) {
           tal:content="python:view.format_datetime(context.get_creation_datetime())">
           datetime
         </p>
-        <h4 tal:content="context/get_title">
+        <h4 tal:content="structure python:view.format_text(context.get_title())">
           subject
         </h4>
-        <p tal:content="structure python:view.format_text(context.get_text())">
-          comment
-        </p>
       </td>
     </tr>
     <tr>
