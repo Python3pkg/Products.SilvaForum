@@ -16,9 +16,14 @@ HISTORY
 1.0 beta
 --------------------------
 
+* Put jump to last and first page pagination in the view_forum.pt
+
 * Changed the thread functionality to only take topics. Opted to take
   out messages because they can't be edited in the SMI without some
   considerable changes.
+
+* Configured the view_forum.pt and view_thread.pt to get emoticons
+  added in the subject field.
 
 * Added support for emoticons.
 

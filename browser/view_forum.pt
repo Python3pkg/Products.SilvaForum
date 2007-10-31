@@ -127,10 +127,26 @@ function add_smiley(text_to_add) {
   <tr>
     <td class="previous">
       <tal:block condition="request/previous_batch_url | nothing">
-        <a href="previousbatch" accesskey="b"
+        <a href="previousbatch"
+           accesskey="f"
+           title="Go to the first result listing: alt-f"
+           tal:attributes="href request/previous_batch_url"
+           ><img class="control"
+             alt="First"
+             tal:define="image context/globals/leftdouble.gif"
+             tal:attributes="
+               src image/absolute_url;
+               width image/width;
+               height image/height;
+            " />&nbsp;
+        </a>
+      </tal:block>
+      <tal:block condition="request/previous_batch_url | nothing">
+        <a href="previousbatch"
+          accesskey="b"
           title="See the previous result listing: alt-b"
           tal:attributes="href request/previous_batch_url" 
-          ><img alt="Previous"
+          ><img alt="control"
             tal:define="image context/globals/left.gif"
             tal:attributes="
               src image/absolute_url;
@@ -164,6 +180,21 @@ function add_smiley(text_to_add) {
           " />
         </a>
       </tal:block>  
+      <tal:block condition="request/next_batch_url | nothing">
+        <a href="nextbatch"
+           accesskey="n"
+           title="Go to the last result listing: alt-l"
+           tal:attributes="href request/next_batch_url">&nbsp;<img
+             class="control"
+             alt="Last"
+             tal:define="image context/globals/rightdouble.gif"
+             tal:attributes="
+               src image/absolute_url;
+               width image/width;
+               height image/height;
+            " />
+        </a>
+      </tal:block>
     </td>
   </tr>
 </table>
