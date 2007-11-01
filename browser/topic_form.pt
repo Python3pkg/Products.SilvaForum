@@ -1,7 +1,7 @@
 <html
   tal:define="dummy view/trigger_sec">
   <head>
-    <title>add new thread or comment</title>
+    <title>add new topic or comment</title>
   </head>
   <body>
     <script type="text/javascript">
@@ -28,7 +28,7 @@
 
     // ]]>
     </script>
-    <form id="forum-thread-form"
+    <form id="forum-topic-form"
       method="post"
       tal:attributes="action context/absolute_url">
       <h3>Post a new topic</h3>

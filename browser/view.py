@@ -45,7 +45,7 @@ class ViewBase(Headers):
 
 class ForumView(ViewBase):
     """ view on IForum 
-        The ForumView is a collection of threads """
+        The ForumView is a collection of topics """
     
     def update(self):
         req = self.request
@@ -58,7 +58,7 @@ class ForumView(ViewBase):
             raise Unauthorized('Sorry you need to be authorized to use this '
                                'forum')
         topic = unicode(req['topic'], 'UTF-8')
-        self.context.add_thread(topic)
+        self.context.add_topics(topic)
         url = self.context.absolute_url()
         msg = 'Topic added'
 
@@ -66,9 +66,9 @@ class ForumView(ViewBase):
                                                  quote(msg)))
         return msg
 
-class ThreadView(ViewBase):
-    """ view on IThread 
-        The ThreadView is a collection of comments """
+class TopicView(ViewBase):
+    """ view on ITopic 
+        The TopicView is a collection of comments """
 
     def update(self):
         req = self.request

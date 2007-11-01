@@ -17,41 +17,41 @@ class ForumTest(SilvaTestCase.SilvaTestCase):
         self.forum = self.addObject(self.getRoot(), 'Forum', 'forum',
                                     title='Forum', product='SilvaForum')
     
-    def test_threads(self):
-        self.assertEquals(0, len(self.forum.threads()))
+    def test_topics(self):
+        self.assertEquals(0, len(self.forum.topics()))
         
-        self.thread1 = self.addObject(self.forum, 'Thread', 'thread1',
-                                      title='Thread 1', product='SilvaForum')
-        self.assertEquals(1, len(self.forum.threads()))
+        self.topic1 = self.addObject(self.forum, 'Topic', 'topic1',
+                                      title='Topic 1', product='SilvaForum')
+        self.assertEquals(1, len(self.forum.topics()))
     
-    def test_add_thread(self):
+    def test_add_topic(self):
         # see if the forum is empty like we expect
         self.assertEquals(0,
-                len(self.forum.objectValues('Silva Forum Thread')))
+                len(self.forum.objectValues('Silva Forum Topic')))
 
-        # use our method to add a thread
-        newthread = self.forum.add_thread('Topic', 'topic text')
+        # use our method to add a topic
+        newtopic = self.forum.add_topic('Topic')
 
-        # see if the thread has been added properly
+        # see if the topic has been added properly
         self.assertEquals(1,
-                len(self.forum.objectValues('Silva Forum Thread')))
+                len(self.forum.objectValues('Silva Forum Topic')))
 
         # also see if the thing returned is what we expect it is
-        self.assertEquals('Silva Forum Thread', newthread.meta_type)
-        self.assertEquals(getattr(self.forum, newthread.id).absolute_url(),
-                          newthread.absolute_url())
-        self.assertEquals('topic text', newthread.get_text())
+        self.assertEquals('Silva Forum Topic', newtopic.meta_type)
+        self.assertEquals(getattr(self.forum, newtopic.id).absolute_url(),
+                          newtopic.absolute_url())
+        self.assertEquals('Topic', newtopic.get_title())
         
         # test id uniqueness
-        thread1 = self.forum.add_thread('this is title one', 'foo')
-        thread2 = self.forum.add_thread('this is title one', 'foo')
-        self.assertNotEquals(thread1.id, thread2.id)
+        topic1 = self.forum.add_topic('this is title one')
+        topic2 = self.forum.add_topic('this is title one')
+        self.assertNotEquals(topic1.id, topic2.id)
 
     def test_generate_id(self):
         # test double strings
-        thread1 = self.forum.add_thread('test one', 'foo')
-        thread2 = self.forum.add_thread('test one', 'foo')
-        self.assertNotEquals(thread1.id, thread2.id)
+        topic1 = self.forum.add_topic('test one')
+        topic2 = self.forum.add_topic('test one')
+        self.assertNotEquals(topic1.id, topic2.id)
         
         # test unicode strings
         test_id = 'ümlauts ümlauts'
@@ -63,19 +63,19 @@ class ForumTest(SilvaTestCase.SilvaTestCase):
         gen_id = self.forum._generate_id(test_id)
         self.assertNotEquals(gen_id, test_id)
 
-class ThreadTest(SilvaTestCase.SilvaTestCase):
+class TopicTest(SilvaTestCase.SilvaTestCase):
     def afterSetUp(self):
         self.forum = self.addObject(self.getRoot(), 'Forum', 'forum',
                                     title='Forum', product='SilvaForum')
-        self.thread = self.addObject(self.forum, 'Thread', 'thread',
-                                     title='Thread', product='SilvaForum')
+        self.topic = self.addObject(self.forum, 'Topic', 'topic',
+                                     title='Topic', product='SilvaForum')
     
     def test_comments(self):
-        self.assertEquals(0, len(self.thread.comments()))
+        self.assertEquals(0, len(self.topic.comments()))
         
-        self.comment1 = self.addObject(self.thread, 'Comment', 'comment1',
+        self.comment1 = self.addObject(self.topic, 'Comment', 'comment1',
                                        title='Comment 1', product='SilvaForum')
-        self.assertEquals(1, len(self.thread.comments()))
+        self.assertEquals(1, len(self.topic.comments()))
     
     def test_add_comment(self):
         # test if the forum is empty
@@ -83,19 +83,19 @@ class ThreadTest(SilvaTestCase.SilvaTestCase):
                 len(self.forum.objectValues('Silva Forum Comment')))
 
         # test add_comment method
-        newcomment = self.thread.add_comment('Comment', 'comment text')
+        newcomment = self.topic.add_comment('Comment', 'comment text')
         
         # see if the comment has been added properly
         self.assertEquals(1,
-                len(self.thread.objectValues('Silva Forum Comment')))
+                len(self.topic.objectValues('Silva Forum Comment')))
     
-class ThreadViewTest(SilvaTestCase.SilvaTestCase):
+class TopicViewTest(SilvaTestCase.SilvaTestCase):
     def afterSetUp(self):
         self.forum = self.addObject(self.getRoot(), 'Forum', 'forum1',
                                     title='Forum', product='SilvaForum')
-        self.thread = self.addObject(self.forum, 'Thread', 'thread1',
-                                     title='Thread', product='SilvaForum')
-        self.view = getMultiAdapter((self.thread, self.app.REQUEST),
+        self.topic = self.addObject(self.forum, 'Topic', 'topic1',
+                                     title='Topic', product='SilvaForum')
+        self.view = getMultiAdapter((self.topic, self.app.REQUEST),
                                     name=u'index.html')
 
     def test_format_datetime(self):
@@ -114,9 +114,9 @@ class CommentTest(SilvaTestCase.SilvaTestCase):
     def afterSetUp(self):
         self.forum = self.addObject(self.getRoot(), 'Forum', 'forum1',
                                     title='Forum', product='SilvaForum')
-        self.thread = self.addObject(self.forum, 'Thread', 'thread1',
-                                     title='Thread', product='SilvaForum')
-        self.comment = self.addObject(self.thread, 'Comment', 'comment1',
+        self.topic = self.addObject(self.forum, 'Topic', 'topic1',
+                                     title='Topic', product='SilvaForum')
+        self.comment = self.addObject(self.topic, 'Comment', 'comment1',
                                       title='Comment', product='SilvaForum')
 
     def test_comment(self):
@@ -130,9 +130,9 @@ class CommentViewTest(SilvaTestCase.SilvaTestCase):
     def afterSetUp(self):
         self.forum = self.addObject(self.getRoot(), 'Forum', 'forum1',
                                     title='Forum', product='SilvaForum')
-        self.thread = self.addObject(self.forum, 'Thread', 'thread1',
-                                     title='Thread', product='SilvaForum')
-        self.comment = self.addObject(self.thread, 'Comment', 'comment1',
+        self.topic = self.addObject(self.forum, 'Topic', 'topic1',
+                                     title='Topic', product='SilvaForum')
+        self.comment = self.addObject(self.topic, 'Comment', 'comment1',
                                       title='Comment', product='SilvaForum')
         self.view = getMultiAdapter((self.comment, self.app.REQUEST),
                                     name=u'index.html')
@@ -149,8 +149,8 @@ import unittest
 def test_suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(ForumTest))
-    suite.addTest(unittest.makeSuite(ThreadTest))
-    suite.addTest(unittest.makeSuite(ThreadViewTest))
+    suite.addTest(unittest.makeSuite(TopicTest))
+    suite.addTest(unittest.makeSuite(TopicViewTest))
     suite.addTest(unittest.makeSuite(CommentTest))
     suite.addTest(unittest.makeSuite(CommentViewTest))
     return suite

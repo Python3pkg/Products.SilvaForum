@@ -8,18 +8,18 @@ from zope.interface import Interface
 class IForum(Interface):
     """ Silva Forum is a collection of topics containing comments
 
-        see IThread and IComment for (respectively) the topic and comment
+        see ITopic and IComment for (respectively) the topic and comment
         interfaces
     """
-    def add_thread(thread):
-        """ add a thread
+    def add_topic(topic):
+        """ add a topic
         """
 
-    def threads():
-        """ return all threads (list)
+    def topics():
+        """ return all topics (list)
         """
 
-class IThread(Interface):
+class ITopic(Interface):
     """ a topic in a forum
     """
     def add_comment(comment):

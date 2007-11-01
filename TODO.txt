@@ -21,9 +21,9 @@ Issues
 * Change the breadcrumb so it uses the format_text in view.py to
   retrieve emoticons
 
-* Add an 'index' object to forum and threads, and build in interfaces for
+* Add an 'index' object to forum and topics, and build in interfaces for
   editing these views in the SMI. For the moment decided to take out the
-  messages for threads.
+  messages for topics.
 
 * Redo graphic design for adding a topic from the view_forum.pt view.
 

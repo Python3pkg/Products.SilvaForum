@@ -15,7 +15,7 @@ def install(root):
 
     root.manage_permission('Add Silva Forums',
                            ['Editor', 'ChiefEditor', 'Manager'])
-    root.manage_permission('Add Silva Forum Threads',
+    root.manage_permission('Add Silva Forum Topics',
                            ['Author', 'Editor', 'ChiefEditor', 'Manager'])
     # XXX needs to be changed to unauthorized or sth, I guess...
     root.manage_permission('Add Silva Forum Comments',
@@ -25,21 +25,21 @@ def install(root):
 
     # define metadata sets
     root.service_metadata.addTypesMapping(
-        ('Silva Forum', 'Silva Forum Thread', 'Silva Forum Comment'),
+        ('Silva Forum', 'Silva Forum Topic', 'Silva Forum Comment'),
         ('silva-content', 'silva-extra'))
     root.service_metadata.initializeMetadata()
     
     # edit
     reg.register('edit', 'Silva Forum',
                  ['edit', 'Container', 'Folder', 'Forum'])
-    reg.register('edit', 'Silva Forum Thread',
-                 ['edit', 'Container', 'Folder', 'Thread'])
+    reg.register('edit', 'Silva Forum Topic',
+                 ['edit', 'Container', 'Folder', 'Topic'])
     reg.register('edit', 'Silva Forum Comment',
                  ['edit', 'Content', 'Comment'])
 
     # add
     reg.register('add', 'Silva Forum', ['add', 'Forum'])
-    reg.register('add', 'Silva Forum Thread', ['add', 'Thread'])
+    reg.register('add', 'Silva Forum Topic', ['add', 'Topic'])
     reg.register('add', 'Silva Forum Comment', ['add', 'Comment'])
 
     # public is done from Five views
@@ -49,10 +49,10 @@ def install(root):
 def uninstall(root):
     reg = root.service_view_registry
     reg.unregister('edit', 'Silva Forum')
-    reg.unregister('edit', 'Silva Forum Thread')
+    reg.unregister('edit', 'Silva Forum Topic')
     reg.unregister('edit', 'Silva Forum Comment')
     reg.unregister('add', 'Silva Forum')
-    reg.unregister('add', 'Silva Forum Thread')
+    reg.unregister('add', 'Silva Forum Topic')
     reg.unregister('add', 'Silva Forum Comment')
 
     root.service_views.manage_delObjects(['SilvaForum'])
@@ -60,7 +60,7 @@ def uninstall(root):
 
 def configureAddables(root):
     """Make sure the right items are addable in the root"""
-    non_addables = ('Silva Forum Thread',
+    non_addables = ('Silva Forum Topic',
                     'Silva Forum Comment')
     addables = ('Silva Forum',)
     current_addables = root.get_silva_addables_allowed_in_publication()

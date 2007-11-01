@@ -18,7 +18,7 @@ What is it?
 -----------
 
 SilvaForum is a forum (or Bulletin Board System) for the Silva CMS. It allows
-registered visitors of a Silva site to create topics (threads or questions)
+registered visitors of a Silva site to create topics (topics or questions)
 and comment on existing topics.
 
 Installating SilvaForum
@@ -31,8 +31,8 @@ Using SilvaForum
 
 Visit the SMI (Silva Management Interface) to create a 'Silva Forum' object:
 this will serve as the root of the forum. The public views of the Forum allow
-(registered) clients to add threads (topics) to the forum, and comments
-(messages) to the threads. The threads and comments are accessible from the
+(registered) clients to add topics (topics) to the forum, and comments
+(messages) to the topics. The topics and comments are accessible from the
 SMI for moderation and maintenance purposes.
 
 Authentication can be invoked for the public view of the forum by going to

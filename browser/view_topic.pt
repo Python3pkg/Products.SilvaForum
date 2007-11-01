@@ -322,7 +322,7 @@ function add_smiley(text_to_add) {
   };
 
   var alink = document.createElement('a');
-  var form = _('forum-thread-form');
+  var form = _('forum-topic-form');
   alink.href = '#';
   alink.onclick = function(evt) {
     if (form.style.display == 'none') {

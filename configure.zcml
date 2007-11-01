@@ -31,11 +31,11 @@
   </class>
   <class class=".content.Forum">
     <require permission="silva.ReadSilvaContent"
-             attributes="add_thread" />
+             attributes="add_topic" />
     <require permission="zope.Public"
-             attributes="threads" />
+             attributes="topics" />
   </class>
-  <class class=".content.Thread">
+  <class class=".content.Topic">
     <require permission="silva.ReadSilvaContent"
              attributes="add_comment" />
     <require permission="silva.ReadSilvaContent"
@@ -63,7 +63,7 @@
     />
 
   <silva:content
-    content=".content.Thread"
+    content=".content.Topic"
     extension_name="SilvaForum"
     icon="www/list_comments.gif"
     priority="-7"

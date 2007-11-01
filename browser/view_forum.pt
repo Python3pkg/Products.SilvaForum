@@ -2,8 +2,8 @@
   tal:define="
     dummy view/set_content_type_and_nocache;
     message python:view.update() or request.get('message');
-    threads context/threads;
-    batch python:context.service_views.Silva.getBatch(threads, size=10, orphan=0);
+    topics context/topics;
+    batch python:context.service_views.Silva.getBatch(topics, size=10, orphan=0);
 ">
 <script type="text/javascript">
 // <![CDATA[
@@ -63,7 +63,7 @@ function add_form(placeholder) {
         }
         // alert('error ' + status + ' loading data from url: ' + responsetext);
     };
-    var url = placeholder.getAttribute('href') + '/thread_form.html';
+    var url = placeholder.getAttribute('href') + '/topic_form.html';
     load_async(url, add_form_handler, add_form_errhandler);
 };
 
@@ -123,7 +123,7 @@ function add_smiley(text_to_add) {
 </div>
 <table class="pagination"
   cellspacing="0"
-  tal:condition="python:len(threads) > 10">
+  tal:condition="python:len(topics) > 10">
   <tr>
     <td class="previous">
       <tal:block condition="request/previous_batch_url | nothing">
@@ -163,7 +163,7 @@ function add_smiley(text_to_add) {
       to
       <tal:block replace="batch/end" />
       of
-      <tal:block replace="python:len(threads)" />
+      <tal:block replace="python:len(topics)" />
     </td>  
     <td class="next">
       <tal:block condition="request/next_batch_url | nothing">
@@ -208,29 +208,29 @@ function add_smiley(text_to_add) {
     </tr>
   </thead>
   <tbody>
-    <tal:loop repeat="thread batch">
-      <tal:def define="iterate repeat/thread/odd">
+    <tal:loop repeat="topic batch">
+      <tal:def define="iterate repeat/topic/odd">
         <tr tal:attributes="class python: iterate and 'even' or 'odd'">
           <td class="topic">
             <p>
-              <a tal:attributes="href thread/url"
-                tal:content="structure python:view.format_text(thread['title'])">
+              <a tal:attributes="href topic/url"
+                tal:content="structure python:view.format_text(topic['title'])">
                 subject
               </a>
             </p>
           </td>
           <td class="datetime">
-            <p tal:content="python:view.format_datetime(thread['creation_datetime'])">
+            <p tal:content="python:view.format_datetime(topic['creation_datetime'])">
               datatime
             </p>
           </td>
           <td class="poster">
-            <p tal:content="thread/creator">
+            <p tal:content="topic/creator">
               author
             </p>
           </td>
           <td class="comments">
-            <p tal:content="thread/commentlen">
+            <p tal:content="topic/commentlen">
               number
             </p>
           </td>
@@ -257,6 +257,6 @@ function add_smiley(text_to_add) {
     </tal:preview>
   </tbody>
 </table>
-<a tal:attributes="href string:${context/absolute_url}/thread_form.html" onclick="return toggle_form(event);">post a topic</a>
+<a tal:attributes="href string:${context/absolute_url}/topic_form.html" onclick="return toggle_form(event);">post a topic</a>
 <div id="form-placeholder" tal:attributes="href context/absolute_url">&#xa0;</div>
 </div>

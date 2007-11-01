@@ -16,7 +16,7 @@ from Products.Silva.Folder import Folder
 from Products.Silva.i18n import translate as _
 
 from Products.ZCatalog.CatalogPathAwareness import CatalogPathAware
-from interfaces import IForum, IThread, IComment
+from interfaces import IForum, ITopic, IComment
 
 class FiveViewable(object):
     """ mixin to override .view()
@@ -73,59 +73,59 @@ class Forum(ForumFolderBase, Publication):
     interface.implements(IForum)
     meta_type = 'Silva Forum'
 
-    _addables_allowed_in_publication = ('Silva Forum Thread',)
+    _addables_allowed_in_publication = ('Silva Forum Topic',)
 
     def __init__(self, *args, **kwargs):
         super(Forum, self).__init__(*args, **kwargs)
         self._lastid = 0
     
-    def add_thread(self, topic):
-        """ add a thread to the forum
+    def add_topic(self, topic):
+        """ add a topic to the forum
         """
         id = self._generate_id(topic)
         #mangle.Id(id).isValid()
-        self.manage_addProduct['SilvaForum'].manage_addThread(id, topic)
-        thread = dict(self.objectItems()).get(id)
-        if thread is None:
+        self.manage_addProduct['SilvaForum'].manage_addTopic(id, topic)
+        topic = dict(self.objectItems()).get(id)
+        if topic is None:
             # apparently zope refused to add the object, probably an id clash.
-            # for example (title, or add_thread). Thread objects themselves 
+            # for example (title, or add_topic). topic objects themselves 
             # have automaticly generated number parts if needed.
             raise ValueError('Reserved id: "%s"' % id)
-        return thread
+        return topic
 
-    def threads(self):
-        """ returns an iterable of all threads (topics)
+    def topics(self):
+        """ returns an iterable of all topics (topics)
         """
-        # XXX Why not return a list of thread objects?
+        # XXX Why not return a list of topic objects?
 
         # XXX note that this mostly exists because we intend to add more
         # functionality (e.g. searching, ordering) later
-        threads = [{
+        topics = [{
             'url': obj.absolute_url(),
             'title': obj.get_title(),
             'creation_datetime': obj.get_creation_datetime(),
             'creator': obj.sec_get_creator_info().fullname(),
             'commentlen': len(obj.comments()),
-        } for obj in self.objectValues('Silva Forum Thread')]
-        threads
-        return threads
+        } for obj in self.objectValues('Silva Forum Topic')]
+        topics
+        return topics
 
     def is_published(self):
         # always return true to make that the object is always visible in public
         # listings
         return True
 
-class Thread(ForumFolderBase, Folder):
-    interface.implements(IThread)
-    meta_type = 'Silva Forum Thread'
+class Topic(ForumFolderBase, Folder):
+    interface.implements(ITopic)
+    meta_type = 'Silva Forum Topic'
 
     def __init__(self, *args, **kwargs):
-        super(Thread, self).__init__(*args, **kwargs)
+        super(Topic, self).__init__(*args, **kwargs)
         self._lastid = 0
         self._text = ''
     
     def add_comment(self, title, text):
-        """ add a comment to the thread
+        """ add a comment to the topic
         """
         idstring = title
         if not idstring:
@@ -134,7 +134,7 @@ class Thread(ForumFolderBase, Folder):
         self.manage_addProduct['SilvaForum'].manage_addComment(id, title)
         comment = dict(self.objectItems()).get(id)
         if comment is None:
-            # see add_thread comments
+            # see add_topic comments
             raise ValueError('Reserved id: "%s"' % id)
         comment.set_text(text)
         return comment
@@ -152,7 +152,7 @@ class Thread(ForumFolderBase, Folder):
         comments
         return comments
 
-    # XXX this is a bit strange... Thread is a Folder type but still has
+    # XXX this is a bit strange... topic is a Folder type but still has
     # text-data attributes
     def get_text(self):
         return self._text

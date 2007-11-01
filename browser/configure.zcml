@@ -18,24 +18,24 @@
 
   <browser:page
       for="Products.SilvaForum.interfaces.IForum"
-      name="thread_form.html"
+      name="topic_form.html"
       class=".view.ForumView"
-      template="thread_form.pt"
+      template="topic_form.pt"
       permission="zope.Public"
       />
 
   <browser:page
-      for="Products.SilvaForum.interfaces.IThread"
+      for="Products.SilvaForum.interfaces.ITopic"
       name="index.html"
-      class=".view.ThreadView"
-      template="view_thread.pt"
+      class=".view.TopicView"
+      template="view_topic.pt"
       permission="zope.Public"
       />
 
   <browser:page
-      for="Products.SilvaForum.interfaces.IThread"
+      for="Products.SilvaForum.interfaces.ITopic"
       name="comment_form.html"
-      class=".view.ThreadView"
+      class=".view.TopicView"
       template="comment_form.pt"
       permission="zope.Public"
       />
