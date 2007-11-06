@@ -40,11 +40,14 @@ def format_dt(formatdate, currentdate=None):
         ret.append(hourstring)
     if minutestring:
         ret.append(minutestring)
-    if len(ret) >= 2:
-        ret[-2:] = [ret[-2] + ' and ' + ret[-1]]
+    #if len(ret) >= 2:
+    #    ret[-2:] = [ret[-2] + ' and ' + ret[-1]]
     if not ret:
         return 'Just added'
-    return 'Added ' + ', '.join(ret) + ' ago'
+    if len(ret) > 2:
+        return 'Added ' + ', '.join(ret[:-1]) + ' ago'
+    else:
+        return 'Added ' + ', '.join(ret) + ' ago'
 
 # XXX oomph, bad name...
 def empty_singular_plural(num, unitname):
