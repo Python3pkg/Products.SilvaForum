@@ -16,6 +16,9 @@ HISTORY
 1.0 beta
 --------------------------
 
+* Took out required subject in the edit comment view by switching
+  the required tag in form.form to 0.
+
 * Made datetimes smaller
 
 * Removed emoticons directory again, only this time from svn
