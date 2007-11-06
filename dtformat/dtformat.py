@@ -40,8 +40,6 @@ def format_dt(formatdate, currentdate=None):
         ret.append(hourstring)
     if minutestring:
         ret.append(minutestring)
-    #if len(ret) >= 2:
-    #    ret[-2:] = [ret[-2] + ' and ' + ret[-1]]
     if not ret:
         return 'Just added'
     if len(ret) > 2:
