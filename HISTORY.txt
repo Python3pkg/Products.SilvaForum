@@ -16,9 +16,6 @@ HISTORY
 1.0 beta
 --------------------------
 
-* Removed un-needed emoticons directory, which is now in resources
-  directory
-
 * Finished Adding alt tag text to emoticons.
 
 * Changed Silva Forum Thread to Silva Forum Topic and refactored
