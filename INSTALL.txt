@@ -43,7 +43,7 @@ Place the following tal:block in the head_inject file after the
 
 <tal:comment replace="nothing"> _______ SilvaForum CSS _______ </tal:comment>
 <tal:block condition="python:model.meta_type == 'Silva Forum' 
-                      or model.meta_type == 'Silva Forum Thread'
+                      or model.meta_type == 'Silva Forum Topic'
                       or model.meta_type == 'Silva Forum Comment'">
   <link rel="stylesheet" type="text/css" media="all"
     tal:attributes="href python:context.get_root_url()+'/service_resources/SilvaForum/forum.css'" />
