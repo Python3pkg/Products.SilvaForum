@@ -16,6 +16,8 @@ HISTORY
 1.0 beta
 --------------------------
 
+* Adding alt tag text to emoticons.
+
 * Changed Silva Forum Thread to Silva Forum Topic and refactored
   code to use topic rather than thread.
 
