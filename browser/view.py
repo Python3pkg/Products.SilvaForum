@@ -58,7 +58,7 @@ class ForumView(ViewBase):
             raise Unauthorized('Sorry you need to be authorized to use this '
                                'forum')
         topic = unicode(req['topic'], 'UTF-8')
-        self.context.add_topics(topic)
+        self.context.add_topic(topic)
         url = self.context.absolute_url()
         msg = 'Topic added'
 
