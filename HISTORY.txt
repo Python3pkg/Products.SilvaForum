@@ -16,6 +16,8 @@ HISTORY
 1.0 beta
 --------------------------
 
+* Made datetimes smaller
+
 * Removed emoticons directory again, only this time from svn
 
 * Finished Adding alt tag text to emoticons.
