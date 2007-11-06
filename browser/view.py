@@ -2,7 +2,7 @@ from Products.Five import BrowserView
 from Products.Silva.browser.headers import Headers
 from Products.Silva import mangle
 from Products.Silva import SilvaPermissions
-from Products.SilvaForum.resources.emoticons.emoticons import emoticons, smileydata
+from Products.SilvaForum.resources.emoticons.emoticons import emoticons, smileydata 
 from Products.SilvaForum.dtformat.dtformat import format_dt
 from DateTime import DateTime
 from AccessControl import getSecurityManager, Unauthorized
