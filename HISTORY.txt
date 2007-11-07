@@ -16,6 +16,8 @@ HISTORY
 1.0 beta
 --------------------------
 
+* Took out all required switches from edit comment view.
+
 * Unicode problem with textareas in view_topic.pt. Did ugly hack
   doing the unicoding in the tal expression.
 
