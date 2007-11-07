@@ -5,9 +5,10 @@
     comments context/comments;
     batch python:context.service_views.Silva.getBatch(comments, size=10, orphan=0);
 ">
-
 <script type="text/javascript">
 // <![CDATA[
+
+var SUPPORTED_BROWSER = false;
 
 function getXHR() {
     try{
@@ -26,46 +27,39 @@ function getXHR() {
     return undefined;
 };
 
-function load_async(path, callback, errback) {
-    /* load data from a path/url
-
-        on successful load <callback> is called with arguments 'status',
-        'content', on error <errback>, with the same arguments
-    */
-    if (!errback) {
-        errback = callback;
-    };
+function add_form(placeholder, reqvalues) {
+    var url = placeholder.getAttribute('href') + '/comment_form.html';
     var xhr = getXHR();
-    xhr.open('GET', path, true);
-    var handler = function() {
-        if (xhr.readyState == 4) {
-            if (xhr.status != 200 && xhr.status != 302) {
-                errback(xhr.status, xhr.responseText);
-                return;
-            };
-            callback(xhr.status, xhr.responseText);
+    var add_form_handler = function() {
+        if (xhr.readyState < 4) {
+            return;
         };
-    };
-    xhr.onreadystatechange = handler;
-    xhr.send('');
-};
-
-function add_form(placeholder) {
-    var add_form_handler = function(status, responsetext) {
-        // XXX hack hack hack... but it's JS anyway :|
-        var formhtml = responsetext.substring(responsetext.indexOf('form') - 1, responsetext.lastIndexOf('/form') + 6);
-        placeholder.innerHTML = formhtml;
-    };
-    var add_form_errhandler = function(status, responsetext) {
-        if (status == 401) {
+        if (xhr.status == 200) {
+            // XXX hack hack hack... but it's JS anyway :|
+            var formhtml = xhr.responseText.substring(
+                xhr.responseText.indexOf('form') - 1,
+                xhr.responseText.lastIndexOf('/form') + 6);
+            placeholder.innerHTML = formhtml;
+        } else if (xhr.status == 401) {
             alert('Please log in.');
         } else {
             alert('Unknown error ' + status);
-        }
-        // alert('error ' + status + ' loading data from url: ' + responsetext);
+        };
     };
-    var url = placeholder.getAttribute('href') + '/comment_form.html';
-    load_async(url, add_form_handler, add_form_errhandler);
+    var body = '';
+    if (reqvalues) {
+        var postpairs = [];
+        for (var attr in reqvalues) {
+            postpairs.push(escape(attr) + '=' + escape(reqvalues[attr]));
+        };
+        var body = postpairs.join('&');
+        xhr.open('POST', url, true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+    } else {
+        xhr.open('GET', url, true);
+    };
+    xhr.onreadystatechange = add_form_handler;
+    xhr.send(body);
 };
 
 function del_form(placeholder) {
@@ -76,6 +70,9 @@ function del_form(placeholder) {
 };
 
 function toggle_form(evt) {
+    if (!SUPPORTED_BROWSER) {
+        return true;
+    };
     var placeholder = document.getElementById('form-placeholder');
     if (placeholder.getElementsByTagName('form').length) {
         del_form(placeholder);
@@ -90,6 +87,7 @@ function toggle_form(evt) {
     evt.cancelBubble = true;
     return false;
 };
+
 function add_smiley(text_to_add) {
     /* add a smiley to the textarea
     */
@@ -110,6 +108,28 @@ function add_smiley(text_to_add) {
     textarea.value = content;
     textarea.focus();
 };
+
+function handle_preview_form_load() {
+    var previewform = document.getElementById('previewform');
+    if (!previewform) {
+        return;
+    };
+    add_form(document.getElementById('form-placeholder'),
+             {'title': document.getElementById('preview_title').value,
+              'text': document.getElementById('preview_text').value});
+};
+
+if (window.addEventListener) {
+    window.addEventListener('load', handle_preview_form_load, true);
+    SUPPORTED_BROWSER = true;
+} else if (window.attachEvent) {
+    window.attachEvent('onload', handle_preview_form_load);
+    SUPPORTED_BROWSER = true;
+} else {
+    // very backward browser... don't do anything for now, rely on non-JS
+    // fallback behaviour
+};
+
 // ]]>
 </script>
 <div class="feedback"
@@ -129,7 +149,7 @@ function add_smiley(text_to_add) {
           tal:attributes="href request/previous_batch_url"
           ><img class="control"
             alt="First"
-            tal:define="image context/leftdouble.gif"
+            tal:define="image context/globals/leftdouble.gif"
             tal:attributes="
               src image/absolute_url;
               width image/width;
@@ -186,7 +206,7 @@ function add_smiley(text_to_add) {
           tal:attributes="href request/next_batch_url">&nbsp;<img
             class="control"
             alt="Last"
-            tal:define="image context/rightdouble.gif"
+            tal:define="image context/globals/rightdouble.gif"
             tal:attributes="
               src image/absolute_url;
               width image/width;
@@ -264,9 +284,21 @@ function add_smiley(text_to_add) {
             tal:content="subject">
             subject
           </h5>
-          <!-- original -->
-          <!--<p tal:content="structure python:view.format_text(request['text'])">-->
-          <!-- ugly hack, need to fix -->
+          <p id="previewformbox">
+            <form method="post" id="previewform" tal:condition="request/form/preview | nothing"
+                  tal:attributes="action context/absolute_url">
+              <input type="hidden" name="title" id="preview_title" tal:attributes="value request/title" />
+              <input type="hidden" name="text" id="preview_text" tal:attributes="value request/form/text" />
+              <input type="submit" value="add comment" />
+              <!-- todd says 'i don't know, man' about the next bit of code, and i tend to
+                   fully agree... it works though, both in js and non-js situations, and looks consistent
+                   (so let's not think about it too much, i suggest ;)
+              -->
+              <a tal:attributes="href context/absolute_url">
+                <input type="button" value="reset" tal:attributes="onclick string:document.location='${context/absolute_url}'" />
+              </a>
+            </form>
+          </p>
           <p tal:content="structure python:view.format_text(unicode(request['text'], 'UTF-8'))">
             comment
           </p>
