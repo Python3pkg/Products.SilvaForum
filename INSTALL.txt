@@ -19,7 +19,7 @@ Dependencies
 
   * required:
 
-  * SilvaForum depends on Silva 2.0 or later, and thus requires a fully working
+  * SilvaForum depends on Silva 2.0.1 or later, and thus requires a fully working
     Zope/Silva install
 
 Installation instructions
