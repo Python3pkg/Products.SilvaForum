@@ -16,6 +16,9 @@ HISTORY
 1.0 beta
 --------------------------
 
+* Pagination right/leftdouble.gif are not included in Silva 2.0,
+  so put them into the www/ of SilvaForum.
+
 * Took out all required switches from edit comment view.
 
 * Unicode problem with textareas in view_topic.pt. Did ugly hack

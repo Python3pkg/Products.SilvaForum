@@ -133,7 +133,7 @@ function add_smiley(text_to_add) {
            tal:attributes="href request/previous_batch_url"
            ><img class="control"
              alt="First"
-             tal:define="image context/globals/leftdouble.gif"
+             tal:define="image context/leftdouble.gif"
              tal:attributes="
                src image/absolute_url;
                width image/width;
@@ -187,7 +187,7 @@ function add_smiley(text_to_add) {
            tal:attributes="href request/next_batch_url">&nbsp;<img
              class="control"
              alt="Last"
-             tal:define="image context/globals/rightdouble.gif"
+             tal:define="image context/rightdouble.gif"
              tal:attributes="
                src image/absolute_url;
                width image/width;
