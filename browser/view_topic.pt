@@ -264,7 +264,10 @@ function add_smiley(text_to_add) {
             tal:content="subject">
             subject
           </h5>
-          <p tal:content="structure python:view.format_text(request['text'])">
+          <!-- original -->
+          <!--<p tal:content="structure python:view.format_text(request['text'])">-->
+          <!-- ugly hack, need to fix -->
+          <p tal:content="structure python:view.format_text(unicode(request['text'], 'UTF-8'))">
             comment
           </p>
         </td>
@@ -274,76 +277,4 @@ function add_smiley(text_to_add) {
 </table>
 <a tal:attributes="href string:${context/absolute_url}/comment_form.html" onclick="return toggle_form(event);">post a comment</a>
 <div id="form-placeholder" tal:attributes="href context/absolute_url">&#xa0;</div>
-<!--<form id="forum-comment-form"
-  method="post"
-  tal:attributes="action context/absolute_url">
-  <h3>Post a new comment</h3>
-  <h5>Subject</h5>
-  <input class="store"
-    type="text"
-    name="title"
-    size="80"
-    tal:attributes="value request/title | nothing"
-  />
-  <h5>Messsage</h5>
-  <textarea class="store"
-    name="text"
-    id="text"
-    rows="10"
-    cols="68"
-    tal:content="python:request.get('text')"></textarea>
-  <div id="emoticons">
-    <div class="emoticon"
-      tal:repeat="smileydata view/get_smiley_data">
-      <img onclick="add_smiley(this.title)"
-        alt="emoticon"
-        tal:attributes="title smileydata/text; src smileydata/href"
-      />
-    </div>
-  </div>
-  <div class="submit">
-    <input style="float:right"
-      type="submit"
-      name="submit"
-      value="add comment"
-    />
-    <input type="submit"
-      name="preview"
-      value="preview"
-    />
-  </div>
-</form>-->
-<!--
-<script type="text/javascript">
-  // <![CDATA[
-
-  function _(id) {
-    return document.getElementById(id);
-  };
-
-  var alink = document.createElement('a');
-  var form = _('forum-topic-form');
-  alink.href = '#';
-  alink.onclick = function(evt) {
-    if (form.style.display == 'none') {
-      form.style.display = 'block';
-      this.replaceChild(document.createTextNode('hide form'), this.firstChild);
-    } else {
-      form.style.display = 'none';
-      this.replaceChild(document.createTextNode('new topic'), this.firstChild);
-    };
-    if (evt.preventDefault) {
-      evt.preventDefault();
-    } else {
-      evt.returnValue = false;
-    };
-    evt.cancelBubble = true;
-  };
-  alink.appendChild(document.createTextNode('new topic'));
-  form.parentNode.insertBefore(alink, form);
-  form.style.display = 'none';
-
-  // ]]>
-</script>
--->
 </div>

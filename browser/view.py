@@ -2,7 +2,7 @@ from Products.Five import BrowserView
 from Products.Silva.browser.headers import Headers
 from Products.Silva import mangle
 from Products.Silva import SilvaPermissions
-from Products.SilvaForum.resources.emoticons.emoticons import emoticons, smileydata, get_alt_name 
+from Products.SilvaForum.resources.emoticons.emoticons import emoticons, smileydata, get_alt_name
 from Products.SilvaForum.dtformat.dtformat import format_dt
 from DateTime import DateTime
 from AccessControl import getSecurityManager, Unauthorized
@@ -15,13 +15,13 @@ class ViewBase(Headers):
     def format_datetime(self, dt):
         return format_dt(dt, DateTime())
 
-    def format_text(self, title):
-        title = mangle.entities(title)
+    def format_text(self, text):
+        text = mangle.entities(text)
         root = self.context.aq_inner.get_root()
-        title = emoticons(title,
+        text = emoticons(text,
             self.get_resources().emoticons.smilies.absolute_url())
-        title = title.replace('\n', '<br />')
-        return title
+        text = text.replace('\n', '<br />')
+        return text
 
     def get_smiley_data(self):
         ret = []

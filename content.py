@@ -83,7 +83,6 @@ class Forum(ForumFolderBase, Publication):
         """ add a topic to the forum
         """
         id = self._generate_id(topic)
-        #mangle.Id(id).isValid()
         self.manage_addProduct['SilvaForum'].manage_addTopic(id, topic)
         topic = dict(self.objectItems()).get(id)
         if topic is None:

@@ -16,6 +16,9 @@ HISTORY
 1.0 beta
 --------------------------
 
+* Unicode problem with textareas in view_topic.pt. Did ugly hack
+  doing the unicoding in the tal expression.
+
 * Took out required subject in the edit comment view by switching
   the required tag in form.form to 0.
 

@@ -45,7 +45,7 @@
         id="text"
         rows="10"
         cols="68"
-        tal:content="python:request.get('text')"></textarea>
+        tal:content="python:request.get('text', '').encode('UTF-8')"></textarea>
       <div id="emoticons">
         <div class="emoticon"
           tal:repeat="smileydata view/get_smiley_data">
