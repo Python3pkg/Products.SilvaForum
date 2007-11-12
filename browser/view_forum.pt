@@ -31,26 +31,6 @@ function add_smiley(text_to_add) {
     topic.focus();
 };
 
-//function handle_preview_form_load() {
-//    var previewform = document.getElementById('previewform');
-//    if (!previewform) {
-//        return;
-//    };
-//    add_form(document.getElementById('form-placeholder'),
-//             {'topic': document.getElementById('preview_topic').value});
-//};
-
-//if (window.addEventListener) {
-//    window.addEventListener('load', handle_preview_form_load, true);
-//    SUPPORTED_BROWSER = true;
-//} else if (window.attachEvent) {
-//    window.attachEvent('onload', handle_preview_form_load);
-//    SUPPORTED_BROWSER = true;
-//} else {
-    // very backward browser... don't do anything for now, rely on non-JS
-    // fallback behaviour
-//};
-
 // ]]>
 </script>
 <h2 tal:content="here/get_title">
@@ -184,12 +164,13 @@ function add_smiley(text_to_add) {
     <tal:preview condition="python:request.get('preview') and request.get('topic')">
       <tr class="preview">
         <td class="topic">
-          <p tal:content="request/topic"></p>
+          <p tal:content="python:unicode(request.form['topic'], 'UTF-8')"></p>
           <p id="previewformbox">
             <form method="post" id="previewform" 
               tal:condition="request/form/preview | nothing"
               tal:attributes="action context/absolute_url">
-              <input type="hidden" name="topic" id="preview_topic" tal:attributes="value request/topic" />
+              <input type="hidden" name="topic" id="preview_topic"
+                     tal:attributes="value python:unicode(request.form['topic'], 'UTF-8')" />
               <input type="submit" value="add topic" />
               <!-- todd says 'i don't know, man' about the next bit of code, 
                    and i tend to fully agree... it works though, both in js 
@@ -231,7 +212,7 @@ function add_smiley(text_to_add) {
       name="topic"
       id="topic"
       size="80"
-      tal:attributes="value request/topic | nothing"
+      tal:attributes="value python:unicode(request.form.get('topic', ''), 'UTF-8')"
     />
   </div>
 

@@ -16,6 +16,10 @@ HISTORY
 1.0 beta
 --------------------------
 
+* Ah, after reverting to static forms, unicode issue persists.
+  Found the error on the preview inputs, and re-wrote those to
+  support unicode.
+
 * Reverted to static form in view_topic.pt view.
 
 * Reverted to static form in view_forum.pt view.

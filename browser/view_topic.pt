@@ -176,7 +176,7 @@ function add_smiley(text_to_add) {
           <p>Preview</p>
         </td>
         <td class="comment">
-          <h5 tal:define="subject request/title"
+          <h5 tal:define="subject python:unicode(request.form['title'], 'UTF-8')"
             tal:condition="subject"
             tal:content="subject">
             subject
@@ -188,8 +188,10 @@ function add_smiley(text_to_add) {
             <form method="post" id="previewform" enctype="application/x-www-form-urlencoded; charset=UTF-8"
               tal:condition="request/form/preview | nothing"
               tal:attributes="action context/absolute_url">
-              <input type="hidden" name="title" id="preview_title" tal:attributes="value request/title" />
-              <input type="hidden" name="text" id="preview_text" tal:attributes="value request/form/text" />
+              <input type="hidden" name="title" id="preview_title"
+                     tal:attributes="value python:unicode(request.form['title'], 'UTF-8')" />
+              <input type="hidden" name="text" id="preview_text"
+                     tal:attributes="value python:unicode(request.form['text'], 'UTF-8')" />
               <input type="submit" value="add comment" />
               <!-- todd says 'i don't know, man' about the next bit of code,
                    and i tend to fully agree... it works though, both in js 
@@ -215,7 +217,7 @@ function add_smiley(text_to_add) {
     type="text"
     name="title"
     size="80"
-    tal:attributes="value request/title | nothing"
+    tal:attributes="value python:unicode(request.form.get('title', ''), 'UTF-8')"
   />
   <h5>Message</h5>
   <textarea class="store"
@@ -223,7 +225,7 @@ function add_smiley(text_to_add) {
     id="text"
     rows="10"
     cols="68"
-    tal:content="python:request.get('text')"></textarea>
+    tal:content="python:unicode(request.get('text', ''), 'UTF-8')"></textarea>
   <div id="emoticons">
     <div class="emoticon"
       tal:repeat="smileydata view/get_smiley_data">
