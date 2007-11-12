@@ -46,6 +46,7 @@ class ForumFolderBase(FiveViewable):
             text, or else uses unknown. For dublicates the
             method adds 1.
         """
+        string = string.strip()
         if len(string) > 20:
             string = string[:20]
         id = str(mangle.Id(self, string).cook())
@@ -78,6 +79,7 @@ class Forum(ForumFolderBase, Publication):
     def __init__(self, *args, **kwargs):
         super(Forum, self).__init__(*args, **kwargs)
         self._lastid = 0
+        self.topic_batch_size = 10
     
     def add_topic(self, topic):
         """ add a topic to the forum
@@ -109,6 +111,9 @@ class Forum(ForumFolderBase, Publication):
         topics
         return topics
 
+    def number_of_topics(self):
+        return len(self.objectValues('Silva Forum Topic'))
+
     def is_published(self):
         # always return true to make that the object is always visible in public
         # listings
@@ -122,6 +127,7 @@ class Topic(ForumFolderBase, Folder):
         super(Topic, self).__init__(*args, **kwargs)
         self._lastid = 0
         self._text = ''
+        self.comment_batch_size = 10
     
     def add_comment(self, title, text):
         """ add a comment to the topic
@@ -161,6 +167,9 @@ class Topic(ForumFolderBase, Folder):
 
     def get_silva_addables_allowed(self):
         return ('Silva Forum Comment',)
+
+    def number_of_comments(self):
+        return len(self.objectValues('Silva Forum Comment'))
 
     def is_published(self):
         # always return true to make that the object is always visible in public

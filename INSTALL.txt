@@ -33,6 +33,8 @@ root>/manage_services in your browser. Click on service_extensions, find the
 IMPORTANT STYLING NOTES: 
 ------------------------
 
+SilvaForum does not work with SilvaLayout.
+
 SilvaForum comes with it's own default layout which resides in the resources
 directory. This css can be replaced for any other housestyle css, however it
 is important to connect the css to the forum pages via the head_inject file

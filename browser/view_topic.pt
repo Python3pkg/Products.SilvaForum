@@ -3,7 +3,8 @@
     dummy view/set_content_type_and_nocache;
     message python:view.update() or request.get('message');
     comments context/comments;
-    batch python:context.service_views.Silva.getBatch(comments, size=10, orphan=0);
+    batch_size context/comment_batch_size;
+    batch python:context.service_views.Silva.getBatch(comments, size=batch_size, orphan=0);
 ">
 <script type="text/javascript">
 // <![CDATA[
@@ -27,6 +28,14 @@ function getXHR() {
     return undefined;
 };
 
+function debug(msg) {
+    var div = document.createElement('div');
+    div.appendChild(document.createTextNode(msg));
+    div.style.border = '1px solid black';
+    div.style.color = 'red';
+    document.getElementsByTagName('body')[0].appendChild(div);
+};
+
 function add_form(placeholder, reqvalues) {
     var url = placeholder.getAttribute('href') + '/comment_form.html';
     var xhr = getXHR();
@@ -39,22 +48,32 @@ function add_form(placeholder, reqvalues) {
             var formhtml = xhr.responseText.substring(
                 xhr.responseText.indexOf('form') - 1,
                 xhr.responseText.lastIndexOf('/form') + 6);
-            placeholder.innerHTML = formhtml;
+            if (document.all) { // some hacks required for IE
+                var formparent = document.createElement('div');
+                formparent.innerHTML = formhtml;
+                placeholder.appendChild(
+                    formparent.getElementsByTagName('form')[0]);
+            } else {
+                placeholder.innerHTML = formhtml;
+            };
         } else if (xhr.status == 401) {
             alert('Please log in.');
         } else {
-            alert('Unknown error ' + status);
+            alert('Unexpected HTTP status code ' + status +
+                  ', please warn the site administrator');
         };
     };
     var body = '';
     if (reqvalues) {
         var postpairs = [];
         for (var attr in reqvalues) {
-            postpairs.push(escape(attr) + '=' + escape(reqvalues[attr]));
+            postpairs.push(encodeURI(attr) + '=' + encodeURI(reqvalues[attr]));
         };
         var body = postpairs.join('&');
+        alert(body);
         xhr.open('POST', url, true);
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+        xhr.setRequestHeader('Content-Type',
+                             'application/x-www-form-urlencoded; charset=UTF-8');
     } else {
         xhr.open('GET', url, true);
     };
@@ -91,10 +110,6 @@ function toggle_form(evt) {
 function add_smiley(text_to_add) {
     /* add a smiley to the textarea
     */
-    // XXX this is a bit scary... the DOM specs say text nodes can
-    // be split up, but afaik that never happens in browsers... if,
-    // however, people start reporting missing last bits of text, please
-    // fix this code... ;)
     var textarea = document.getElementById('text');
     var content = textarea.value;
     var lastchar = content.charAt(content.length - 1);
@@ -103,8 +118,6 @@ function add_smiley(text_to_add) {
         content += ' ';
     };
     content += text_to_add + ' ';
-    // XXX please check the argument order here! might be wrong...
-    // stupid DOM :(
     textarea.value = content;
     textarea.focus();
 };
@@ -139,14 +152,15 @@ if (window.addEventListener) {
 </div>
 <table class="pagination"
   cellspacing="0"
-  tal:condition="python:len(comments) > 10">
+  tal:condition="python:len(comments) > batch_size">
   <tr>
     <td class="previous">
-      <tal:block condition="request/previous_batch_url | nothing">
-        <a href="previousbatch"
+      <tal:block define="firstlink python:view.get_batch_first_link(batch.start-1)">
+        <a href="firstbatch"
           accesskey="f"
           title="Go to the first result listing: alt-f"
-          tal:attributes="href request/previous_batch_url"
+          tal:condition="firstlink"
+          tal:attributes="href firstlink"
           ><img class="control"
             alt="First"
             tal:define="image context/globals/leftdouble.gif"
@@ -156,7 +170,7 @@ if (window.addEventListener) {
               height image/height;
           " />&nbsp;
         </a>
-      </tal:block>
+      </tal:block>  
       <tal:block condition="request/previous_batch_url | nothing">
         <a href="previousbatch"
           accesskey="b"
@@ -199,11 +213,12 @@ if (window.addEventListener) {
           " />
         </a>
       </tal:block>
-      <tal:block condition="request/next_batch_url | nothing">
-        <a href="nextbatch" 
+      <tal:block define="lastlink python:view.get_batch_last_link(batch.start-1)">
+        <a href="lastbatch" 
           accesskey="l"
           title="Go to the last result listing: alt-l"
-          tal:attributes="href request/next_batch_url">&nbsp;<img
+          tal:condition="lastlink"
+          tal:attributes="href lastlink">&nbsp;<img
             class="control"
             alt="Last"
             tal:define="image context/globals/rightdouble.gif"
@@ -284,14 +299,19 @@ if (window.addEventListener) {
             tal:content="subject">
             subject
           </h5>
+          <p tal:content="structure python:view.format_text(unicode(request['text'], 'UTF-8'))">
+            comment
+          </p>
           <p id="previewformbox">
-            <form method="post" id="previewform" tal:condition="request/form/preview | nothing"
-                  tal:attributes="action context/absolute_url">
+            <form method="post" id="previewform" enctype="application/x-www-form-urlencoded; charset=UTF-8"
+              tal:condition="request/form/preview | nothing"
+              tal:attributes="action context/absolute_url">
               <input type="hidden" name="title" id="preview_title" tal:attributes="value request/title" />
               <input type="hidden" name="text" id="preview_text" tal:attributes="value request/form/text" />
               <input type="submit" value="add comment" />
-              <!-- todd says 'i don't know, man' about the next bit of code, and i tend to
-                   fully agree... it works though, both in js and non-js situations, and looks consistent
+              <!-- todd says 'i don't know, man' about the next bit of code,
+                   and i tend to fully agree... it works though, both in js 
+                   and non-js situations, and looks consistent
                    (so let's not think about it too much, i suggest ;)
               -->
               <a tal:attributes="href context/absolute_url">
@@ -299,14 +319,12 @@ if (window.addEventListener) {
               </a>
             </form>
           </p>
-          <p tal:content="structure python:view.format_text(unicode(request['text'], 'UTF-8'))">
-            comment
-          </p>
         </td>
       </tr>
     </tal:preview>
   </tbody>
 </table>
+<a name="bottom"></a>
 <a tal:attributes="href string:${context/absolute_url}/comment_form.html" onclick="return toggle_form(event);">post a comment</a>
 <div id="form-placeholder" tal:attributes="href context/absolute_url">&#xa0;</div>
 </div>

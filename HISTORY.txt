@@ -16,6 +16,11 @@ HISTORY
 1.0 beta
 --------------------------
 
+* Reverted to static form in view_forum.pt view.
+
+* Reversed order of topics newest to oldest. Added jump
+  functionality. Found IE issue with Ajax forms.
+
 * Pagination right/leftdouble.gif are not included in Silva 2.0,
   so put them into the www/ of SilvaForum.
 

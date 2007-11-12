@@ -14,6 +14,23 @@ minimal_add_role = 'Authenticated'
 class ViewBase(Headers):
     def format_datetime(self, dt):
         return format_dt(dt, DateTime())
+    
+    def get_batch_first_link(self, current_offset):
+        if current_offset == 0:
+            return
+        return self.context.absolute_url() + '?batch_start=0'
+
+    def get_last_batch_start(self):
+        # returns the offset number of the last batch page
+        # this should be implemented by a specific subclass
+        raise NotImplementedError
+
+
+    def get_batch_last_link(self, current_offset):
+        offset = self.get_last_batch_start()
+        if current_offset == offset:
+            return
+        return self.context.absolute_url() + '?batch_start=' + str(offset)
 
     def format_text(self, text):
         text = mangle.entities(text)
@@ -46,6 +63,22 @@ class ViewBase(Headers):
 class ForumView(ViewBase):
     """ view on IForum 
         The ForumView is a collection of topics """
+
+    def get_topics(self):
+        topics = self.context.topics()
+        topics.reverse()
+        return topics
+
+    def get_last_batch_start(self):
+        batchlength = self.context.number_of_topics()
+        size = self.context.topic_batch_size
+        rest = batchlength % size
+        offset = batchlength - rest
+        # if rest is 0, then the last batch page would be empty,
+        # so we show the batch page before that
+        if rest == 0:
+            offset -= size
+        return offset
     
     def update(self):
         req = self.request
@@ -61,14 +94,31 @@ class ForumView(ViewBase):
         self.context.add_topic(topic)
         url = self.context.absolute_url()
         msg = 'Topic added'
+        
 
-        req.response.redirect('%s?message=%s' % (self.context.absolute_url(),
-                                                 quote(msg)))
+        req.response.redirect('%s?message=%s' % (
+                                self.context.absolute_url(),
+                                quote(msg)))
+        #req.response.redirect('%s?message=%s&batch_start=%s#bottom' % (
+        #                        self.context.absolute_url(),
+        #                        quote(msg),
+        #                        self.get_last_batch_start()))
         return msg
 
 class TopicView(ViewBase):
     """ view on ITopic 
         The TopicView is a collection of comments """
+
+    def get_last_batch_start(self):
+        batchlength = self.context.number_of_comments()
+        size = self.context.comment_batch_size
+        rest = batchlength % size
+        offset = batchlength - rest
+        # if rest is 0, then the last batch page would be empty,
+        # so we show the batch page before that
+        if rest == 0:
+            offset -= size
+        return offset
 
     def update(self):
         req = self.request
@@ -89,9 +139,10 @@ class TopicView(ViewBase):
 
         url = self.context.absolute_url()
         msg = 'Comment added'
-        
-        req.response.redirect('%s?message=%s' % (self.context.absolute_url(),
-                                                 quote(msg)))
+        req.response.redirect('%s?message=%s&batch_start=%s#bottom' % (
+                                self.context.absolute_url(),
+                                quote(msg),
+                                self.get_last_batch_start()))
         return msg
 
 class CommentView(ViewBase):

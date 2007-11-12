@@ -1,92 +1,14 @@
 <div class="forum"
   tal:define="
     dummy view/set_content_type_and_nocache;
+    dummy view/trigger_sec;
     message python:view.update() or request.get('message');
-    topics context/topics;
-    batch python:context.service_views.Silva.getBatch(topics, size=10, orphan=0);
+    topics view/get_topics;
+    batch_size context/topic_batch_size;
+    batch python:context.service_views.Silva.getBatch(topics, size=batch_size, orphan=0);
 ">
 <script type="text/javascript">
 // <![CDATA[
-
-var SUPPORTED_BROWSER = false;
-
-function getXHR() {
-    try{
-        return new XMLHttpRequest();
-    } catch(e) {
-        // not a Mozilla or Konqueror based browser
-    };
-    try {
-        // XXX not sure if it's really better, but perhaps we should use
-        // the more verbose way (with version numbers and all) for A-X
-        // instantiation?
-        return new ActiveXObject('Microsoft.XMLHTTP');
-    } catch(e) {
-        // not IE either...
-    };
-    return undefined;
-};
-
-function add_form(placeholder, reqvalues) {
-    var url = placeholder.getAttribute('href') + '/topic_form.html';
-    var xhr = getXHR();
-    var add_form_handler = function() {
-        if (xhr.readyState < 4) {
-            return;
-        };
-        if (xhr.status == 200) {
-            // XXX hack hack hack... but it's JS anyway :|
-            var formhtml = xhr.responseText.substring(
-                xhr.responseText.indexOf('form') - 1,
-                xhr.responseText.lastIndexOf('/form') + 6);
-            placeholder.innerHTML = formhtml;
-        } else if (xhr.status == 401) {
-            alert('Please log in.');
-        } else {
-            alert('Unknown error ' + status);
-        };
-    };
-    var body = '';
-    if (reqvalues) {
-        var postpairs = [];
-        for (var attr in reqvalues) {
-            postpairs.push(escape(attr) + '=' + escape(reqvalues[attr]));
-        };
-        var body = postpairs.join('&');
-        xhr.open('POST', url, true);
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-    } else {
-        xhr.open('GET', url, true);
-    };
-    xhr.onreadystatechange = add_form_handler;
-    xhr.send(body);
-};
-
-function del_form(placeholder) {
-    while (placeholder.hasChildNodes()) {
-        placeholder.removeChild(placeholder.lastChild);
-    };
-    placeholder.appendChild(document.createTextNode('\xa0'));
-};
-
-function toggle_form(evt) {
-    if (!SUPPORTED_BROWSER) {
-        return true;
-    };
-    var placeholder = document.getElementById('form-placeholder');
-    if (placeholder.getElementsByTagName('form').length) {
-        del_form(placeholder);
-    } else {
-        add_form(placeholder);
-    };
-    if (evt.stopPropagation) {
-        evt.stopPropagation();
-    } else {
-        evt.returnValue = false;
-    };
-    evt.cancelBubble = true;
-    return false;
-};
 
 function add_smiley(text_to_add) {
     /* add a smiley to the topic field
@@ -109,25 +31,25 @@ function add_smiley(text_to_add) {
     topic.focus();
 };
 
-function handle_preview_form_load() {
-    var previewform = document.getElementById('previewform');
-    if (!previewform) {
-        return;
-    };
-    add_form(document.getElementById('form-placeholder'),
-             {'topic': document.getElementById('preview_topic').value});
-};
+//function handle_preview_form_load() {
+//    var previewform = document.getElementById('previewform');
+//    if (!previewform) {
+//        return;
+//    };
+//    add_form(document.getElementById('form-placeholder'),
+//             {'topic': document.getElementById('preview_topic').value});
+//};
 
-if (window.addEventListener) {
-    window.addEventListener('load', handle_preview_form_load, true);
-    SUPPORTED_BROWSER = true;
-} else if (window.attachEvent) {
-    window.attachEvent('onload', handle_preview_form_load);
-    SUPPORTED_BROWSER = true;
-} else {
+//if (window.addEventListener) {
+//    window.addEventListener('load', handle_preview_form_load, true);
+//    SUPPORTED_BROWSER = true;
+//} else if (window.attachEvent) {
+//    window.attachEvent('onload', handle_preview_form_load);
+//    SUPPORTED_BROWSER = true;
+//} else {
     // very backward browser... don't do anything for now, rely on non-JS
     // fallback behaviour
-};
+//};
 
 // ]]>
 </script>
@@ -141,22 +63,23 @@ if (window.addEventListener) {
 </div>
 <table class="pagination"
   cellspacing="0"
-  tal:condition="python:len(topics) > 10">
+  tal:condition="python:len(topics) > batch_size">
   <tr>
     <td class="previous">
-      <tal:block condition="request/previous_batch_url | nothing">
-        <a href="previousbatch"
-           accesskey="f"
-           title="Go to the first result listing: alt-f"
-           tal:attributes="href request/previous_batch_url"
-           ><img class="control"
-             alt="First"
-             tal:define="image context/globals/leftdouble.gif"
-             tal:attributes="
-               src image/absolute_url;
-               width image/width;
-               height image/height;
-            " />&nbsp;
+      <tal:block define="firstlink python:view.get_batch_first_link(batch.start-1)">
+        <a href="firstbatch"
+          accesskey="f"
+          title="Go to the first result listing: alt-f"
+          tal:condition="firstlink"
+          tal:attributes="href firstlink"
+          ><img class="control"
+            alt="First"
+            tal:define="image context/globals/leftdouble.gif"
+            tal:attributes="
+              src image/absolute_url;
+              width image/width;
+              height image/height;
+           " />&nbsp;
         </a>
       </tal:block>
       <tal:block condition="request/previous_batch_url | nothing">
@@ -164,7 +87,8 @@ if (window.addEventListener) {
           accesskey="b"
           title="See the previous result listing: alt-b"
           tal:attributes="href request/previous_batch_url" 
-          ><img alt="control"
+          ><img class="control"
+            alt="Previous"
             tal:define="image context/globals/left.gif"
             tal:attributes="
               src image/absolute_url;
@@ -185,7 +109,8 @@ if (window.addEventListener) {
     </td>  
     <td class="next">
       <tal:block condition="request/next_batch_url | nothing">
-        <a href="nextbatch" accesskey="n"
+        <a href="nextbatch" 
+          accesskey="n"
           title="See the next result listing: alt-n"
           tal:attributes="href request/next_batch_url">
           <u>N</u>ext
@@ -197,20 +122,21 @@ if (window.addEventListener) {
               height image/height;
           " />
         </a>
-      </tal:block>  
-      <tal:block condition="request/next_batch_url | nothing">
-        <a href="nextbatch"
-           accesskey="n"
-           title="Go to the last result listing: alt-l"
-           tal:attributes="href request/next_batch_url">&nbsp;<img
-             class="control"
-             alt="Last"
-             tal:define="image context/globals/rightdouble.gif"
-             tal:attributes="
-               src image/absolute_url;
-               width image/width;
-               height image/height;
-            " />
+      </tal:block>
+      <tal:block define="lastlink python:view.get_batch_last_link(batch.start-1)">
+        <a href="lastbatch"
+          accesskey="l"
+          title="Go to the last result listing: alt-l"
+          tal:condition="lastlink"
+          tal:attributes="href lastlink">&nbsp;<img
+            class="control"
+            alt="Last"
+            tal:define="image context/globals/rightdouble.gif"
+            tal:attributes="
+              src image/absolute_url;
+              width image/width;
+              height image/height;
+           " />
         </a>
       </tal:block>
     </td>
@@ -258,22 +184,22 @@ if (window.addEventListener) {
     <tal:preview condition="python:request.get('preview') and request.get('topic')">
       <tr class="preview">
         <td class="topic">
+          <p tal:content="request/topic"></p>
           <p id="previewformbox">
-            <form method="post" id="previewform" tal:condition="request/form/preview | nothing"
-                  tal:attributes="action context/absolute_url">
+            <form method="post" id="previewform" 
+              tal:condition="request/form/preview | nothing"
+              tal:attributes="action context/absolute_url">
               <input type="hidden" name="topic" id="preview_topic" tal:attributes="value request/topic" />
               <input type="submit" value="add topic" />
-              <!-- todd says 'i don't know, man' about the next bit of code, and i tend to
-                   fully agree... it works though, both in js and non-js situations, and looks consistent
+              <!-- todd says 'i don't know, man' about the next bit of code, 
+                   and i tend to fully agree... it works though, both in js 
+                   and non-js situations, and looks consistent
                    (so let's not think about it too much, i suggest ;)
               -->
               <a tal:attributes="href context/absolute_url">
                 <input type="button" value="reset" tal:attributes="onclick string:document.location='${context/absolute_url}'" />
               </a>
             </form>
-          </p>
-          <p>
-            <a href="." tal:content="request/topic">topic</a>
           </p>
         </td>
         <td class="datetime">
@@ -289,6 +215,43 @@ if (window.addEventListener) {
     </tal:preview>
   </tbody>
 </table>
-<a tal:attributes="href string:${context/absolute_url}/topic_form.html" onclick="return toggle_form(event);">post a topic</a>
-<div id="form-placeholder" tal:attributes="href context/absolute_url">&#xa0;</div>
+<form id="forum-thread-form" 
+      method="post"
+      tal:attributes="action context/absolute_url">
+  <h3>Post a new topic</h3>
+  <h5>Subject</h5>
+  <div class="feedback"
+    tal:condition="python:request.get('preview') and request.get('text') and
+                   not request.get('topic')">
+    <span class="warning">Please provide a subject for the new topic.</span>
+  </div>
+  <div class="subject-input">
+    <input class="store"
+      type="text"
+      name="topic"
+      id="topic"
+      size="80"
+      tal:attributes="value request/topic | nothing"
+    />
+  </div>
+
+  <div id="emoticons">
+    <div class="emoticon" tal:repeat="smileydata view/get_smiley_data">
+      <img onclick="add_smiley(this.title)"
+        alt="emoticon"
+        tal:attributes="title smileydata/text; src smileydata/href"
+      />
+    </div>  
+  </div>
+  <div class="submit">
+    <input style="float:right"
+      type="submit"
+      value="add topic"
+    />
+    <input type="submit"
+      name="preview"
+      value="preview"
+    />
+  </div>  
+</form>
 </div>

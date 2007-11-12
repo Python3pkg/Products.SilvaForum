@@ -1,5 +1,6 @@
 <html
-  tal:define="dummy view/trigger_sec">
+  tal:define="dummy view/trigger_sec;
+              dummy python:context.REQUEST.RESPONSE.setHeader('Content-Type', 'text/html;; charset=UTF-8')">
   <head>
     <title>add new comment</title>
   </head>
@@ -45,7 +46,7 @@
         id="text"
         rows="10"
         cols="68"
-        tal:content="python:request.get('text', '').encode('UTF-8')"></textarea>
+        tal:content="python:request.get('text', '')"></textarea>
       <div id="emoticons">
         <div class="emoticon"
           tal:repeat="smileydata view/get_smiley_data">
