@@ -16,6 +16,8 @@ HISTORY
 1.0 beta
 --------------------------
 
+* Reverted to static form in view_topic.pt view.
+
 * Reverted to static form in view_forum.pt view.
 
 * Reversed order of topics newest to oldest. Added jump

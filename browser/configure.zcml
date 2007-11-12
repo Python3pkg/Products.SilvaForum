@@ -16,14 +16,6 @@
       permission="zope.Public"
       />
 
-  <!-- <browser:page
-      for="Products.SilvaForum.interfaces.IForum"
-      name="topic_form.html"
-      class=".view.ForumView"
-      template="topic_form.pt"
-      permission="zope.Public"
-      />-->
-
   <browser:page
       for="Products.SilvaForum.interfaces.ITopic"
       name="index.html"
@@ -31,14 +23,6 @@
       template="view_topic.pt"
       permission="zope.Public"
       />
-
-  <!--<browser:page
-      for="Products.SilvaForum.interfaces.ITopic"
-      name="comment_form.html"
-      class=".view.TopicView"
-      template="comment_form.pt"
-      permission="zope.Public"
-      />-->
 
   <browser:page
       for="Products.SilvaForum.interfaces.IComment"
