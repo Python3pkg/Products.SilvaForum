@@ -25,16 +25,6 @@ function add_smiley(text_to_add) {
     textarea.focus();
 };
 
-function handle_preview_form_load() {
-    var previewform = document.getElementById('previewform');
-    if (!previewform) {
-        return;
-    };
-    add_form(document.getElementById('form-placeholder'),
-             {'title': document.getElementById('preview_title').value,
-              'text': document.getElementById('preview_text').value});
-};
-
 // ]]>
 </script>
 <div class="feedback"
