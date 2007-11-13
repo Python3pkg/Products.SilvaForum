@@ -57,7 +57,7 @@ function add_smiley(text_to_add) {
               height image/height;
           " />&nbsp;
         </a>
-      </tal:block>  
+      </tal:block>
       <tal:block condition="request/previous_batch_url | nothing">
         <a href="previousbatch"
           accesskey="b"
@@ -101,7 +101,7 @@ function add_smiley(text_to_add) {
         </a>
       </tal:block>
       <tal:block define="lastlink python:view.get_batch_last_link(batch.start-1)">
-        <a href="lastbatch" 
+        <a href="lastbatch"
           accesskey="l"
           title="Go to the last result listing: alt-l"
           tal:condition="lastlink"
@@ -197,14 +197,13 @@ function add_smiley(text_to_add) {
             enctype="application/x-www-form-urlencoded; charset=UTF-8"
             tal:condition="request/form/preview | nothing"
             tal:attributes="action context/absolute_url">
-            
             <input type="hidden" name="title" id="preview_title"
                    tal:attributes="value python:unicode(request.form['title'], 'UTF-8')" />
             <input type="hidden" name="text" id="preview_text"
                    tal:attributes="value python:unicode(request.form['text'], 'UTF-8')" />
             <input style="float:right; margin:0" type="submit" value="add comment" />
             <!-- todd says 'i don't know, man' about the next bit of code,
-                 and i tend to fully agree... it works though, both in js 
+                 and i tend to fully agree... it works though, both in js
                  and non-js situations, and looks consistent
                  (so let's not think about it too much, i suggest ;)
             -->
@@ -246,7 +245,7 @@ function add_smiley(text_to_add) {
         alt="emoticon"
         tal:attributes="title smileydata/text; src smileydata/href"
       />
-    </div>  
+    </div>
   </div>
   <div class="submit">
     <input style="float:right"
@@ -257,7 +256,7 @@ function add_smiley(text_to_add) {
     <input type="submit"
       name="preview"
       value="preview"
-    />  
+    />
 </form>
 <a name="bottom"></a>
 </div>

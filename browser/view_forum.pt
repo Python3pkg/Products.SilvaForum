@@ -66,7 +66,7 @@ function add_smiley(text_to_add) {
         <a href="previousbatch"
           accesskey="b"
           title="See the previous result listing: alt-b"
-          tal:attributes="href request/previous_batch_url" 
+          tal:attributes="href request/previous_batch_url"
           ><img class="control"
             alt="Previous"
             tal:define="image context/globals/left.gif"
@@ -78,7 +78,7 @@ function add_smiley(text_to_add) {
         <u>B</u>ack
         </a>
       </tal:block>
-    </td>  
+    </td>
     <td class="info">
       Showing results
       <tal:block replace="batch/start" />
@@ -86,10 +86,10 @@ function add_smiley(text_to_add) {
       <tal:block replace="batch/end" />
       of
       <tal:block replace="python:len(topics)" />
-    </td>  
+    </td>
     <td class="next">
       <tal:block condition="request/next_batch_url | nothing">
-        <a href="nextbatch" 
+        <a href="nextbatch"
           accesskey="n"
           title="See the next result listing: alt-n"
           tal:attributes="href request/next_batch_url">
@@ -137,14 +137,14 @@ function add_smiley(text_to_add) {
         <td class="topic">
           <p tal:content="structure python:view.format_text(request.form['topic'])" />
           <form method="post"
-            id="previewform" 
+            id="previewform"
             tal:condition="request/form/preview | nothing"
             tal:attributes="action context/absolute_url">
             <input style="float:right; margin:0" type="submit" value="add topic" />
             <input type="hidden" name="topic" id="preview_topic"
                    tal:attributes="value python:unicode(request.form['topic'], 'UTF-8')" />
-            <!-- todd says 'i don't know, man' about the next bit of code, 
-                 and i tend to fully agree... it works though, both in js 
+            <!-- todd says 'i don't know, man' about the next bit of code,
+                 and i tend to fully agree... it works though, both in js
                  and non-js situations, and looks consistent
                  (so let's not think about it too much, i suggest ;)
             -->
@@ -196,7 +196,7 @@ function add_smiley(text_to_add) {
     </tal:loop>
   </tbody>
 </table>
-<form id="forum-thread-form" 
+<form id="forum-thread-form"
       method="post"
       tal:attributes="action context/absolute_url">
   <h3>Post a new topic</h3>
@@ -221,7 +221,7 @@ function add_smiley(text_to_add) {
         alt="emoticon"
         tal:attributes="title smileydata/text; src smileydata/href"
       />
-    </div>  
+    </div>
   </div>
   <div class="submit">
     <input style="float:right"
@@ -232,6 +232,6 @@ function add_smiley(text_to_add) {
       name="preview"
       value="preview"
     />
-  </div>  
+  </div>
 </form>
 </div>
