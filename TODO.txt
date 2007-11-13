@@ -3,7 +3,7 @@ See also LICENSE.txt
 
 Meta::
   
-  Valid for:    SilvaForum 1.0 beta
+  Valid for:    SilvaForum .05 beta
   Author:       Todd Matsumoto, Guido Wesdorp
   Email:        todd@infrae.com
   Last author:  $Author$
@@ -13,7 +13,38 @@ Meta::
 TODO for SilvaForum
 ===================
 
-* add emoticons and smilies to service_resource directory
+* Fix the Ajax version that has collapsible forms. Add unicode support to
+  hidden input fields.
+
+* Rig the preview form to render emoticons.
+
+* Unify the batching code so it's the same for threads and comments, make 
+  it one macro in a separate file (so it’s reusable), and using the macro 
+  add pagination to the bottom of the tables too. Put it – 
+  'macro_pagination.pt' – in the Silva core.
+
+* i18n the pagination strings.
+
+* Make the preview appear at the end of the table.
+
+* In SMI the add list of the contents screen, "Silva Forum" appears as the
+  first item. Change its position so it show up after the default content 
+  types.
+
+* Close a topic functionality to comments so that it remains public but no 
+  more comments can be added.
+
+* Close forums/topics to selected users.
+
+* Incorporate the kupu editor.
+
+* Get SilvaFind working with SilvaForum.
+
+* Set user timezones.
+
+* Specify a SilvaForum moderator role or assign it to an existing role. Add
+  a moderate link in the frontend which connects to the corresponding 
+  backend.
 
 Issues
 ------

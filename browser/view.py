@@ -33,6 +33,8 @@ class ViewBase(Headers):
         return self.context.absolute_url() + '?batch_start=' + str(offset)
 
     def format_text(self, text):
+        if not isinstance(text, unicode):
+           text = unicode(text, 'utf-8')
         text = mangle.entities(text)
         root = self.context.aq_inner.get_root()
         text = emoticons(text,

@@ -164,7 +164,7 @@ function add_smiley(text_to_add) {
     <tal:preview condition="python:request.get('preview') and request.get('topic')">
       <tr class="preview">
         <td class="topic">
-          <p tal:content="python:unicode(request.form['topic'], 'UTF-8')"></p>
+          <p tal:content="structure python:view.format_text(request.form['topic'])" />
           <form method="post"
             id="previewform" 
             tal:condition="request/form/preview | nothing"
@@ -215,7 +215,6 @@ function add_smiley(text_to_add) {
       tal:attributes="value python:unicode(request.form.get('topic', ''), 'UTF-8')"
     />
   </div>
-
   <div id="emoticons">
     <div class="emoticon" tal:repeat="smileydata view/get_smiley_data">
       <img onclick="add_smiley(this.title)"

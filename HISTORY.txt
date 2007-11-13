@@ -3,7 +3,7 @@ See also LICENSE.txt
 
 Meta::
   
-  Valid for:        SilvaForum 1.0 beta (SVN/Unreleased)
+  Valid for:        SilvaForum .05 beta (SVN/Unreleased)
   Author:           Todd Matsumoto, Guido Wesdorp
   Email:            todd@infrae.com
   Last author:      $Author: guido $
@@ -13,11 +13,14 @@ Meta::
 HISTORY
 =======
 
-1.0 beta
+.05 beta
 --------------------------
 
+* forum.css changes, added emoticon preview support to view_forum.pt,
+  view_comment.pt subject fields.
+
 * Ah, after reverting to static forms, unicode issue persists.
-  Found the error on the preview inputs, and re-wrote those to
+  Found the error on the preview hidden inputs, and re-wrote those to
   support unicode.
 
 * Reverted to static form in view_topic.pt view.

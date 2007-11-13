@@ -176,21 +176,28 @@ function add_smiley(text_to_add) {
           <p>Preview</p>
         </td>
         <td class="comment">
-          <h5 tal:define="subject python:unicode(request.form['title'], 'UTF-8')"
+          <!--<h5 tal:define="subject python:unicode(request.form['title'], 'UTF-8')"
             tal:condition="subject"
             tal:content="subject">
             subject
+          </h5>-->
+          <h5 tal:define="subject python:unicode(request.form['title'], 'UTF-8')"
+            tal:condition="subject"
+            tal:content="structure python:view.format_text(request.form['title'])">
+            subject
           </h5>
-          <p tal:content="structure python:view.format_text(unicode(request['text'], 'UTF-8'))">
-            comment
-          </p>
+          <p tal:content="structure python:view.format_text(request.form['text'])" />
           <form method="post"
             id="previewform"
             enctype="application/x-www-form-urlencoded; charset=UTF-8"
             tal:condition="request/form/preview | nothing"
             tal:attributes="action context/absolute_url">
+            
             <input type="hidden" name="title" id="preview_title"
-                   tal:attributes="value python:unicode(request.form['title'], 'UTF-8')" />
+                   tal:attributes="value python:view.format_text(request.form['title'])" />
+            
+            <!--<input type="hidden" name="title" id="preview_title"
+                   tal:attributes="value python:unicode(request.form['title'], 'UTF-8')" />-->
             <input type="hidden" name="text" id="preview_text"
                    tal:attributes="value python:unicode(request.form['text'], 'UTF-8')" />
             <input style="float:right; margin:0" type="submit" value="add comment" />
@@ -217,6 +224,7 @@ function add_smiley(text_to_add) {
   <input class="store"
     type="text"
     name="title"
+    id="title"
     size="80"
     tal:attributes="value python:unicode(request.form.get('title', ''), 'UTF-8')"
   />
