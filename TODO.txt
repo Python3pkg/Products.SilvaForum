@@ -6,8 +6,6 @@ Meta::
   Valid for:    SilvaForum 0.1-beta-2 (SVN/Unreleased)
   Author:       Todd Matsumoto, Guido Wesdorp
   Email:        todd@infrae.com
-  Last author:  $Author$
-  SVN:          $Date$ $Rev$
 
 ===================
 TODO for SilvaForum
@@ -61,8 +59,13 @@ Issues
 * author registration in the smi. figured out a work around, but the real
   reason for this bug is yet to be discovered.
 
-Bugs
-----
+Known bugs
+----------
 
 * clicking on 'Silva Root' gives an error type: "NoViewError, no public
   view defined"
+
++ When adding a topic the feedback message is included in the url, *and* in the
+  urls of the batch controls, so the message (e.g. "Comment added") remains
+  visible as the user clicks through the batch. Including messages in the url
+  is bad practice, ideally we would put the feedback message in options. 
