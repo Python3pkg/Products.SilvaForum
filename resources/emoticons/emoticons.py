@@ -31,10 +31,23 @@ def flatten_smileydata(d=smileydata):
 def emoticons(text, imagedir):
     if imagedir.endswith('/'):
         imagedir = imagedir[:-1]
+    textchunks = [text]
     for image, smiley in flatten_smileydata():
-        smiley_html = '<img src="%s/%s" alt="%s" />' % (imagedir,
-                                                        image,
-                                                        get_alt_name(image))
-        text = text.replace(smiley, smiley_html)
-    return text
+        newchunks = []
+        for chunk in textchunks:
+            if chunk.startswith('<img'):
+                newchunks.append(chunk)
+            elif smiley in chunk:
+                smiley_html = '<img src="%s/%s" alt="%s" />' % (imagedir,
+                                                               image,
+                                                               get_alt_name(image))
+                chunkparts = chunk.split(smiley)
+                for part in chunkparts:
+                    newchunks.append(part)
+                    newchunks.append(smiley_html)
+                newchunks.pop()
+            else:
+                newchunks.append(chunk)
+        textchunks = newchunks
+    return ''.join(textchunks)
 
