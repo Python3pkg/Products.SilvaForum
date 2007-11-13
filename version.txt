@@ -1,1 +1,1 @@
-1.0 beta (SVN/Unreleased)
+0.5 beta (SVN/Unreleased)
