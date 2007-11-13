@@ -165,23 +165,23 @@ function add_smiley(text_to_add) {
       <tr class="preview">
         <td class="topic">
           <p tal:content="python:unicode(request.form['topic'], 'UTF-8')"></p>
-          <p id="previewformbox">
-            <form method="post" id="previewform" 
-              tal:condition="request/form/preview | nothing"
-              tal:attributes="action context/absolute_url">
-              <input type="hidden" name="topic" id="preview_topic"
-                     tal:attributes="value python:unicode(request.form['topic'], 'UTF-8')" />
-              <input type="submit" value="add topic" />
-              <!-- todd says 'i don't know, man' about the next bit of code, 
-                   and i tend to fully agree... it works though, both in js 
-                   and non-js situations, and looks consistent
-                   (so let's not think about it too much, i suggest ;)
-              -->
-              <a tal:attributes="href context/absolute_url">
-                <input type="button" value="reset" tal:attributes="onclick string:document.location='${context/absolute_url}'" />
-              </a>
-            </form>
-          </p>
+          <form method="post"
+            id="previewform" 
+            tal:condition="request/form/preview | nothing"
+            tal:attributes="action context/absolute_url">
+            <input style="float:right; margin:0" type="submit" value="add topic" />
+            <input type="hidden" name="topic" id="preview_topic"
+                   tal:attributes="value python:unicode(request.form['topic'], 'UTF-8')" />
+            <!-- todd says 'i don't know, man' about the next bit of code, 
+                 and i tend to fully agree... it works though, both in js 
+                 and non-js situations, and looks consistent
+                 (so let's not think about it too much, i suggest ;)
+            -->
+            <a tal:attributes="href context/absolute_url"><input
+              class="cancel" type="button" value="clear"
+              tal:attributes="onclick string:document.location='${context/absolute_url}'"
+              /></a>
+          </form>
         </td>
         <td class="datetime">
           <p>Now</p>

@@ -151,7 +151,7 @@ div.forum input.store, textarea.store {
   !width: 94%; /* IE7 hack */
 }
 
-div.forum input[type="submit"] {
+div.forum input[type="submit"], div.forum input[type="button"] {
   border-color: #3850b3;
   color: #e8f7ef;
   background-color: #455a82;
