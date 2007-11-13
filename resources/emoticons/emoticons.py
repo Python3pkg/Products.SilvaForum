@@ -17,27 +17,8 @@ smileydata = {
     'wink.gif': ('; )', ';)', ';-)', ':wink:'),
 }
 
-alt_name = {
-    'angry.gif': 'Angry',
-    'apprehension.gif': 'Apprehension',
-    'arrow.gif': 'Arrow',
-    'confusion.gif': 'Confusion',
-    'cool.gif': 'Cool',
-    'embarrassment.gif': 'Oops',
-    'exclamation.gif': 'Exclamation',
-    'happy.gif': 'Happy',
-    'idea.gif': 'Idea',
-    'mad.gif': 'Evil',
-    'question.gif': 'Question',
-    'sad.gif': 'Sad',
-    'shocked.gif': 'Shocked',
-    'surprised.gif': 'Surprised',
-    'twisted.gif': 'Twisted',
-    'wink.gif': 'Wink',
-}
-
-def get_alt_name(smiley):
-    return alt_name[smiley]
+def get_alt_name(imgname):
+    return smileydata[imgname][0]
 
 def flatten_smileydata(d=smileydata):
     ret = []
