@@ -34,7 +34,7 @@ class ViewBase(Headers):
 
     def format_text(self, text):
         if not isinstance(text, unicode):
-           text = unicode(text, 'utf-8')
+            text = unicode(text, 'utf-8')
         text = mangle.entities(text)
         root = self.context.aq_inner.get_root()
         text = emoticons(text,

@@ -10,19 +10,24 @@
 <script type="text/javascript">
 // <![CDATA[
 
+window.focussed_form_field = null;
+
 function add_smiley(text_to_add) {
     /* add a smiley to the textarea
     */
-    var textarea = document.getElementById('text');
-    var content = textarea.value;
+    var input = window.focussed_form_field;
+    if (!input) {
+        return;
+    };
+    var content = input.value;
     var lastchar = content.charAt(content.length - 1);
     if (lastchar && lastchar != ' ' && lastchar != '\t' && lastchar != '\n'
           && lastchar != '\r') {
         content += ' ';
     };
     content += text_to_add + ' ';
-    textarea.value = content;
-    textarea.focus();
+    input.value = content;
+    input.focus();
 };
 
 // ]]>
@@ -160,7 +165,7 @@ function add_smiley(text_to_add) {
             </p>
             <h5 tal:define="subject comment/title"
               tal:condition="subject"
-              tal:content="subject">
+              tal:content="structure python:view.format_text(subject)">
               topic
             </h5>
             <p tal:content="structure python:view.format_text(comment['text'])">
@@ -194,10 +199,7 @@ function add_smiley(text_to_add) {
             tal:attributes="action context/absolute_url">
             
             <input type="hidden" name="title" id="preview_title"
-                   tal:attributes="value python:view.format_text(request.form['title'])" />
-            
-            <!--<input type="hidden" name="title" id="preview_title"
-                   tal:attributes="value python:unicode(request.form['title'], 'UTF-8')" />-->
+                   tal:attributes="value python:unicode(request.form['title'], 'UTF-8')" />
             <input type="hidden" name="text" id="preview_text"
                    tal:attributes="value python:unicode(request.form['text'], 'UTF-8')" />
             <input style="float:right; margin:0" type="submit" value="add comment" />
@@ -226,6 +228,7 @@ function add_smiley(text_to_add) {
     name="title"
     id="title"
     size="80"
+    onfocus="window.focussed_form_field = this"
     tal:attributes="value python:unicode(request.form.get('title', ''), 'UTF-8')"
   />
   <h5>Message</h5>
@@ -234,6 +237,7 @@ function add_smiley(text_to_add) {
     id="text"
     rows="10"
     cols="68"
+    onfocus="window.focussed_form_field = this"
     tal:content="python:unicode(request.get('text', ''), 'UTF-8')"></textarea>
   <div id="emoticons">
     <div class="emoticon"
