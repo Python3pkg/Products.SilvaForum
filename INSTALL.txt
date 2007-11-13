@@ -17,10 +17,8 @@ Installing SilvaForum
 Dependencies
 ------------
 
-  * required:
-
   * SilvaForum depends on Silva 2.0.1 or later, and thus requires a fully working
-    Zope/Silva install
+    Zope/Silva 2.x install
 
 Installation instructions
 -------------------------
@@ -35,13 +33,20 @@ IMPORTANT STYLING NOTES:
 
 SilvaForum does not work with SilvaLayout.
 
-SilvaForum comes with it's own default layout which resides in the resources
-directory. This css can be replaced for any other housestyle css, however it
-is important to connect the css to the forum pages via the head_inject file
-in the ZMI. 
+When the SilvaForum extension is installed there are CSS files and other
+resources located in the service_resources folder of your Silva root in its
+SilvaForum folder. You can find these in:
 
-Place the following tal:block in the head_inject file after the
-<tal:block replace="structure model/@@set_nocache" /></tal:block>:
+/[yourSilva]/service_resources/SilvaForum/forum.css
+
+To enable this place a tal:block with a condition in the head_inject *within*
+the tal:block that defines 'model', thus:
+
+<tal:block define="model request/model|here">
+  <!-- your conditions go here -->
+</tal:block>:
+
+This is the condition block for detecting SilvaForum pages:
 
 <tal:comment replace="nothing"> _______ SilvaForum CSS _______ </tal:comment>
 <tal:block condition="python:model.meta_type == 'Silva Forum' 
@@ -51,8 +56,14 @@ Place the following tal:block in the head_inject file after the
     tal:attributes="href python:context.get_root_url()+'/service_resources/SilvaForum/forum.css'" />
 </tal:block>
 
-This should give you the default SilvaForum styles.
+Now when a user visits a Forum, the forum.css stylesheet should also be
+referenced by your layout. Probably it will be the last stylesheet referenced
+so it will 'win' in a conflict with other stylesheets.
+
+Note that the files in service_resources are on the file system and should not
+be edited because they won't survive upgrades. If you're not satisfied with the
+forum.css you can change the path in the head_inject to reference your own
+forum.css file somewhere else.
 
 For information about usage of the product, and contact information, see
 README.txt.
-

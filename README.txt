@@ -18,13 +18,14 @@ What is it?
 -----------
 
 SilvaForum is a forum (or Bulletin Board System) for the Silva CMS. It allows
-registered visitors of a Silva site to create topics (topics or questions)
+registered visitors of a Silva site to create topics (subjects or questions)
 and comment on existing topics.
 
 Installating SilvaForum
 -----------------------
 
-See INSTALL.txt for installation instructions.
+See INSTALL.txt for installation instructions, plus how to activate the Silva
+Forum stylesheet. 
 
 Using SilvaForum
 ----------------
@@ -35,10 +36,10 @@ this will serve as the root of the forum. The public views of the Forum allow
 (messages) to the topics. The topics and comments are accessible from the
 SMI for moderation and maintenance purposes.
 
-Authentication can be invoked for the public view of the forum by going to
-the SMI 'access' tab. In the pulldown menu for 'public view access
-restrictions for' choose the setting 'Authenticated' and click 'set
-restriction'. Then only authenticated users will be able to access the forum.
+Authentication can be configured for the public view of the forum by going to
+the SMI 'access' tab. In the pulldown menu for 'public view access restrictions'
+choose the setting 'Authenticated' and click 'set restriction'. Then only
+authenticated users will be able to access the forum.
 
 Thanks
 ------
@@ -47,7 +48,7 @@ Thank you Bas Leeflang and the Bijvoet Center http://www.bijvoet-center.nl/ for
 the assignment to build the forum.
 
 Thank you Mark James of http://www.famfamfam.com/ for the great icons, which
-we used in the SMI views!
+we used in the forum views!
 
 Questions, remarks, etc.
 ------------------------
