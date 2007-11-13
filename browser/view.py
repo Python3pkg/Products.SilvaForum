@@ -93,7 +93,10 @@ class ForumView(ViewBase):
             raise Unauthorized('Sorry you need to be authorized to use this '
                                'forum')
         topic = unicode(req['topic'], 'UTF-8')
-        self.context.add_topic(topic)
+        try:
+            self.context.add_topic(topic)
+        except ValueError, e:
+            return str(e)
         url = self.context.absolute_url()
         msg = 'Topic added'
         
@@ -137,7 +140,10 @@ class TopicView(ViewBase):
         if not title.strip() and not text.strip():
             return 'Please fill in one of the two fields.'
 
-        comment = self.context.add_comment(title, text)
+        try:
+            comment = self.context.add_comment(title, text)
+        except ValueError, e:
+            return str(e)
 
         url = self.context.absolute_url()
         msg = 'Comment added'
