@@ -108,7 +108,7 @@ class Forum(ForumFolderBase, Publication):
             'creator': obj.sec_get_creator_info().fullname(),
             'commentlen': len(obj.comments()),
         } for obj in self.objectValues('Silva Forum Topic')]
-        topics
+        topics.reverse()
         return topics
 
     def number_of_topics(self):

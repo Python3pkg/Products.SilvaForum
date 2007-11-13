@@ -66,10 +66,10 @@ class ForumView(ViewBase):
     """ view on IForum 
         The ForumView is a collection of topics """
 
-    def get_topics(self):
-        topics = self.context.topics()
-        topics.reverse()
-        return topics
+    #def get_topics(self):
+    #    topics = self.context.topics()
+    #    topics.reverse()
+    #    return topics
 
     def get_last_batch_start(self):
         batchlength = self.context.number_of_topics()

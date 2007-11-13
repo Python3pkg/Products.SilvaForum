@@ -3,7 +3,7 @@
     dummy view/set_content_type_and_nocache;
     dummy view/trigger_sec;
     message python:view.update() or request.get('message');
-    topics view/get_topics;
+    topics context/topics;
     batch_size context/topic_batch_size;
     batch python:context.service_views.Silva.getBatch(topics, size=batch_size, orphan=0);
 ">
