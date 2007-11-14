@@ -36,15 +36,20 @@ this will serve as the root of the forum. The public views of the Forum allow
 (messages) to the topics. The topics and comments are accessible from the
 SMI for moderation and maintenance purposes.
 
-Authentication can be configured for the public view of the forum by going to
-the SMI 'access' tab. 
+Forums can be either exposed to the public, with authentication on the forms,
+or they can only be viewed by zope authorized users.
 
-if you want viewable to public but can't enter text set anonymous.
+If the forum should be viewable by the public, go to the access tab in the
+SMI and from the 'public view access restrictions' choose the setting 'Anonymous'
+and click 'set restrictions'. This will allow the public to see and navigate the
+forum, however if any form input is submitted the user will be prompted for their
+login.
 
-if you want to be not viewable to unauthorized set below
-In the pulldown menu for 'public view access restrictions'
-choose the setting 'Authenticated' and click 'set restriction'. Then only
-authenticated users will be able to access the forum.
+If the forum should only be viewed by authorized individuals, go to the access
+tab in the SMI and from the 'public view access restrictions' choose the setting
+'Authorized' and click 'set restrictions'. This only allows authorized user to
+access and view the forum and will be prompted for login when clicking the link
+to the forum in the 'toc'.
 
 Logging out with Internet Explorer
 ----------------------------------
