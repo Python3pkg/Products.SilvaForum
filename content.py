@@ -41,6 +41,7 @@ class ForumFolderBase(FiveViewable):
     reg_under = re.compile('_+')
     reg_nonword = re.compile('\W')
     reg_start_under = re.compile('^_+')
+    reg_number_at_end = re.compile('\d$')
     def _generate_id(self, string):
         """ This produces a chopped string id from a title, or
             text, or else uses unknown. For dublicates the
@@ -61,12 +62,11 @@ class ForumFolderBase(FiveViewable):
         if id in self.objectIds():
             highest = 1
             for other_id in self.objectIds():
-                if other_id.startswith(id) and '__' in other_id:
-                    numpart = other_id.split('__')[-1]
-                    if numpart.isdigit():
-                        highest = int(numpart)
+                match =self.reg_number_at_end.search(other_id)
+                if other_id.startswith(id) and match:
+                    highest = int(match.group(0))
             highest += 1
-            id = '%s__%s' % (id, highest)
+            id = '%s_%s' % (id, highest)
         return id
 
 class Forum(ForumFolderBase, Publication):

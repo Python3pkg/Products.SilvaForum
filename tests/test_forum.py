@@ -63,6 +63,15 @@ class ForumTest(SilvaTestCase.SilvaTestCase):
         gen_id = self.forum._generate_id(test_id)
         self.assertNotEquals(gen_id, test_id)
 
+        t1 = self.forum.add_topic(':) foo :)')
+        self.assertEquals('foo_', t1.id)
+
+        t2 = self.forum.add_topic(':) foo :)')
+        self.assertEquals('foo__2', t2.id)
+
+        t3 = self.forum.add_topic(':) foo :)')
+        self.assertEquals('foo__3', t3.id)
+
 class TopicTest(SilvaTestCase.SilvaTestCase):
     def afterSetUp(self):
         self.forum = self.addObject(self.getRoot(), 'Forum', 'forum',

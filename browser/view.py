@@ -27,7 +27,6 @@ class ViewBase(Headers):
         return self.context.absolute_url() + '?batch_start=%s' % (prevoffset,)
 
     def get_batch_next_link(self, current_offset, numitems, batchsize=10):
-        print 'current_offset:', current_offset
         if current_offset >= (numitems - batchsize):
             return
         offset = current_offset + batchsize
