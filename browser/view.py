@@ -66,11 +66,6 @@ class ForumView(ViewBase):
     """ view on IForum 
         The ForumView is a collection of topics """
 
-    #def get_topics(self):
-    #    topics = self.context.topics()
-    #    topics.reverse()
-    #    return topics
-
     def get_last_batch_start(self):
         batchlength = self.context.number_of_topics()
         size = self.context.topic_batch_size
@@ -99,15 +94,10 @@ class ForumView(ViewBase):
             return str(e)
         url = self.context.absolute_url()
         msg = 'Topic added'
-        
 
         req.response.redirect('%s?message=%s' % (
                                 self.context.absolute_url(),
                                 quote(msg)))
-        #req.response.redirect('%s?message=%s&batch_start=%s#bottom' % (
-        #                        self.context.absolute_url(),
-        #                        quote(msg),
-        #                        self.get_last_batch_start()))
         return msg
 
 class TopicView(ViewBase):
@@ -127,6 +117,7 @@ class TopicView(ViewBase):
 
     def update(self):
         req = self.request
+        
         if (req.has_key('preview') or req.has_key('cancel') or
                 (not req.has_key('title') and not req.has_key('text'))):
             return

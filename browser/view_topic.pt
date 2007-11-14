@@ -221,6 +221,8 @@ function add_smiley(text_to_add) {
       method="post"
       tal:attributes="action context/absolute_url">
   <h3>Post a new comment</h3>
+  <input type="hidden" name="batch_start" value="#"
+         tal:attributes="value view/get_last_batch_start" />
   <h5>Subject</h5>
   <input class="store"
     type="text"

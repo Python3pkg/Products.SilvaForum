@@ -16,6 +16,9 @@ HISTORY
 0.1-beta-2 (SVN/Unreleased)
 --------------------------
 
+* Put in jump for the preview form on a comment. Now when previewing the 
+  comment will jump to the last page, the same page as where it is added.
+
 * forum.css changes, added emoticon preview support to view_forum.pt,
   view_comment.pt subject fields.
 
