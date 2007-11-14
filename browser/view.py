@@ -53,12 +53,6 @@ class ViewBase(Headers):
             })
         return ret
 
-    def trigger_sec(self):
-        sec = getSecurityManager()
-        if not sec.getUser().has_role(minimal_add_role):
-            raise Unauthorized('Sorry you need to be authorized to use this '
-                               'forum')
-
     def get_resources(self):
         return self.context.aq_inner.get_root().service_resources.SilvaForum
 

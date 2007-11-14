@@ -1,7 +1,6 @@
 <div class="forum"
   tal:define="
     dummy view/set_content_type_and_nocache;
-    dummy view/trigger_sec;
     message python:view.update() or request.get('message');
     topics context/topics;
     batch_size context/topic_batch_size;
