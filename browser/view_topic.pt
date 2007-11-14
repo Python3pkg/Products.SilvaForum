@@ -3,6 +3,7 @@
     dummy view/set_content_type_and_nocache;
     message python:view.update() or request.get('message');
     comments context/comments;
+    numcomments python:len(comments);
     batch_size context/comment_batch_size;
     batch python:context.service_views.Silva.getBatch(comments, size=batch_size, orphan=0);
 ">
@@ -38,7 +39,8 @@ function add_smiley(text_to_add) {
 </div>
 <table class="pagination"
   cellspacing="0"
-  tal:condition="python:len(comments) > batch_size">
+  tal:condition="python:numcomments > batch_size"
+  tal:define="previous_batch_url python:view.get_batch_prev_link(batch.start-1)">
   <tr>
     <td class="previous">
       <tal:block define="firstlink python:view.get_batch_first_link(batch.start-1)">
@@ -57,11 +59,11 @@ function add_smiley(text_to_add) {
           " />&nbsp;
         </a>
       </tal:block>
-      <tal:block condition="request/previous_batch_url | nothing">
+      <tal:block condition="previous_batch_url">
         <a href="previousbatch"
           accesskey="b"
           title="See the previous result listing: alt-b"
-          tal:attributes="href request/previous_batch_url"
+          tal:attributes="href previous_batch_url"
           ><img class="control"
             alt="Previous"
             tal:define="image context/globals/left.gif"
@@ -80,14 +82,14 @@ function add_smiley(text_to_add) {
       to
       <tal:block replace="batch/end" />,
       of
-      <tal:block replace="python:len(comments)" />
+      <tal:block replace="python:numcomments" />
     </td>
-    <td class="next">
-      <tal:block condition="request/next_batch_url | nothing">
+    <td class="next" tal:define="next_batch_url python:view.get_batch_next_link(batch.start-1, numcomments)">
+      <tal:block condition="next_batch_url">
         <a href="nextbatch"
           accesskey="n"
           title="See the next result listing: alt-n"
-          tal:attributes="href request/next_batch_url">
+          tal:attributes="href next_batch_url">
           <u>N</u>ext
           <img class="control"
             alt="Next"
@@ -99,7 +101,7 @@ function add_smiley(text_to_add) {
           " />
         </a>
       </tal:block>
-      <tal:block define="lastlink python:view.get_batch_last_link(batch.start-1)">
+      <tal:block define="lastlink python:view.get_batch_last_link(batch.start-1, numcomments)">
         <a href="lastbatch"
           accesskey="l"
           title="Go to the last result listing: alt-l"
@@ -220,8 +222,9 @@ function add_smiley(text_to_add) {
       method="post"
       tal:attributes="action context/absolute_url">
   <h3>Post a new comment</h3>
+  <!-- XXX pretty sure this can be removed... -->
   <input type="hidden" name="batch_start" value="#"
-         tal:attributes="value view/get_last_batch_start" />
+         tal:attributes="value python:view.get_last_batch_start(numcomments)" />
   <h5>Subject</h5>
   <input class="store"
     type="text"

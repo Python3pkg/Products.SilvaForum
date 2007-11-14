@@ -20,17 +20,29 @@ class ViewBase(Headers):
             return
         return self.context.absolute_url() + '?batch_start=0'
 
-    def get_last_batch_start(self):
-        # returns the offset number of the last batch page
-        # this should be implemented by a specific subclass
-        raise NotImplementedError
-
-
-    def get_batch_last_link(self, current_offset):
-        offset = self.get_last_batch_start()
-        if current_offset == offset:
+    def get_batch_prev_link(self, current_offset, batchsize=10):
+        if current_offset < batchsize:
             return
-        return self.context.absolute_url() + '?batch_start=' + str(offset)
+        prevoffset = current_offset - batchsize
+        return self.context.absolute_url() + '?batch_start=%s' % (prevoffset,)
+
+    def get_batch_next_link(self, current_offset, numitems, batchsize=10):
+        print 'current_offset:', current_offset
+        if current_offset >= (numitems - batchsize):
+            return
+        offset = current_offset + batchsize
+        return self.context.absolute_url() + '?batch_start=%s' % (offset,)
+
+    def get_last_batch_start(self, numitems, batchsize=10):
+        rest = numitems % batchsize
+        offset = numitems - rest
+        return offset
+
+    def get_batch_last_link(self, current_offset, numitems, batchsize=10):
+        if current_offset >= (numitems - batchsize):
+            return
+        offset = self.get_last_batch_start(numitems)
+        return self.context.absolute_url() + '?batch_start=%s' % (offset,)
 
     def format_text(self, text):
         if not isinstance(text, unicode):
@@ -60,17 +72,6 @@ class ForumView(ViewBase):
     """ view on IForum 
         The ForumView is a collection of topics """
 
-    def get_last_batch_start(self):
-        batchlength = self.context.number_of_topics()
-        size = self.context.topic_batch_size
-        rest = batchlength % size
-        offset = batchlength - rest
-        # if rest is 0, then the last batch page would be empty,
-        # so we show the batch page before that
-        if rest == 0:
-            offset -= size
-        return offset
-    
     def update(self):
         req = self.request
         if (req.has_key('preview') or req.has_key('cancel') or
@@ -88,26 +89,14 @@ class ForumView(ViewBase):
             return str(e)
         url = self.context.absolute_url()
         msg = 'Topic added'
-
         req.response.redirect('%s?message=%s' % (
                                 self.context.absolute_url(),
                                 quote(msg)))
-        return msg
+        return ''
 
 class TopicView(ViewBase):
     """ view on ITopic 
         The TopicView is a collection of comments """
-
-    def get_last_batch_start(self):
-        batchlength = self.context.number_of_comments()
-        size = self.context.comment_batch_size
-        rest = batchlength % size
-        offset = batchlength - rest
-        # if rest is 0, then the last batch page would be empty,
-        # so we show the batch page before that
-        if rest == 0:
-            offset -= size
-        return offset
 
     def update(self):
         req = self.request
@@ -132,11 +121,12 @@ class TopicView(ViewBase):
 
         url = self.context.absolute_url()
         msg = 'Comment added'
+        numitems = self.context.number_of_topics()
         req.response.redirect('%s?message=%s&batch_start=%s#bottom' % (
                                 self.context.absolute_url(),
                                 quote(msg),
-                                self.get_last_batch_start()))
-        return msg
+                                self.get_last_batch_start(numitems)))
+        return ''
 
 class CommentView(ViewBase):
     pass

@@ -3,6 +3,7 @@
     dummy view/set_content_type_and_nocache;
     message python:view.update() or request.get('message');
     topics context/topics;
+    numtopics python:len(topics);
     batch_size context/topic_batch_size;
     batch python:context.service_views.Silva.getBatch(topics, size=batch_size, orphan=0);
 ">
@@ -42,7 +43,8 @@ function add_smiley(text_to_add) {
 </div>
 <table class="pagination"
   cellspacing="0"
-  tal:condition="python:len(topics) > batch_size">
+  tal:condition="python:numtopics > batch_size"
+  tal:define="previous_batch_url python:view.get_batch_prev_link(batch.start-1)">
   <tr>
     <td class="previous">
       <tal:block define="firstlink python:view.get_batch_first_link(batch.start-1)">
@@ -61,11 +63,11 @@ function add_smiley(text_to_add) {
            " />&nbsp;
         </a>
       </tal:block>
-      <tal:block condition="request/previous_batch_url | nothing">
+      <tal:block condition="previous_batch_url | nothing">
         <a href="previousbatch"
           accesskey="b"
           title="See the previous result listing: alt-b"
-          tal:attributes="href request/previous_batch_url"
+          tal:attributes="href previous_batch_url"
           ><img class="control"
             alt="Previous"
             tal:define="image context/globals/left.gif"
@@ -79,19 +81,19 @@ function add_smiley(text_to_add) {
       </tal:block>
     </td>
     <td class="info">
-      Showing results
+      Showing result
       <tal:block replace="batch/start" />
       to
       <tal:block replace="batch/end" />
       of
-      <tal:block replace="python:len(topics)" />
+      <tal:block replace="python:numtopics" />
     </td>
-    <td class="next">
-      <tal:block condition="request/next_batch_url | nothing">
+    <td class="next" tal:define="next_batch_url python:view.get_batch_next_link(batch.start-1, numtopics)">
+      <tal:block condition="next_batch_url">
         <a href="nextbatch"
           accesskey="n"
           title="See the next result listing: alt-n"
-          tal:attributes="href request/next_batch_url">
+          tal:attributes="href next_batch_url">
           <u>N</u>ext
           <img alt="Next"
             tal:define="image context/globals/right.gif"
@@ -102,7 +104,8 @@ function add_smiley(text_to_add) {
           " />
         </a>
       </tal:block>
-      <tal:block define="lastlink python:view.get_batch_last_link(batch.start-1)">
+      <tal:block define="lastlink python:view.get_batch_last_link(batch.start-1,
+                                                                  numtopics)">
         <a href="lastbatch"
           accesskey="l"
           title="Go to the last result listing: alt-l"

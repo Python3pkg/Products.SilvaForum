@@ -37,9 +37,20 @@ this will serve as the root of the forum. The public views of the Forum allow
 SMI for moderation and maintenance purposes.
 
 Authentication can be configured for the public view of the forum by going to
-the SMI 'access' tab. In the pulldown menu for 'public view access restrictions'
+the SMI 'access' tab. 
+
+if you want viewable to public but can't enter text set anonymous.
+
+if you want to be not viewable to unauthorized set below
+In the pulldown menu for 'public view access restrictions'
 choose the setting 'Authenticated' and click 'set restriction'. Then only
 authenticated users will be able to access the forum.
+
+Logging out with Internet Explorer
+----------------------------------
+
+Users using Internet Explorer have to explicitly logout with an unknown username
+and password, otherwise, IE will keep the current user logged in.
 
 Thanks
 ------

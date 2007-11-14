@@ -68,7 +68,6 @@ class ForumFolderBase(FiveViewable):
             highest += 1
             id = '%s__%s' % (id, highest)
         return id
-    
 
 class Forum(ForumFolderBase, Publication):
     interface.implements(IForum)
@@ -84,6 +83,7 @@ class Forum(ForumFolderBase, Publication):
     def add_topic(self, topic):
         """ add a topic to the forum
         """
+        
         id = self._generate_id(topic)
         self.manage_addProduct['SilvaForum'].manage_addTopic(id, topic)
         topic = dict(self.objectItems()).get(id)
@@ -167,9 +167,6 @@ class Topic(ForumFolderBase, Folder):
 
     def get_silva_addables_allowed(self):
         return ('Silva Forum Comment',)
-
-    def number_of_comments(self):
-        return len(self.objectValues('Silva Forum Comment'))
 
     def is_published(self):
         # always return true to make that the object is always visible in public
