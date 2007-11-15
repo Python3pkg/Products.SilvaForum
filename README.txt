@@ -36,6 +36,9 @@ this will serve as the root of the forum. The public views of the Forum allow
 (messages) to the topics. The topics and comments are accessible from the
 SMI for moderation and maintenance purposes.
 
+Access
+------
+
 Forums can be either exposed to the public, with authentication on the forms,
 or they can only be viewed by zope authorized users.
 
