@@ -16,6 +16,9 @@ HISTORY
 0.1-beta-2 (SVN/Unreleased)
 --------------------------
 
+* Put back subject field check in view.py. Somehow it got cut in recent
+  changes.
+
 * Changed the topic and comment addable priority to 4.
 
 * Changed the configure.zcml priority setting for Silva Forum to 4, to send

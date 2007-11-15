@@ -82,6 +82,9 @@ class ForumView(ViewBase):
             raise Unauthorized('Sorry you need to be authorized to use this '
                                'forum')
         topic = unicode(req['topic'], 'UTF-8')
+        if not topic.strip():
+            return 'Please provide a subject'
+        
         try:
             self.context.add_topic(topic)
         except ValueError, e:
