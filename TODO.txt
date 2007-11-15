@@ -62,14 +62,3 @@ Issues
 Known bugs
 ----------
 
-* clicking on 'Silva Root' gives an error type: "NoViewError, no public
-  view defined"
-
-+ When adding a topic the feedback message is included in the url, *and* in the
-  urls of the batch controls, so the message (e.g. "Comment added") remains
-  visible as the user clicks through the batch. Including messages in the url
-  is bad practice, ideally we would put the feedback message in options. 
-
-* If adding topics or comment subjects starting or ending with emoticons, the 
-  string can only be repeated three times before a bad request error occurs, 
-  'The id "string___3" is invalid - it is already in use'.

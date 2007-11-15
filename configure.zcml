@@ -59,7 +59,7 @@
     content=".content.Forum"
     extension_name="SilvaForum"
     icon="www/list_components.gif"
-    priority="-7"
+    priority="2"
     />
 
   <silva:content

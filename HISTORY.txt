@@ -16,6 +16,17 @@ HISTORY
 0.1-beta-2 (SVN/Unreleased)
 --------------------------
 
+* Changed the configure.zcml priority setting for Silva Forum type to send
+  it to the bottom of the addables list in the SMI select pulldown.
+
+* Fixed the _generate_id method which would return 'already used id' with
+  id's ending in '___2'.
+
+* Removed old security code triggered with the Ajax version of the forum.
+
+* Fixed the pagination links to not can the add messages. Tweaked the the
+  pagination code to be more efficient.
+
 * Put in jump for the preview form on a comment. Now when previewing the 
   comment will jump to the last page, the same page as where it is added.
 
