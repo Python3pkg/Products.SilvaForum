@@ -16,7 +16,9 @@ HISTORY
 0.1-beta-2 (SVN/Unreleased)
 --------------------------
 
-* Changed the configure.zcml priority setting for Silva Forum type to send
+* Changed the topic and comment addable priority to 4.
+
+* Changed the configure.zcml priority setting for Silva Forum to 4, to send
   it to the bottom of the addables list in the SMI select pulldown.
 
 * Fixed the _generate_id method which would return 'already used id' with

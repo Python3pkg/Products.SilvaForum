@@ -59,21 +59,21 @@
     content=".content.Forum"
     extension_name="SilvaForum"
     icon="www/list_components.gif"
-    priority="2"
+    priority="4"
     />
 
   <silva:content
     content=".content.Topic"
     extension_name="SilvaForum"
     icon="www/list_comments.gif"
-    priority="-7"
+    priority="4"
     />
 
   <silva:content
     content=".content.Comment"
     extension_name="SilvaForum"
     icon="www/comment.gif"
-    priority="-7"
+    priority="4"
     />
 
 </configure>
