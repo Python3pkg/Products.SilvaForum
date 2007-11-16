@@ -62,3 +62,9 @@ Issues
 Known bugs
 ----------
 
+* Got this error on adding some id's:
+
+    BadRequest: The id "1_3" is invalid - it is already in use.
+
+  However I can enter the same id more than ten times, like adding '1' fourteen
+  times.
