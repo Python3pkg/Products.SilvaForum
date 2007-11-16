@@ -41,7 +41,7 @@ class ForumFolderBase(FiveViewable):
     reg_under = re.compile('_+')
     reg_nonword = re.compile('\W')
     reg_start_under = re.compile('^_+')
-    reg_number_at_end = re.compile('\d$')
+    reg_number_at_end = re.compile('\d+$')
     def _generate_id(self, string):
         """ This produces a chopped string id from a title, or
             text, or else uses unknown. For dublicates the
@@ -172,6 +172,9 @@ class Topic(ForumFolderBase, Folder):
         # always return true to make that the object is always visible in public
         # listings
         return True
+    
+    def number_of_comments(self):
+        return len(self.objectValues('Silva Forum Comment'))
 
 class Comment(FiveViewable, CatalogPathAware, Content, SimpleItem.SimpleItem):
     interface.implements(IComment)

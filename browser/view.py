@@ -35,6 +35,8 @@ class ViewBase(Headers):
     def get_last_batch_start(self, numitems, batchsize=10):
         rest = numitems % batchsize
         offset = numitems - rest
+        if rest == 0:
+            offset -= batchsize
         return offset
 
     def get_batch_last_link(self, current_offset, numitems, batchsize=10):
@@ -123,7 +125,7 @@ class TopicView(ViewBase):
 
         url = self.context.absolute_url()
         msg = 'Comment added'
-        numitems = self.context.number_of_topics()
+        numitems = self.context.number_of_comments()
         req.response.redirect('%s?message=%s&batch_start=%s#bottom' % (
                                 self.context.absolute_url(),
                                 quote(msg),

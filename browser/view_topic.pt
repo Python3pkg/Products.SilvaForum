@@ -182,11 +182,6 @@ function add_smiley(text_to_add) {
           <p>Preview</p>
         </td>
         <td class="comment">
-          <!--<h5 tal:define="subject python:unicode(request.form['title'], 'UTF-8')"
-            tal:condition="subject"
-            tal:content="subject">
-            subject
-          </h5>-->
           <h5 tal:define="subject python:unicode(request.form['title'], 'UTF-8')"
             tal:condition="subject"
             tal:content="structure python:view.format_text(request.form['title'])">
