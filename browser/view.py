@@ -47,7 +47,7 @@ class ViewBase(Headers):
         return self.context.absolute_url() + '?batch_start=%s' % (offset,)
 
     def replace_links(self, text):
-        # do regex for www or http and replace at occurrence
+        # do regex for links and replace at occurrence
         text = re.compile('(((ht|f)tp(s?)\:\/\/|(ht|f)tp(s?)\:\/\/www\.|www\.|mailto\:)\S+)').sub('<a href="\g<1>">\g<1></a>',text)
         text = re.compile('(<a\shref="www)').sub('<a href="http://www', text)
         return text
@@ -57,6 +57,7 @@ class ViewBase(Headers):
             text = unicode(text, 'utf-8')
         text = mangle.entities(text)
         root = self.context.aq_inner.get_root()
+        text = self.replace_links(text)
         text = emoticons(text,
             self.get_resources().emoticons.smilies.absolute_url())
         text = text.replace('\n', '<br />')

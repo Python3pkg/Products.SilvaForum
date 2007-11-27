@@ -16,6 +16,9 @@ HISTORY
 0.1-beta-2 (SVN/Unreleased)
 --------------------------
 
+* Fixed text formatting to include links, moved replace_links call from the
+  view_topic.pt to the format_text methog in view.py.
+
 * Put replace_links method in the view.py for searching and replacing links in
   text area of comments. Also made tests for the method.
 

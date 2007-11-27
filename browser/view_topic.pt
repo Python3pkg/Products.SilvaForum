@@ -169,9 +169,7 @@ function add_smiley(text_to_add) {
               tal:content="structure python:view.format_text(subject)">
               topic
             </h5>
-            <tal:block tal:define="text python:view.format_text(comment['text'])">
-              <p tal:content="structure python:view.replace_links(text)"></p>
-            </tal:block>
+            <p tal:content="structure python:view.format_text(comment['text'])"></p>
           </td>
         </tr>
       </tal:def>
@@ -187,9 +185,7 @@ function add_smiley(text_to_add) {
             tal:content="structure python:view.format_text(request.form['title'])">
             subject
           </h5>
-          <tal:block tal:define="text python:view.format_text(request.form['text'])">
-            <p tal:content="structure python:view.replace_links(text)"></p>
-          </tal:block>
+          <p tal:content="structure python:view.format_text(request.form['text'])"></p>
           <form method="post"
             id="previewform"
             enctype="application/x-www-form-urlencoded; charset=UTF-8"
