@@ -171,7 +171,7 @@ class CommentViewTest(SilvaTestCase.SilvaTestCase):
         self.forum = self.addObject(self.getRoot(), 'Forum', 'forum1',
                                     title='Forum', product='SilvaForum')
         self.topic = self.addObject(self.forum, 'Topic', 'topic1',
-                                     title='Topic', product='SilvaForum')
+                                    title='Topic', product='SilvaForum')
         self.comment = self.addObject(self.topic, 'Comment', 'comment1',
                                       title='Comment', product='SilvaForum')
         self.view = getMultiAdapter((self.comment, self.app.REQUEST),
@@ -184,6 +184,21 @@ class CommentViewTest(SilvaTestCase.SilvaTestCase):
         self.assertEquals('foo<br />bar', self.view.format_text(text))
         text = 'foo<bar'
         self.assertEquals('foo&lt;bar', self.view.format_text(text))
+
+    def test_replace_links(self):
+        text = 'aaa aaa www.link.org aaa'
+        self.assertEquals('aaa aaa <a href="http://www.link.org">www.link.org</a> aaa',
+                           self.view.replace_links(text))
+        text = 'aa aa http://www.link.org a'
+        self.assertEquals('aa aa <a href="http://www.link.org">http://www.link.org</a> a',
+                           self.view.replace_links(text))
+        text = 'aa aa http://link.org a'
+        self.assertEquals('aa aa <a href="http://link.org">http://link.org</a> a',
+                           self.view.replace_links(text))
+        text = 'aa aa https://www.security.org a'
+        self.assertEquals('aa aa <a href="https://www.security.org">https://www.security.org</a> a', self.view.replace_links(text))
+        text = 'aa aa mailto:myemail@myemail.com a'
+        self.assertEquals('aa aa <a href="mailto:myemail@myemail.com">mailto:myemail@myemail.com</a> a', self.view.replace_links(text))
 
 import unittest
 def test_suite():

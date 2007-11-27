@@ -1,3 +1,4 @@
+import re
 from Products.Five import BrowserView
 from Products.Silva.browser.headers import Headers
 from Products.Silva import mangle
@@ -44,6 +45,12 @@ class ViewBase(Headers):
             return
         offset = self.get_last_batch_start(numitems)
         return self.context.absolute_url() + '?batch_start=%s' % (offset,)
+
+    def replace_links(self, text):
+        # do regex for www or http and replace at occurrence
+        text = re.compile('(((ht|f)tp(s?)\:\/\/|(ht|f)tp(s?)\:\/\/www\.|www\.|mailto\:)\S+)').sub('<a href="\g<1>">\g<1></a>',text)
+        text = re.compile('(<a\shref="www)').sub('<a href="http://www', text)
+        return text
 
     def format_text(self, text):
         if not isinstance(text, unicode):

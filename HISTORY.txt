@@ -16,6 +16,9 @@ HISTORY
 0.1-beta-2 (SVN/Unreleased)
 --------------------------
 
+* Put replace_links method in the view.py for searching and replacing links in
+  text area of comments. Also made tests for the method.
+
 * Put back subject field check in view.py. Somehow it got cut in recent
   changes.
 
