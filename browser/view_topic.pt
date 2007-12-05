@@ -244,6 +244,12 @@ function add_smiley(text_to_add) {
       />
     </div>
   </div>
+  <input class="store"
+    type="file"
+    name="attachment"
+    id="attachment"
+    size="68"
+  />
   <div class="submit">
     <input style="float:right"
       type="submit"
