@@ -152,7 +152,7 @@ class TopicView(ViewBase):
         msg = 'Comment added'
         numitems = self.context.number_of_comments()
 
-        url = self.render_url(self.context.absolute_url(), 
+        url = self.render_url(self.context.absolute_url(),
                               message=msg,
                               batch_start=self.get_last_batch_start(numitems))
 
