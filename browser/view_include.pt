@@ -1,0 +1,10 @@
+<html>
+<head>
+    <title>Comment</title>
+    <link type="text/css" rel="stylesheet"
+     tal:attributes="href python:context.get_root().service_resources.SilvaForum.absolute_url()+'/forum.css'"/>
+</head>
+<body width="600px">
+    <tal:block tal:content="structure options/content"/>
+</body>
+</html>

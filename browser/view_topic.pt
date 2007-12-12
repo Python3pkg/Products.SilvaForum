@@ -191,6 +191,9 @@ function add_smiley(text_to_add) {
             enctype="application/x-www-form-urlencoded; charset=UTF-8"
             tal:condition="request/form/preview | nothing"
             tal:attributes="action context/absolute_url">
+      <input type="hidden" name="include" 
+       tal:condition="request/form/include|nothing"
+       tal:attributes="value request/form/include"/>
             <input type="hidden" name="title" id="preview_title"
                    tal:attributes="value python:unicode(request.form['title'], 'UTF-8')" />
             <input type="hidden" name="text" id="preview_text"
@@ -203,8 +206,7 @@ function add_smiley(text_to_add) {
             -->
             <a tal:attributes="href context/absolute_url"><input
               class="cancel" type="button" value="clear"
-              tal:attributes="onclick string:document.location='${context/absolute_url}'"
-              /></a>
+              onclick="history.go(-1);return false;"/></a>
           </form>
         </td>
       </tr>
@@ -212,8 +214,7 @@ function add_smiley(text_to_add) {
   </tbody>
 </table>
 <form id="forum-comment-form"
-      method="post"
-      tal:attributes="action context/absolute_url">
+      method="post">
   <h3>Post a new comment</h3>
   <!-- XXX pretty sure this can be removed... -->
   <input type="hidden" name="batch_start" value="#"
@@ -244,12 +245,9 @@ function add_smiley(text_to_add) {
       />
     </div>
   </div>
-  <input class="store"
-    type="file"
-    name="attachment"
-    id="attachment"
-    size="68"
-  />
+  <input type="hidden" name="include" 
+   tal:condition="request/form/include|nothing"
+   tal:attributes="value request/form/include"/>
   <div class="submit">
     <input style="float:right"
       type="submit"

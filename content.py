@@ -25,12 +25,17 @@ class FiveViewable(object):
     def view(self):
         """ render the public Five view for this object
         """
-        view = getMultiAdapter((self, self.REQUEST), name=u'index.html')
-        # XXX hrmph, had some strange context issues here ('view' would be
-        # unwrapped in the template), but for some reason this seems to work
-        # without a problem now... perhaps because of changes in
-        # configure.zcml?!?
-        return view()
+
+        # if a parameter ?include is in the request, call the original view,
+        # and use it as input for the include view. When using ?include we expect
+        # that '/view' was added to the url, and it will return a page suitable
+        # for including in other documents
+        # XXX maybe we should use an adapter here?
+        result = getMultiAdapter((self, self.REQUEST), name=u'index.html')()
+        if self.REQUEST.form.has_key('include'):
+            view = getMultiAdapter((self, self.REQUEST), name=u'include.html')
+            result = view(content=result)
+        return result
 
     preview = view
 
