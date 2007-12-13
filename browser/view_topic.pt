@@ -195,9 +195,9 @@ function add_smiley(text_to_add) {
             enctype="application/x-www-form-urlencoded; charset=UTF-8"
             tal:condition="request/form/preview | nothing"
             tal:attributes="action context/absolute_url">
-      <input type="hidden" name="include" 
-       tal:condition="request/form/include|nothing"
-       tal:attributes="value request/form/include"/>
+            <input type="hidden" name="include" 
+                   tal:condition="request/form/include|nothing"
+                   tal:attributes="value request/form/include"/>
             <input type="hidden" name="title" id="preview_title"
                    tal:attributes="value python:unicode(request.form['title'], 'UTF-8')" />
             <input type="hidden" name="text" id="preview_text"
@@ -240,15 +240,14 @@ function add_smiley(text_to_add) {
     cols="68"
     onfocus="window.focussed_form_field = this"
     tal:content="python:unicode(request.get('text', ''), 'UTF-8')"></textarea>
-  <div id="emoticons">
-    <div class="emoticon"
-      tal:repeat="smileydata view/get_smiley_data">
+  <center>
+    <span class="emoticons" tal:repeat="smileydata view/get_smiley_data">
       <img onclick="add_smiley(this.title)"
         alt="emoticon"
         tal:attributes="title smileydata/text; src smileydata/href"
       />
-    </div>
-  </div>
+    </span>
+  </center>  
   <input type="hidden" name="include" 
    tal:condition="request/form/include|nothing"
    tal:attributes="value request/form/include"/>

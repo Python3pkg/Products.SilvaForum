@@ -125,6 +125,11 @@ div.forum div.emoticon {
   float: left;
 }
 
+center {
+  border: 1px solid gray;
+  padding-top: 0.3em;
+}
+
 /*____________________________________________ PERMALINK SELECTORS __________*/
 div.forum div#comment {
   background: #ccd9e6;

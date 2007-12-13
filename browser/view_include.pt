@@ -8,7 +8,7 @@
         color: #2D374C;
         font-family: sans-serif;
       }
-      form {
+      form#forum-comment-form {
         font-size: 70%;
       }
       table {
@@ -29,6 +29,25 @@
       h5 {
         font-size:110%;
         margin-bottom:0.2em;
+      }
+      div.forum div.submit {
+        margin:0.5em 0.5em 0pt 0pt;
+      }
+      div.feedback {
+        background-color:#F2F0A7;
+        border:1px solid #778888;
+        color:#3C2D50;
+        margin:0.7em 0pt 0pt;
+        padding:0.2em 0.4em;
+        font-size: 70%;
+      }
+      center {
+        border: 1px solid gray;
+        padding-top: 0.3em;
+        width: 98%;
+      }
+      .cancel {
+        font-size: 70%;
       }
     </style>
 </head>
