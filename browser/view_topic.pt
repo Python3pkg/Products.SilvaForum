@@ -121,14 +121,14 @@ function add_smiley(text_to_add) {
   </tr>
 </table>
 <table class="forum-content-table">
-  <thead class="thead">
   <tal:block condition="python:not request.form.has_key('include')">
+  <thead class="thead">
     <tr>
       <th class="align-left">Author</th>
       <th class="align-left">Topic</th>
     </tr>
-  </tal:block>
   </thead>
+  </tal:block>
   <tbody>
   <tal:block condition="python:not request.form.has_key('include')">
     <tr class="topic">

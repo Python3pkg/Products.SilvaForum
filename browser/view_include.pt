@@ -3,6 +3,34 @@
     <title>Comment</title>
     <link type="text/css" rel="stylesheet"
      tal:attributes="href python:context.get_root().service_resources.SilvaForum.absolute_url()+'/forum.css'"/>
+    <style>
+      body {
+        color: #2D374C;
+        font-family: sans-serif;
+      }
+      form {
+        font-size: 70%;
+      }
+      table {
+        font-size: 70%;
+      }
+      h1, h2, h3, h4, h5, h6 {
+        color:#455885;
+        margin:1em 0pt 0pt;
+      }
+      h3 {
+        font-size:145%;
+        margin-bottom:0.6em;
+      }
+      h4 {
+        font-size:120%;
+        margin-bottom:0.5em;
+      }
+      h5 {
+        font-size:110%;
+        margin-bottom:0.2em;
+      }
+    </style>
 </head>
 <body width="600px">
     <tal:block tal:content="structure options/content"/>
