@@ -161,9 +161,11 @@ function add_smiley(text_to_add) {
             </p>
           </td>
           <td class="comment">
-            <p class="permalink">
-              <a tal:attributes="href comment/url">permalink</a>
-            </p>
+            <tal:block condition="python:not request.form.has_key('include')">
+              <p class="permalink">
+                <a tal:attributes="href comment/url">permalink</a>
+              </p>
+            </tal:block>
             <p class="datetime"
               tal:content="python:view.format_datetime(comment['creation_datetime'])">
               datetime
@@ -217,6 +219,17 @@ function add_smiley(text_to_add) {
     </tal:preview>
   </tbody>
 </table>
+<div class="submit">
+  <input class="add-comment" type="button" value="Add comment"
+    onclick="document.getElementById('form-toggle').style.display='block'; this.style.display='none';"
+    tal:define="show_form python:numcomments and 'block' or 'none'"
+    tal:attributes="style string:display:${show_form}"/>
+</div>
+
+<div id="form-toggle" 
+  tal:define="show_form python:numcomments and 'none' or 'block'"
+  tal:attributes="style string:display:${show_form}">
+
 <form id="forum-comment-form"
       method="post">
   <h3>Post a new comment</h3>
@@ -233,13 +246,26 @@ function add_smiley(text_to_add) {
     tal:attributes="value python:unicode(request.form.get('title', ''), 'UTF-8')"
   />
   <h5>Message</h5>
-  <textarea class="store"
-    name="text"
-    id="text"
-    rows="10"
-    cols="68"
-    onfocus="window.focussed_form_field = this"
-    tal:content="python:unicode(request.get('text', ''), 'UTF-8')"></textarea>
+  <tal:block condition="python: request.form.has_key('include')">
+    <textarea class="store"
+      name="text"
+      id="text"
+      rows="2"
+      cols="68"
+      onfocus="window.focussed_form_field = this"
+      tal:content="python:unicode(request.get('text', ''), 'UTF-8')">
+    </textarea>
+  </tal:block>
+  <tal:block condition="python:not request.form.has_key('include')">
+    <textarea class="store"
+      name="text"
+      id="text"
+      rows="10"
+      cols="68"
+      onfocus="window.focussed_form_field = this"
+      tal:content="python:unicode(request.get('text', ''), 'UTF-8')">
+    </textarea>
+  </tal:block>
   <center>
     <span class="emoticons" tal:repeat="smileydata view/get_smiley_data">
       <img onclick="add_smiley(this.title)"
@@ -262,5 +288,6 @@ function add_smiley(text_to_add) {
       value="preview"
     />
 </form>
+</div>
 <a name="bottom"></a>
 </div>

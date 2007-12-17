@@ -110,7 +110,6 @@ table.forum-content-table p.permalink {
   float: right;
 }
 
-
 /*_____________________________________________ EMOTICON SELECTORS __________*/
 #emoticons {
   height: 1.8em;
@@ -138,6 +137,7 @@ div.forum div#comment {
 }
 
 /*____________________________________________ FORM SELECTORS _______________*/
+
 div.forum div.submit {
   margin: 0.5em 0 0 0;
 }

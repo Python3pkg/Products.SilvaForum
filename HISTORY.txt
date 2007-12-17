@@ -16,6 +16,8 @@ HISTORY
 0.1-beta-2 (SVN/Unreleased)
 --------------------------
 
+* Put in javascript toggle button for a comment form.
+
 * Taken Marc Petitmermet code source and added it to Silva Forum code. Added
   a view_include.pt, and include.css to handle the styles of a Silva Document
   with comments. Added to the FiveViewable class a switch to check for an

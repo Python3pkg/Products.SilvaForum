@@ -38,8 +38,15 @@ div.feedback {
 center {
   border: 1px solid gray;
   padding-top: 0.3em;
-  width: 98%;
+  width: 478px;
 }
 .cancel {
+  font-size: 70%;
+}
+
+div.submit input[type="button"] {
+  border-color: #3850b3;
+  color: #e8f7ef;
+  background-color: #455a82;
   font-size: 70%;
 }
