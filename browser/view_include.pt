@@ -1,55 +1,10 @@
 <html>
 <head>
-    <title>Comment</title>
-    <link type="text/css" rel="stylesheet"
-     tal:attributes="href python:context.get_root().service_resources.SilvaForum.absolute_url()+'/forum.css'"/>
-    <style>
-      body {
-        color: #2D374C;
-        font-family: sans-serif;
-      }
-      form#forum-comment-form {
-        font-size: 70%;
-      }
-      table {
-        font-size: 70%;
-      }
-      h1, h2, h3, h4, h5, h6 {
-        color:#455885;
-        margin:1em 0pt 0pt;
-      }
-      h3 {
-        font-size:145%;
-        margin-bottom:0.6em;
-      }
-      h4 {
-        font-size:120%;
-        margin-bottom:0.5em;
-      }
-      h5 {
-        font-size:110%;
-        margin-bottom:0.2em;
-      }
-      div.forum div.submit {
-        margin:0.5em 0.5em 0pt 0pt;
-      }
-      div.feedback {
-        background-color:#F2F0A7;
-        border:1px solid #778888;
-        color:#3C2D50;
-        margin:0.7em 0pt 0pt;
-        padding:0.2em 0.4em;
-        font-size: 70%;
-      }
-      center {
-        border: 1px solid gray;
-        padding-top: 0.3em;
-        width: 98%;
-      }
-      .cancel {
-        font-size: 70%;
-      }
-    </style>
+  <title>Comment</title>
+  <link type="text/css" rel="stylesheet"
+   tal:attributes="href python:context.get_root().service_resources.SilvaForum.absolute_url()+'/forum.css'"/>
+  <link type="text/css" rel="stylesheet"
+    tal:attributes="href python:context.get_root().service_resources.SilvaForum.absolute_url()+'/include.css'"/>
 </head>
 <body width="600px">
     <tal:block tal:content="structure options/content"/>
