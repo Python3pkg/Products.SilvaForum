@@ -1,4 +1,5 @@
 import re
+
 from Products.Five import BrowserView
 from Products.Silva.browser.headers import Headers
 from Products.Silva import mangle
@@ -16,22 +17,39 @@ class ViewBase(Headers):
     def format_datetime(self, dt):
         return format_dt(dt, DateTime())
     
+    def render_url(self, url, **qs_params):
+        if not qs_params:
+            return url
+
+        # add /view to url if in include mode, also make sure
+        # the ?include parameter is present
+        if self.request.has_key('include'):
+            qs_params['include'] = self.request['include']
+            if not url.endswith('/view'):
+                url += '/view'
+
+        params = []
+        for key, val in qs_params.items():
+            params.append('%s=%s' %  (key, quote(unicode(val).encode('utf8'))))
+
+        return '%s?%s' % (url, '&'.join(params))
+
     def get_batch_first_link(self, current_offset):
         if current_offset == 0:
             return
-        return self.context.absolute_url() + '?batch_start=0'
+        return self.render_url(self.context.absolute_url(), batch_start=0)
 
     def get_batch_prev_link(self, current_offset, batchsize=10):
         if current_offset < batchsize:
             return
         prevoffset = current_offset - batchsize
-        return self.context.absolute_url() + '?batch_start=%s' % (prevoffset,)
+        return self.render_url(self.context.absolute_url(), batch_start=prevoffset)
 
     def get_batch_next_link(self, current_offset, numitems, batchsize=10):
         if current_offset >= (numitems - batchsize):
             return
         offset = current_offset + batchsize
-        return self.context.absolute_url() + '?batch_start=%s' % (offset,)
+        return self.render_url(self.context.absolute_url(), batch_start=offset)
 
     def get_last_batch_start(self, numitems, batchsize=10):
         rest = numitems % batchsize
@@ -44,7 +62,7 @@ class ViewBase(Headers):
         if current_offset >= (numitems - batchsize):
             return
         offset = self.get_last_batch_start(numitems)
-        return self.context.absolute_url() + '?batch_start=%s' % (offset,)
+        return self.render_url(self.context.absolute_url(), batch_start=offset)
 
     def replace_links(self, text):
         # do regex for links and replace at occurrence
@@ -131,13 +149,14 @@ class TopicView(ViewBase):
         except ValueError, e:
             return str(e)
 
-        url = self.context.absolute_url()
         msg = 'Comment added'
         numitems = self.context.number_of_comments()
-        req.response.redirect('%s?message=%s&batch_start=%s#bottom' % (
-                                self.context.absolute_url(),
-                                quote(msg),
-                                self.get_last_batch_start(numitems)))
+
+        url = self.render_url(self.context.absolute_url(),
+                              message=msg,
+                              batch_start=self.get_last_batch_start(numitems))
+
+        req.response.redirect('%s#bottom' % url)
         return ''
 
 class CommentView(ViewBase):

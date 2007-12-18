@@ -25,12 +25,16 @@ class FiveViewable(object):
     def view(self):
         """ render the public Five view for this object
         """
-        view = getMultiAdapter((self, self.REQUEST), name=u'index.html')
-        # XXX hrmph, had some strange context issues here ('view' would be
-        # unwrapped in the template), but for some reason this seems to work
-        # without a problem now... perhaps because of changes in
-        # configure.zcml?!?
-        return view()
+        # if a parameter ?include is in the request, call the original view,
+        # and use it as input for the include view. When using ?include we expect
+        # that '/view' was added to the url, and it will return a page suitable
+        # for including in other documents
+        # XXX maybe we should use an adapter here?
+        result = getMultiAdapter((self, self.REQUEST), name=u'index.html')()
+        if self.REQUEST.form.has_key('include'):
+            view = getMultiAdapter((self, self.REQUEST), name=u'include.html')
+            result = view(content=result)
+        return result
 
     preview = view
 
@@ -79,6 +83,22 @@ class Forum(ForumFolderBase, Publication):
         super(Forum, self).__init__(*args, **kwargs)
         self._lastid = 0
         self.topic_batch_size = 10
+
+    def get_topic(self, title):
+        """
+        return a topic object by title
+        or none if topic not found
+        """
+        for topic in self.get_topics():
+            if topic.get_title() == title:
+                return topic
+
+    def get_topics(self):
+        """
+        return a list of topic objects
+        """
+        return self.objectValues('Silva Forum Topic')
+        
     
     def add_topic(self, topic):
         """ add a topic to the forum
@@ -107,12 +127,12 @@ class Forum(ForumFolderBase, Publication):
             'creation_datetime': obj.get_creation_datetime(),
             'creator': obj.sec_get_creator_info().fullname(),
             'commentlen': len(obj.comments()),
-        } for obj in self.objectValues('Silva Forum Topic')]
+        } for obj in self.get_topics()]
         topics.reverse()
         return topics
 
     def number_of_topics(self):
-        return len(self.objectValues('Silva Forum Topic'))
+        return len(self.get_topics())
 
     def is_published(self):
         # always return true to make that the object is always visible in public

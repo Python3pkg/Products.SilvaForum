@@ -121,13 +121,16 @@ function add_smiley(text_to_add) {
   </tr>
 </table>
 <table class="forum-content-table">
+  <tal:block condition="python:not request.form.has_key('include')">
   <thead class="thead">
     <tr>
       <th class="align-left">Author</th>
       <th class="align-left">Topic</th>
     </tr>
   </thead>
+  </tal:block>
   <tbody>
+  <tal:block condition="python:not request.form.has_key('include')">
     <tr class="topic">
       <td class="author">
         <p tal:content="python:context.sec_get_creator_info().fullname()">
@@ -144,6 +147,7 @@ function add_smiley(text_to_add) {
         </h4>
       </td>
     </tr>
+  </tal:block>  
     <tr>
       <th class="align-left">Author</th>
       <th class="align-left">Comment</th>
@@ -157,9 +161,11 @@ function add_smiley(text_to_add) {
             </p>
           </td>
           <td class="comment">
-            <p class="permalink">
-              <a tal:attributes="href comment/url">permalink</a>
-            </p>
+            <tal:block condition="python:not request.form.has_key('include')">
+              <p class="permalink">
+                <a tal:attributes="href comment/url">permalink</a>
+              </p>
+            </tal:block>
             <p class="datetime"
               tal:content="python:view.format_datetime(comment['creation_datetime'])">
               datetime
@@ -191,6 +197,9 @@ function add_smiley(text_to_add) {
             enctype="application/x-www-form-urlencoded; charset=UTF-8"
             tal:condition="request/form/preview | nothing"
             tal:attributes="action context/absolute_url">
+            <input type="hidden" name="include" 
+                   tal:condition="request/form/include|nothing"
+                   tal:attributes="value request/form/include"/>
             <input type="hidden" name="title" id="preview_title"
                    tal:attributes="value python:unicode(request.form['title'], 'UTF-8')" />
             <input type="hidden" name="text" id="preview_text"
@@ -203,17 +212,26 @@ function add_smiley(text_to_add) {
             -->
             <a tal:attributes="href context/absolute_url"><input
               class="cancel" type="button" value="clear"
-              tal:attributes="onclick string:document.location='${context/absolute_url}'"
-              /></a>
+              onclick="history.go(-1);return false;"/></a>
           </form>
         </td>
       </tr>
     </tal:preview>
   </tbody>
 </table>
+<div class="submit">
+  <input class="add-comment" type="button" value="Add comment"
+    onclick="document.getElementById('form-toggle').style.display='block'; this.style.display='none';"
+    tal:define="show_form python:numcomments and 'block' or 'none'"
+    tal:attributes="style string:display:${show_form}"/>
+</div>
+
+<div id="form-toggle" 
+  tal:define="show_form python:numcomments and 'none' or 'block'"
+  tal:attributes="style string:display:${show_form}">
+
 <form id="forum-comment-form"
-      method="post"
-      tal:attributes="action context/absolute_url">
+      method="post">
   <h3>Post a new comment</h3>
   <!-- XXX pretty sure this can be removed... -->
   <input type="hidden" name="batch_start" value="#"
@@ -228,28 +246,37 @@ function add_smiley(text_to_add) {
     tal:attributes="value python:unicode(request.form.get('title', ''), 'UTF-8')"
   />
   <h5>Message</h5>
-  <textarea class="store"
-    name="text"
-    id="text"
-    rows="10"
-    cols="68"
-    onfocus="window.focussed_form_field = this"
-    tal:content="python:unicode(request.get('text', ''), 'UTF-8')"></textarea>
-  <div id="emoticons">
-    <div class="emoticon"
-      tal:repeat="smileydata view/get_smiley_data">
+  <tal:block condition="python: request.form.has_key('include')">
+    <textarea class="store"
+      name="text"
+      id="text"
+      rows="2"
+      cols="68"
+      onfocus="window.focussed_form_field = this"
+      tal:content="python:unicode(request.get('text', ''), 'UTF-8')">
+    </textarea>
+  </tal:block>
+  <tal:block condition="python:not request.form.has_key('include')">
+    <textarea class="store"
+      name="text"
+      id="text"
+      rows="10"
+      cols="68"
+      onfocus="window.focussed_form_field = this"
+      tal:content="python:unicode(request.get('text', ''), 'UTF-8')">
+    </textarea>
+  </tal:block>
+  <center>
+    <span class="emoticons" tal:repeat="smileydata view/get_smiley_data">
       <img onclick="add_smiley(this.title)"
         alt="emoticon"
         tal:attributes="title smileydata/text; src smileydata/href"
       />
-    </div>
-  </div>
-  <input class="store"
-    type="file"
-    name="attachment"
-    id="attachment"
-    size="68"
-  />
+    </span>
+  </center>  
+  <input type="hidden" name="include" 
+   tal:condition="request/form/include|nothing"
+   tal:attributes="value request/form/include"/>
   <div class="submit">
     <input style="float:right"
       type="submit"
@@ -261,5 +288,6 @@ function add_smiley(text_to_add) {
       value="preview"
     />
 </form>
+</div>
 <a name="bottom"></a>
 </div>
