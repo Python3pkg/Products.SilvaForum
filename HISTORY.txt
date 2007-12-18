@@ -16,6 +16,8 @@ HISTORY
 0.1-beta-2 (SVN/Unreleased)
 --------------------------
 
+* Altered regex method in view.py to not include (), ., ?, ', ", :
+
 * Add a parameter field to the SMI to add a topic, which by default is the
   document title.
 

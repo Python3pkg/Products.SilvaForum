@@ -66,7 +66,7 @@ class ViewBase(Headers):
 
     def replace_links(self, text):
         # do regex for links and replace at occurrence
-        text = re.compile('(((ht|f)tp(s?)\:\/\/|(ht|f)tp(s?)\:\/\/www\.|www\.|mailto\:)\S+)').sub('<a href="\g<1>">\g<1></a>',text)
+        text = re.compile('((([^(\'])(ht|f)tp(s?)\:\/\/|(ht|f)tp(s?)\:\/\/www\.|www\.|mailto\:)\S+([^)\'?:.]))').sub('<a href="\g<1>">\g<1></a>',text)
         text = re.compile('(<a\shref="www)').sub('<a href="http://www', text)
         return text
 
