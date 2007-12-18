@@ -16,6 +16,9 @@ HISTORY
 0.1-beta-2 (SVN/Unreleased)
 --------------------------
 
+* Add a parameter field to the SMI to add a topic, which by default is the
+  document title.
+
 * Put in javascript toggle button for a comment form.
 
 * Taken Marc Petitmermet code source and added it to Silva Forum code. Added
