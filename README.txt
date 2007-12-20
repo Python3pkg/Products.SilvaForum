@@ -21,6 +21,9 @@ SilvaForum is a forum (or Bulletin Board System) for the Silva CMS. It allows
 registered visitors of a Silva site to create topics (subjects or questions)
 and comment on existing topics.
 
+In combination with the SilvaForumCommentsIframe code source, the SilvaForum
+code can be used to add comments to Silva Documents.
+
 Installating SilvaForum
 -----------------------
 
@@ -68,6 +71,9 @@ the assignment to build the forum.
 
 Thank you Mark James of http://www.famfamfam.com/ for the great icons, which
 we used in the forum views!
+
+Thank you Marc Petitmermet for coming up with initial commenting code source
+for Silva Documents.
 
 Questions, remarks, etc.
 ------------------------

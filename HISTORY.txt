@@ -16,6 +16,9 @@ HISTORY
 0.1-beta-2 (SVN/Unreleased)
 --------------------------
 
+* Updated the INSTALL.txt and the README.txt to include information about the
+  SilvaForumCommentsIFrame
+
 * Altered regex method in view.py to not include (), ., ?, ', ", :
 
 * Add a parameter field to the SMI to add a topic, which by default is the

@@ -38,8 +38,12 @@ resources located in the service_resources folder of your Silva root in its
 SilvaForum folder. You can find these in:
 
 /[yourSilva]/service_resources/SilvaForum/forum.css
+/[yourSilva]/service_resources/SilvaForum/include.css
 
-To enable this place a tal:block with a condition in the head_inject *within*
+The forum.css is the default layout for the Silva Forum. The include.css is the
+default layout for commenting on a Silva Document.
+
+To enable only the forum.css place a tal:block with a condition in the head_inject *within*
 the tal:block that defines 'model', thus:
 
 <tal:block define="model request/model|here">
@@ -48,17 +52,45 @@ the tal:block that defines 'model', thus:
 
 This is the condition block for detecting SilvaForum pages:
 
-<tal:comment replace="nothing"> _______ SilvaForum CSS _______ </tal:comment>
-<tal:block condition="python:model.meta_type == 'Silva Forum' 
-                      or model.meta_type == 'Silva Forum Topic'
-                      or model.meta_type == 'Silva Forum Comment'">
-  <link rel="stylesheet" type="text/css" media="all"
-    tal:attributes="href python:context.get_root_url()+'/service_resources/SilvaForum/forum.css'" />
+<tal:block conditon="python:not request.form.has_hey('include')">
+  <tal:comment replace="nothing"> _______ SilvaForum CSS _______ </tal:comment>
+  <tal:block condition="python:model.meta_type == 'Silva Forum' 
+                        or model.meta_type == 'Silva Forum Topic'
+                        or model.meta_type == 'Silva Forum Comment'">
+    <link rel="stylesheet" type="text/css" media="all"
+      tal:attributes="href python:context.get_root_url()+'/service_resources/SilvaForum/forum.css'" />
+  </tal:block>
 </tal:block>
 
 Now when a user visits a Forum, the forum.css stylesheet should also be
 referenced by your layout. Probably it will be the last stylesheet referenced
 so it will 'win' in a conflict with other stylesheets.
+
+To enable the forum.css and the include.css place a tal:block with a condition in the head_inject *within*
+the tal:block that defines 'model', thus:
+
+<tal:block conditon="python:not request.form.has_hey('include')">
+  <tal:comment replace="nothing"> _______ SilvaForum CSS _______ </tal:comment>
+  <tal:block condition="python:model.meta_type == 'Silva Forum' 
+                        or model.meta_type == 'Silva Forum Topic'
+                        or model.meta_type == 'Silva Forum Comment'">
+    <link rel="stylesheet" type="text/css" media="all"
+      tal:attributes="href python:context.get_root_url()+'/service_resources/SilvaForum/forum.css'" />
+  </tal:block>
+</tal:block>
+<tal:block conditon="python:request.form.has_hey('include')">
+  <tal:comment replace="nothing"> _______ SilvaForum CSS _______ </tal:comment>
+  <tal:block condition="python:model.meta_type == 'Silva Forum' 
+                        or model.meta_type == 'Silva Forum Topic'
+                        or model.meta_type == 'Silva Forum Comment'">
+    <link rel="stylesheet" type="text/css" media="all"
+      tal:attributes="href python:context.get_root_url()+'/service_resources/SilvaForum/forum.css'" />
+  </tal:block>
+</tal:block>
+
+Now when a user visits a Forum, the forum.css stylesheet should be referenced 
+by you layout. If a user visists a Silva Document with commenting enabled the
+include.css should be referenced.
 
 Note that the files in service_resources are on the file system and should not
 be edited because they won't survive upgrades. If you're not satisfied with the
