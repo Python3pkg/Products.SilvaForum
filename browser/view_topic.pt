@@ -266,7 +266,7 @@ function add_smiley(text_to_add) {
       tal:content="python:unicode(request.get('text', ''), 'UTF-8')">
     </textarea>
   </tal:block>
-  <div class="center">
+  <div class="smilies">
     <span class="emoticons" tal:repeat="smileydata view/get_smiley_data">
       <img onclick="add_smiley(this.title)"
         alt="emoticon"

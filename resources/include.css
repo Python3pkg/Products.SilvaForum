@@ -36,10 +36,11 @@ div.feedback {
   padding:0.2em 0.4em;
   font-size: 70%;
 }
-center {
+div.smilies {
   border: 1px solid gray;
-  padding-top: 0.3em;
-  width: 478px;
+  padding-top: 0.2em;
+  width: 99%;
+  text-align:center;
 }
 .cancel {
   font-size: 70%;

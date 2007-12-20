@@ -114,8 +114,8 @@ table.forum-content-table p.permalink {
 /*_____________________________________________ EMOTICON SELECTORS __________*/
 #emoticons {
   height: 1.8em;
-  margin: 0 0 0 0;
-  padding: 0 0 0 6.2em;
+  margin: 0;
+  padding: 0 0 0 6.2em; /* XXX this should be text-align:center */
   border: 1px solid gray;
   background-color: #d7e6e6;
 }
