@@ -147,7 +147,7 @@ function add_smiley(text_to_add) {
         </h4>
       </td>
     </tr>
-  </tal:block>  
+  </tal:block>
     <tr>
       <th class="align-left">Author</th>
       <th class="align-left">Comment</th>
@@ -197,7 +197,7 @@ function add_smiley(text_to_add) {
             enctype="application/x-www-form-urlencoded; charset=UTF-8"
             tal:condition="request/form/preview | nothing"
             tal:attributes="action context/absolute_url">
-            <input type="hidden" name="include" 
+            <input type="hidden" name="include"
                    tal:condition="request/form/include|nothing"
                    tal:attributes="value request/form/include"/>
             <input type="hidden" name="title" id="preview_title"
@@ -226,7 +226,7 @@ function add_smiley(text_to_add) {
     tal:attributes="style string:display:${show_form}"/>
 </div>
 
-<div id="form-toggle" 
+<div id="form-toggle"
   tal:define="show_form python:numcomments and 'none' or 'block'"
   tal:attributes="style string:display:${show_form}">
 
@@ -266,15 +266,15 @@ function add_smiley(text_to_add) {
       tal:content="python:unicode(request.get('text', ''), 'UTF-8')">
     </textarea>
   </tal:block>
-  <center>
+  <div class="center">
     <span class="emoticons" tal:repeat="smileydata view/get_smiley_data">
       <img onclick="add_smiley(this.title)"
         alt="emoticon"
         tal:attributes="title smileydata/text; src smileydata/href"
       />
     </span>
-  </center>  
-  <input type="hidden" name="include" 
+  </div>
+  <input type="hidden" name="include"
    tal:condition="request/form/include|nothing"
    tal:attributes="value request/form/include"/>
   <div class="submit">
