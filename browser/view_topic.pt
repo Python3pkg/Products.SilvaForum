@@ -274,9 +274,36 @@ function add_smiley(text_to_add) {
       />
     </span>
   </center>  
+
+  <!--<script type="text/javascript" tal:attributes="src python:context.service_views.absolute_url() + '/Silva/reference.js'"></script>
+  <script type="text/javascript" 
+    tal:define="container context/get_container; folder_context python: '/'.join(container.getPhysicalPath())"
+    tal:content="string:
+      function getFile() {
+        reference.getReference(
+          function(path, id, title) {
+            document.getElementById('attachment').value = path;
+          }, '${container/absolute_url}',
+          '', true);;
+      }
+  "></script>
+  <input class="submit" onclick="getFile(); return false;"
+         id="attachment"
+         type="button" 
+         value="attach file" />-->
+
+  <input class="submit"
+         type="file"
+         name="upload" />
+  <input class="store" 
+         type="text" 
+         id="kupu-link-input" 
+         name="kupu_link_href" 
+         style="margin-left:0.2em; width:96%" />
+
   <input type="hidden" name="include" 
-   tal:condition="request/form/include|nothing"
-   tal:attributes="value request/form/include"/>
+         tal:condition="request/form/include|nothing"
+         tal:attributes="value request/form/include"/>
   <div class="submit">
     <input style="float:right"
       type="submit"
