@@ -1,6 +1,7 @@
 body {
+  margin:0;
   color: #2D374C;
-  font-family: sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
 }
 form#forum-comment-form {
   font-size: 70%;
