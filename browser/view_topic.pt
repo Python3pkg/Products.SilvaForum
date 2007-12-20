@@ -292,9 +292,9 @@ function add_smiley(text_to_add) {
          type="button" 
          value="attach file" />-->
 
-  <input class="submit"
+  <!--<input class="submit"
          type="file"
-         name="upload" />
+         name="upload" />-->
   <input class="store" 
          type="text" 
          id="kupu-link-input" 
