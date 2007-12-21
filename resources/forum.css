@@ -68,8 +68,7 @@ table.forum-content-table tr.even {
 }
 
 table.forum-content-table th, table.forum-content-table td {
-  padding-left: 0.3em;
-  padding-right: 0.3em;
+  padding-left: 0 0.3em 0.2em;
 }
 
 table.forum-content-table th.align-left {
@@ -93,10 +92,6 @@ table.forum-content-table h5 {
   margin-top: 0.4em;
 }
 
-table.forum-content-table tr.preview h5 {
-  margin-top: 0.2em;
-}
-
 table.forum-content-table p {
   margin-top: 0.3em;
 }
@@ -113,11 +108,11 @@ table.forum-content-table p.permalink {
 
 /*_____________________________________________ EMOTICON SELECTORS __________*/
 #emoticons {
-  height: 1.8em;
   margin: 0;
-  padding: 0 0 0 6.2em; /* XXX this should be text-align:center */
+  padding-top: 0.2em; 
   border: 1px solid gray;
   background-color: #d7e6e6;
+  text-align:center;
 }
 
 div.forum div.emoticon {
@@ -133,6 +128,11 @@ div.forum div#comment {
 }
 
 /*____________________________________________ FORM SELECTORS _______________*/
+form {
+  margin:0;
+  padding:0;
+}
+
 div.forum div.submit {
   margin: 0.5em 0 0 0;
 }
@@ -148,7 +148,7 @@ div.forum input, div.forum textarea {
 
 div.forum input.store, textarea.store {
   width: 99%;
-  !width: 94%; /* IE7 hack */
+  !width: 98%; /* IE7 hack */
 }
 
 div.forum input[type="submit"], div.forum input[type="button"] {
