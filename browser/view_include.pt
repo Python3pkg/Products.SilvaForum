@@ -6,7 +6,7 @@
   <link tal:replace="structure here/head_inject | nothing" />
   <link type="text/css" rel="stylesheet"
     tal:attributes="href python:context.get_root().service_resources.SilvaForum.absolute_url()+'/include.css'"/>
-  <!-- users can override the include.css by adding a foruminclude.css in the ZMI -->
+  <!-- you can override the include.css by adding a foruminclude.css in the ZMI, then reload -->
   <link rel="stylesheet" type="text/css" media="all"
     tal:define="adjust here/foruminclude.css/absolute_url | nothing"
     tal:condition="adjust"
