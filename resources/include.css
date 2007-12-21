@@ -2,7 +2,8 @@ body {
   margin:0;
   background:#DDE5EE;
 }
-table {
+table.forum-content-table {
+  margin-top: 0.8em;
   font-size: 100%; /* for FF, don't know why */
 }
 div.forum input.store, textarea.store {
