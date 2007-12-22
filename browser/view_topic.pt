@@ -32,6 +32,7 @@ function add_smiley(text_to_add) {
 
 // ]]>
 </script>
+<h4 tal:condition="python:request.form.has_key('include')">Reader comments</h4>
 <div class="feedback"
   tal:condition="message"
   tal:content="message">
@@ -133,31 +134,35 @@ function add_smiley(text_to_add) {
   <tal:block condition="python:not request.form.has_key('include')">
     <tr class="topic">
       <td class="author">
-        <p tal:content="python:context.sec_get_creator_info().fullname()">
-          author
+        <p>
+          <span class="author"
+            tal:content="python:context.sec_get_creator_info().fullname()">author</span> posted:
         </p>
       </td>
       <td class="comment">
-        <p class="datetime"
-          tal:content="python:view.format_datetime(context.get_creation_datetime())">
-          datetime
+        <p class="datetime">
+          <span class="icon"><img tal:replace="structure python:here.render_icon(here)"/></span>
+          <tal:date content="python:view.format_datetime(context.get_creation_datetime())">
+            datetime
+          </tal:date>
         </p>
         <h4 tal:content="structure python:view.format_text(context.get_title())">
           subject
         </h4>
       </td>
     </tr>
-  </tal:block>
     <tr>
       <th class="align-left">Author</th>
       <th class="align-left">Comment</th>
     </tr>
+  </tal:block>
     <tal:loop repeat="comment batch">
       <tal:def define="iterate repeat/comment/odd">
         <tr tal:attributes="class python: iterate and 'even' or 'odd'">
           <td class="author">
-            <p tal:content="comment/creator">
-              author
+            <p>
+              <span class="author" 
+                tal:content="comment/creator">author</span> posted:
             </p>
           </td>
           <td class="comment">
@@ -166,9 +171,15 @@ function add_smiley(text_to_add) {
                 <a tal:attributes="href comment/url">permalink</a>
               </p>
             </tal:block>
-            <p class="datetime"
-              tal:content="python:view.format_datetime(comment['creation_datetime'])">
-              datetime
+            <p class="datetime">
+              <span class="icon"><img alt="Silva Forum Topic" title="Silva Forum Topic"
+                width="14" height="13"
+                tal:attributes="
+                  src here/service_resources/SilvaForum/comment.gif/absolute_url;
+              "/></span>
+              <tal:date content="python:view.format_datetime(comment['creation_datetime'])">
+                datetime
+              </tal:date>
             </p>
             <h5 tal:define="subject comment/title"
               tal:condition="subject"

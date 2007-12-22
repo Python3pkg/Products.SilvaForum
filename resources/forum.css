@@ -43,68 +43,59 @@ table.forum-content-table {
   background-color: #afc3d7;
   width: 100%;
 }
-
 table.forum-content-table thead {
   background-color: #b0c4d7;
 }
-
 table.forum-content-table tr {
   vertical-align: top;
 }
-
 table.forum-content-table tr.topic {
   background: #ccd9e6;
 }
-
 table.forum-content-table tr.preview {
   background: #eaf6ef;
 }
-
 table.forum-content-table tr.odd {
   background-color: #d4dee9;
 }
 table.forum-content-table tr.even {
   background-color: #ccd9e6;
 }
-
-table.forum-content-table th, table.forum-content-table td {
-  padding-left: 0 0.3em 0.2em;
-}
-
 table.forum-content-table th.align-left {
   text-align: left;
 }
-table.forum-content-table th.align-right {
-  text-align: right;
-}
-
-table.forum-content-table td.author, table.forum-content-table td.comments {
-  width: 6em;
+table.forum-content-table th, table.forum-content-table td {
+  padding: 0 0.3em 0;
 }
 table.forum-content-table td.author {
-  font-weight: bold;
+  width: 6em;
 }
-table.forum-content-table td.comments {
-  text-align: right;
+table.forum-content-table td.comment {
 }
-
+table.forum-content-table h4 {
+margin: 0 0 0.3em;
+}
 table.forum-content-table h5 {
   margin-top: 0.4em;
 }
-
 table.forum-content-table p {
   margin-top: 0.3em;
 }
-
+table.forum-content-table span.author {
+  font-weight: bold;
+}
+span.icon {
+  float:left;
+  margin-right:4px
+}
 table.forum-content-table p.datetime, table.forum-content-table p.permalink {
   margin-top: 0.4em;
+  color: #555;
   font-size: 90%;
 }
-
 table.forum-content-table p.permalink {
   float: right;
 }
-
 
 /*_____________________________________________ EMOTICON SELECTORS __________*/
 #emoticons {
