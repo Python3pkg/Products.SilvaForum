@@ -26,6 +26,7 @@ background-color: #dde5ee;
 }
 table.forum-content-table {
 border: 0;
+border-spacing: 0;
 width: 100%;
 }
 table.forum-content-table tr.odd {

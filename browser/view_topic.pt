@@ -48,7 +48,6 @@ function add_smiley(text_to_add) {
   message
 </div>
 <table class="pagination"
-  cellspacing="0"
   tal:condition="python:numcomments > batch_size"
   tal:define="previous_batch_url python:view.get_batch_prev_link(batch.start-1)">
   <tr>
@@ -130,8 +129,7 @@ function add_smiley(text_to_add) {
     </td>
   </tr>
 </table>
-<table class="forum-content-table" 
-  cellspacing="0">
+<table class="forum-content-table">
   <tal:block condition="not: included">
   <thead class="thead">
     <tr>

@@ -11,6 +11,7 @@ div.forum h3 {
 table.pagination {
   width: 100%;
   border: 1px solid gray;
+  border-spacing: 0;
   background-color: #cdd9e5;
 }
 table.pagination tr {
@@ -18,17 +19,17 @@ table.pagination tr {
 }
 table.pagination td.previous {
   width: 25%;
-  padding:0 0.3em 0.1em;
+  padding: 0.1em 0 0.2em 0.2em;
   text-align: left;
 }
 table.pagination td.info {
   width: 50%;
-  padding:0 0 0.1em;
+  padding: 0.1em 0 0.2em;
   text-align: center;
 }
 table.pagination td.next {
   width: 25%;
-  padding:0 0.3em 0.1em;
+  padding: 0.1em 0.2em 0.2em 0;
   text-align: right;
 }
 table.pagination a:link {
@@ -43,9 +44,10 @@ table.pagination a:hover {
 
 /*________________________________________ FORUM LISTING SELECTORS __________*/
 table.forum-content-table {
-  border: 1px solid gray;
-  background-color: #afc3d7;
   width: 100%;
+  border: 1px solid gray;
+  border-spacing: 2px;
+  background-color: #afc3d7;
 }
 table.forum-content-table thead {
   background-color: #b0c4d7;
