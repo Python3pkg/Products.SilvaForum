@@ -1,14 +1,52 @@
+/* _______ Stylesheet for Silva Forum Include _______ */
 body {
-  margin:0;
-  background:#DDE5EE;
+  margin: 0;
+  background: #dde5ee;
 }
 div.forum h4 {
   margin: 0.2em 0 0.3em;
 }
-table.forum-content-table {
+  table.forum-content-table {
   font-size: 100%; /* for FF, don't know why */
 }
 div.forum input.store, textarea.store {
-  width: 100%;
-  !width: 99%; /* IE7 hack */
+  width: 99%;
+  !width: 98%; /* IE7 hack */
+  _width: 96%; /* IE6 hack */
+}
+#emoticons {
+  background-color: #F0F2F2;
+}
+
+/* Customization selectors */
+table.pagination {
+margin: 0.3em 0;
+border-style: solid none;
+background-color: #dde5ee;
+}
+table.forum-content-table {
+border: 0;
+width: 100%;
+}
+table.forum-content-table tr.odd {
+background-color: #dde5ee;
+}
+table.forum-content-table tr.even {
+background-color: #dde5ee;
+}
+table.forum-content-table td.author {
+padding-left: 0;
+}
+table.forum-content-table td.author, table.forum-content-table td.comment {
+border-bottom: 1px solid darkgray;
+}
+table.forum-content-table p.datetime {
+padding-left: 1.8em;
+padding-bottom: 0.5em;
+background-image: url(service_resources/SilvaForum/comment.gif); 
+background-repeat: no-repeat;
+}
+table.forum-content-table span.datetime {
+padding-bottom: 0.3em;
+border-bottom: 1px dotted #444;
 }

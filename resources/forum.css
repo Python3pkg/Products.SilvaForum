@@ -3,6 +3,10 @@ div.forum {
  margin-bottom: 1em;
 }
 
+div.forum h3 {
+  margin-top: 0;
+}
+
 /*___________________________________________ PAGINATION SELECTORS __________*/
 table.pagination {
   width: 100%;
@@ -65,10 +69,12 @@ table.forum-content-table th.align-left {
   text-align: left;
 }
 table.forum-content-table th, table.forum-content-table td {
-  padding: 0 0.3em 0;
+  padding: 0.1em 0.3em 0;
 }
 table.forum-content-table td.author {
   width: 6em;
+  padding-top:0.2em;
+  font-size: 90%;
 }
 table.forum-content-table td.comment {
 }
@@ -127,7 +133,7 @@ form {
 div.forum div.submit {
   margin: 0.5em 0 0 0;
 }
-
+/*
 div.forum input, div.forum textarea {
   padding: 0.1em;
   border: 1px solid #599;
@@ -139,7 +145,7 @@ div.forum input, div.forum textarea {
 
 div.forum input.store, textarea.store {
   width: 99%;
-  !width: 98%; /* IE7 hack */
+  !width: 98%; 
 }
 
 div.forum input[type="submit"], div.forum input[type="button"] {
@@ -147,3 +153,4 @@ div.forum input[type="submit"], div.forum input[type="button"] {
   color: #e8f7ef;
   background-color: #455a82;
 }
+*/

@@ -6,6 +6,7 @@
     numcomments python:len(comments);
     batch_size context/comment_batch_size;
     batch python:context.service_views.Silva.getBatch(comments, size=batch_size, orphan=0);
+    included python:request.form.has_key('include');
 ">
 <script type="text/javascript">
 // <![CDATA[
@@ -32,7 +33,14 @@ function add_smiley(text_to_add) {
 
 // ]]>
 </script>
-<h4 tal:condition="python:request.form.has_key('include')">Reader comments</h4>
+<h4 tal:condition="included">
+  <tal:if condition="python:numcomments == 1">
+    <tal:var replace="numcomments"/> Reader comment
+  </tal:if>
+  <tal:if condition="python:numcomments > 1">
+    <tal:var replace="numcomments"/> Reader comments
+  </tal:if>
+</h4>
 <div class="feedback"
   tal:condition="message"
   tal:content="message">
@@ -121,8 +129,9 @@ function add_smiley(text_to_add) {
     </td>
   </tr>
 </table>
-<table class="forum-content-table">
-  <tal:block condition="python:not request.form.has_key('include')">
+<table class="forum-content-table" 
+  cellspacing="0">
+  <tal:block condition="not: included">
   <thead class="thead">
     <tr>
       <th class="align-left">Author</th>
@@ -131,7 +140,7 @@ function add_smiley(text_to_add) {
   </thead>
   </tal:block>
   <tbody>
-  <tal:block condition="python:not request.form.has_key('include')">
+  <tal:block condition="not: included">
     <tr class="topic">
       <td class="author">
         <p>
@@ -141,7 +150,7 @@ function add_smiley(text_to_add) {
       </td>
       <td class="comment">
         <p class="datetime">
-          <span class="icon"><img tal:replace="structure python:here.render_icon(here)"/></span>
+          <span class="icon" tal:replace="nothing"><img tal:replace="structure python:here.render_icon(here)"/></span>
           <tal:date content="python:view.format_datetime(context.get_creation_datetime())">
             datetime
           </tal:date>
@@ -162,31 +171,33 @@ function add_smiley(text_to_add) {
           <td class="author">
             <p>
               <span class="author" 
-                tal:content="comment/creator">author</span> posted:
+                tal:content="comment/creator">author</span> 
+                <a title="Permalink" tal:attributes="href string:${comment/topic_url}#${comment/id}">posted</a>:
             </p>
           </td>
           <td class="comment">
-            <tal:block condition="python:not request.form.has_key('include')">
-              <p class="permalink">
+            <tal:block condition="not:included">
+              <p class="permalink"
+                tal:replace="nothing" comment="for the archive">
                 <a tal:attributes="href comment/url">permalink</a>
               </p>
             </tal:block>
             <p class="datetime">
-              <span class="icon"><img alt="Silva Forum Topic" title="Silva Forum Topic"
-                width="14" height="13"
-                tal:attributes="
-                  src here/service_resources/SilvaForum/comment.gif/absolute_url;
-              "/></span>
-              <tal:date content="python:view.format_datetime(comment['creation_datetime'])">
-                datetime
-              </tal:date>
+              <span class="datetime">
+                <tal:date content="python:view.format_datetime(comment['creation_datetime'])">
+                  datetime
+                </tal:date>
+              </span>
+              <a tal:attributes="name comment/id"></a>
             </p>
             <h5 tal:define="subject comment/title"
               tal:condition="subject"
               tal:content="structure python:view.format_text(subject)">
               topic
             </h5>
-            <p tal:content="structure python:view.format_text(comment['text'])"></p>
+            <p tal:content="structure python:view.format_text(comment['text'])">
+              comment
+            </p>
           </td>
         </tr>
       </tal:def>
@@ -194,7 +205,7 @@ function add_smiley(text_to_add) {
     <tal:preview condition="python:request.get('preview') and (request.get('title') or request.get('text'))">
       <tr class="preview">
         <td class="author">
-          <p>Preview</p>
+          <p><span class="author">Preview</span></p>
         </td>
         <td class="comment">
           <h5 tal:define="subject python:unicode(request.form['title'], 'UTF-8')"
@@ -215,7 +226,7 @@ function add_smiley(text_to_add) {
                    tal:attributes="value python:unicode(request.form['title'], 'UTF-8')" />
             <input type="hidden" name="text" id="preview_text"
                    tal:attributes="value python:unicode(request.form['text'], 'UTF-8')" />
-            <input style="float:right; margin:0" type="submit" value="add comment" />
+            <input class="button" style="float:right; margin:0" type="submit" value="add comment" />
             <!-- todd says 'i don't know, man' about the next bit of code,
                  and i tend to fully agree... it works though, both in js
                  and non-js situations, and looks consistent
@@ -231,7 +242,7 @@ function add_smiley(text_to_add) {
   </tbody>
 </table>
 <div class="submit">
-  <input class="add-comment" type="button" value="add comment"
+  <input class="button add-comment" type="button" value="add comment"
     onclick="document.getElementById('form-toggle').style.display='block'; this.style.display='none';"
     tal:define="show_form python:numcomments and 'block' or 'none'"
     tal:attributes="style string:display:${show_form}"/>
@@ -264,7 +275,7 @@ function add_smiley(text_to_add) {
     cols="68"
     onfocus="window.focussed_form_field = this"
     tal:content="python:unicode(request.get('text', ''), 'UTF-8')"
-    tal:attributes="rows python:request.form.has_key('include') and 2 or 10">
+    tal:attributes="rows python:included and 2 or 10">
   </textarea>
   <div id="emoticons">
     <span class="emoticons" tal:repeat="smileydata view/get_smiley_data">

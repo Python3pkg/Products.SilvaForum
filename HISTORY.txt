@@ -4,7 +4,7 @@ See also LICENSE.txt
 Meta::
   
   Valid for:        SilvaForum 0.1-beta-3 (SVN/Unreleased)
-  Author:           Todd Matsumoto, Guido Wesdorp
+  Author:           Todd Matsumoto, Guido Wesdorp, Marc Petitmermet
   Email:            todd@infrae.com
   Last author:      $Author: guido $
   SVN Revision:     $Date: 2007-08-20 23:24:20 +0200 (Mon, 20 Aug 2007) $
@@ -16,12 +16,24 @@ HISTORY
 0.1-beta-2 (SVN/Unreleased)
 --------------------------
 
+* Changes to make near-complete customization of the Comments Include code source 
+  possible with css
+
+* Moved all the include checking into one define in view_topic.pt
+
+* Add id and topic_url to the comment object for constructing more sensible 
+  permalinks, going to the topic with an anchor that's the comment id
+
+* Add permalink to "[user] posted"; this links to the comment in the topic with 
+  an anchor, not to the comment object (which is not very useful because there's 
+  no context)
+
 * Add a parameter field to the SMI to add a topic, which by default is the
   document title.
 
 * Put in javascript toggle button for a comment form.
 
-* Backported Marc Petitmermet code source from the SilvaForum-CodeSource branch
+* Checked in Marc Petitmermet's code source to the SilvaForum-CodeSource branch
   and added it to Silva Forum code. Added a view_include.pt, and include.css to
   handle the styles of a Silva Document with comments. Added to the FiveViewable
   class a switch to check for an 'include' parameter that gets the code source 
