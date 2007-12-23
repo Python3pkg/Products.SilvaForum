@@ -19,9 +19,15 @@ from Products.ZCatalog.CatalogPathAwareness import CatalogPathAware
 from interfaces import IForum, ITopic, IComment
 
 class FiveViewable(object):
-    """ mixin to override .view()
-        instead of using the view registry view() uses Five
+    """ A Comment is added to a Topic of a Forum. Usually it's added via a
+        public interface, as opposed to the Silva Management Interface. 
+        Comments are not versioned, and can be edited or deleted as needed for
+        moderation of the Forum.  
     """
+
+    # mixin to override .view()instead of using the view registry view() 
+    # uses Five
+
     def view(self):
         """ render the public Five view for this object
         """
@@ -39,8 +45,15 @@ class FiveViewable(object):
     preview = view
 
 class ForumFolderBase(FiveViewable):
-    """ Make topic or text string and id chop on character 20
+    """ A Forum can be added to your site to facilitate discussions. A Forum is
+        divided into Topics, which in turn have Comments. Users who wish to 
+        post to the Forum must be authenticated. A login box will appear if a
+        post is attempted from a public page by an unauthenticated user. 
+        Comments can be moderated in the Silva Management Interface (SMI). 
     """
+
+    # Make topic or text string and id chop on character 20
+
     # initialize the regex conditions
     reg_under = re.compile('_+')
     reg_nonword = re.compile('\W')
