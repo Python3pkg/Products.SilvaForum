@@ -6,20 +6,19 @@ Meta::
   Valid for:        SilvaForum 0.1-beta-3 (SVN/Unreleased)
   Author:           Todd Matsumoto, Guido Wesdorp, Marc Petitmermet
   Email:            todd@infrae.com
-  Last author:      $Author: guido $
-  SVN Revision:     $Date: 2007-08-20 23:24:20 +0200 (Mon, 20 Aug 2007) $
-  Last modified:    $Rev: 25523 $
 
 HISTORY
 =======
 
 0.1-beta-2 (SVN/Unreleased)
 --------------------------
+* The Include Comments code source includes icons for comments, these could be
+  added to the forum view
 
-* Changes to make near-complete customization of the Comments Include code source 
+* Changes to make near-complete customization of the Include Comments code source 
   possible with css
 
-* Moved all the include checking into one define in view_topic.pt
+* Move all the include checking in view_topic.pt into one define
 
 * Add id and topic_url to the comment object for constructing more sensible 
   permalinks, going to the topic with an anchor that's the comment id

@@ -1,10 +1,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
-  <title>Comment</title>
-  <link rel="stylesheet" type="text/css" media="all"
+  <title>Included Topic</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="generator" content="Silva" />  <link rel="stylesheet" type="text/css" media="all"
     tal:attributes="href here/frontend.css/absolute_url | nothing" />
+  <!-- Injector for content-specific css/js inclusion -->
   <link tal:replace="structure here/head_inject | nothing" />
+  <!-- Default Include Comments stylesheet -->
   <link type="text/css" rel="stylesheet"
     tal:attributes="href python:context.get_root().service_resources.SilvaForum.absolute_url()+'/include.css'"/>
   <!-- you can override the include.css by adding a foruminclude.css in the ZMI, then reload -->

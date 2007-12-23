@@ -56,10 +56,10 @@ table.forum-content-table tr {
   vertical-align: top;
 }
 table.forum-content-table tr.topic {
-  background: #ccd9e6;
+  background-color: #ccd9e6;
 }
 table.forum-content-table tr.preview {
-  background: #eaf6ef;
+  background-color: #eaf6ef;
 }
 table.forum-content-table tr.odd {
   background-color: #d4dee9;
@@ -81,7 +81,7 @@ table.forum-content-table td.author {
 table.forum-content-table td.comment {
 }
 table.forum-content-table h4 {
-margin: 0 0 0.3em;
+  margin: 0 0 0.3em;
 }
 table.forum-content-table h5 {
   margin-top: 0.4em;
