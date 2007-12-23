@@ -168,11 +168,13 @@ class Topic(ForumFolderBase, Folder):
         """ returns an iterable of all comments
         """
         comments = [{
+            'id': obj.id,
             'url': obj.absolute_url(),
             'title': obj.get_title(),
             'creator': obj.sec_get_creator_info().fullname(),
             'creation_datetime': obj.get_creation_datetime(),
             'text': obj.get_text(),
+            'topic_url': obj.aq_parent.absolute_url(),
         } for obj in self.objectValues('Silva Forum Comment')]
         comments
         return comments
