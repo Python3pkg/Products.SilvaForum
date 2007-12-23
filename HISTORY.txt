@@ -12,6 +12,9 @@ HISTORY
 
 0.1-beta-2 (SVN/Unreleased)
 --------------------------
+* Removed the priority (was -4) in light of the doc/priority_settings.txt 
+  reccomendations
+
 * The Include Comments code source includes icons for comments, these could be
   added to the forum view
 

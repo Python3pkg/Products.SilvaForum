@@ -59,10 +59,7 @@
     content=".content.Forum"
     extension_name="SilvaForum"
     icon="www/list_components.gif"
-    priority="4"
     />
-
-  <!-- no priority because these are the only addable -->
 
   <silva:content
     content=".content.Topic"
