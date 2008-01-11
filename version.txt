@@ -1,1 +1,1 @@
-0.1-beta-3 (SVN/Unreleased)
+SilvaForum 0.1-beta-3 (unreleased)
