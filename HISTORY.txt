@@ -12,6 +12,8 @@ HISTORY
 
 0.1-beta-2 (SVN/Unreleased)
 --------------------------
+* Changed regex in format_link to not include parenthesis, or periods.
+
 * Removed the priority (was -4) in light of the doc/priority_settings.txt 
   reccomendations
 

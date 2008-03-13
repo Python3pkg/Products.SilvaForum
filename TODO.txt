@@ -47,17 +47,6 @@ TODO for SilvaForum
 Issues
 ------
 
-* Link parser issues
-  
-  - If a link is put into parenthesis the close parenthesis is included in the
-    link.
-  
-  - If a link ends with an emoticon, the link includes the .gif emoticon and 
-    exposes the a closing tag '"> www.link.com:)'
-  
-  - Strip off periods for url's that end sentences.
-    "Please go to www.google.com."
-
 * Change the breadcrumb so it uses the format_text in view.py to
   retrieve emoticons
 
