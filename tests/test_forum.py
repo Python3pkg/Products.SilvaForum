@@ -188,17 +188,25 @@ class CommentViewTest(SilvaTestCase.SilvaTestCase):
     def test_replace_links(self):
         text = 'aaa aaa www.link.org aaa'
         self.assertEquals('aaa aaa <a href="http://www.link.org">www.link.org</a> aaa',
-                           self.view.replace_links(text))
+                          self.view.replace_links(text))
         text = 'aa aa http://www.link.org a'
         self.assertEquals('aa aa <a href="http://www.link.org">http://www.link.org</a> a',
-                           self.view.replace_links(text))
+                          self.view.replace_links(text))
         text = 'aa aa http://link.org a'
         self.assertEquals('aa aa <a href="http://link.org">http://link.org</a> a',
-                           self.view.replace_links(text))
+                          self.view.replace_links(text))
         text = 'aa aa https://www.security.org a'
-        self.assertEquals('aa aa <a href="https://www.security.org">https://www.security.org</a> a', self.view.replace_links(text))
+        self.assertEquals('aa aa <a href="https://www.security.org">https://www.security.org</a> a',
+                          self.view.replace_links(text))
         text = 'aa aa mailto:myemail@myemail.com a'
-        self.assertEquals('aa aa <a href="mailto:myemail@myemail.com">mailto:myemail@myemail.com</a> a', self.view.replace_links(text))
+        self.assertEquals('aa aa <a href="mailto:myemail@myemail.com">mailto:myemail@myemail.com</a> a',
+                          self.view.replace_links(text))
+        text = 'www.link.org.'
+        self.assertEquals('<a href="http://www.link.org">www.link.org</a>.',
+                          self.view.replace_links(text))
+        text = '(www.link.org)'
+        self.assertEquals('(<a href="http://www.link.org">www.link.org</a>)',
+                          self.view.replace_links(text))
 
 import unittest
 def test_suite():
