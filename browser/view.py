@@ -1,17 +1,18 @@
 import re
 
+from zope.component import getAdapter
+
 from Products.Five import BrowserView
 from Products.Silva.browser.headers import Headers
 from Products.Silva import mangle
 from Products.Silva import SilvaPermissions
 from Products.SilvaForum.resources.emoticons.emoticons import emoticons, smileydata, get_alt_name
 from Products.SilvaForum.dtformat.dtformat import format_dt
-from DateTime import DateTime
-from AccessControl import getSecurityManager, Unauthorized
+from Products.SilvaForum.interfaces import IForumSecurityPolicy
 
+from DateTime import DateTime
 from urllib import quote
 
-minimal_add_role = 'Authenticated'
 
 class ViewBase(Headers):
     def format_datetime(self, dt):
@@ -68,7 +69,6 @@ class ViewBase(Headers):
         # do regex for links and replace at occurrence
         text = re.compile('(((ht|f)tp(s?)\:\/\/|(ht|f)tp(s?)\:\/\/www\.|www\.|mailto\:)\S+[^).])').sub('<a href="\g<1>">\g<1></a>',text)
         text = re.compile('(<a\shref="www)').sub('<a href="http://www', text)
-        print text
         return text
 
     def format_text(self, text):
@@ -106,10 +106,10 @@ class ForumView(ViewBase):
                 (not req.has_key('topic'))):
             return
         
-        sec = getSecurityManager()
-        if not sec.getUser().has_role(minimal_add_role):
-            raise Unauthorized('Sorry you need to be authorized to use this '
-                               'forum')
+        security = getAdapter(self.context, IForumSecurityPolicy)
+        if not security.can_add_topic():
+            return ''
+
         topic = unicode(req['topic'], 'UTF-8')
         if not topic.strip():
             return 'Please provide a subject'
@@ -135,10 +135,10 @@ class TopicView(ViewBase):
         if (req.has_key('preview') or req.has_key('cancel') or
                 (not req.has_key('title') and not req.has_key('text'))):
             return
-        sec = getSecurityManager()
-        if not sec.getUser().has_role(minimal_add_role):
-            raise Unauthorized('Sorry, you need to be logged in to use '
-                               'this forum')
+
+        security = getAdapter(self.context, IForumSecurityPolicy)
+        if not security.can_add_post():
+            return ''
         
         title = unicode(req['title'], 'UTF-8')
         text = unicode(req['text'], 'UTF-8')

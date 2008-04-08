@@ -73,4 +73,15 @@
     icon="www/comment.gif"
     />
 
+  <!-- adapters -->
+  <!-- security policy, can be overriden -->
+
+  <adapter for=".interfaces.IForum"
+           factory=".adapters.DefaultSecurityPolicy"
+           />
+
+  <adapter for=".interfaces.ITopic"
+           factory=".adapters.DefaultSecurityPolicy"
+           />
+
 </configure>

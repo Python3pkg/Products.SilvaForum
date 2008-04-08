@@ -5,6 +5,19 @@
 
 from zope.interface import Interface
 
+
+class IForumSecurityPolicy(Interface):
+    """ This defines if the user have the right to post or not.
+    """
+
+    def can_add_topic():
+        """Return true if the user is authorized to add a topic.
+        """
+
+    def can_add_post():
+        """Return true if the user is authorized to add a post.
+        """
+
 class IForum(Interface):
     """ Silva Forum is a collection of topics containing comments
 
