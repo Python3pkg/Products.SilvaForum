@@ -76,11 +76,13 @@
   <!-- adapters -->
   <!-- security policy, can be overriden -->
 
-  <adapter for=".interfaces.IForum"
+  <adapter for=".interfaces.IForum
+                zope.publisher.interfaces.browser.IBrowserRequest"
            factory=".adapters.DefaultSecurityPolicy"
            />
 
-  <adapter for=".interfaces.ITopic"
+  <adapter for=".interfaces.ITopic
+                zope.publisher.interfaces.browser.IBrowserRequest"
            factory=".adapters.DefaultSecurityPolicy"
            />
 

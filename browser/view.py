@@ -1,6 +1,6 @@
 import re
 
-from zope.component import getAdapter
+from zope.component import getMultiAdapter
 
 from Products.Five import BrowserView
 from Products.Silva.browser.headers import Headers
@@ -106,7 +106,8 @@ class ForumView(ViewBase):
                 (not req.has_key('topic'))):
             return
         
-        security = getAdapter(self.context, IForumSecurityPolicy)
+        security = getMultiAdapter((self.context, self.request), 
+                                   IForumSecurityPolicy)
         if not security.can_add_topic():
             return ''
 
@@ -136,7 +137,8 @@ class TopicView(ViewBase):
                 (not req.has_key('title') and not req.has_key('text'))):
             return
 
-        security = getAdapter(self.context, IForumSecurityPolicy)
+        security = getMultiAdapter((self.context, self.request),
+                                   IForumSecurityPolicy)
         if not security.can_add_post():
             return ''
         

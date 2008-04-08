@@ -16,8 +16,9 @@ class DefaultSecurityPolicy(object):
 
     implements(IForumSecurityPolicy)
 
-    def __init__(self, context):
+    def __init__(self, context, request):
         self.context = context
+        self.request = request
 
     def _authenticated_can_add(self):
         sec = getSecurityManager()

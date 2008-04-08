@@ -18,7 +18,11 @@ class IForumSecurityPolicy(Interface):
         """Return true if the user is authorized to add a post.
         """
 
-class IForum(Interface):
+class IPostable(Interface):
+    """ Marker interface for content where you can post content.
+    """
+
+class IForum(IPostable):
     """ Silva Forum is a collection of topics containing comments
 
         see ITopic and IComment for (respectively) the topic and comment
@@ -32,7 +36,7 @@ class IForum(Interface):
         """ return all topics (list)
         """
 
-class ITopic(Interface):
+class ITopic(IPostable):
     """ a topic in a forum
     """
     def add_comment(comment):
