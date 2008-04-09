@@ -10,15 +10,15 @@ class IPostableView(Interface):
     """Generic view interface on item where you can post.
     """
 
-    def unauthorized():
+    def authenticate():
         """Unauthorized: should redirect you to the login page.
         """
 
-class IForumView(Interface):
+class IForumView(IPostableView):
     """View for forum.
     """
 
-class ITopicView(Interface):
+class ITopicView(IPostableView):
     """View for a topic.
     """
 

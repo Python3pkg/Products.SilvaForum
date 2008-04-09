@@ -126,7 +126,7 @@ function add_smiley(text_to_add) {
 </table>
 <table class="forum-content-table">
   <thead class="thead">
-    <tr>
+    <tr tal:condition="batch">
       <th class="align-left">Topics</th>
       <th class="align-left">Post date</th>
       <th class="align-left">Author</th>
@@ -241,10 +241,10 @@ function add_smiley(text_to_add) {
 <div tal:condition="not:view/can_post">
   <form method="post"
         action="#"
-        tal:attributes="action string:${context/absolute_url}/index.html/unauthorized">
+        tal:attributes="action string:${context/absolute_url}/index.html/authenticate">
     <input type="hidden" name="came_from" value="#"
            tal:attributes="value context/absolute_url" />
-    <input type="submit" name="login" value="Login to post new topic"
+    <input type="submit" name="login" value="Login to post a new topic"
            i18n:attributes="value" />
   </form>
 </div>

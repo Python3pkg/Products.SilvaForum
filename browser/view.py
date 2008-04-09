@@ -14,6 +14,7 @@ from Products.SilvaForum.resources.emoticons.emoticons import emoticons, smileyd
 from Products.SilvaForum.dtformat.dtformat import format_dt
 
 from DateTime import DateTime
+from zExceptions import Redirect
 from urllib import quote
 
 
@@ -108,10 +109,17 @@ class ViewBase(Headers):
         sec = getSecurityManager()
         return sec.getUser().has_role(minimal_add_role)
 
+    def authenticate(self):
+        """Try to authenticate the user.
+        """
+        if not self.can_post():
+            self.unauthorized()
+        else:
+            raise Redirect, self.context.absolute_url()
+
     def unauthorized(self):
         """Says you're unauthorized!
         """
-        asdasdasd
         raise Unauthorized('Sorry you need to be authorized to use this '
                            'forum')
 
