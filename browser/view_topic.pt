@@ -159,7 +159,7 @@ function add_smiley(text_to_add) {
         </h4>
       </td>
     </tr>
-    <tr>
+    <tr tal:condition="batch">
       <th class="align-left">Author</th>
       <th class="align-left">Comment</th>
     </tr>
@@ -243,7 +243,8 @@ function add_smiley(text_to_add) {
     </tal:preview>
   </tbody>
 </table>
-<div class="submit">
+<div class="submit"
+     tal:condition="view/can_post">
   <input class="button add-comment" type="button" value="add comment"
     onclick="document.getElementById('form-toggle').style.display='block'; this.style.display='none';"
     tal:define="show_form python:numcomments and 'block' or 'none'"
@@ -252,8 +253,9 @@ function add_smiley(text_to_add) {
 </div>
 
 <div id="form-toggle"
-  tal:define="show_form python:numcomments and 'none' or 'block'"
-  tal:attributes="style string:display:${show_form}">
+     tal:condition="view/can_post"
+     tal:define="show_form python:numcomments and 'none' or 'block'"
+     tal:attributes="style string:display:${show_form}">
 
 <form id="forum-comment-form"
   method="post">
@@ -304,6 +306,18 @@ function add_smiley(text_to_add) {
     />
 </form>
 </div>
+
+<div tal:condition="not:view/can_post">
+  <form method="post"
+        action="#"
+        tal:attributes="action string:${context/absolute_url}/index.html/unauthorized">
+    <input type="hidden" name="came_from" value="#"
+           tal:attributes="value context/absolute_url" />
+    <input type="submit" name="login" value="Login to post comment"
+           i18n:attributes="value" />
+  </form>
+</div>
+
 <a name="bottom"></a>
 
 </div>

@@ -9,51 +9,53 @@
 
   <!-- views -->
   <browser:page
-      for="Products.SilvaForum.interfaces.IForum"
-      name="index.html"
-      class=".view.ForumView"
-      template="view_forum.pt"
-      permission="zope.Public"
-      />
+     for="Products.SilvaForum.interfaces.IForum"
+     name="index.html"
+     class=".view.ForumView"
+     allowed_interface="..interfaces.IForumView"
+     template="view_forum.pt"
+     permission="zope.Public"
+     />
 
   <browser:page
-      for="Products.SilvaForum.interfaces.IForum"
-      name="include.html"
-      class=".view.ForumView"
-      template="view_include.pt"
-      permission="zope.Public"
-      />
+     for="Products.SilvaForum.interfaces.IForum"
+     name="include.html"
+     class=".view.ForumView"
+     template="view_include.pt"
+     permission="zope.Public"
+     />
+  
+  <browser:page
+     for="Products.SilvaForum.interfaces.ITopic"
+     name="index.html"
+     class=".view.TopicView"
+     allowed_interface="..interfaces.ITopicView"
+     template="view_topic.pt"
+     permission="zope.Public"
+     />
 
   <browser:page
-      for="Products.SilvaForum.interfaces.ITopic"
-      name="index.html"
-      class=".view.TopicView"
-      template="view_topic.pt"
-      permission="zope.Public"
-      />
+     for="Products.SilvaForum.interfaces.ITopic"
+     name="include.html"
+     class=".view.TopicView"
+     template="view_include.pt"
+     permission="zope.Public"
+     />
 
   <browser:page
-      for="Products.SilvaForum.interfaces.ITopic"
-      name="include.html"
-      class=".view.TopicView"
-      template="view_include.pt"
-      permission="zope.Public"
-      />
+     for="Products.SilvaForum.interfaces.IComment"
+     name="index.html"
+     class=".view.CommentView"
+     template="view_comment.pt"
+     permission="zope.Public"
+     />
 
   <browser:page
-      for="Products.SilvaForum.interfaces.IComment"
-      name="index.html"
-      class=".view.CommentView"
-      template="view_comment.pt"
-      permission="zope.Public"
-      />
-
-  <browser:page
-      for="Products.SilvaForum.interfaces.IComment"
-      name="include.html"
-      class=".view.CommentView"
-      template="view_include.pt"
-      permission="zope.Public"
-      />
+     for="Products.SilvaForum.interfaces.IComment"
+     name="include.html"
+     class=".view.CommentView"
+     template="view_include.pt"
+     permission="zope.Public"
+     />
  
 </configure>

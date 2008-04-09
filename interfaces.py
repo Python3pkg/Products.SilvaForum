@@ -6,17 +6,21 @@
 from zope.interface import Interface
 
 
-class IForumSecurityPolicy(Interface):
-    """ This defines if the user have the right to post or not.
+class IPostableView(Interface):
+    """Generic view interface on item where you can post.
     """
 
-    def can_add_topic():
-        """Return true if the user is authorized to add a topic.
+    def unauthorized():
+        """Unauthorized: should redirect you to the login page.
         """
 
-    def can_add_post():
-        """Return true if the user is authorized to add a post.
-        """
+class IForumView(Interface):
+    """View for forum.
+    """
+
+class ITopicView(Interface):
+    """View for a topic.
+    """
 
 class IPostable(Interface):
     """ Marker interface for content where you can post content.

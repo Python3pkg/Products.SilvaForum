@@ -1,20 +1,26 @@
 import re
 
 from zope.component import getMultiAdapter
+from zope.interface import implements
+
+from AccessControl import getSecurityManager, Unauthorized
 
 from Products.Five import BrowserView
 from Products.Silva.browser.headers import Headers
 from Products.Silva import mangle
 from Products.Silva import SilvaPermissions
+from Products.SilvaForum.interfaces import IForumView, ITopicView
 from Products.SilvaForum.resources.emoticons.emoticons import emoticons, smileydata, get_alt_name
 from Products.SilvaForum.dtformat.dtformat import format_dt
-from Products.SilvaForum.interfaces import IForumSecurityPolicy
 
 from DateTime import DateTime
 from urllib import quote
 
 
+minimal_add_role = 'Authenticated'
+
 class ViewBase(Headers):
+
     def format_datetime(self, dt):
         return format_dt(dt, DateTime())
     
@@ -96,9 +102,24 @@ class ViewBase(Headers):
     def get_resources(self):
         return self.context.aq_inner.get_root().service_resources.SilvaForum
 
+    def can_post(self):
+        """Return true if the current user is allowed to post.
+        """
+        sec = getSecurityManager()
+        return sec.getUser().has_role(minimal_add_role)
+
+    def unauthorized(self):
+        """Says you're unauthorized!
+        """
+        asdasdasd
+        raise Unauthorized('Sorry you need to be authorized to use this '
+                           'forum')
+
 class ForumView(ViewBase):
     """ view on IForum 
         The ForumView is a collection of topics """
+
+    implements(IForumView)
 
     def update(self):
         req = self.request
@@ -106,10 +127,8 @@ class ForumView(ViewBase):
                 (not req.has_key('topic'))):
             return
         
-        security = getMultiAdapter((self.context, self.request), 
-                                   IForumSecurityPolicy)
-        if not security.can_add_topic():
-            return ''
+        if not self.can_post():
+            self.unauthorized()
 
         topic = unicode(req['topic'], 'UTF-8')
         if not topic.strip():
@@ -130,6 +149,8 @@ class TopicView(ViewBase):
     """ view on ITopic 
         The TopicView is a collection of comments """
 
+    implements(ITopicView)
+
     def update(self):
         req = self.request
         
@@ -137,10 +158,8 @@ class TopicView(ViewBase):
                 (not req.has_key('title') and not req.has_key('text'))):
             return
 
-        security = getMultiAdapter((self.context, self.request),
-                                   IForumSecurityPolicy)
-        if not security.can_add_post():
-            return ''
+        if not self.can_post():
+            self.unauthorized()
         
         title = unicode(req['title'], 'UTF-8')
         text = unicode(req['text'], 'UTF-8')
