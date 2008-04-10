@@ -198,25 +198,25 @@ function add_smiley(text_to_add) {
     </tal:loop>
   </tbody>
 </table>
-<form id="forum-thread-form"
-      method="post"
-      tal:condition="view/can_post"
-      tal:attributes="action context/absolute_url">
+<div tal:condition="view/can_post">
+  <form id="forum-thread-form"
+        method="post"
+        tal:attributes="action context/absolute_url">
   <h3>Post a new topic</h3>
   <h5>Subject</h5>
   <div class="feedback"
-    tal:condition="python:request.get('preview') and request.get('text') and
-                   not request.get('topic')">
+       tal:condition="python:request.get('preview') and request.get('text') and
+                      not request.get('topic')">
     <span class="warning">Please provide a subject for the new topic.</span>
   </div>
   <div class="subject-input">
     <input class="store"
-      type="text"
-      name="topic"
-      id="topic"
-      size="80"
-      tal:attributes="value python:unicode(request.form.get('topic', ''), 'UTF-8')"
-    />
+           type="text"
+           name="topic"
+           id="topic"
+           size="80"
+           tal:attributes="value python:unicode(request.form.get('topic', ''), 'UTF-8')"
+           />
   </div>
   <div id="emoticons">
     <span class="emoticon" tal:repeat="smileydata view/get_smiley_data">
@@ -236,7 +236,16 @@ function add_smiley(text_to_add) {
       value="preview"
     />
   </div>
-</form>
+  </form>
+  <form method="post"
+        action="#"
+        tal:attributes="action string:${context/absolute_url}/service_members/logout">
+    <input type="hidden" name="came_from" value="#"
+           tal:attributes="value context/absolute_url" />
+    <input type="submit" name="login" value="logout" style="float:right"
+           i18n:attributes="value" />
+  </form>
+</div>
 
 <div tal:condition="not:view/can_post">
   <form method="post"

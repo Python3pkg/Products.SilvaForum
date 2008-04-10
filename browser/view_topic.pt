@@ -306,6 +306,16 @@ function add_smiley(text_to_add) {
     />
 </form>
 </div>
+<div tal:condition="view/can_post">
+<form method="post"
+      action="#"
+      tal:attributes="action string:${context/absolute_url}/service_members/logout">
+    <input type="hidden" name="came_from" value="#"
+           tal:attributes="value context/absolute_url" />
+    <input type="submit" name="login" value="logout" style="float:right"
+           i18n:attributes="value" />
+</form>
+</div>
 
 <div tal:condition="not:view/can_post">
   <form method="post"
