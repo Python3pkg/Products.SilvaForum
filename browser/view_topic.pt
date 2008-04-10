@@ -315,6 +315,16 @@ function add_smiley(text_to_add) {
     <input type="submit" name="login" value="logout" style="float:right"
            i18n:attributes="value" />
 </form>
+<form method="post"
+      action="#"
+      tal:attributes="action string:${context/absolute_url}/service_resources/Silva/edit_member">
+    <input type="submit" name="login" style="float:right"
+           value="change user settings"
+           i18n:attributes="value"
+           onclick="userWindow = window.open('service_resources/Silva/edit_member', 'userWindow', 'width=450, height=250, resizable=no');
+                    userWindow.focus();
+                    return false;" />
+</form>
 </div>
 
 <div tal:condition="not:view/can_post">
