@@ -172,9 +172,8 @@ function add_smiley(text_to_add) {
               <span class="author" 
                 tal:content="comment/creator">author</span> 
               <a title="Link to this message"
-                tal:attributes="href string:${comment/topic_url}#${comment/id}">
-                posted
-              </a>:
+                tal:attributes="href string:${comment/topic_url}/${comment/id}">
+                posted</a>:
             </p>
           </td>
           <td class="comment">
@@ -190,7 +189,6 @@ function add_smiley(text_to_add) {
                   datetime
                 </tal:date>
               </span>
-              <a tal:attributes="name comment/id"></a>
             </p>
             <h5 tal:define="subject comment/title"
               tal:condition="subject"
@@ -209,7 +207,8 @@ function add_smiley(text_to_add) {
         <td class="author">
           <p><span class="author">Preview</span></p>
         </td>
-        <td class="comment">
+        <td class="comment"
+           style="padding-bottom:2px">
           <h5 tal:define="subject python:unicode(request.form['title'], 'UTF-8')"
             tal:condition="subject"
             tal:content="structure python:view.format_text(request.form['title'])">
@@ -228,14 +227,14 @@ function add_smiley(text_to_add) {
                    tal:attributes="value python:unicode(request.form['title'], 'UTF-8')" />
             <input type="hidden" name="text" id="preview_text"
                    tal:attributes="value python:unicode(request.form['text'], 'UTF-8')" />
-            <input class="button" style="float:right; margin:0" type="submit" value="add comment" />
+            <input class="button" style="float:right" type="submit" value="post comment" />
             <!-- todd says 'i don't know, man' about the next bit of code,
                  and i tend to fully agree... it works though, both in js
                  and non-js situations, and looks consistent
                  (so let's not think about it too much, i suggest ;)
             -->
             <a tal:attributes="href context/absolute_url"><input
-              class="cancel" type="button" value="clear"
+              class="button cancel" type="button" value="edit comment"
               onclick="history.go(-1);return false;"/></a>
           </form>
         </td>
@@ -244,7 +243,7 @@ function add_smiley(text_to_add) {
   </tbody>
 </table>
 <div class="submit"
-     tal:condition="view/can_post">
+  tal:condition="python:view.can_post and not request.get('preview')">
   <input class="button add-comment" type="button" value="add comment"
     onclick="document.getElementById('form-toggle').style.display='block'; this.style.display='none';"
     tal:define="show_form python:numcomments and 'block' or 'none'"
@@ -298,7 +297,7 @@ function add_smiley(text_to_add) {
     <input style="float:right"
       type="submit"
       name="submit"
-      value="add comment"
+      value="post comment"
     />
     <input type="submit"
       name="preview"
@@ -306,35 +305,38 @@ function add_smiley(text_to_add) {
     />
 </form>
 </div>
-<div tal:condition="view/can_post">
-<form method="post"
-      action="#"
-      tal:attributes="action string:${context/absolute_url}/service_members/logout">
+<div class="submit"
+  tal:condition="view/can_post">
+  <form method="post"
+    action="#"
+    tal:attributes="action string:${context/absolute_url}/service_members/logout">
     <input type="hidden" name="came_from" value="#"
-           tal:attributes="value context/absolute_url" />
-    <input type="submit" name="login" value="logout" style="float:right"
-           i18n:attributes="value" />
-</form>
-<form method="post"
-      action="#"
-      tal:attributes="action string:${context/absolute_url}/service_resources/Silva/edit_member">
-    <input type="submit" name="login" style="float:right"
-           value="change user settings"
-           i18n:attributes="value"
-           onclick="userWindow = window.open('service_resources/Silva/edit_member', 'userWindow', 'width=450, height=250, resizable=no');
-                    userWindow.focus();
-                    return false;" />
-</form>
+      tal:attributes="value context/absolute_url" />
+    <input style="float:right" type="submit" name="login" value="logout" style="float:right"
+      i18n:attributes="value" />
+  </form>
+  <form method="post"
+    action="#"
+    tal:attributes="action string:${context/absolute_url}/service_resources/Silva/edit_member">
+    <input type="submit" name="login"
+      value="change user settings"
+      i18n:attributes="value"
+      onclick="userWindow = window.open('service_resources/Silva/edit_member', 'userWindow', 'width=450, height=250, resizable=no');
+               userWindow.focus();
+               return false;"
+    />
+  </form>
 </div>
 
-<div tal:condition="not:view/can_post">
+<div class="submit"
+ tal:condition="not:view/can_post">
   <form method="post"
-        action="#"
-        tal:attributes="action string:${context/absolute_url}/index.html/authenticate">
+    action="#"
+    tal:attributes="action string:${context/absolute_url}/index.html/authenticate">
     <input type="hidden" name="came_from" value="#"
-           tal:attributes="value context/absolute_url" />
+      tal:attributes="value context/absolute_url" />
     <input type="submit" name="login" value="Login to post a new comment"
-           i18n:attributes="value" />
+      i18n:attributes="value" />
   </form>
 </div>
 
