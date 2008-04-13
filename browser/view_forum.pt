@@ -41,93 +41,93 @@ function add_smiley(text_to_add) {
   tal:content="message">
   message
 </div>
+
 <metal:def define-macro="pagination">
 <table class="pagination"
-  cellspacing="0"
   tal:condition="python:numitems > batch_size"
   tal:define="previous_batch_url python:view.get_batch_prev_link(batch.start-1)">
-  <tr>
-    <td class="previous">
-      <tal:block define="firstlink python:view.get_batch_first_link(batch.start-1)">
-        <a href="firstbatch"
-          accesskey="f"
-          title="Go to the first result listing: alt-f"
-          tal:condition="firstlink"
-          tal:attributes="href firstlink"
-          ><img class="control"
-            alt="First"
-            tal:define="image context/globals/leftdouble.gif"
-            tal:attributes="
-              src image/absolute_url;
-              width image/width;
-              height image/height;
-           " />&nbsp;
-        </a>
-      </tal:block>
-      <tal:block condition="previous_batch_url | nothing">
-        <a href="previousbatch"
-          accesskey="b"
-          title="See the previous result listing: alt-b"
-          tal:attributes="href previous_batch_url"
-          ><img class="control"
-            alt="Previous"
-            tal:define="image context/globals/left.gif"
-            tal:attributes="
-              src image/absolute_url;
-              width image/width;
-              height image/height;
-          " />
-        <u>B</u>ack
-        </a>
-      </tal:block>
-    </td>
-    <td class="info">
-      Showing result
-      <tal:block replace="batch/start" />
-      to
-      <tal:block replace="batch/end" />
-      of
-      <tal:block replace="python:numitems" />
-    </td>
-    <td class="next" tal:define="next_batch_url python:view.get_batch_next_link(batch.start-1, numitems)">
-      <tal:block condition="next_batch_url">
-        <a href="nextbatch"
-          accesskey="n"
-          title="See the next result listing: alt-n"
-          tal:attributes="href next_batch_url">
-          <u>N</u>ext
-          <img alt="Next"
-            tal:define="image context/globals/right.gif"
-            tal:attributes="
-              src image/absolute_url;
-              width image/width;
-              height image/height;
-          " />
-        </a>
-      </tal:block>
-      <tal:block define="lastlink python:view.get_batch_last_link(batch.start-1,
-                                                                  numitems)">
-        <a href="lastbatch"
-          accesskey="l"
-          title="Go to the last result listing: alt-l"
-          tal:condition="lastlink"
-          tal:attributes="href lastlink">&nbsp;<img
-            class="control"
-            alt="Last"
-            tal:define="image context/globals/rightdouble.gif"
-            tal:attributes="
-              src image/absolute_url;
-              width image/width;
-              height image/height;
-           " />
-        </a>
-      </tal:block>
-    </td>
-  </tr>
+  <tbody>
+    <tr>
+      <td>
+        <div style="float:left">
+          <tal:block define="firstlink python:view.get_batch_first_link(batch.start-1)">
+            <a href="firstbatch"
+              accesskey="f"
+              title="Go to the first result listing: alt-f"
+              tal:condition="firstlink"
+              tal:attributes="href firstlink"
+              ><img class="control"
+                alt="First"
+                tal:define="image context/globals/leftdouble.gif"
+                tal:attributes="
+                  src image/absolute_url;
+                  width image/width;
+                  height image/height;
+               " />&nbsp;
+            </a>
+          </tal:block>
+          <tal:block condition="previous_batch_url | nothing">
+            <a href="previousbatch"
+              accesskey="b"
+              title="See the previous result listing: alt-b"
+              tal:attributes="href previous_batch_url"
+              ><img class="control"
+                alt="Previous"
+                tal:define="image context/globals/left.gif"
+                tal:attributes="
+                  src image/absolute_url;
+                  width image/width;
+                  height image/height;
+              " />
+            <u>B</u>ack
+            </a>
+          </tal:block>
+        </div>
+        <div style="float:right"
+          tal:define="next_batch_url python:view.get_batch_next_link(batch.start-1, numitems)">
+          <tal:block condition="next_batch_url">
+            <a href="nextbatch"
+              accesskey="n"
+              title="See the next result listing: alt-n"
+              tal:attributes="href next_batch_url">
+              <u>N</u>ext
+              <img alt="Next"
+                tal:define="image context/globals/right.gif"
+                tal:attributes="
+                  src image/absolute_url;
+                  width image/width;
+                  height image/height;
+              " />
+            </a>
+          </tal:block>
+          <tal:block define="lastlink python:view.get_batch_last_link(batch.start-1, numitems)">
+            <a href="lastbatch"
+              accesskey="l"
+              title="Go to the last result listing: alt-l"
+              tal:condition="lastlink"
+              tal:attributes="href lastlink">&nbsp;<img
+                class="control"
+                alt="Last"
+                tal:define="image context/globals/rightdouble.gif"
+                tal:attributes="
+                  src image/absolute_url;
+                  width image/width;
+                  height image/height;
+              " />
+            </a>
+          </tal:block>
+        </div>
+        Showing results <tal:block replace="batch/start" />
+        to <tal:block replace="batch/end" />
+        of <tal:block replace="python:numitems" />
+      </td>
+    </tr>
+  </tbody>
 </table>
 </metal:def>
+
 <table class="forum-content-table">
-  <thead class="thead">
+  <thead>
     <tr tal:condition="batch">
       <th class="align-left">Topics</th>
       <th class="align-left">Post date</th>
@@ -201,82 +201,87 @@ function add_smiley(text_to_add) {
     </tal:loop>
   </tbody>
 </table>
+
 <table metal:use-macro="context/view_forum.pt/macros/pagination">
 </table>
-<div tal:condition="view/can_post">
+<tal:if condition="view/can_post">
   <form id="forum-thread-form"
-        method="post"
-        tal:attributes="action context/absolute_url">
-  <h3>Post a new topic</h3>
-  <h5>Subject</h5>
-  <div class="feedback"
-       tal:condition="python:request.get('preview') and request.get('text') and
-                      not request.get('topic')">
-    <span class="warning">Please provide a subject for the new topic.</span>
-  </div>
-  <div class="subject-input">
-    <input class="store"
-           type="text"
-           name="topic"
-           id="topic"
-           size="80"
-           tal:attributes="value python:unicode(request.form.get('topic', ''), 'UTF-8')"
-           />
-  </div>
-  <div id="emoticons">
-    <span class="emoticon" tal:repeat="smileydata view/get_smiley_data">
-      <img onclick="add_smiley(this.title)"
-        alt="emoticon"
-        tal:attributes="title smileydata/text; src smileydata/href"
+    method="post"
+    tal:attributes="action context/absolute_url">
+    <h3>Post a new topic</h3>
+    <h5>Subject</h5>
+    <div class="feedback"
+      tal:condition="python:request.get('preview') and request.get('text') and not request.get('topic')">
+      <span class="warning">Please provide a subject for the new topic.</span>
+    </div>
+    <div class="subject-input">
+      <input class="store"
+        type="text"
+        name="topic"
+        id="topic"
+        size="80"
+        tal:attributes="value python:unicode(request.form.get('topic', ''), 'UTF-8')"
       />
-    </span>
-  </div>
-  <div class="submit">
-    <input style="float:right"
-      type="submit"
-      value="add topic"
-    />
-    <input type="submit"
-      name="preview"
-      value="preview"
-    />
-  </div>
+    </div>
+    <div id="emoticons">
+      <span class="emoticon" tal:repeat="smileydata view/get_smiley_data">
+        <img onclick="add_smiley(this.title)"
+          alt="emoticon"
+          tal:attributes="title smileydata/text; src smileydata/href"
+        />
+      </span>
+    </div>
+    <div class="submit">
+      <input style="float:right"
+        type="submit"
+        value="add topic"
+        i18n:attributes="value"
+      />
+      <input type="submit"
+        name="preview"
+        value="preview"
+        i18n:attributes="value"
+      />
+    </div>
   </form>
 
-  <div class="controls">
-  <metal:def define-macro="user_controls">
+  <div class="controls"
+    metal:define-macro="user_controls">
     <h6>Forum user controls</h6>
     <form method="post"
       action="#"
       tal:attributes="action string:${context/absolute_url}/service_members/logout">
       <input type="hidden" name="came_from" value="#"
-        tal:attributes="value context/absolute_url" />
+        tal:attributes="value context/absolute_url"
+      />
       <input style="float:right" type="submit" name="login" value="logout" style="float:right"
-        i18n:attributes="value" />
+        i18n:attributes="value"
+      />
     </form>
     <form method="post"
       action="#"
       tal:attributes="action string:${context/absolute_url}/service_resources/Silva/edit_member">
-      <input type="submit" name="login"
-        value="edit profile"
+      <input type="submit" name="login" value="edit profile"
         i18n:attributes="value"
         onclick="userWindow = window.open('service_resources/Silva/edit_member', 'userWindow', 'width=450, height=250, resizable=no');
                  userWindow.focus();
                  return false;"
       />
     </form>
-  </metal:def>
   </div>
-</div>
+</tal:if>
 
 <div tal:condition="not:view/can_post">
   <form method="post"
-        action="#"
-        tal:attributes="action string:${context/absolute_url}/index.html/authenticate">
+    action="#"
+    tal:attributes="action string:${context/absolute_url}/index.html/authenticate">
     <input type="hidden" name="came_from" value="#"
-           tal:attributes="value context/absolute_url" />
+      tal:attributes="value context/absolute_url"
+    />
     <input type="submit" name="login" value="Login to post a new topic"
-           i18n:attributes="value" />
+      i18n:attributes="value"
+    />
   </form>
 </div>
+
 </div>

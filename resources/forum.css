@@ -18,20 +18,10 @@ table.pagination tr {
   background-color: #cdd9e5;
   vertical-align:bottom;
 }
-table.pagination td.previous {
+table.pagination td {
   width: 25%;
-  padding: 0 0 0.1em 0.2em;
-  text-align: left;
-}
-table.pagination td.info {
-  width: 50%;
-  padding: 0 0 0.1em;
+  padding: 0 0.2em 0.1em 0.2em;
   text-align: center;
-}
-table.pagination td.next {
-  width: 25%;
-  padding: 0 0.2em 0.1em 0;
-  text-align: right;
 }
 table.pagination a:link {
   text-decoration:none;
@@ -142,7 +132,7 @@ div.forum div.submit {
 }
 
 div.forum div.controls {
-  margin: 1.5em 0 0 0;
+  margin: 1.7em 0 0 0;
   padding-bottom:0.5em;
   border-bottom:1px solid gray
 }
