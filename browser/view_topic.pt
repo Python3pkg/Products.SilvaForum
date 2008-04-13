@@ -238,9 +238,9 @@ function add_smiley(text_to_add) {
   </form>
 </div>
 
-<div metal:use-macro="context/view_forum.pt/macros/user_controls"
-  tal:condition="view/can_post">
-</div>
+<tal:if condition="view/can_post">
+<metal:use use-macro="context/view_forum.pt/macros/user_controls"/>
+</tal:if>
 
 <div class="submit"
  tal:condition="not:view/can_post">
