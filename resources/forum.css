@@ -3,29 +3,34 @@ div.forum {
  margin-bottom: 1em;
 }
 
+div.forum h5 {
+  margin-top: 0.7em;
+}
+
 /*___________________________________________ PAGINATION SELECTORS __________*/
 table.pagination {
   width: 100%;
   border: 1px solid gray;
-  border-spacing: 0;
-  background-color: #cdd9e5;
+  border-spacing: 1px;
+  background-color: #afc3d7;
 }
 table.pagination tr {
+  background-color: #cdd9e5;
   vertical-align:bottom;
 }
 table.pagination td.previous {
   width: 25%;
-  padding: 0.1em 0 0.2em 0.2em;
+  padding: 0 0 0.1em 0.2em;
   text-align: left;
 }
 table.pagination td.info {
   width: 50%;
-  padding: 0.1em 0 0.2em;
+  padding: 0 0 0.1em;
   text-align: center;
 }
 table.pagination td.next {
   width: 25%;
-  padding: 0.1em 0.2em 0.2em 0;
+  padding: 0 0.2em 0.1em 0;
   text-align: right;
 }
 table.pagination a:link {
@@ -38,11 +43,11 @@ table.pagination a:hover {
   text-decoration:underline;
 }
 
-/*________________________________________ FORUM LISTING SELECTORS __________*/
+/*______________________________________________ LISTING SELECTORS __________*/
 table.forum-content-table {
   width: 100%;
   border: 1px solid gray;
-  border-spacing: 2px;
+  border-spacing: 1px;
   background-color: #afc3d7;
 }
 table.forum-content-table thead {
@@ -136,4 +141,10 @@ div.forum div.submit {
   margin: 0.5em 0 0 0;
 }
 
-/*  */
+div.forum div.controls {
+  margin: 1.5em 0 0 0;
+  padding-bottom:0.5em;
+  border-bottom:1px solid gray
+}
+
+/* style is attitude */
