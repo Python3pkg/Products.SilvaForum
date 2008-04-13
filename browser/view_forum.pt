@@ -3,7 +3,7 @@
     dummy view/set_content_type_and_nocache;
     message python:view.update() or request.get('message');
     topics context/topics;
-    numtopics python:len(topics);
+    numitems python:len(topics);
     batch_size context/topic_batch_size;
     batch python:context.service_views.Silva.getBatch(topics, size=batch_size, orphan=0);
 ">
@@ -41,9 +41,10 @@ function add_smiley(text_to_add) {
   tal:content="message">
   message
 </div>
+<metal:def define-macro="pagination">
 <table class="pagination"
   cellspacing="0"
-  tal:condition="python:numtopics > batch_size"
+  tal:condition="python:numitems > batch_size"
   tal:define="previous_batch_url python:view.get_batch_prev_link(batch.start-1)">
   <tr>
     <td class="previous">
@@ -86,9 +87,9 @@ function add_smiley(text_to_add) {
       to
       <tal:block replace="batch/end" />
       of
-      <tal:block replace="python:numtopics" />
+      <tal:block replace="python:numitems" />
     </td>
-    <td class="next" tal:define="next_batch_url python:view.get_batch_next_link(batch.start-1, numtopics)">
+    <td class="next" tal:define="next_batch_url python:view.get_batch_next_link(batch.start-1, numitems)">
       <tal:block condition="next_batch_url">
         <a href="nextbatch"
           accesskey="n"
@@ -105,7 +106,7 @@ function add_smiley(text_to_add) {
         </a>
       </tal:block>
       <tal:block define="lastlink python:view.get_batch_last_link(batch.start-1,
-                                                                  numtopics)">
+                                                                  numitems)">
         <a href="lastbatch"
           accesskey="l"
           title="Go to the last result listing: alt-l"
@@ -124,6 +125,7 @@ function add_smiley(text_to_add) {
     </td>
   </tr>
 </table>
+</metal:def>
 <table class="forum-content-table">
   <thead class="thead">
     <tr tal:condition="batch">
@@ -136,22 +138,23 @@ function add_smiley(text_to_add) {
   <tbody>
     <tal:preview condition="python:request.get('preview') and request.get('topic')">
       <tr class="preview">
-        <td class="topic">
+        <td class="topic"
+          style="padding-bottom:2px">
           <p tal:content="structure python:view.format_text(request.form['topic'])" />
           <form method="post"
             id="previewform"
             tal:condition="request/form/preview | nothing"
             tal:attributes="action context/absolute_url">
-            <input style="float:right; margin:0" type="submit" value="add topic" />
             <input type="hidden" name="topic" id="preview_topic"
                    tal:attributes="value python:unicode(request.form['topic'], 'UTF-8')" />
+            <input style="float:right;" type="submit" value="post topic" />
             <!-- todd says 'i don't know, man' about the next bit of code,
                  and i tend to fully agree... it works though, both in js
                  and non-js situations, and looks consistent
                  (so let's not think about it too much, i suggest ;)
             -->
             <a tal:attributes="href context/absolute_url"><input
-              class="cancel" type="button" value="clear"
+              class="button cancel" type="button" value="clear"
               tal:attributes="onclick string:document.location='${context/absolute_url}'"
               /></a>
           </form>
@@ -198,6 +201,8 @@ function add_smiley(text_to_add) {
     </tal:loop>
   </tbody>
 </table>
+<table metal:use-macro="context/view_forum.pt/macros/pagination">
+</table>
 <div tal:condition="view/can_post">
   <form id="forum-thread-form"
         method="post"
@@ -237,24 +242,31 @@ function add_smiley(text_to_add) {
     />
   </div>
   </form>
-  <form method="post"
-        action="#"
-        tal:attributes="action string:${context/absolute_url}/service_members/logout">
-    <input type="hidden" name="came_from" value="#"
-           tal:attributes="value context/absolute_url" />
-    <input type="submit" name="login" value="logout" style="float:right"
-           i18n:attributes="value" />
-  </form>
-  <form method="post"
+
+  <div class="controls">
+  <metal:def define-macro="user_controls">
+    <h6>Forum user controls</h6>
+    <form method="post"
+      action="#"
+      tal:attributes="action string:${context/absolute_url}/service_members/logout">
+      <input type="hidden" name="came_from" value="#"
+        tal:attributes="value context/absolute_url" />
+      <input style="float:right" type="submit" name="login" value="logout" style="float:right"
+        i18n:attributes="value" />
+    </form>
+    <form method="post"
       action="#"
       tal:attributes="action string:${context/absolute_url}/service_resources/Silva/edit_member">
-    <input type="submit" name="login" style="float:right"
-           value="change user settings"
-           i18n:attributes="value"
-           onclick="userWindow = window.open('service_resources/Silva/edit_member', 'userWindow', 'width=450, height=250, resizable=no');
-                    userWindow.focus();
-                    return false;" />
-</form>
+      <input type="submit" name="login"
+        value="edit profile"
+        i18n:attributes="value"
+        onclick="userWindow = window.open('service_resources/Silva/edit_member', 'userWindow', 'width=450, height=250, resizable=no');
+                 userWindow.focus();
+                 return false;"
+      />
+    </form>
+  </metal:def>
+  </div>
 </div>
 
 <div tal:condition="not:view/can_post">
