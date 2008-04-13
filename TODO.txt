@@ -1,10 +1,10 @@
-Copyright (c) 2007 Infrae. All rights reserved.
+Copyright (c) 2007-2008 Infrae. All rights reserved.
 See also LICENSE.txt
 
 Meta::
   
   Valid for:    SilvaForum 0.1-beta-2 (SVN/Unreleased)
-  Author:       Todd Matsumoto, Guido Wesdorp
+  Author:       Todd Matsumoto, Guido Wesdorp, Kit Blake
   Email:        todd@infrae.com
 
 ===================
@@ -16,20 +16,9 @@ TODO for SilvaForum
 
 * Rig the preview form to render emoticons.
 
-* Unify the batching code so it's the same for threads and comments, make 
-  it one macro in a separate file (so it’s reusable), and using the macro 
-  add pagination to the bottom of the tables too. Put it – 
-  'macro_pagination.pt' – in the Silva core.
-
 * i18n the pagination strings.
 
-* Make the preview appear at the end of the table.
-
-* In SMI the add list of the contents screen, "Silva Forum" appears as the
-  first item. Change its position so it show up after the default content 
-  types.
-
-* Close a topic functionality to comments so that it remains public but no 
+* Add close a topic functionality to comments so that it remains public but no 
   more comments can be added.
 
 * Close forums/topics to selected users.
@@ -44,6 +33,12 @@ TODO for SilvaForum
   a moderate link in the frontend which connects to the corresponding 
   backend.
 
+* Forum users can edit their 'profile', which right now means editing their
+  full name an email address. This is needed because some OPs (OpenID Provider)
+  have horrible and non-human readable ids, e.g. Yahoo. Right now this is the 
+  same as the User Settings popup in the SMI. Presumably we'll have to change 
+  this to be more conformant with a generic and customizable front end.
+
 Issues
 ------
 
@@ -53,8 +48,6 @@ Issues
 * Add an 'index' object to forum and topics, and build in interfaces for
   editing these views in the SMI. For the moment decided to take out the
   messages for topics.
-
-* Redo graphic design for adding a topic from the view_forum.pt view.
 
 * author registration in the smi. figured out a work around, but the real
   reason for this bug is yet to be discovered.
