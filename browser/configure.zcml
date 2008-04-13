@@ -57,5 +57,22 @@
      template="view_include.pt"
      permission="zope.Public"
      />
- 
+
+  <!-- for macros -->
+  <browser:page
+     for="Products.SilvaForum.interfaces.IForum"
+     name="view_forum.pt"
+     class=".view.ForumView"
+     template="view_forum.pt"
+     permission="zope.Public"
+     />
+
+  <browser:page
+     for="Products.SilvaForum.interfaces.ITopic"
+     name="view_forum.pt"
+     class=".view.TopicView"
+     template="view_forum.pt"
+     permission="zope.Public"
+     />
+
 </configure>
