@@ -36,7 +36,7 @@ class FiveViewable(object):
         # that '/view' was added to the url, and it will return a page suitable
         # for including in other documents
         # XXX maybe we should use an adapter here?
-        result = getMultiAdapter((self, self.REQUEST), name=u'index.html')()
+        result = getMultiAdapter((self, self.REQUEST), name=u'view.html')()
         if self.REQUEST.form.has_key('include'):
             view = getMultiAdapter((self, self.REQUEST), name=u'include.html')
             result = view(content=result)
@@ -161,7 +161,7 @@ class Topic(ForumFolderBase, Folder):
         self._lastid = 0
         self._text = ''
         self.comment_batch_size = 10
-    
+
     def add_comment(self, title, text):
         """ add a comment to the topic
         """

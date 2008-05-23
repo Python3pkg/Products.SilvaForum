@@ -5,7 +5,6 @@ from zope.interface import implements
 
 from AccessControl import getSecurityManager, Unauthorized
 
-from Products.Five import BrowserView
 from Products.Silva.browser.headers import Headers
 from Products.Silva import mangle
 from Products.Silva import SilvaPermissions

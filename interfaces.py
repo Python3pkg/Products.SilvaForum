@@ -4,6 +4,7 @@
 # Python
 
 from zope.interface import Interface
+from Products.Silva.interfaces import IContent, IContainer
 
 
 class IPostableView(Interface):
@@ -22,7 +23,7 @@ class ITopicView(IPostableView):
     """View for a topic.
     """
 
-class IPostable(Interface):
+class IPostable(IContent):
     """ Marker interface for content where you can post content.
     """
 
@@ -59,7 +60,7 @@ class ITopic(IPostable):
         """ set the text content
         """
 
-class IComment(Interface):
+class IComment(IContent):
     """ a single comment in a forum
     """
     def get_text():
