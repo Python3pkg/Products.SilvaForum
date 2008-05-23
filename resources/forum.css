@@ -13,6 +13,7 @@ table.pagination {
   border: 1px solid gray;
   border-spacing: 1px;
   background-color: #afc3d7;
+  font-size: 100%; /* for moz in SL */
 }
 table.pagination tr {
   background-color: #cdd9e5;
@@ -39,6 +40,7 @@ table.forum-content-table {
   border: 1px solid gray;
   border-spacing: 1px;
   background-color: #afc3d7;
+  font-size: 100%; /* for moz in SL */
 }
 table.forum-content-table thead {
   background-color: #b0c4d7;
