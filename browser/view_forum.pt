@@ -9,7 +9,6 @@
 ">
 <script type="text/javascript">
 // <![CDATA[
-
 function add_smiley(text_to_add) {
     /* add a smiley to the topic field
     */
@@ -30,9 +29,9 @@ function add_smiley(text_to_add) {
     topic.value = content;
     topic.focus();
 };
-
 // ]]>
 </script>
+
 <h2 tal:content="here/get_title">
   forum title
 </h2>
@@ -44,78 +43,78 @@ function add_smiley(text_to_add) {
 
 <metal:def define-macro="pagination">
 <table class="pagination"
-  tal:condition="python:numitems > batch_size"
-  tal:define="previous_batch_url python:view.get_batch_prev_link(batch.start-1)">
+  tal:condition="python:numitems > batch_size">
   <tbody>
     <tr>
       <td>
-        <div style="float:left">
-          <tal:block define="firstlink python:view.get_batch_first_link(batch.start-1)">
-            <a href="firstbatch"
-              accesskey="f"
-              title="Go to the first result listing: alt-f"
-              tal:condition="firstlink"
-              tal:attributes="href firstlink"
-              ><img class="control"
-                alt="First"
-                tal:define="image context/globals/leftdouble.gif"
-                tal:attributes="
-                  src image/absolute_url;
-                  width image/width;
-                  height image/height;
-               " />&nbsp;
-            </a>
-          </tal:block>
-          <tal:block condition="previous_batch_url | nothing">
-            <a href="previousbatch"
-              accesskey="b"
-              title="See the previous result listing: alt-b"
-              tal:attributes="href previous_batch_url"
-              ><img class="control"
-                alt="Previous"
-                tal:define="image context/globals/left.gif"
-                tal:attributes="
-                  src image/absolute_url;
-                  width image/width;
-                  height image/height;
-              " />
-            <u>B</u>ack
-            </a>
-          </tal:block>
+        <div style="float:left; width:8em; text-align:left"
+          tal:define="
+            previous_batch_url python:view.get_batch_prev_link(batch.start-1);
+            firstlink python:view.get_batch_first_link(batch.start-1);
+        ">
+          <a href="firstbatch"
+            accesskey="f"
+            title="Go to the first result listing: alt-f"
+            tal:condition="firstlink"
+            tal:attributes="href firstlink"
+            ><img class="control"
+              alt="First"
+              tal:define="image context/globals/leftdouble.gif"
+              tal:attributes="
+                src image/absolute_url;
+                width image/width;
+                height image/height;
+             " />&nbsp;
+          </a>
+          <a href="previousbatch"
+            accesskey="b"
+            title="See the previous result listing: alt-b"
+            tal:condition="previous_batch_url"
+            tal:attributes="href previous_batch_url"
+            ><img class="control"
+              alt="Previous"
+              tal:define="image context/globals/left.gif"
+              tal:attributes="
+                src image/absolute_url;
+                width image/width;
+                height image/height;
+            " />
+          <u>B</u>ack
+          </a>&nbsp;
         </div>
-        <div style="float:right"
-          tal:define="next_batch_url python:view.get_batch_next_link(batch.start-1, numitems)">
-          <tal:block condition="next_batch_url">
-            <a href="nextbatch"
-              accesskey="n"
-              title="See the next result listing: alt-n"
-              tal:attributes="href next_batch_url">
-              <u>N</u>ext
-              <img alt="Next"
-                tal:define="image context/globals/right.gif"
-                tal:attributes="
-                  src image/absolute_url;
-                  width image/width;
-                  height image/height;
-              " />
-            </a>
-          </tal:block>
-          <tal:block define="lastlink python:view.get_batch_last_link(batch.start-1, numitems)">
-            <a href="lastbatch"
-              accesskey="l"
-              title="Go to the last result listing: alt-l"
-              tal:condition="lastlink"
-              tal:attributes="href lastlink">&nbsp;<img
-                class="control"
-                alt="Last"
-                tal:define="image context/globals/rightdouble.gif"
-                tal:attributes="
-                  src image/absolute_url;
-                  width image/width;
-                  height image/height;
-              " />
-            </a>
-          </tal:block>
+        <div style="float:right; width:8em; text-align:right"
+          tal:define="
+            next_batch_url python:view.get_batch_next_link(batch.start-1, numitems);
+            lastlink python:view.get_batch_last_link(batch.start-1, numitems);
+        ">&nbsp;
+          <a href="nextbatch"
+            accesskey="n"
+            title="See the next result listing: alt-n"
+            tal:condition="next_batch_url"
+            tal:attributes="href next_batch_url">
+            <u>N</u>ext
+            <img alt="Next"
+              tal:define="image context/globals/right.gif"
+              tal:attributes="
+                src image/absolute_url;
+                width image/width;
+                height image/height;
+            " />
+          </a>
+          <a href="lastbatch"
+            accesskey="l"
+            title="Go to the last result listing: alt-l"
+            tal:condition="lastlink"
+            tal:attributes="href lastlink">&nbsp;<img
+              class="control"
+              alt="Last"
+              tal:define="image context/globals/rightdouble.gif"
+              tal:attributes="
+                src image/absolute_url;
+                width image/width;
+                height image/height;
+            " />
+          </a>
         </div>
         Showing results <tal:block replace="batch/start" />
         to <tal:block replace="batch/end" />
@@ -202,7 +201,8 @@ function add_smiley(text_to_add) {
   </tbody>
 </table>
 
-<table metal:use-macro="context/view_forum.pt/macros/pagination">
+<table metal:use-macro="template/macros/pagination">
+  batching nav bar
 </table>
 <tal:if condition="view/can_post">
   <form id="forum-thread-form"

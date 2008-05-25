@@ -10,9 +10,7 @@
 ">
 <script type="text/javascript">
 // <![CDATA[
-
 window.focussed_form_field = null;
-
 function add_smiley(text_to_add) {
     /* add a smiley to the textarea
     */
@@ -30,9 +28,9 @@ function add_smiley(text_to_add) {
     input.value = content;
     input.focus();
 };
-
 // ]]>
 </script>
+
 <h2 tal:condition="not: included"
   tal:content="here/aq_parent/get_title">
   forum title
@@ -52,6 +50,7 @@ function add_smiley(text_to_add) {
 </div>
 
 <table metal:use-macro="context/view_forum.pt/macros/pagination">
+  batching nav bar
 </table>
 
 <table class="forum-content-table">
@@ -146,17 +145,17 @@ function add_smiley(text_to_add) {
             tal:condition="request/form/preview | nothing"
             tal:attributes="action context/absolute_url">
             <input type="hidden" name="include"
-                   tal:condition="request/form/include|nothing"
-                   tal:attributes="value request/form/include"/>
+              tal:condition="request/form/include|nothing"
+              tal:attributes="value request/form/include"/>
             <input type="hidden" name="title" id="preview_title"
-                   tal:attributes="value python:unicode(request.form['title'], 'UTF-8')" />
+              tal:attributes="value python:unicode(request.form['title'], 'UTF-8')" />
             <input type="hidden" name="text" id="preview_text"
-                   tal:attributes="value python:unicode(request.form['text'], 'UTF-8')" />
+              tal:attributes="value python:unicode(request.form['text'], 'UTF-8')" />
             <input class="button" style="float:right" type="submit" value="post comment" />
             <!-- todd says 'i don't know, man' about the next bit of code,
-                 and i tend to fully agree... it works though, both in js
-                 and non-js situations, and looks consistent
-                 (so let's not think about it too much, i suggest ;)
+              and i tend to fully agree... it works though, both in js
+              and non-js situations, and looks consistent
+              (so let's not think about it too much, i suggest ;)
             -->
             <a tal:attributes="href context/absolute_url"><input
               class="button cancel" type="button" value="edit comment"
@@ -168,6 +167,7 @@ function add_smiley(text_to_add) {
   </tbody>
 </table>
 <table metal:use-macro="context/view_forum.pt/macros/pagination">
+  batching nav bar
 </table>
 <tal:if condition="view/can_post">
   <div class="submit"
