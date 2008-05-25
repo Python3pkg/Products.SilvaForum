@@ -125,8 +125,8 @@ form {
 }
 
 div.forum input.store, textarea.store {
-  width: 99%;
-  !width: 98%; 
+  width: 100%;
+  max-width: 99.5%; /* why? */
 }
 
 div.forum div.submit {
