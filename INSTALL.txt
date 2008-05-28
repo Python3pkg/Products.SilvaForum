@@ -1,4 +1,4 @@
-Copyright (c) 2007 Infrae. All rights reserved.
+Copyright (c) 2008 Infrae. All rights reserved.
 See also LICENSE.txt
 
 Meta::
@@ -30,8 +30,6 @@ root>/manage_services in your browser. Click on service_extensions, find the
 
 IMPORTANT STYLING NOTES: 
 ------------------------
-
-SilvaForum does not work with SilvaLayout.
 
 When the SilvaForum extension is installed there are CSS files and other
 resources located in the service_resources folder of your Silva root in its

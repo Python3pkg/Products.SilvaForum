@@ -10,6 +10,15 @@ Meta::
 HISTORY
 =======
 
+0.2-beta1
+---------
+
+* Added condition on forum table to not display when empty
+
+* Adjusted presentation code so the forum works with Silva Layout
+
+* Refactored pagination code so defines are grouped 
+
 0.1-beta-2 (SVN/Unreleased)
 --------------------------
 * Changed regex in format_link to not include parenthesis, or periods.
