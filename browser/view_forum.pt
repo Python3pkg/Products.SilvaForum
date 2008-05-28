@@ -125,7 +125,9 @@ function add_smiley(text_to_add) {
 </table>
 </metal:def>
 
-<table class="forum-content-table">
+<table class="forum-content-table"
+  tal:define="have_preview python:request.get('preview') and request.get('topic')"
+  tal:condition="python: have_preview or numitems">
   <thead>
     <tr tal:condition="batch">
       <th class="align-left">Topics</th>
@@ -135,7 +137,7 @@ function add_smiley(text_to_add) {
     </tr>
   </thead>
   <tbody>
-    <tal:preview condition="python:request.get('preview') and request.get('topic')">
+    <tal:preview condition="have_preview">
       <tr class="preview">
         <td class="topic"
           style="padding-bottom:2px">
