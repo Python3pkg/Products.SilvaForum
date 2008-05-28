@@ -246,7 +246,7 @@ function add_smiley(text_to_add) {
  tal:condition="not:view/can_post">
   <form method="post"
     action="#"
-    tal:attributes="action string:${context/absolute_url}/index.html/authenticate">
+    tal:attributes="action string:${context/absolute_url}/view.html/authenticate">
     <input type="hidden" name="came_from" value="#"
       tal:attributes="value context/absolute_url"
     />
