@@ -31,9 +31,11 @@ function add_smiley(text_to_add) {
 // ]]>
 </script>
 
-<h2 tal:condition="not: included"
-  tal:content="here/aq_parent/get_title">
-  forum title
+<h2 tal:condition="not: included">
+  <a tal:content="here/aq_parent/get_title"
+    tal:attributes="href here/aq_parent/absolute_url">
+    forum title
+  </a>
 </h2>
 <h4 tal:condition="included">
   <tal:if condition="python:numitems == 1">
