@@ -1,1 +1,1 @@
-SilvaForum 0.3 (unreleased)
+SilvaForum 0.3 (SVN/unreleased)
