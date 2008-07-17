@@ -105,7 +105,7 @@ class TopicViewTest(SilvaTestCase.SilvaTestCase):
         self.topic = self.addObject(self.forum, 'Topic', 'topic1',
                                      title='Topic', product='SilvaForum')
         self.view = getMultiAdapter((self.topic, self.app.REQUEST),
-                                    name=u'index.html')
+                                    name=u'view.html')
 
     def test_format_datetime(self):
         # XXX this needs to either be removed, or test something useful...
@@ -175,7 +175,7 @@ class CommentViewTest(SilvaTestCase.SilvaTestCase):
         self.comment = self.addObject(self.topic, 'Comment', 'comment1',
                                       title='Comment', product='SilvaForum')
         self.view = getMultiAdapter((self.comment, self.app.REQUEST),
-                                    name=u'index.html')
+                                    name=u'view.html')
 
     def test_format_text(self):
         text = 'foo bar'
