@@ -3,20 +3,25 @@
 # SilvaForum
 # Python
 
-import SilvaTestCase
+from Products.Silva.tests import SilvaTestCase
+from Testing import ZopeTestCase
 from Testing.ZopeTestCase import utils
 from zope.component import getMultiAdapter
 from datetime import datetime
 from DateTime.DateTime import DateTime
 import os
 
+ZopeTestCase.installProduct('SilvaForum')
+
 test_path = os.path.dirname(__file__)
 
-class ForumTest(SilvaTestCase.SilvaTestCase):
+class SilvaForumTestCase(SilvaTestCase.SilvaTestCase):
     def afterSetUp(self):
+        self.root.service_extensions.install('SilvaForum')
         self.forum = self.addObject(self.getRoot(), 'Forum', 'forum',
                                     title='Forum', product='SilvaForum')
-    
+
+class ForumTest(SilvaForumTestCase):
     def test_topics(self):
         self.assertEquals(0, len(self.forum.topics()))
         
@@ -72,10 +77,9 @@ class ForumTest(SilvaTestCase.SilvaTestCase):
         t3 = self.forum.add_topic(':) foo :)')
         self.assertEquals('foo__3', t3.id)
 
-class TopicTest(SilvaTestCase.SilvaTestCase):
+class TopicTest(SilvaForumTestCase):
     def afterSetUp(self):
-        self.forum = self.addObject(self.getRoot(), 'Forum', 'forum',
-                                    title='Forum', product='SilvaForum')
+        super(TopicTest, self).afterSetUp()
         self.topic = self.addObject(self.forum, 'Topic', 'topic',
                                      title='Topic', product='SilvaForum')
     
@@ -98,10 +102,9 @@ class TopicTest(SilvaTestCase.SilvaTestCase):
         self.assertEquals(1,
                 len(self.topic.objectValues('Silva Forum Comment')))
     
-class TopicViewTest(SilvaTestCase.SilvaTestCase):
+class TopicViewTest(SilvaForumTestCase):
     def afterSetUp(self):
-        self.forum = self.addObject(self.getRoot(), 'Forum', 'forum1',
-                                    title='Forum', product='SilvaForum')
+        super(TopicViewTest, self).afterSetUp()
         self.topic = self.addObject(self.forum, 'Topic', 'topic1',
                                      title='Topic', product='SilvaForum')
         self.view = getMultiAdapter((self.topic, self.app.REQUEST),
@@ -150,10 +153,9 @@ class TopicViewTest(SilvaTestCase.SilvaTestCase):
         link = self.view.get_batch_next_link(10, 20, 10)
         self.assert_(link is None)
 
-class CommentTest(SilvaTestCase.SilvaTestCase):
+class CommentTest(SilvaForumTestCase):
     def afterSetUp(self):
-        self.forum = self.addObject(self.getRoot(), 'Forum', 'forum1',
-                                    title='Forum', product='SilvaForum')
+        super(CommentTest, self).afterSetUp()
         self.topic = self.addObject(self.forum, 'Topic', 'topic1',
                                      title='Topic', product='SilvaForum')
         self.comment = self.addObject(self.topic, 'Comment', 'comment1',
@@ -166,10 +168,9 @@ class CommentTest(SilvaTestCase.SilvaTestCase):
         self.comment.set_text('foo text')
         self.assertEquals('foo text', self.comment.get_text())
 
-class CommentViewTest(SilvaTestCase.SilvaTestCase):
+class CommentViewTest(SilvaForumTestCase):
     def afterSetUp(self):
-        self.forum = self.addObject(self.getRoot(), 'Forum', 'forum1',
-                                    title='Forum', product='SilvaForum')
+        super(CommentViewTest, self).afterSetUp()
         self.topic = self.addObject(self.forum, 'Topic', 'topic1',
                                     title='Topic', product='SilvaForum')
         self.comment = self.addObject(self.topic, 'Comment', 'comment1',
