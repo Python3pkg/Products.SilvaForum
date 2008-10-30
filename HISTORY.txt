@@ -10,8 +10,8 @@ Meta::
 HISTORY
 =======
 
-0.3 (SVN/Unreleased)
---------------------
+0.3
+---
 
   - Re-wrote dtformat.py
 
