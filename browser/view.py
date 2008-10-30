@@ -16,13 +16,15 @@ from DateTime import DateTime
 from zExceptions import Redirect
 from urllib import quote
 
+from Products.SilvaForum.i18n import translate as _
+from zope.i18n import translate
 
 minimal_add_role = 'Authenticated'
 
 class ViewBase(Headers):
 
     def format_datetime(self, dt):
-        return format_dt(dt, DateTime())
+        return format_dt(self, dt, DateTime())
     
     def render_url(self, url, **qs_params):
         if not qs_params:
@@ -119,8 +121,9 @@ class ViewBase(Headers):
     def unauthorized(self):
         """Says you're unauthorized!
         """
-        raise Unauthorized('Sorry you need to be authorized to use this '
+        msg = _('Sorry you need to be authorized to use this '
                            'forum')
+        raise Unauthorized(msg)
 
 class ForumView(ViewBase):
     """ view on IForum 
@@ -139,7 +142,7 @@ class ForumView(ViewBase):
 
         topic = unicode(req['topic'], 'UTF-8')
         if not topic.strip():
-            return 'Please provide a subject'
+            return _('Please provide a subject')
         
         try:
             self.context.add_topic(topic)
@@ -171,14 +174,14 @@ class TopicView(ViewBase):
         title = unicode(req['title'], 'UTF-8')
         text = unicode(req['text'], 'UTF-8')
         if not title.strip() and not text.strip():
-            return 'Please fill in one of the two fields.'
+            return _('Please fill in one of the two fields.')
 
         try:
             comment = self.context.add_comment(title, text)
         except ValueError, e:
             return str(e)
 
-        msg = 'Comment added'
+        msg = _('Comment added')
         numitems = self.context.number_of_comments()
 
         url = self.render_url(self.context.absolute_url(),

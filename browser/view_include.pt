@@ -1,7 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
+<html xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="silvaforum">
 <head>
-  <title>Included Topic</title>
+  <title i18n:translate="">Included Topic</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta name="generator" content="Silva" />  <link rel="stylesheet" type="text/css" media="all"
     tal:attributes="href here/frontend.css/absolute_url | nothing" />

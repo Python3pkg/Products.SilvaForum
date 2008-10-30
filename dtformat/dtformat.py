@@ -4,8 +4,11 @@
 # Python
 
 from datetime import datetime, timedelta
+from zope.i18n import translate
 
-def format_dt(formatdate, currentdate=None):
+from Products.SilvaForum.i18n import translate as _
+
+def format_dt(self, formatdate, currentdate=None):
     """
     Format a datetime return string 
     """
@@ -16,6 +19,23 @@ def format_dt(formatdate, currentdate=None):
     if dt.days > 28:
         return str(formatdate)
 
+    ret = format_items(self, dt)
+    
+    if not ret:
+        return _('Just added')
+    if len(ret) > 2:
+        str_format = ', '.join(ret[:-1])
+        msg = _('Added ${time} ago', mapping={'time':str_format})
+        #return 'Added ' + ', '.join(ret[:-1]) + ' ago'
+        return msg
+    else:
+        str_format = ', '.join(ret)
+        msg = _('Added ${time} ago', mapping={'time':str_format})
+        #return 'Added ' + ', '.join(ret) + ' ago'
+        return msg
+
+def format_items(self, dt):
+
     # calculate time units
     weeks = int(dt.days / 7)
     days = dt.days % 7
@@ -24,35 +44,35 @@ def format_dt(formatdate, currentdate=None):
     seconds = dt.seconds % 3600
     minutes = int(seconds / 60)
 
-    # format a time unit to singular or plural
-    weekstring = empty_singular_plural(weeks, 'week')
-    daystring = empty_singular_plural(days, 'day')
-    hourstring = empty_singular_plural(hours, 'hour')
-    minutestring = empty_singular_plural(minutes, 'minute')
-
-    # check if timer unit has value then append to list
+    # translation helper
+    def _(str, **kwargs):
+        kwargs['context'] = self.request
+        kwargs['domain'] = 'silvaforum'
+        return translate(str, **kwargs)
+    
     ret = []
-    if weekstring:
-        ret.append(weekstring)
-    if daystring:
-        ret.append(daystring)
-    if hourstring:
-        ret.append(hourstring)
-    if minutestring:
-        ret.append(minutestring)
-    if not ret:
-        return 'Just added'
-    if len(ret) > 2:
-        return 'Added ' + ', '.join(ret[:-1]) + ' ago'
-    else:
-        return 'Added ' + ', '.join(ret) + ' ago'
+    if weeks:
+        if weeks == 1:
+            ret.append(_('one week'))
+        else:
+            ret.append(_('${number} weeks', mapping={'number': weeks}))
 
-# XXX oomph, bad name...
-def empty_singular_plural(num, unitname):
-    ret = ''
-    if num:
-        ret = '%s %s' % (num, unitname)
-        if num > 1:
-            ret += 's'
+    if days:
+        if days == 1:
+            ret.append(_('one day'))
+        else:
+            ret.append(_('${number} days', mapping={'number': days}))
+
+    if hours:
+        if hours == 1:
+            ret.append(_('one hour'))
+        else:
+            ret.append(_('${number} hours', mapping={'number': hours}))
+
+    if minutes:
+        if minutes == 1:
+            ret.append(_('one minute'))
+        else:
+            ret.append(_('${number} minutes', mapping={'number': minutes}))
+
     return ret
-

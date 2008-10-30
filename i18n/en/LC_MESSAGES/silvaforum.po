@@ -1,0 +1,175 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: SilvaForum trunk"
+"POT-Creation-Date: Wed Oct 22 14:53:10 2008\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Silva Translators <eric+i18n@infrae.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generated-By: zope/app/translation_files/extract.py\n"
+
+#: /browser/view.py:124
+msgid "Sorry you need to be authorized to use this forum"
+msgstr ""
+
+#: /browser/view.py:145
+msgid "Please provide a subject"
+msgstr ""
+
+#: /browser/view.py:152
+msgid "Topic added"
+msgstr ""
+
+#: /browser/view.py:177
+msgid "Please fill in one of the two fields."
+msgstr ""
+
+#: /browser/view_forum.pt:102
+msgid "${N}ext"
+msgstr ""
+
+#: /browser/view_forum.pt:104
+msgid "Next"
+msgstr ""
+
+#: /browser/view_forum.pt:111
+msgid "Go to the last result listing: alt-l"
+msgstr ""
+
+#: /browser/view_forum.pt:117
+msgid "Last"
+msgstr ""
+
+#: /browser/view_forum.pt:129
+msgid "Showing results ${start} to ${end} of ${total}"
+msgstr ""
+
+#: /browser/view_forum.pt:142
+msgid "Topics"
+msgstr ""
+
+#: /browser/view_forum.pt:143
+msgid "Post date"
+msgstr ""
+
+#: /browser/view_forum.pt:144
+msgid "Author"
+msgstr ""
+
+#: /browser/view_forum.pt:145
+msgid "Comments"
+msgstr ""
+
+#: /browser/view_forum.pt:162
+msgid "post topic"
+msgstr ""
+
+#: /browser/view_forum.pt:173
+msgid "clear"
+msgstr ""
+
+#: /browser/view_forum.pt:183
+msgid "Now"
+msgstr ""
+
+#: /browser/view_forum.pt:186
+msgid "Preview"
+msgstr ""
+
+#: /browser/view_forum.pt:232
+msgid "Post a new topic"
+msgstr ""
+
+#: /browser/view_forum.pt:233
+msgid "Subject"
+msgstr ""
+
+#: /browser/view_forum.pt:236
+msgid "Please provide a subject for the new topic."
+msgstr ""
+
+#: /browser/view_forum.pt:250
+msgid "emoticon"
+msgstr ""
+
+#: /browser/view_forum.pt:258
+msgid "add topic"
+msgstr ""
+
+#: /browser/view_forum.pt:272
+msgid "Forum user controls"
+msgstr ""
+
+#: /browser/view_forum.pt:280
+msgid "logout"
+msgstr ""
+
+#: /browser/view_forum.pt:290
+msgid "edit profile"
+msgstr ""
+
+#: /browser/view_forum.pt:307
+msgid "Login to post a new topic"
+msgstr ""
+
+#: /browser/view_forum.pt:57
+msgid "Go to the first result listing: alt-f"
+msgstr ""
+
+#: /browser/view_forum.pt:72
+msgid "See the previous result listing: alt-b"
+msgstr ""
+
+#: /browser/view_forum.pt:87
+msgid "${B}ack"
+msgstr ""
+
+#: /browser/view_forum.pt:95
+msgid "See the next result listing: alt-n"
+msgstr ""
+
+#: /browser/view_include.pt:5
+msgid "Included Topic"
+msgstr ""
+
+#: /views/edit/Content/Comment/form.form:29
+msgid "subject"
+msgstr ""
+
+#: /views/edit/Content/Comment/form.form:52
+msgid "text"
+msgstr ""
+
+#: /views/edit/Content/Comment/get_tabs.py:10
+#: /browser/view_forum.pt:263
+msgid "preview"
+msgstr ""
+
+#: /views/edit/Content/Comment/get_tabs.py:11
+msgid "settings"
+msgstr ""
+
+#: /views/edit/Content/Comment/get_tabs.py:12
+msgid "access"
+msgstr ""
+
+#: /views/edit/Content/Comment/get_tabs.py:9
+msgid "edit"
+msgstr ""
+
+#: /views/edit/Content/Comment/submit.py:26
+# Default: "new_title"
+msgid "old_title"
+msgstr ""
+
+#: /views/edit/Content/Comment/submit.py:37
+msgid "text updated"
+msgstr ""
+
+#: /views/edit/Content/Comment/submit.py:41
+# Default: "changed"
+msgid "Properties changed: ${changed}"
+msgstr ""
+

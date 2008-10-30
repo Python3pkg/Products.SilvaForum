@@ -1,289 +1,312 @@
-<div class="forum"
-  tal:define="
-    dummy view/set_content_type_and_nocache;
-    message python:view.update() or request.get('message');
-    topics context/topics;
-    numitems python:len(topics);
-    batch_size context/topic_batch_size;
-    batch python:context.service_views.Silva.getBatch(topics, size=batch_size, orphan=0);
-">
-<script type="text/javascript">
-// <![CDATA[
-function add_smiley(text_to_add) {
-    /* add a smiley to the topic field
-    */
-    // XXX this is a bit scary... the DOM specs say text nodes can
-    // be split up, but afaik that never happens in browsers... if,
-    // however, people start reporting missing last bits of text, please
-    // fix this code... ;)
-    var topic = document.getElementById('topic');
-    var content = topic.value;
-    var lastchar = content.charAt(content.length - 1);
-    if (lastchar && lastchar != ' ' && lastchar != '\t' && lastchar != '\n'
-          && lastchar != '\r') {
-        content += ' ';
-    };
-    content += text_to_add + ' ';
-    // XXX please check the argument order here! might be wrong...
-    // stupid DOM :(
-    topic.value = content;
-    topic.focus();
-};
-// ]]>
-</script>
+<tal:block xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+           i18n:domain="silvaforum">
+  <div class="forum"
+       tal:define="
+                   dummy view/set_content_type_and_nocache;
+                   message python:view.update() or request.get('message');
+                   topics context/topics;
+                   numitems python:len(topics);
+                   batch_size context/topic_batch_size;
+                   batch python:context.service_views.Silva.getBatch(topics, size=batch_size, orphan=0);
+                   ">
+    <script type="text/javascript">
+      // <![CDATA[
+      function add_smiley(text_to_add) {
+      /* add a smiley to the topic field
+      */
+      // XXX this is a bit scary... the DOM specs say text nodes can
+      // be split up, but afaik that never happens in browsers... if,
+      // however, people start reporting missing last bits of text, please
+      // fix this code... ;)
+      var topic = document.getElementById('topic');
+      var content = topic.value;
+      var lastchar = content.charAt(content.length - 1);
+      if (lastchar && lastchar != ' ' && lastchar != '\t' && lastchar != '\n'
+      && lastchar != '\r') {
+      content += ' ';
+      };
+      content += text_to_add + ' ';
+      // XXX please check the argument order here! might be wrong...
+      // stupid DOM :(
+      topic.value = content;
+      topic.focus();
+      };
+      // ]]>
+    </script>
 
-<h2 tal:content="here/get_title">
-  forum title
-</h2>
-<div class="feedback"
-  tal:condition="message"
-  tal:content="message">
-  message
-</div>
-
-<metal:def define-macro="pagination">
-<table class="pagination"
-  tal:condition="python:numitems > batch_size">
-  <tbody>
-    <tr>
-      <td>
-        <div style="float:left; width:8em; text-align:left"
-          tal:define="
-            previous_batch_url python:view.get_batch_prev_link(batch.start-1);
-            firstlink python:view.get_batch_first_link(batch.start-1);
-        ">
-          <a href="firstbatch"
-            accesskey="f"
-            title="Go to the first result listing: alt-f"
-            tal:condition="firstlink"
-            tal:attributes="href firstlink"
-            ><img class="control"
-              alt="First"
-              tal:define="image context/globals/leftdouble.gif"
-              tal:attributes="
-                src image/absolute_url;
-                width image/width;
-                height image/height;
-             " />&nbsp;
-          </a>
-          <a href="previousbatch"
-            accesskey="b"
-            title="See the previous result listing: alt-b"
-            tal:condition="previous_batch_url"
-            tal:attributes="href previous_batch_url"
-            ><img class="control"
-              alt="Previous"
-              tal:define="image context/globals/left.gif"
-              tal:attributes="
-                src image/absolute_url;
-                width image/width;
-                height image/height;
-            " />
-          <u>B</u>ack
-          </a>&nbsp;
-        </div>
-        <div style="float:right; width:8em; text-align:right"
-          tal:define="
-            next_batch_url python:view.get_batch_next_link(batch.start-1, numitems);
-            lastlink python:view.get_batch_last_link(batch.start-1, numitems);
-        ">&nbsp;
-          <a href="nextbatch"
-            accesskey="n"
-            title="See the next result listing: alt-n"
-            tal:condition="next_batch_url"
-            tal:attributes="href next_batch_url">
-            <u>N</u>ext
-            <img alt="Next"
-              tal:define="image context/globals/right.gif"
-              tal:attributes="
-                src image/absolute_url;
-                width image/width;
-                height image/height;
-            " />
-          </a>
-          <a href="lastbatch"
-            accesskey="l"
-            title="Go to the last result listing: alt-l"
-            tal:condition="lastlink"
-            tal:attributes="href lastlink">&nbsp;<img
-              class="control"
-              alt="Last"
-              tal:define="image context/globals/rightdouble.gif"
-              tal:attributes="
-                src image/absolute_url;
-                width image/width;
-                height image/height;
-            " />
-          </a>
-        </div>
-        Showing results <tal:block replace="batch/start" />
-        to <tal:block replace="batch/end" />
-        of <tal:block replace="python:numitems" />
-      </td>
-    </tr>
-  </tbody>
-</table>
-</metal:def>
-
-<table class="forum-content-table"
-  tal:define="have_preview python:request.get('preview') and request.get('topic')"
-  tal:condition="python: have_preview or numitems">
-  <thead>
-    <tr tal:condition="batch">
-      <th class="align-left">Topics</th>
-      <th class="align-left">Post date</th>
-      <th class="align-left">Author</th>
-      <th class="align-right">Comments</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tal:preview condition="have_preview">
-      <tr class="preview">
-        <td class="topic"
-          style="padding-bottom:2px">
-          <p tal:content="structure python:view.format_text(request.form['topic'])" />
-          <form method="post"
-            id="previewform"
-            tal:condition="request/form/preview | nothing"
-            tal:attributes="action context/absolute_url">
-            <input type="hidden" name="topic" id="preview_topic"
-                   tal:attributes="value python:unicode(request.form['topic'], 'UTF-8')" />
-            <input style="float:right;" type="submit" value="post topic" />
-            <!-- todd says 'i don't know, man' about the next bit of code,
-                 and i tend to fully agree... it works though, both in js
-                 and non-js situations, and looks consistent
-                 (so let's not think about it too much, i suggest ;)
-            -->
-            <a tal:attributes="href context/absolute_url"><input
-              class="button cancel" type="button" value="clear"
-              tal:attributes="onclick string:document.location='${context/absolute_url}'"
-              /></a>
-          </form>
-        </td>
-        <td class="datetime">
-          <p>Now</p>
-        </td>
-        <td class="author">
-          <p>Preview</p>
-        </td>
-        <td class="comments">
-          0
-        </td>
-      </tr>
-    </tal:preview>
-    <tal:loop repeat="topic batch">
-      <tal:def define="iterate repeat/topic/odd">
-        <tr tal:attributes="class python: iterate and 'even' or 'odd'">
-          <td class="topic">
-            <p>
-              <a tal:attributes="href topic/url"
-                tal:content="structure python:view.format_text(topic['title'])">
-                subject
-              </a>
-            </p>
-          </td>
-          <td class="datetime">
-            <p tal:content="python:view.format_datetime(topic['creation_datetime'])">
-              datatime
-            </p>
-          </td>
-          <td class="poster">
-            <p tal:content="topic/creator">
-              author
-            </p>
-          </td>
-          <td class="comments">
-            <p tal:content="topic/commentlen">
-              number
-            </p>
-          </td>
-        </tr>
-      </tal:def>
-    </tal:loop>
-  </tbody>
-</table>
-
-<table metal:use-macro="template/macros/pagination">
-  batching nav bar
-</table>
-<tal:if condition="view/can_post">
-  <form id="forum-thread-form"
-    method="post"
-    tal:attributes="action context/absolute_url">
-    <h3>Post a new topic</h3>
-    <h5>Subject</h5>
+    <h2 tal:content="here/get_title">
+      forum title
+    </h2>
     <div class="feedback"
-      tal:condition="python:request.get('preview') and request.get('text') and not request.get('topic')">
-      <span class="warning">Please provide a subject for the new topic.</span>
+         tal:condition="message"
+         tal:content="message"
+         i18n:translate="">
+      message
     </div>
-    <div class="subject-input">
-      <input class="store"
-        type="text"
-        name="topic"
-        id="topic"
-        size="80"
-        tal:attributes="value python:unicode(request.form.get('topic', ''), 'UTF-8')"
-      />
-    </div>
-    <div id="emoticons">
-      <span class="emoticon" tal:repeat="smileydata view/get_smiley_data">
-        <img onclick="add_smiley(this.title)"
-          alt="emoticon"
-          tal:attributes="title smileydata/text; src smileydata/href"
-        />
-      </span>
-    </div>
-    <div class="submit">
-      <input style="float:right"
-        type="submit"
-        value="add topic"
-        i18n:attributes="value"
-      />
-      <input type="submit"
-        name="preview"
-        value="preview"
-        i18n:attributes="value"
-      />
-    </div>
-  </form>
 
-  <div class="controls"
-    metal:define-macro="user_controls">
-    <h6>Forum user controls</h6>
-    <form method="post"
-      action="#"
-      tal:attributes="action string:${context/absolute_url}/service_members/logout">
-      <input type="hidden" name="came_from" value="#"
-        tal:attributes="value context/absolute_url"
-      />
-      <input style="float:right" type="submit" name="login" value="logout" style="float:right"
-        i18n:attributes="value"
-      />
-    </form>
-    <form method="post"
-      action="#"
-      tal:attributes="action string:${context/absolute_url}/service_resources/Silva/edit_member">
-      <input type="submit" name="login" value="edit profile"
-        i18n:attributes="value"
-        onclick="userWindow = window.open('service_resources/Silva/edit_member', 'userWindow', 'width=450, height=250, resizable=no');
-                 userWindow.focus();
-                 return false;"
-      />
-    </form>
+    <metal:def define-macro="pagination">
+      <table class="pagination"
+             tal:condition="python:numitems > batch_size">
+        <tbody>
+          <tr>
+            <td>
+              <div style="float:left; width:8em; text-align:left"
+                   tal:define="
+                               previous_batch_url python:view.get_batch_prev_link(batch.start-1);
+                               firstlink python:view.get_batch_first_link(batch.start-1);
+                               ">
+                <a href="firstbatch"
+                   accesskey="f"
+                   title="Go to the first result listing: alt-f"
+                   i18n:attributes="title"
+                   tal:condition="firstlink"
+                   tal:attributes="href firstlink"
+                   ><img class="control"
+                   alt="First"
+                   tal:define="image context/globals/leftdouble.gif"
+                   tal:attributes="
+                   src image/absolute_url;
+                   width image/width;
+                   height image/height;
+                   " />&nbsp;
+                </a>
+                <a href="previousbatch"
+                   accesskey="b"
+                   title="See the previous result listing: alt-b"
+                   i18n:attributes="title"
+                   tal:condition="previous_batch_url"
+                   tal:attributes="href previous_batch_url"
+                   ><img class="control"
+                   alt="Previous"
+                   tal:define="image context/globals/left.gif"
+                   tal:attributes="
+                   src image/absolute_url;
+                   width image/width;
+                   height image/height;
+                   " />
+                <tal:block i18n:translate="">
+                  <u i18n:name="B">B</u>ack
+                </tal:block>
+                </a>&nbsp;
+              </div>
+              <div style="float:right; width:8em; text-align:right"
+                   tal:define="next_batch_url python:view.get_batch_next_link(batch.start-1, numitems);
+                               lastlink python:view.get_batch_last_link(batch.start-1, numitems);
+                               ">&nbsp;
+              <a href="nextbatch"
+                 accesskey="n"
+                 title="See the next result listing: alt-n"
+                 i18n:attributes="title"
+                 tal:condition="next_batch_url"
+                 tal:attributes="href next_batch_url">
+                <tal:block i18n:translate="">
+                  <u i18n:name="N">N</u>ext
+                </tal:block>
+                <img alt="Next"
+                     i18n:attributes="alt"
+                     tal:define="image context/globals/right.gif"
+                     tal:attributes="src image/absolute_url;
+                                     width image/width;
+                                     height image/height;" />
+              </a>
+              <a href="lastbatch"
+                 accesskey="l"
+                 title="Go to the last result listing: alt-l"
+                 i18n:attributes="title"
+                 tal:condition="lastlink"
+                 tal:attributes="href lastlink">&nbsp;
+                <img class="control"
+                     alt="Last"
+                     i18n:attributes="alt"
+                     tal:define="image context/globals/rightdouble.gif"
+                     tal:attributes="src image/absolute_url;
+                                     width image/width;
+                                     height image/height;" />
+              </a>
+              </div>
+              <tal:block i18n:translate="">
+                Showing results <tal:block i18n:name="start" replace="batch/start" />
+                to <tal:block i18n:name="end" replace="batch/end" />
+                of <tal:block i18n:name="total" replace="python:numitems" />
+              </tal:block>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </metal:def>
+    <table class="forum-content-table"
+           tal:define="have_preview python:request.get('preview') and request.get('topic')"
+           tal:condition="python: have_preview or numitems">
+      <thead>
+        <tr tal:condition="batch">
+          <th class="align-left" i18n:translate="">Topics</th>
+          <th class="align-left" i18n:translate="">Post date</th>
+          <th class="align-left" i18n:translate="">Author</th>
+          <th class="align-right" i18n:translate="">Comments</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tal:preview condition="have_preview">
+          <tr class="preview">
+            <td class="topic"
+                style="padding-bottom:2px">
+              <p tal:content="structure python:view.format_text(request.form['topic'])" />
+              <form method="post"
+                    id="previewform"
+                    tal:condition="request/form/preview | nothing"
+                    tal:attributes="action context/absolute_url">
+                <input type="hidden" 
+                       name="topic" 
+                       id="preview_topic"
+                       tal:attributes="value python:unicode(request.form['topic'], 'UTF-8')" />
+                <input style="float:right;"
+                       name="post_submit"
+                       type="submit" 
+                       value="post topic" 
+                       i18n:attributes="value" />
+                <!-- todd says 'i don't know, man' about the next bit of code,
+                     and i tend to fully agree... it works though, both in js
+                     and non-js situations, and looks consistent
+                     (so let's not think about it too much, i suggest ;)
+                -->
+                <a tal:attributes="href context/absolute_url">
+                  <input class="button cancel" 
+                         name="clear"
+                         type="button" 
+                         value="clear"
+                         i18n:attributes="value"
+                         tal:attributes="onclick string:document.location='${context/absolute_url}'" />
+                </a>
+              </form>
+            </td>
+            <td class="datetime">
+              <p i18n:translate="">Now</p>
+            </td>
+            <td class="author">
+              <p i18n:translate="">Preview</p>
+            </td>
+            <td class="comments">
+              0
+            </td>
+          </tr>
+        </tal:preview>
+        <tal:loop repeat="topic batch">
+          <tal:def define="iterate repeat/topic/odd">
+            <tr tal:attributes="class python: iterate and 'even' or 'odd'">
+              <td class="topic">
+                <p>
+                  <a tal:attributes="href topic/url"
+                     tal:content="structure python:view.format_text(topic['title'])">
+                    subject
+                  </a>
+                </p>
+              </td>
+              <td class="datetime">
+                <p tal:content="python:view.format_datetime(topic['creation_datetime'])"
+                   i18n:translate="">
+                  datatime
+                </p>
+              </td>
+              <td class="poster">
+                <p tal:content="topic/creator">
+                  author
+                </p>
+              </td>
+              <td class="comments">
+                <p tal:content="topic/commentlen">
+                  number
+                </p>
+              </td>
+            </tr>
+          </tal:def>
+        </tal:loop>
+      </tbody>
+    </table>
+    <table metal:use-macro="template/macros/pagination">
+      batching nav bar
+    </table>
+    <tal:if condition="view/can_post">
+      <form id="forum-thread-form"
+            method="post"
+            tal:attributes="action context/absolute_url">
+        <h3 i18n:translate="">Post a new topic</h3>
+        <h5 i18n:translate="">Subject</h5>
+        <div class="feedback"
+             tal:condition="python:request.get('preview') and request.get('text') and not request.get('topic')">
+          <span class="warning"
+                i18n:translate="">Please provide a subject for the new topic.</span>
+        </div>
+        <div class="subject-input">
+          <input class="store"
+                 type="text"
+                 id="topic"                 
+                 name="topic"
+                 size="80"
+                 tal:attributes="value python:unicode(request.form.get('topic', ''), 'UTF-8')"
+                 />
+        </div>
+        <div id="emoticons">
+          <span class="emoticon" tal:repeat="smileydata view/get_smiley_data">
+            <img onclick="add_smiley(this.title)"
+                 alt="emoticon"
+                 i18n:attributes="alt"
+                 tal:attributes="title smileydata/text; src smileydata/href"
+                 />
+          </span>
+        </div>
+        <div class="submit">
+          <input style="float:right"
+                 name="add_topic"
+                 type="submit"
+                 value="add topic"
+                 i18n:attributes="value" />
+          <input name="preview"
+                 type="submit"
+                 value="preview"
+                 i18n:attributes="value" />
+        </div>
+      </form>
+      <div class="controls"
+           metal:define-macro="user_controls">
+        <h6 i18n:translate="">Forum user controls</h6>
+        <form method="post"
+              action="#"
+              tal:attributes="action string:${context/absolute_url}/service_members/logout">
+          <input type="hidden" 
+                 name="came_from" 
+                 value="#"
+                 tal:attributes="value context/absolute_url" />
+          <input style="float:right" 
+                 type="submit" 
+                 name="login" 
+                 value="logout" 
+                 style="float:right"
+                 i18n:attributes="value" />
+        </form>
+        <form method="post"
+              action="#"
+              tal:attributes="action string:${context/absolute_url}/service_resources/Silva/edit_member">
+          <input type="submit" 
+                 name="login" 
+                 value="edit profile"
+                 i18n:attributes="value"
+                 onclick="userWindow = window.open('service_resources/Silva/edit_member', 'userWindow', 'width=450, height=250, resizable=no');
+                          userWindow.focus();
+                          return false;" />
+        </form>
+      </div>
+    </tal:if>
+    <div tal:condition="not:view/can_post">
+      <form method="post"
+            action="#"
+            tal:attributes="action string:${context/absolute_url}/view.html/authenticate">
+        <input type="hidden" name="came_from" value="#"
+               tal:attributes="value context/absolute_url" />
+        <input type="submit" 
+               name="login" 
+               value="Login to post a new topic"
+               i18n:attributes="value" />
+      </form>
+    </div>
   </div>
-</tal:if>
-
-<div tal:condition="not:view/can_post">
-  <form method="post"
-    action="#"
-    tal:attributes="action string:${context/absolute_url}/view.html/authenticate">
-    <input type="hidden" name="came_from" value="#"
-      tal:attributes="value context/absolute_url"
-    />
-    <input type="submit" name="login" value="Login to post a new topic"
-      i18n:attributes="value"
-    />
-  </form>
-</div>
-
-</div>
+</tal:block>
