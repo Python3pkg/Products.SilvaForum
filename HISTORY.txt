@@ -1,161 +1,152 @@
-Copyright (c) 2007-2008 Infrae. All rights reserved.
-See also LICENSE.txt
-
-Meta::
-  
-  Valid for:        SilvaForum 0.1-beta-3 (SVN/Unreleased)
-  Author:           Todd Matsumoto, Guido Wesdorp, Marc Petitmermet
-  Email:            todd@infrae.com
-
-HISTORY
+History
 =======
 
-0.4 (SVN/Unreleased)
+SilvaForum 0.3.1
+----------------
+
+- Fix documentation format to ReST.
+
+SilvaForum 0.3
+--------------
+
+- Re-wrote dtformat.py
+
+- Added i18n support
+
+- Removed SilvaTestCase.py.
+
+SilvaForum 0.2-beta1
 --------------------
 
-0.3
----
+- Added condition on forum table to not display when empty.
 
-  - Re-wrote dtformat.py
+- Adjusted presentation code so the forum works with Silva Layout.
 
-  - Added i18n support
+- Refactored pagination code so defines are grouped.
 
-  - Removed SilvaTestCase.py.
+SilvaForum 0.1-beta-2
+---------------------
 
-0.2-beta1
----------
+- Changed regex in format_link to not include parenthesis, or periods.
 
-  - Added condition on forum table to not display when empty.
+- Removed the priority (was -4) in light of the
+  ``doc/priority_settings.txt`` recommendations.
 
-  - Adjusted presentation code so the forum works with Silva Layout.
+- The Include Comments code source includes icons for comments, these
+  could be added to the forum view.
 
-  - Refactored pagination code so defines are grouped.
+- Changes to make near-complete customization of the Include Comments
+  code source possible with css.
 
-0.1-beta-2 (SVN/Unreleased)
---------------------------
+- Move all the include checking in view_topic.pt into one define.
 
-  - Changed regex in format_link to not include parenthesis, or
-    periods.
+- Add id and topic_url to the comment object for constructing more
+  sensible permalinks, going to the topic with an anchor that's the
+  comment id.
 
-  - Removed the priority (was -4) in light of the
-    doc/priority_settings.txt reccomendations.
+- Add permalink to "[user] posted"; this links to the comment in the
+  topic with an anchor, not to the comment object (which is not very
+  useful because there's no context).
 
-  - The Include Comments code source includes icons for comments,
-    these could be added to the forum view.
+- Add a parameter field to the SMI to add a topic, which by default is
+  the document title.
 
-  - Changes to make near-complete customization of the Include
-    Comments code source possible with css.
+- Put in javascript toggle button for a comment form.
 
-  - Move all the include checking in view_topic.pt into one define.
+- Checked in Marc Petitmermet's code source to the
+  SilvaForum-CodeSource branch and added it to Silva Forum code. Added
+  a view_include.pt, and include.css to handle the styles of a Silva
+  Document with comments. Added to the FiveViewable class a switch to
+  check for an 'include' parameter that gets the code source template.
 
-  - Add id and topic_url to the comment object for constructing more
-    sensible permalinks, going to the topic with an anchor that's the
-    comment id.
+- Fixed text formatting to include links, moved replace_links call
+  from the view_topic.pt to the format_text method in view.py.
 
-  - Add permalink to "[user] posted"; this links to the comment in the
-    topic with an anchor, not to the comment object (which is not very
-    useful because there's no context).
+- Put replace_links method in the view.py for searching and
+  replacing links in text area of comments. Also made tests for the
+  method.
 
-  - Add a parameter field to the SMI to add a topic, which by default
-    is the document title.
+- Put back subject field check in view.py. Somehow it got cut in
+  recent changes.
 
-  - Put in javascript toggle button for a comment form.
+- Changed the topic and comment addable priority to 4.
 
-  - Checked in Marc Petitmermet's code source to the
-    SilvaForum-CodeSource branch and added it to Silva Forum
-    code. Added a view_include.pt, and include.css to handle the
-    styles of a Silva Document with comments. Added to the
-    FiveViewable class a switch to check for an 'include' parameter
-    that gets the code source template.
+- Changed the configure.zcml priority setting for Silva Forum to 4,
+  to send it to the bottom of the addables list in the SMI select
+  pulldown.
 
-  - Fixed text formatting to include links, moved replace_links call
-    from the view_topic.pt to the format_text methog in view.py.
+- Fixed the _generate_id method which would return 'already used id'
+  with id's ending in '___2'.
 
-  - Put replace_links method in the view.py for searching and
-    replacing links in text area of comments. Also made tests for the
-    method.
+- Removed old security code triggered with the Ajax version of the
+  forum.
 
-  - Put back subject field check in view.py. Somehow it got cut in
-    recent changes.
+- Fixed the pagination links to not can the add messages. Tweaked
+  the the pagination code to be more efficient.
 
-  - Changed the topic and comment addable priority to 4.
+- Put in jump for the preview form on a comment. Now when previewing
+  the comment will jump to the last page, the same page as where it
+  is added.
 
-  - Changed the configure.zcml priority setting for Silva Forum to 4,
-    to send it to the bottom of the addables list in the SMI select
-    pulldown.
+- forum.css changes, added emoticon preview support to
+  view_forum.pt, view_comment.pt subject fields.
 
-  - Fixed the _generate_id method which would return 'already used id'
-    with id's ending in '___2'.
+- Ah, after reverting to static forms, unicode issue persists. Found
+  the error on the preview hidden inputs, and re-wrote those to
+  support unicode.
 
-  - Removed old security code triggered with the Ajax version of the
-    forum.
+- Reverted to static form in view_topic.pt view.
 
-  - Fixed the pagination links to not can the add messages. Tweaked
-    the the pagination code to be more efficient.
+- Reverted to static form in view_forum.pt view.
 
-  - Put in jump for the preview form on a comment. Now when previewing
-    the comment will jump to the last page, the same page as where it
-    is added.
+- Reversed order of topics newest to oldest. Added jump
+  functionality. Found IE issue with Ajax forms.
 
-  - forum.css changes, added emoticon preview support to
-    view_forum.pt, view_comment.pt subject fields.
+- Pagination right/leftdouble.gif are not included in Silva 2.0, so
+  put them into the www/ of SilvaForum.
 
-  - Ah, after reverting to static forms, unicode issue persists. Found
-    the error on the preview hidden inputs, and re-wrote those to
-    support unicode.
+- Took out all required switches from edit comment view.
 
-  - Reverted to static form in view_topic.pt view.
+- Unicode problem with textareas in view_topic.pt. Did ugly hack
+  doing the unicoding in the tal expression.
 
-  - Reverted to static form in view_forum.pt view.
+- Took out required subject in the edit comment view by switching
+  the required tag in form.form to 0.
 
-  - Reversed order of topics newest to oldest. Added jump
-    functionality. Found IE issue with Ajax forms.
+- Made datetimes smaller.
 
-  - Pagination right/leftdouble.gif are not included in Silva 2.0, so
-    put them into the www/ of SilvaForum.
+- Removed emoticons directory again, only this time from svn.
 
-  - Took out all required switches from edit comment view.
+- Finished Adding alt tag text to emoticons.
 
-  - Unicode problem with textareas in view_topic.pt. Did ugly hack
-    doing the unicoding in the tal expression.
+- Changed Silva Forum Thread to Silva Forum Topic and refactored
+  code to use topic rather than thread.
 
-  - Took out required subject in the edit comment view by switching
-    the required tag in form.form to 0.
+- Put jump to last and first page pagination in the view_forum.pt
 
-  - Made datetimes smaller.
+- Changed the topic functionality to only take topics. Opted to take
+  out messages because they can't be edited in the SMI without some
+  considerable changes.
 
-  - Removed emoticons directory again, only this time from svn.
+- Configured the view_forum.pt and view_topic.pt to get emoticons
+  added in the subject field.
 
-  - Finished Adding alt tag text to emoticons.
+- Added support for emoticons.
 
-  - Changed Silva Forum Thread to Silva Forum Topic and refactored
-    code to use topic rather than thread.
+- Added nice date/time formatting.
 
-  - Put jump to last and first page pagination in the view_forum.pt
+- Several layout fixes.
 
-  - Changed the topic functionality to only take topics. Opted to take
-    out messages because they can't be edited in the SMI without some
-    considerable changes.
+- Small code fixes and cleanups (see individual checkin messages for
+  API changes).
 
-  - Configured the view_forum.pt and view_topic.pt to get emoticons
-    added in the subject field.
+- Added preview button functionality.
 
-  - Added support for emoticons.
+- Added javascript to hide the form, however this isn't implemented
+  yet.
 
-  - Added nice date/time formatting.
+- Added Several layout styles.
 
-  - Several layout fixes.
+- Added pagination, and sorted list orders newest to oldest.
 
-  - Small code fixes and cleanups (see individual checkin messages for
-    API changes).
-
-  - Added preview button functionality.
-
-  - Added javascript to hide the form, however this isn't implemented
-    yet.
-
-  - Added Several layout styles.
-
-  - Added pagination, and sorted list orders newest to oldest.
-
-  - Workout out a solution to authoring issue in the SMI.
+- Workout out a solution to authoring issue in the SMI.

@@ -1,1 +1,1 @@
-SilvaForum 0.4 (SVN/Unreleased)
+SilvaForum 0.3.1
