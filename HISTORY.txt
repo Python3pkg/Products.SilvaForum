@@ -1,8 +1,11 @@
 History
 =======
 
-SilvaForum 0.3.1
-----------------
+SilvaForum 0.4 (unreleased)
+---------------------------
+
+SilvaForum 0.3.1 (2008-11-18)
+-----------------------------
 
 - Fix documentation format to ReST.
 
