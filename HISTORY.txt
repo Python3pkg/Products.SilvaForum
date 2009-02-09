@@ -1,8 +1,10 @@
 History
 =======
 
-SilvaForum 0.4 (unreleased)
----------------------------
+SilvaForum 0.3.2 (2009-02-09)
+-----------------------------
+
+- Fix link in view_comment
 
 SilvaForum 0.3.1 (2008-11-18)
 -----------------------------
