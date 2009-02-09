@@ -1,7 +1,9 @@
 <tal:block xmlns:i18n="http://xml.zope.org/namespaces/i18n"
            i18n:domain="silvaforum">
   <div class="forum">
-    <p><a href="."><span i18n:translate="">Up to topic...</span></a></p>
+    <p><a href="#" 
+          tal:attributes="href context/aq_parent/absolute_url">
+    	<span i18n:translate="">Up to topic...</span></a></p>
     <div id="comment">
       <tal:block content="python:view.format_datetime(context.get_creation_datetime())" />,
       by <tal:block content="python:context.sec_get_creator_info().fullname()" />
