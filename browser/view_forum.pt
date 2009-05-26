@@ -273,7 +273,8 @@
         <form method="post"
               action="#"
               tal:attributes="action string:${context/absolute_url}/service_members/logout">
-          <input type="hidden" 
+          <input class="float-left"
+		 type="hidden" 
                  name="came_from" 
                  value="#"
                  tal:attributes="value context/absolute_url" />
