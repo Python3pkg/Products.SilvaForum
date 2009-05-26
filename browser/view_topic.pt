@@ -156,9 +156,8 @@
                        tal:attributes="value python:unicode(request.form['title'], 'UTF-8')" />
                 <input type="hidden" name="text" id="preview_text"
                        tal:attributes="value python:unicode(request.form['text'], 'UTF-8')" />
-                <input class="button"
+                <input class="button float-right"
                        name="post_comment"
-                       style="float:right" 
                        type="submit" 
                        value="post comment"
                        i18n:attributes="value" />
@@ -240,7 +239,7 @@
                tal:attributes="value request/form/include"
                />
         <div class="submit">
-          <input style="float:right"
+          <input class="float-right"
                  type="submit"
                  name="submit"
                  value="post comment"
