@@ -50,11 +50,11 @@
         <tbody>
           <tr>
             <td>
-              <div style="float:left; width:8em; text-align:left"
+              <div class="float-left" style="width:8em; text-align:left"
                    tal:define="
-                               previous_batch_url python:view.get_batch_prev_link(batch.start-1);
-                               firstlink python:view.get_batch_first_link(batch.start-1);
-                               ">
+			       previous_batch_url python:view.get_batch_prev_link(batch.start-1);
+			       firstlink python:view.get_batch_first_link(batch.start-1);
+			       ">
                 <a href="firstbatch"
                    accesskey="f"
                    title="Go to the first result listing: alt-f"
@@ -89,7 +89,8 @@
                 </tal:block>
                 </a>&nbsp;
               </div>
-              <div style="float:right; width:8em; text-align:right"
+              <div class="float-right" 
+		   style="width:8em; text-align:right"
                    tal:define="next_batch_url python:view.get_batch_next_link(batch.start-1, numitems);
                                lastlink python:view.get_batch_last_link(batch.start-1, numitems);
                                ">&nbsp;
@@ -159,7 +160,7 @@
                        name="topic" 
                        id="preview_topic"
                        tal:attributes="value python:unicode(request.form['topic'], 'UTF-8')" />
-                <input style="float:right;"
+                <input class="float-right;"
                        name="post_submit"
                        type="submit" 
                        value="post topic" 
@@ -255,7 +256,7 @@
           </span>
         </div>
         <div class="submit">
-          <input style="float:right"
+          <input class="float-right"
                  name="add_topic"
                  type="submit"
                  value="add topic"
@@ -276,11 +277,10 @@
                  name="came_from" 
                  value="#"
                  tal:attributes="value context/absolute_url" />
-          <input style="float:right" 
+          <input class="float-right" 
                  type="submit" 
                  name="login" 
                  value="logout" 
-                 style="float:right"
                  i18n:attributes="value" />
         </form>
         <form method="post"
