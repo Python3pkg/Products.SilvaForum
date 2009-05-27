@@ -238,7 +238,7 @@
                 i18n:translate="">Please provide a subject for the new topic.</span>
         </div>
         <div class="subject-input">
-          <input class="store"
+          <input class="store button-store"
                  type="text"
                  id="topic"                 
                  name="topic"
@@ -304,7 +304,7 @@
             tal:attributes="action string:${context/absolute_url}/view.html/authenticate">
         <input type="hidden" name="came_from" value="#"
                tal:attributes="value context/absolute_url" />
-        <input class="login-button"
+        <input class="button-login"
 	       type="submit" 
                name="login" 
                value="Login to post a new topic"
