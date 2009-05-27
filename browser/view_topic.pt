@@ -156,7 +156,7 @@
                        tal:attributes="value python:unicode(request.form['title'], 'UTF-8')" />
                 <input type="hidden" name="text" id="preview_text"
                        tal:attributes="value python:unicode(request.form['text'], 'UTF-8')" />
-                <input class="button float-right"
+                <input class="button-post-comment"
                        name="post_comment"
                        type="submit" 
                        value="post comment"
@@ -167,7 +167,7 @@
                      (so let's not think about it too much, i suggest ;)
                 -->
                 <a tal:attributes="href context/absolute_url">
-                  <input class="button cancel"
+                  <input class="button-edit-comment"
                          name="edit_comment"
                          type="button" 
                          value="edit comment"
@@ -185,7 +185,7 @@
     <tal:if condition="view/can_post">
       <div class="submit"
            tal:condition="python:not request.get('preview')">
-        <input class="button add-comment"
+        <input class="button-add-comment"
                name="add_comment"
                type="button" 
                value="add comment"
@@ -265,7 +265,8 @@
         <input type="hidden" name="came_from" value="#"
                tal:attributes="value context/absolute_url"
                />
-        <input type="submit" 
+        <input class="button-login"
+	       type="submit" 
                name="login" 
                value="Login to post a new comment"
                i18n:attributes="value"
