@@ -239,13 +239,14 @@
                tal:attributes="value request/form/include"
                />
         <div class="submit">
-          <input class="float-right"
+          <input class="button-post"
                  type="submit"
                  name="submit"
                  value="post comment"
                  i18n:attributes="value"
-                 />
-          <input type="submit"
+                 /> 
+          <input class="button-preview"
+		 type="submit"
                  name="preview"
                  value="preview"
                  i18n:attributes="value"
