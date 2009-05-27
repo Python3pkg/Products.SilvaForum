@@ -156,11 +156,12 @@
                     id="previewform"
                     tal:condition="request/form/preview | nothing"
                     tal:attributes="action context/absolute_url">
-                <input type="hidden" 
-                       name="topic" 
-                       id="preview_topic"
+                <input class="button-preview" 
+		       type="hidden" 
+		       name="topic" 
+		       id="preview_topic"
                        tal:attributes="value python:unicode(request.form['topic'], 'UTF-8')" />
-                <input class="float-right;"
+                <input class="button-post;"
                        name="post_submit"
                        type="submit" 
                        value="post topic" 
@@ -256,12 +257,13 @@
           </span>
         </div>
         <div class="submit">
-          <input class="float-right"
+          <input class="button-add-topic"
                  name="add_topic"
                  type="submit"
                  value="add topic"
                  i18n:attributes="value" />
-          <input name="preview"
+          <input class="button-preview"
+		 name="preview"
                  type="submit"
                  value="preview"
                  i18n:attributes="value" />
@@ -273,12 +275,11 @@
         <form method="post"
               action="#"
               tal:attributes="action string:${context/absolute_url}/service_members/logout">
-          <input class="float-left"
-		 type="hidden" 
+          <input type="hidden" 
                  name="came_from" 
                  value="#"
                  tal:attributes="value context/absolute_url" />
-          <input class="float-right" 
+          <input class="button-login" 
                  type="submit" 
                  name="login" 
                  value="logout" 
