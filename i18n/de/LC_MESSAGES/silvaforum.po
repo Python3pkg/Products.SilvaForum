@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: Wed Jun 17 14:55:48 2009\n"
-"PO-Revision-Date: 2009-06-17 15:18+0100\n"
+"PO-Revision-Date: 2009-06-17 15:31+0100\n"
 "Last-Translator: Wim Boucquaert <wim@infrae.com>\n"
 "Language-Team: Silva i18n team <walco@infrae.com>\n"
 "MIME-Version: 1.0\n"
@@ -119,7 +119,7 @@ msgstr "Thema hinzufügen"
 
 #: /browser/view_forum.pt:309
 msgid "Login to post a new topic"
-msgstr ""
+msgstr "Login um einen neuen Kommentar zu erstellen"
 
 #: /browser/view_forum.pt:43
 msgid "Forum user controls"
