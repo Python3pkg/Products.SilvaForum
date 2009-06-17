@@ -68,13 +68,12 @@
         </form>
       </div>
     </tal:if>
-    <div class="feedback"
-         tal:condition="message"
-         tal:content="message"
-         i18n:translate="">
-      message
+    <div class="feedback" 
+	 tal:condition="message"
+	 >
+      <span tal:content="message" i18n:translate="">message</span>
     </div>
-
+    
     <metal:def define-macro="pagination">
       <table class="pagination"
              tal:condition="python:numitems > batch_size">

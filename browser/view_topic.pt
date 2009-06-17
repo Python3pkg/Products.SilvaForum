@@ -36,6 +36,9 @@
         forum title
       </a>
     </h2>
+    <tal:if condition="view/can_post">
+      <metal:use use-macro="context/view_forum.pt/macros/user_controls"/>
+    </tal:if>
     <h4 tal:condition="included">
       <tal:if condition="python:numitems == 1">
         <tal:var replace="numitems"/> Reader comment
@@ -46,9 +49,8 @@
     </h4>
     <div class="feedback"
          tal:condition="message"
-         tal:content="message"
-         i18n:translate="">
-      message
+	 >
+      <span tal:content="message" i18n:translate="">message</span>
     </div>
     <table metal:use-macro="context/view_forum.pt/macros/pagination">
       batching nav bar
@@ -254,9 +256,6 @@
         </div>
       </form>
     </div>
-    <tal:if condition="view/can_post">
-      <metal:use use-macro="context/view_forum.pt/macros/user_controls"/>
-    </tal:if>
     <div class="submit"
          tal:condition="not:view/can_post">
       <form method="post"
