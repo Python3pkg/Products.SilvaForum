@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: SilvaForum trunk"
-"POT-Creation-Date: Thu Oct 30 15:28:14 2008\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Project-Id-Version: SilvaForum trunkPOT-Creation-Date: Thu Oct 30 15:28:14 2008\n"
+"POT-Creation-Date: Wed Jun 17 12:37:19 2009\n"
+"PO-Revision-Date: 2009-06-17 13:22+0100\n"
+"Last-Translator: Wim Boucquaert <wim@infrae.com>\n"
 "Language-Team: Silva Translators <eric+i18n@infrae.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -12,263 +12,263 @@ msgstr ""
 
 #: /browser/view.py:124
 msgid "Sorry you need to be authorized to use this forum"
-msgstr ""
+msgstr "Sorry u moet aangemeld zijn om dit forum te gebruiken"
 
 #: /browser/view.py:145
 msgid "Please provide a subject"
-msgstr ""
+msgstr "Gelieve een onderwerp in te geven"
 
 #: /browser/view.py:177
 msgid "Please fill in one of the two fields."
-msgstr ""
+msgstr "Gelieve 1 van de 2 velden in te geven"
 
 #: /browser/view.py:184
 msgid "Comment added"
-msgstr ""
+msgstr "Reactie toegevoegd"
 
-#: /browser/view_comment.pt:4
+#: /browser/view_comment.pt:6
 msgid "Up to topic..."
-msgstr ""
+msgstr "Terug naar onderwerp..."
 
-#: /browser/view_forum.pt:103
-msgid "${N}ext"
-msgstr ""
-
-#: /browser/view_forum.pt:105
-msgid "Next"
-msgstr ""
-
-#: /browser/view_forum.pt:112
-msgid "Go to the last result listing: alt-l"
-msgstr ""
-
-#: /browser/view_forum.pt:118
-msgid "Last"
-msgstr ""
-
-#: /browser/view_forum.pt:130
-msgid "Showing results ${start} to ${end} of ${total}"
-msgstr ""
-
-#: /browser/view_forum.pt:142
-msgid "Topics"
-msgstr ""
-
-#: /browser/view_forum.pt:143
-msgid "Post date"
-msgstr ""
-
-#: /browser/view_forum.pt:144
-#: /browser/view_topic.pt:60
-#: /browser/view_topic.pt:90
-msgid "Author"
-msgstr ""
-
-#: /browser/view_forum.pt:145
-msgid "Comments"
-msgstr ""
-
-#: /browser/view_forum.pt:162
-msgid "post topic"
-msgstr ""
-
-#: /browser/view_forum.pt:173
-msgid "clear"
-msgstr ""
-
-#: /browser/view_forum.pt:183
-msgid "Now"
-msgstr ""
-
-#: /browser/view_forum.pt:186
-msgid "Preview"
-msgstr ""
-
-#: /browser/view_forum.pt:232
-msgid "Post a new topic"
-msgstr ""
-
-#: /browser/view_forum.pt:233
-#: /browser/view_topic.pt:211
-msgid "Subject"
-msgstr ""
-
-#: /browser/view_forum.pt:236
-msgid "Please provide a subject for the new topic."
-msgstr ""
-
-#: /browser/view_forum.pt:250
-msgid "emoticon"
-msgstr ""
-
-#: /browser/view_forum.pt:258
-msgid "add topic"
-msgstr ""
-
-#: /browser/view_forum.pt:271
-msgid "Forum user controls"
-msgstr ""
-
-#: /browser/view_forum.pt:279
-msgid "logout"
-msgstr ""
-
-#: /browser/view_forum.pt:289
-msgid "edit profile"
-msgstr ""
-
-#: /browser/view_forum.pt:305
-msgid "Login to post a new topic"
-msgstr ""
-
-#: /browser/view_forum.pt:58
-msgid "Go to the first result listing: alt-f"
-msgstr ""
-
-#: /browser/view_forum.pt:73
+#: /browser/view_forum.pt:104
 msgid "See the previous result listing: alt-b"
-msgstr ""
+msgstr "De vorige resultaat lijst weergeven: alt-b"
 
-#: /browser/view_forum.pt:88
+#: /browser/view_forum.pt:119
 msgid "${B}ack"
 msgstr ""
 
-#: /browser/view_forum.pt:96
+#: /browser/view_forum.pt:128
 msgid "See the next result listing: alt-n"
+msgstr "De volgende resultaat lijst weergeven: alt-n"
+
+#: /browser/view_forum.pt:135
+msgid "${N}ext"
 msgstr ""
+
+#: /browser/view_forum.pt:137
+msgid "Next"
+msgstr "Volgende"
+
+#: /browser/view_forum.pt:144
+msgid "Go to the last result listing: alt-l"
+msgstr "Ga naar de laatste resultaat lijst: alt-l"
+
+#: /browser/view_forum.pt:150
+msgid "Last"
+msgstr "Laatste"
+
+#: /browser/view_forum.pt:162
+msgid "Showing results ${start} to ${end} of ${total}"
+msgstr "Getoonde resultaten ${start} tot ${end} van ${total}"
+
+#: /browser/view_forum.pt:174
+msgid "Topics"
+msgstr "Onderwerpen"
+
+#: /browser/view_forum.pt:175
+msgid "Post date"
+msgstr "Verzend datum"
+
+#: /browser/view_forum.pt:176
+#: /browser/view_topic.pt:60
+#: /browser/view_topic.pt:90
+msgid "Author"
+msgstr "Auteur"
+
+#: /browser/view_forum.pt:177
+msgid "Comments"
+msgstr "Reacties"
+
+#: /browser/view_forum.pt:194
+msgid "post topic"
+msgstr "verzend thema"
+
+#: /browser/view_forum.pt:205
+msgid "clear"
+msgstr "leeg maken"
+
+#: /browser/view_forum.pt:215
+msgid "Now"
+msgstr "Nu"
+
+#: /browser/view_forum.pt:218
+msgid "Preview"
+msgstr "Voorbeeld"
+
+#: /browser/view_forum.pt:264
+msgid "Post a new topic"
+msgstr "Plaats een nieuw thema"
+
+#: /browser/view_forum.pt:265
+#: /browser/view_topic.pt:210
+msgid "Subject"
+msgstr "Onderwerp"
+
+#: /browser/view_forum.pt:268
+msgid "Please provide a subject for the new topic."
+msgstr "Gelieve een onderwerp te geven voor het thema."
+
+#: /browser/view_forum.pt:282
+msgid "emoticon"
+msgstr "emoticon"
+
+#: /browser/view_forum.pt:290
+msgid "add topic"
+msgstr "thema toevoegen"
+
+#: /browser/view_forum.pt:309
+msgid "Login to post a new topic"
+msgstr "Aanmelden om nieuwe thema te posten"
+
+#: /browser/view_forum.pt:43
+msgid "Forum user controls"
+msgstr "Forum gebruiker acties"
+
+#: /browser/view_forum.pt:51
+msgid "logout"
+msgstr "afmelden"
+
+#: /browser/view_forum.pt:60
+msgid "edit profile"
+msgstr "profiel bewerken"
+
+#: /browser/view_forum.pt:89
+msgid "Go to the first result listing: alt-f"
+msgstr "Ga naar de eerste resultaat lijst: alt-f"
 
 #: /browser/view_include.pt:5
 msgid "Included Topic"
-msgstr ""
+msgstr "Inbegrepen Thema"
 
 #: /browser/view_topic.pt:101
 msgid "Link to this message"
-msgstr ""
+msgstr "Linken naar dit bericht"
 
 #: /browser/view_topic.pt:104
 msgid "posted"
-msgstr ""
+msgstr "verzonden"
 
 #: /browser/view_topic.pt:159
-#: /browser/view_topic.pt:243
+#: /browser/view_topic.pt:242
 msgid "post comment"
-msgstr ""
+msgstr "verzend reactie"
 
-#: /browser/view_topic.pt:171
+#: /browser/view_topic.pt:170
 msgid "edit comment"
-msgstr ""
+msgstr "reactie bewerken"
 
-#: /browser/view_topic.pt:189
+#: /browser/view_topic.pt:188
 msgid "add comment"
-msgstr ""
+msgstr "reactie toevoegen"
 
-#: /browser/view_topic.pt:210
+#: /browser/view_topic.pt:209
 msgid "Post a new comment"
-msgstr ""
+msgstr "Een nieuwe reactie plaatsen"
 
-#: /browser/view_topic.pt:220
+#: /browser/view_topic.pt:219
 msgid "Message"
-msgstr ""
+msgstr "Bericht"
 
 #: /browser/view_topic.pt:268
 msgid "Login to post a new comment"
-msgstr ""
+msgstr "Aanmelden om nieuwe reactei te plaatsen"
 
 #: /browser/view_topic.pt:61
 msgid "Topic"
-msgstr ""
+msgstr "Thema"
 
 #: /browser/view_topic.pt:71
 msgid "posted:"
-msgstr ""
+msgstr "verzonden:"
 
 #: /browser/view_topic.pt:91
 msgid "Comment"
-msgstr ""
+msgstr "Reactie"
 
 #: /dtformat/dtformat.py:25
 msgid "Just added"
-msgstr ""
+msgstr "Net toegevoegd"
 
+# Default: "time"
 #: /dtformat/dtformat.py:28
 #: /dtformat/dtformat.py:33
-# Default: "time"
 msgid "Added ${time} ago"
-msgstr ""
+msgstr "${time} gelden toegevoegd"
 
 #: /dtformat/dtformat.py:56
 msgid "one week"
-msgstr ""
+msgstr "één week"
 
-#: /dtformat/dtformat.py:58
 # Default: "number"
+#: /dtformat/dtformat.py:58
 msgid "${number} weeks"
-msgstr ""
+msgstr "${number} weken"
 
 #: /dtformat/dtformat.py:62
 msgid "one day"
-msgstr ""
+msgstr "één dag"
 
-#: /dtformat/dtformat.py:64
 # Default: "number"
+#: /dtformat/dtformat.py:64
 msgid "${number} days"
-msgstr ""
+msgstr "${number} dagen"
 
 #: /dtformat/dtformat.py:68
 msgid "one hour"
-msgstr ""
+msgstr "één uur"
 
-#: /dtformat/dtformat.py:70
 # Default: "number"
+#: /dtformat/dtformat.py:70
 msgid "${number} hours"
-msgstr ""
+msgstr "${number} uren"
 
 #: /dtformat/dtformat.py:74
 msgid "one minute"
-msgstr ""
+msgstr "één minuut"
 
-#: /dtformat/dtformat.py:76
 # Default: "number"
+#: /dtformat/dtformat.py:76
 msgid "${number} minutes"
-msgstr ""
+msgstr "${number} minuten"
 
 #: /views/edit/Content/Comment/form.form:29
 msgid "subject"
-msgstr ""
+msgstr "onderwerp"
 
 #: /views/edit/Content/Comment/form.form:52
 msgid "text"
-msgstr ""
+msgstr "tekst"
 
 #: /views/edit/Content/Comment/get_tabs.py:10
-#: /browser/view_forum.pt:263
-#: /browser/view_topic.pt:249
+#: /browser/view_forum.pt:295
+#: /browser/view_topic.pt:248
 msgid "preview"
-msgstr ""
+msgstr "voorbeeld"
 
 #: /views/edit/Content/Comment/get_tabs.py:11
 msgid "settings"
-msgstr ""
+msgstr "instellingen"
 
 #: /views/edit/Content/Comment/get_tabs.py:12
 msgid "access"
-msgstr ""
+msgstr "toegang"
 
 #: /views/edit/Content/Comment/get_tabs.py:9
 msgid "edit"
-msgstr ""
+msgstr "bewerken"
 
-#: /views/edit/Content/Comment/submit.py:26
 # Default: "new_title"
+#: /views/edit/Content/Comment/submit.py:26
 msgid "old_title"
 msgstr ""
 
 #: /views/edit/Content/Comment/submit.py:37
 msgid "text updated"
-msgstr ""
+msgstr "tekst aangepast"
 
-#: /views/edit/Content/Comment/submit.py:41
 # Default: "changed"
+#: /views/edit/Content/Comment/submit.py:41
 msgid "Properties changed: ${changed}"
-msgstr ""
+msgstr "Eigenschappen gewijzigd: ${changed}"
 
