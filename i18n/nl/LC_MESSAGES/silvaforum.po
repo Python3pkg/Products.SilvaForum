@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SilvaForum trunkPOT-Creation-Date: Thu Oct 30 15:28:14 2008\n"
 "POT-Creation-Date: Wed Jun 17 14:55:48 2009\n"
-"PO-Revision-Date: 2009-06-17 15:31+0100\n"
+"PO-Revision-Date: 2009-06-19 16:58+0100\n"
 "Last-Translator: Wim Boucquaert <wim@infrae.com>\n"
 "Language-Team: Silva Translators <eric+i18n@infrae.com>\n"
 "MIME-Version: 1.0\n"
@@ -172,7 +172,7 @@ msgstr "Bericht"
 
 #: /browser/view_topic.pt:268
 msgid "Login to post a new comment"
-msgstr "Aanmelden om nieuwe reactei te plaatsen"
+msgstr "Aanmelden om nieuwe reactie te plaatsen"
 
 #: /browser/view_topic.pt:61
 msgid "Topic"
