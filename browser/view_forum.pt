@@ -37,11 +37,41 @@
     <h2 tal:content="here/get_title">
       forum title
     </h2>
-    <div class="feedback"
+    <tal:if condition="view/can_post">
+      <div class="controls"
+           metal:define-macro="user_controls">
+        <h6 i18n:translate="">Forum user controls</h6>
+        <form method="post"
+              action="#"
+              tal:attributes="action string:${context/absolute_url}/service_members/logout">
+          <input type="hidden" 
+                 name="came_from" 
+                 value="#"
+                 tal:attributes="value context/absolute_url" />
+          <input class="button-login" 
+                 type="submit" 
+                 name="login" 
+                 value="logout" 
+                 i18n:attributes="value" />
+        </form>
+        <form method="post"
+              action="#"
+              tal:attributes="action string:${context/absolute_url}/service_resources/Silva/edit_member">
+          <input class="button-edit-profile"
+		 type="submit" 
+                 name="login" 
+                 value="edit profile"
+                 i18n:attributes="value"
+                 onclick="userWindow = window.open('service_resources/Silva/edit_member', 'userWindow', 'width=450, height=250, resizable=no');
+                          userWindow.focus();
+                          return false;" />
+        </form>
+      </div>
+    </tal:if>
+    <div class="feedback" 
          tal:condition="message"
-         tal:content="message"
-         i18n:translate="">
-      message
+	 >
+      <span tal:content="message" i18n:translate="">message</span>
     </div>
 
     <metal:def define-macro="pagination">
@@ -238,7 +268,7 @@
                 i18n:translate="">Please provide a subject for the new topic.</span>
         </div>
         <div class="subject-input">
-          <input class="store button-store"
+          <input class="store"
                  type="text"
                  id="topic"                 
                  name="topic"
@@ -268,35 +298,6 @@
                  i18n:attributes="value" />
         </div>
       </form>
-      <div class="controls"
-           metal:define-macro="user_controls">
-        <h6 i18n:translate="">Forum user controls</h6>
-        <form method="post"
-              action="#"
-              tal:attributes="action string:${context/absolute_url}/service_members/logout">
-          <input type="hidden" 
-                 name="came_from" 
-                 value="#"
-                 tal:attributes="value context/absolute_url" />
-          <input class="button-login" 
-                 type="submit" 
-                 name="login" 
-                 value="logout" 
-                 i18n:attributes="value" />
-        </form>
-        <form method="post"
-              action="#"
-              tal:attributes="action string:${context/absolute_url}/service_resources/Silva/edit_member">
-          <input class="button-edit-profile"
-		 type="submit" 
-                 name="login" 
-                 value="edit profile"
-                 i18n:attributes="value"
-                 onclick="userWindow = window.open('service_resources/Silva/edit_member', 'userWindow', 'width=450, height=250, resizable=no');
-                          userWindow.focus();
-                          return false;" />
-        </form>
-      </div>
     </tal:if>
     <div tal:condition="not:view/can_post">
       <form method="post"

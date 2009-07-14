@@ -139,4 +139,22 @@ div.forum div.controls {
   border-bottom:1px solid gray
 }
 
+.topic {
+    padding-bottom:2px;
+}
+
+/* styling of the buttons */
+
+.button-preview input, .button-post input, 
+.button-add-topic input, .button-login input, 
+.button-clear input, button-edit-profile {
+    float:right;
+}
+
+.button-preview input, .button-post input, 
+.button-add-topic input, .button-login input, 
+.button-clear input, button-edit-profile {
+    float:left;
+}
+
 /* style is attitude */

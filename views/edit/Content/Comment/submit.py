@@ -1,4 +1,4 @@
-# Copyright (c) 2007-2008 Infrae. All rights reserved.
+# Copyright (c) 2007-2009 Infrae. All rights reserved.
 # See also LICENSES.txt
 # SilvaForum
 # Python
@@ -41,4 +41,3 @@ if model.get_text() != newvalue:
 message = _("Properties changed: ${changed}",
             mapping={'changed': context.quotify_list_ext(changed)})
 return view.tab_edit(message_type="feedback", message=message)
-
