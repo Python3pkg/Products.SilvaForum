@@ -4,7 +4,7 @@
 # Python
 
 from zope.interface import Interface
-from silva.core.interfaces import IContent, IContainer
+from Products.Silva.interfaces import IContent, IContainer
 
 
 class IPostableView(Interface):
