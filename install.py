@@ -60,6 +60,8 @@ def uninstall(root):
     root.service_views.manage_delObjects(['SilvaForum'])
     root.service_resources.manage_delObjects(['SilvaForum'])
 
+    unconfigureMetadata(root)
+
 def configureAddables(root):
     """Make sure the right items are addable in the root"""
     non_addables = ('Silva Forum Topic',
@@ -93,6 +95,33 @@ def configureMetadata(context):
         context.service_metadata.addTypesMapping(
             metatypes, (setname,))
     context.service_metadata.initializeMetadata()
+
+# the following bit has been copied from SilvaLayout, and is a bit
+# over-generic, but I guess that's fine...
+def unconfigureMetadata(root):
+    metadatasets = ['silvaforum-forum', 'silvaforum-item']
+    mapping = root.service_metadata.getTypeMapping()
+    default = ''
+    # Get all content types that have a metadata mapping
+    content_types = [item.id for item in mapping.getTypeMappings()]
+    tm = []
+    # Remove the metadata sets for each content type
+    for content_type in content_types:
+        chain = mapping.getChainFor(content_type)
+        sets = [set.strip() for set in chain.split(',')]
+        sets_to_remove = []
+        for set in sets:
+            if set in metadatasets:
+                sets_to_remove.append(set)
+        for set in sets_to_remove:
+            sets.remove(set)
+        map = {'type':content_type,
+               'chain':', '.join(sets)}
+        tm.append(map)
+    mapping.editMappings(default, tm)
+
+    # Remove the metadata set specifications
+    root.service_metadata.collection.manage_delObjects(metadatasets)
 
 def is_installed(root):
     return hasattr(root.service_views, 'SilvaForum')
