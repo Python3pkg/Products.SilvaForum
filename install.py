@@ -4,6 +4,7 @@
 # Python
 
 from Products.Silva.install import add_fss_directory_view
+from Globals import package_home
 import os
 
 def install(root):
@@ -45,6 +46,7 @@ def install(root):
     # public is done from Five views
 
     configureAddables(root)
+    configureMetadata(root)
     
 def uninstall(root):
     reg = root.service_view_registry
@@ -73,6 +75,24 @@ def configureAddables(root):
             new_addables.append(a)
     root.set_silva_addables_allowed_in_publication(new_addables)
 
+def configureMetadata(context):
+    product = package_home(globals())
+    schema = os.path.join(product, 'schema')
+    collection = context.service_metadata.getCollection()
+
+    for metatypes, setname in (
+            (('Silva Forum',), 'silvaforum-forum'),
+            (('Silva Forum Topic', 'Silva Forum Comment'), 'silvaforum-item')):
+        if setname not in collection.objectIds():
+            xmlfile = os.path.join(schema, '%s.xml' % (setname,))
+            definition = open(xmlfile, 'r')
+            try:
+                collection.importSet(definition)
+            finally:
+                definition.close()
+        context.service_metadata.addTypesMapping(
+            metatypes, (setname,))
+    context.service_metadata.initializeMetadata()
+
 def is_installed(root):
     return hasattr(root.service_views, 'SilvaForum')
-

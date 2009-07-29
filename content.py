@@ -44,6 +44,7 @@ class FiveViewable(object):
 
     preview = view
 
+
 class ForumFolderBase(FiveViewable):
     """ A Forum can be added to your site to facilitate discussions. A Forum is
         divided into Topics, which in turn have Comments. Users who wish to 
@@ -79,12 +80,17 @@ class ForumFolderBase(FiveViewable):
         if id in self.objectIds():
             highest = 1
             for other_id in self.objectIds():
-                match =self.reg_number_at_end.search(other_id)
+                match = self.reg_number_at_end.search(other_id)
                 if other_id.startswith(id) and match:
                     highest = int(match.group(0))
             highest += 1
             id = '%s_%s' % (id, highest)
         return id
+
+    def anonymous_posting_allowed(self):
+        return self.get_forum().get_metadata_element(
+            'silvaforum-forum', 'anonymous_posting') == 'yes'
+
 
 class Forum(ForumFolderBase, Publication):
     interface.implements(IForum)
@@ -96,6 +102,9 @@ class Forum(ForumFolderBase, Publication):
         super(Forum, self).__init__(*args, **kwargs)
         self._lastid = 0
         self.topic_batch_size = 10
+
+    def get_forum(self):
+        return self
 
     def get_topic(self, title):
         """
@@ -111,12 +120,12 @@ class Forum(ForumFolderBase, Publication):
         return a list of topic objects
         """
         return self.objectValues('Silva Forum Topic')
-        
-    
-    def add_topic(self, topic):
+
+    def add_topic(self, topic, anonymous=False):
         """ add a topic to the forum
         """
-        
+        if anonymous and not self.anonymous_posting_allowed():
+            raise ValueError('anonymous posting is not allowed!')
         id = self._generate_id(topic)
         self.manage_addProduct['SilvaForum'].manage_addTopic(id, topic)
         topic = dict(self.objectItems()).get(id)
@@ -125,6 +134,9 @@ class Forum(ForumFolderBase, Publication):
             # for example (title, or add_topic). topic objects themselves 
             # have automaticly generated number parts if needed.
             raise ValueError('Reserved id: "%s"' % id)
+        if anonymous:
+            binding = self.get_root().service_metadata.getMetadata(topic)
+            binding.setValues('silvaforum-item', {'anonymous': 'yes'})
         return topic
 
     def topics(self):
@@ -138,7 +150,7 @@ class Forum(ForumFolderBase, Publication):
             'url': obj.absolute_url(),
             'title': obj.get_title(),
             'creation_datetime': obj.get_creation_datetime(),
-            'creator': obj.sec_get_creator_info().fullname(),
+            'creator': obj.get_creator(),
             'commentlen': len(obj.comments()),
         } for obj in self.get_topics()]
         topics.reverse()
@@ -152,7 +164,16 @@ class Forum(ForumFolderBase, Publication):
         # listings
         return True
 
-class Topic(ForumFolderBase, Folder):
+
+class CreatorMixin:
+    def get_creator(self):
+        anonymous = self.get_metadata_element('silvaforum-item', 'anonymous')
+        if anonymous == 'yes':
+            return _('anonymous')
+        return self.sec_get_creator_info().fullname()
+
+
+class Topic(ForumFolderBase, Folder, CreatorMixin):
     interface.implements(ITopic)
     meta_type = 'Silva Forum Topic'
 
@@ -162,9 +183,11 @@ class Topic(ForumFolderBase, Folder):
         self._text = ''
         self.comment_batch_size = 10
 
-    def add_comment(self, title, text):
+    def add_comment(self, title, text, anonymous=False):
         """ add a comment to the topic
         """
+        if anonymous and not self.anonymous_posting_allowed():
+            raise ValueError('anonymous posting is not allowed!')
         idstring = title
         if not idstring:
             idstring = text
@@ -175,6 +198,9 @@ class Topic(ForumFolderBase, Folder):
             # see add_topic comments
             raise ValueError('Reserved id: "%s"' % id)
         comment.set_text(text)
+        if anonymous:
+            binding = self.get_root().service_metadata.getMetadata(comment)
+            binding.setValues('silvaforum-item', {'anonymous': 'yes'})
         return comment
     
     def comments(self):
@@ -184,7 +210,7 @@ class Topic(ForumFolderBase, Folder):
             'id': obj.id,
             'url': obj.absolute_url(),
             'title': obj.get_title(),
-            'creator': obj.sec_get_creator_info().fullname(),
+            'creator': obj.get_creator(),
             'creation_datetime': obj.get_creation_datetime(),
             'text': obj.get_text(),
             'topic_url': obj.aq_parent.absolute_url(),
@@ -211,7 +237,9 @@ class Topic(ForumFolderBase, Folder):
     def number_of_comments(self):
         return len(self.objectValues('Silva Forum Comment'))
 
-class Comment(FiveViewable, CatalogPathAware, Content, SimpleItem.SimpleItem):
+class Comment(
+        FiveViewable, CatalogPathAware, Content, SimpleItem.SimpleItem,
+        CreatorMixin):
     interface.implements(IComment)
     meta_type = 'Silva Forum Comment'
     default_catalog = 'service_catalog'

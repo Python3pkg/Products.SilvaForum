@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 # Copyright (c) 2007-2008 Infrae. All rights reserved.
 # See also LICENSE.txt
 # SilvaForum
@@ -21,7 +23,15 @@ class SilvaForumTestCase(SilvaTestCase.SilvaTestCase):
         self.forum = self.addObject(self.getRoot(), 'Forum', 'forum',
                                     title='Forum', product='SilvaForum')
 
+
 class ForumTest(SilvaForumTestCase):
+    def test_metadata_set_installed(self):
+        self.assertRaises(
+            Exception, self.forum.get_metadata_element,
+            'silvaforum-forum', 'thisdoesnotexist')
+        self.forum.get_metadata_element(
+            'silvaforum-forum', 'anonymous_posting')
+
     def test_topics(self):
         self.assertEquals(0, len(self.forum.topics()))
         
@@ -77,6 +87,28 @@ class ForumTest(SilvaForumTestCase):
         t3 = self.forum.add_topic(':) foo :)')
         self.assertEquals('foo__3', t3.id)
 
+    def test_add_topic_anonymous(self):
+        self.assertFalse(self.forum.anonymous_posting_allowed())
+        self.assertRaises(
+            ValueError, self.forum.add_topic, 'Foo bar!', True)
+
+        binding = self.root.service_metadata.getMetadata(self.forum)
+        binding.setValues('silvaforum-forum', {'anonymous_posting': 'yes'})
+        topic = self.forum.add_topic('Foo bar!', True)
+
+        self.assert_(topic.get_metadata_element(
+            'silvaforum-item', 'anonymous') == 'yes')
+        topics = self.forum.topics()
+        self.assertEquals(topics[0]['creator'], 'anonymous')
+
+    def test_not_anonymous(self):
+        topic = self.forum.add_topic('Spam and eggs')
+        self.assert_(topic.get_metadata_element(
+            'silvaforum-item', 'anonymous') == 'no')
+        topics = self.forum.topics()
+        self.assertEquals(topics[0]['creator'], 'test_user_1_')
+
+
 class TopicTest(SilvaForumTestCase):
     def afterSetUp(self):
         super(TopicTest, self).afterSetUp()
@@ -101,7 +133,31 @@ class TopicTest(SilvaForumTestCase):
         # see if the comment has been added properly
         self.assertEquals(1,
                 len(self.topic.objectValues('Silva Forum Comment')))
-    
+
+    def test_not_anonymous(self):
+        comment = self.topic.add_comment('Foo', 'Foo, bar and baz!')
+        self.assert_(comment.creator() != 'anonymous')
+        self.assert_(comment.get_metadata_element(
+            'silvaforum-item', 'anonymous') == 'no')
+        self.assertEquals(self.topic.comments()[0]['creator'], 'test_user_1_')
+
+    def test_anonymous_not_allowed(self):
+        self.assert_(self.forum.get_metadata_element(
+            'silvaforum-forum', 'anonymous_posting') == 'no')
+        self.assertRaises(
+            ValueError, self.topic.add_comment,
+            'Foo', 'Foo, bar and baz', True)
+
+    def test_anonymous(self):
+        binding = self.root.service_metadata.getMetadata(self.forum)
+        binding.setValues('silvaforum-forum', {'anonymous_posting': 'yes'})
+
+        comment = self.topic.add_comment('Foo', 'Foo, bar and baz', True)
+        self.assert_(comment.get_metadata_element(
+            'silvaforum-item', 'anonymous') == 'yes')
+        self.assertEquals(self.topic.comments()[-1]['creator'], 'anonymous')
+
+
 class TopicViewTest(SilvaForumTestCase):
     def afterSetUp(self):
         super(TopicViewTest, self).afterSetUp()
@@ -153,6 +209,7 @@ class TopicViewTest(SilvaForumTestCase):
         link = self.view.get_batch_next_link(10, 20, 10)
         self.assert_(link is None)
 
+
 class CommentTest(SilvaForumTestCase):
     def afterSetUp(self):
         super(CommentTest, self).afterSetUp()
@@ -167,6 +224,7 @@ class CommentTest(SilvaForumTestCase):
 
         self.comment.set_text('foo text')
         self.assertEquals('foo text', self.comment.get_text())
+
 
 class CommentViewTest(SilvaForumTestCase):
     def afterSetUp(self):
@@ -209,6 +267,7 @@ class CommentViewTest(SilvaForumTestCase):
         self.assertEquals('(<a href="http://www.link.org">www.link.org</a>)',
                           self.view.replace_links(text))
 
+
 import unittest
 def test_suite():
     suite = unittest.TestSuite()
@@ -218,4 +277,3 @@ def test_suite():
     suite.addTest(unittest.makeSuite(CommentTest))
     suite.addTest(unittest.makeSuite(CommentViewTest))
     return suite
-

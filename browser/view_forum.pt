@@ -276,6 +276,15 @@
                  tal:attributes="value python:unicode(request.form.get('topic', ''), 'UTF-8')"
                  />
         </div>
+        <div class="anonymous-input"
+             tal:condition="view/anonymous_posting_allowed">
+          <input class="store"
+                 type="checkbox"
+                 id="anonymous"
+                 name="anonymous"
+                 tal:attributes="value python:request.form.get('anonymous')" />
+          <span i18n:translate="">Do not display my name with the message.</span>
+        </div>
         <div id="emoticons">
           <span class="emoticon" tal:repeat="smileydata view/get_smiley_data">
             <img onclick="add_smiley(this.title)"
