@@ -32,6 +32,16 @@ class ForumTest(SilvaForumTestCase):
         self.forum.get_metadata_element(
             'silvaforum-forum', 'anonymous_posting')
 
+    def test_uninstall_metadata(self):
+        from Products.SilvaForum.install import unconfigureMetadata
+        self.assert_(
+            'silvaforum-forum' in
+            self.root.service_metadata.getCollection().objectIds())
+        unconfigureMetadata(self.root)
+        self.assertFalse(
+            'silvaforum-forum' in
+            self.root.service_metadata.getCollection().objectIds())
+
     def test_topics(self):
         self.assertEquals(0, len(self.forum.topics()))
         
