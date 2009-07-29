@@ -22,7 +22,6 @@ from zope.i18n import translate
 minimal_add_role = 'Authenticated'
 
 class ViewBase(Headers):
-
     def format_datetime(self, dt):
         return format_dt(self, dt, DateTime())
     
@@ -52,7 +51,8 @@ class ViewBase(Headers):
         if current_offset < batchsize:
             return
         prevoffset = current_offset - batchsize
-        return self.render_url(self.context.absolute_url(), batch_start=prevoffset)
+        return self.render_url(
+            self.context.absolute_url(), batch_start=prevoffset)
 
     def get_batch_next_link(self, current_offset, numitems, batchsize=10):
         if current_offset >= (numitems - batchsize):
@@ -75,7 +75,10 @@ class ViewBase(Headers):
 
     def replace_links(self, text):
         # do regex for links and replace at occurrence
-        text = re.compile('(((ht|f)tp(s?)\:\/\/|(ht|f)tp(s?)\:\/\/www\.|www\.|mailto\:)\S+[^).\s])').sub('<a href="\g<1>">\g<1></a>',text)
+        text = re.compile(
+            '(((ht|f)tp(s?)\:\/\/|(ht|f)tp(s?)\:'
+            '\/\/www\.|www\.|mailto\:)\S+[^).\s])'
+        ).sub('<a href="\g<1>">\g<1></a>',text)
         text = re.compile('(<a\shref="www)').sub('<a href="http://www', text)
         return text
 
@@ -111,19 +114,13 @@ class ViewBase(Headers):
         return sec.getUser().has_role(minimal_add_role)
 
     def authenticate(self):
-        """Try to authenticate the user.
-        """
         if not self.can_post():
-            self.unauthorized()
-        else:
-            raise Redirect, self.context.absolute_url()
+            msg = _('Sorry you need to be authorized to use this forum')
+            raise Unauthorized(msg)
 
-    def unauthorized(self):
-        """Says you're unauthorized!
-        """
-        msg = _('Sorry you need to be authorized to use this '
-                           'forum')
-        raise Unauthorized(msg)
+    def anonymous_posting_allowed(self):
+        return self.context.anonymous_posting_allowed()
+
 
 class ForumView(ViewBase):
     """ view on IForum 
@@ -137,15 +134,14 @@ class ForumView(ViewBase):
                 (not req.has_key('topic'))):
             return
         
-        if not self.can_post():
-            self.unauthorized()
+        self.authenticate()
 
         topic = unicode(req['topic'], 'UTF-8')
         if not topic.strip():
             return _('Please provide a subject')
         
         try:
-            self.context.add_topic(topic)
+            self.context.add_topic(topic, req.get('anonymous', False))
         except ValueError, e:
             return str(e)
         url = self.context.absolute_url()
@@ -154,6 +150,7 @@ class ForumView(ViewBase):
                                 self.context.absolute_url(),
                                 quote(msg)))
         return ''
+
 
 class TopicView(ViewBase):
     """ view on ITopic 
@@ -168,8 +165,7 @@ class TopicView(ViewBase):
                 (not req.has_key('title') and not req.has_key('text'))):
             return
 
-        if not self.can_post():
-            self.unauthorized()
+        self.authenticate()
         
         title = unicode(req['title'], 'UTF-8')
         text = unicode(req['text'], 'UTF-8')
@@ -177,7 +173,8 @@ class TopicView(ViewBase):
             return _('Please fill in one of the two fields.')
 
         try:
-            comment = self.context.add_comment(title, text)
+            comment = self.context.add_comment(
+                title, text, req.get('anonymous', False))
         except ValueError, e:
             return str(e)
 
