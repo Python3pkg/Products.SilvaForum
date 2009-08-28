@@ -7,7 +7,8 @@
                    numitems python:len(comments);
                    batch_size context/comment_batch_size;
                    batch python:context.service_views.Silva.getBatch(comments, size=batch_size, orphan=0);
-                   included python:request.form.has_key('include');">
+                   included python:request.form.has_key('include');"
+       >
     <script type="text/javascript">
       // <![CDATA[
       window.focussed_form_field = null;
@@ -167,7 +168,7 @@
                      and i tend to fully agree... it works though, both in js
                      and non-js situations, and looks consistent
                      (so let's not think about it too much, i suggest ;)
-                -->
+                  -->
                 <a tal:attributes="href context/absolute_url">
                   <input class="button-edit-comment"
                          name="edit_comment"
@@ -265,6 +266,7 @@
         </div>
       </form>
     </div>
+    
     <div class="submit"
          tal:condition="not:view/can_post">
       <form method="post"
@@ -282,5 +284,7 @@
       </form>
     </div>
     <a name="bottom"></a>
+    
   </div>
+
 </tal:block>
