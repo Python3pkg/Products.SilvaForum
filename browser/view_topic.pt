@@ -235,7 +235,7 @@
                  id="anonymous"
                  name="anonymous"
                  tal:attributes="value python:request.form.get('anonymous')" />
-          <span i18n:translate="">Do not display my name with the message.</span>
+          <span i18n:translate="">Post anonymous.</span>
         </div>
         <div id="emoticons">
           <span class="emoticons" tal:repeat="smileydata view/get_smiley_data">
@@ -264,7 +264,7 @@
                  />
         </div>
       </form>
-    </div>
+    </div>    
     <div class="submit"
          tal:condition="not:view/can_post">
       <form method="post"
@@ -281,6 +281,8 @@
                />
       </form>
     </div>
-    <a name="bottom"></a>
+
+    <a name="bottom"></a>    
   </div>
+
 </tal:block>

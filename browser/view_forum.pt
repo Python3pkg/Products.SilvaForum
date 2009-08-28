@@ -51,7 +51,7 @@
           <input class="button-login" 
                  type="submit" 
                  name="login" 
-                 value="logout" 
+                 value="Logout" 
                  i18n:attributes="value" />
         </form>
         <form method="post"
@@ -60,7 +60,7 @@
           <input class="button-edit-profile"
 		 type="submit" 
                  name="login" 
-                 value="edit profile"
+                 value="Edit profile"
                  i18n:attributes="value"
                  onclick="userWindow = window.open('service_resources/Silva/edit_member', 'userWindow', 'width=450, height=250, resizable=no');
                           userWindow.focus();
@@ -193,7 +193,7 @@
                 <input class="button-post;"
                        name="post_submit"
                        type="submit" 
-                       value="post topic" 
+                       value="Post topic" 
                        i18n:attributes="value" />
                 <!-- todd says 'i don't know, man' about the next bit of code,
                      and i tend to fully agree... it works though, both in js
@@ -204,7 +204,7 @@
                   <input class="button-clear" 
                          name="clear"
                          type="button" 
-                         value="clear"
+                         value="Clear"
                          i18n:attributes="value"
                          tal:attributes="onclick string:document.location='${context/absolute_url}'" />
                 </a>
@@ -283,7 +283,7 @@
                  id="anonymous"
                  name="anonymous"
                  tal:attributes="value python:request.form.get('anonymous')" />
-          <span i18n:translate="">Do not display my name with the message.</span>
+           <span i18n:translate="">Post anonymous.</span>
         </div>
         <div id="emoticons">
           <span class="emoticon" tal:repeat="smileydata view/get_smiley_data">
@@ -298,12 +298,12 @@
           <input class="button-add-topic"
                  name="add_topic"
                  type="submit"
-                 value="add topic"
+                 value="Add topic"
                  i18n:attributes="value" />
           <input class="button-preview"
 		 name="preview"
                  type="submit"
-                 value="preview"
+                 value="Preview"
                  i18n:attributes="value" />
         </div>
       </form>
