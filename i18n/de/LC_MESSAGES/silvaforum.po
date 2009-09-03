@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: Fri Aug 28 12:33:22 2009\n"
-"PO-Revision-Date: 2009-08-28 15:24+0100\n"
+"PO-Revision-Date: 2009-09-03 16:40+0100\n"
 "Last-Translator: Wim Boucquaert <wim@infrae.com>\n"
 "Language-Team: Silva i18n team <walco@infrae.com>\n"
 "MIME-Version: 1.0\n"
@@ -114,7 +114,7 @@ msgstr "Bitte stellen Sie einen Betreff für das neue Thema zur Verfügung."
 #: /browser/view_forum.pt:286
 #: /browser/view_topic.pt:239
 msgid "Post anonymous."
-msgstr "Anonym verschickt."
+msgstr "Poste anonym."
 
 #: /browser/view_forum.pt:290
 msgid "emoticon"
@@ -247,7 +247,7 @@ msgstr "${number} Minuten"
 
 #: /schema/silvaforum-forum.xml:27
 msgid "Allow hiding the name of the creator in topics and comments."
-msgstr "Es ist erlaubt, den Namen des Erstellers in Themen und Kommentaren nicht anzuzeigen."
+msgstr "Erlaube, den Namen des Erstellers in Themen und Kommentaren zu verbergen."
 
 #: /schema/silvaforum-forum.xml:29
 msgid "anonymous posting allowed"
@@ -255,7 +255,7 @@ msgstr "Anonyme Einträge sind erlaubt."
 
 #: /schema/silvaforum-item.xml:27
 msgid "Hide the name of the creator in the public view."
-msgstr "Verstecke den Namen des Erstellers in der öffentlichen Ansicht."
+msgstr "Verberge den Namen des Erstellers in der öffentlichen Ansicht."
 
 #: /schema/silvaforum-item.xml:29
 msgid "Anonymous"
