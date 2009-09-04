@@ -121,7 +121,10 @@ def unconfigureMetadata(root):
     mapping.editMappings(default, tm)
 
     # Remove the metadata set specifications
-    root.service_metadata.collection.manage_delObjects(metadatasets)
+    collection = root.service_metadata.collection
+    for metadataset in metadatasets:
+        if collection._getOb(metadataset, None) is not None:
+            collection.manage_delObjects(metadataset)
 
 def is_installed(root):
     return hasattr(root.service_views, 'SilvaForum')
