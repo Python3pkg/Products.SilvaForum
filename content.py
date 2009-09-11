@@ -1,11 +1,10 @@
 # Copyright (c) 2007-2008 Infrae. All rights reserved.
 # See also LICENSES.txt
-# SilvaForum
-# Python
+# $Id$
 
 import re
 from zope import interface
-from zope.component import getMultiAdapter
+from zope.component import queryMultiAdapter
 from OFS import SimpleItem
 
 from Products.Silva import mangle
@@ -16,41 +15,32 @@ from Products.Silva.Folder import Folder
 from Products.Silva.i18n import translate as _
 
 from Products.ZCatalog.CatalogPathAwareness import CatalogPathAware
-from interfaces import IForum, ITopic, IComment
+from Products.SilvaForum.interfaces import IForum, ITopic, IComment
+
 
 class FiveViewable(object):
     """ A Comment is added to a Topic of a Forum. Usually it's added via a
-        public interface, as opposed to the Silva Management Interface. 
-        Comments are not versioned, and can be edited or deleted as needed for
-        moderation of the Forum.  
+        public interface, as opposed to the Silva Management Interface.
+        Comments are not versioned, and can be edited or deleted as needed for-
+        moderation of the Forum.
     """
 
-    # mixin to override .view()instead of using the view registry view() 
-    # uses Five
-
-    def view(self):
-        """ render the public Five view for this object
-        """
-        # if a parameter ?include is in the request, call the original view,
-        # and use it as input for the include view. When using ?include we expect
-        # that '/view' was added to the url, and it will return a page suitable
-        # for including in other documents
-        # XXX maybe we should use an adapter here?
-        result = getMultiAdapter((self, self.REQUEST), name=u'view.html')()
-        if self.REQUEST.form.has_key('include'):
-            view = getMultiAdapter((self, self.REQUEST), name=u'include.html')
-            result = view(content=result)
-        return result
-
-    preview = view
+    def view_version(self, view_type, version):
+        request = self.REQUEST
+        # Search for a five view
+        view = queryMultiAdapter(
+            (self, request), name=u'content.html')
+        if view is not None:
+            return view()
+        return super(FiveViewable, self).view_version(view_type, version)
 
 
 class ForumFolderBase(FiveViewable):
     """ A Forum can be added to your site to facilitate discussions. A Forum is
-        divided into Topics, which in turn have Comments. Users who wish to 
+        divided into Topics, which in turn have Comments. Users who wish to
         post to the Forum must be authenticated. A login box will appear if a
-        post is attempted from a public page by an unauthenticated user. 
-        Comments can be moderated in the Silva Management Interface (SMI). 
+        post is attempted from a public page by an unauthenticated user.
+        Comments can be moderated in the Silva Management Interface (SMI).
     """
 
     # Make topic or text string and id chop on character 20
@@ -131,7 +121,7 @@ class Forum(ForumFolderBase, Publication):
         topic = dict(self.objectItems()).get(id)
         if topic is None:
             # apparently zope refused to add the object, probably an id clash.
-            # for example (title, or add_topic). topic objects themselves 
+            # for example (title, or add_topic). topic objects themselves
             # have automaticly generated number parts if needed.
             raise ValueError('Reserved id: "%s"' % id)
         if anonymous:
@@ -202,7 +192,7 @@ class Topic(ForumFolderBase, Folder, CreatorMixin):
             binding = self.get_root().service_metadata.getMetadata(comment)
             binding.setValues('silvaforum-item', {'anonymous': 'yes'})
         return comment
-    
+
     def comments(self):
         """ returns an iterable of all comments
         """
@@ -233,7 +223,7 @@ class Topic(ForumFolderBase, Folder, CreatorMixin):
         # always return true to make that the object is always visible in public
         # listings
         return True
-    
+
     def number_of_comments(self):
         return len(self.objectValues('Silva Forum Comment'))
 

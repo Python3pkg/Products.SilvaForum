@@ -1,7 +1,10 @@
+# Copyright (c) 2007-2008 Infrae. All rights reserved.
+# See also LICENSES.txt
+# $Id$
+
 import re
 
 from zope.component import getMultiAdapter
-from zope.interface import implements
 
 from AccessControl import getSecurityManager, Unauthorized
 
@@ -9,7 +12,8 @@ from Products.Silva.browser.headers import Headers
 from Products.Silva import mangle
 from Products.Silva import SilvaPermissions
 from Products.SilvaForum.interfaces import IForumView, ITopicView
-from Products.SilvaForum.resources.emoticons.emoticons import emoticons, smileydata, get_alt_name
+from Products.SilvaForum.resources.emoticons.emoticons import emoticons, \
+    smileydata, get_alt_name
 from Products.SilvaForum.dtformat.dtformat import format_dt
 
 from DateTime import DateTime
@@ -17,14 +21,25 @@ from zExceptions import Redirect
 from urllib import quote
 
 from Products.SilvaForum.i18n import translate as _
+from Products.SilvaForum.interfaces import IForum, ITopic, \
+    IComment, IPostable
 from zope.i18n import translate
+
+from silva.core.views import views as silvaviews
+from five import grok
 
 minimal_add_role = 'Authenticated'
 
-class ViewBase(Headers):
+grok.templatedir('templates')
+
+
+class ViewBase(silvaviews.View):
+
+    grok.baseclass()
+
     def format_datetime(self, dt):
         return format_dt(self, dt, DateTime())
-    
+
     def render_url(self, url, **qs_params):
         if not qs_params:
             return url
@@ -122,72 +137,96 @@ class ViewBase(Headers):
         return self.context.anonymous_posting_allowed()
 
 
+class UserControls(silvaviews.ContentProvider):
+    """Login/User details.
+    """
+
+    grok.context(IPostable)
+    grok.view(ViewBase)
+
+
 class ForumView(ViewBase):
-    """ view on IForum 
-        The ForumView is a collection of topics """
+    """View for a forum.
+    """
 
-    implements(IForumView)
+    grok.context(IForum)
 
-    def update(self):
-        req = self.request
-        if (req.has_key('preview') or req.has_key('cancel') or
-                (not req.has_key('topic'))):
+    def update(self, authenticate=False, anonymous=False,
+               preview=False, cancel=False, topic=None, message=''):
+        if authenticate:
+            self.authenticate()
+
+        self.topic = unicode(topic or '', 'utf-8').strip()
+        self.message = unicode(message, 'utf-8')
+        self.anonymous = anonymous
+        self.preview = preview
+        self.preview_topic = preview and self.topic
+        self.preview_not_topic = preview and not self.topic
+
+        if (preview or cancel or topic is None):
             return
-        
+
         self.authenticate()
 
-        topic = unicode(req['topic'], 'UTF-8')
-        if not topic.strip():
-            return _('Please provide a subject')
-        
+        if not self.topic:
+            self.message = _('Please provide a subject')
+            return
+
         try:
-            self.context.add_topic(topic, req.get('anonymous', False))
+            self.context.add_topic(self.topic, anonymous)
         except ValueError, e:
-            return str(e)
+            self.message = str(e)
+            return
         url = self.context.absolute_url()
         msg = 'Topic added'
-        req.response.redirect('%s?message=%s' % (
-                                self.context.absolute_url(),
-                                quote(msg)))
-        return ''
+        self.response.redirect(
+            '%s?message=%s' % (
+                self.context.absolute_url(),
+                quote(msg)))
 
 
 class TopicView(ViewBase):
-    """ view on ITopic 
-        The TopicView is a collection of comments """
+    """ View on a Topic. The TopicView is a collection of comments.
+    """
 
-    implements(ITopicView)
+    grok.context(ITopic)
 
-    def update(self):
-        req = self.request
-        
-        if (req.has_key('preview') or req.has_key('cancel') or
-                (not req.has_key('title') and not req.has_key('text'))):
+    def update(self, authenticate=False, anonymous=False, preview=False,
+               cancel=False, title=None, text=None, message=''):
+
+        self.title = unicode(title or '', 'UTF-8').strip()
+        self.text = unicode(text or '', 'UTF-8').strip()
+        self.message = unicode(message, 'utf-8')
+        self.anonymous = anonymous
+        self.preview = preview
+
+        if (preview or cancel or (text is None and title is None)):
             return
 
         self.authenticate()
-        
-        title = unicode(req['title'], 'UTF-8')
-        text = unicode(req['text'], 'UTF-8')
-        if not title.strip() and not text.strip():
-            return _('Please fill in one of the two fields.')
+
+        if not title and not text:
+            self.message = _('Please fill in one of the two fields.')
+            return
 
         try:
             comment = self.context.add_comment(
-                title, text, req.get('anonymous', False))
+                self.title, self.text, anonymous)
         except ValueError, e:
-            return str(e)
+            self.message = str(e)
+            return
 
         msg = _('Comment added')
-        numitems = self.context.number_of_comments()
+        num_items = self.context.number_of_comments()
 
         url = self.render_url(self.context.absolute_url(),
                               message=msg,
-                              batch_start=self.get_last_batch_start(numitems))
+                              batch_start=self.get_last_batch_start(num_items))
 
-        req.response.redirect('%s#bottom' % url)
-        return ''
+        self.response.redirect('%s#bottom' % url)
+
 
 class CommentView(ViewBase):
-    pass
+
+    grok.context(IComment)
 

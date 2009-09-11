@@ -1,10 +1,8 @@
 <tal:block xmlns:i18n="http://xml.zope.org/namespaces/i18n"
            i18n:domain="silvaforum">
   <div class="forum"
-       tal:define="
-                   dummy view/set_content_type_and_nocache;
-                   message python:view.update() or request.get('message');
-                   topics context/topics;
+       tal:define="topics context/topics;
+                   here_url context/absolute_url;
                    numitems python:len(topics);
                    batch_size context/topic_batch_size;
                    batch python:context.service_views.Silva.getBatch(topics, size=batch_size, orphan=0);
@@ -37,41 +35,10 @@
     <h2 tal:content="here/get_title">
       forum title
     </h2>
-    <tal:if condition="view/can_post">
-      <div class="controls"
-           metal:define-macro="user_controls">
-        <h6 i18n:translate="">Forum user controls</h6>
-        <form method="post"
-              action="#"
-              tal:attributes="action string:${context/absolute_url}/service_members/logout">
-          <input type="hidden" 
-                 name="came_from" 
-                 value="#"
-                 tal:attributes="value context/absolute_url" />
-          <input class="button-login" 
-                 type="submit" 
-                 name="login" 
-                 value="Logout" 
-                 i18n:attributes="value" />
-        </form>
-        <form method="post"
-              action="#"
-              tal:attributes="action string:${context/absolute_url}/service_resources/Silva/edit_member">
-          <input class="button-edit-profile"
-		 type="submit" 
-                 name="login" 
-                 value="Edit profile"
-                 i18n:attributes="value"
-                 onclick="userWindow = window.open('service_resources/Silva/edit_member', 'userWindow', 'width=450, height=250, resizable=no');
-                          userWindow.focus();
-                          return false;" />
-        </form>
-      </div>
-    </tal:if>
-    <div class="feedback" 
-         tal:condition="message"
-	 >
-      <span tal:content="message" i18n:translate="">message</span>
+    <tal:usercontrols tal:replace="structure provider:usercontrols" />
+    <div class="feedback"
+         tal:condition="view/message">
+      <span tal:content="view/message" i18n:translate="">message</span>
     </div>
 
     <metal:def define-macro="pagination">
@@ -119,7 +86,7 @@
                 </tal:block>
                 </a>&nbsp;
               </div>
-              <div class="float-right" 
+              <div class="float-right"
 		   style="width:8em; text-align:right"
                    tal:define="next_batch_url python:view.get_batch_next_link(batch.start-1, numitems);
                                lastlink python:view.get_batch_last_link(batch.start-1, numitems);
@@ -140,8 +107,7 @@
                                      width image/width;
                                      height image/height;" />
               </a>
-              <a href="lastbatch"
-                 accesskey="l"
+              <a href="#" accesskey="l"
                  title="Go to the last result listing: alt-l"
                  i18n:attributes="title"
                  tal:condition="lastlink"
@@ -158,7 +124,7 @@
               <tal:block i18n:translate="">
                 Showing results <tal:block i18n:name="start" replace="batch/start" />
                 to <tal:block i18n:name="end" replace="batch/end" />
-                of <tal:block i18n:name="total" replace="python:numitems" />
+                of <tal:block i18n:name="total" replace="numitems" />
               </tal:block>
             </td>
           </tr>
@@ -166,8 +132,7 @@
       </table>
     </metal:def>
     <table class="forum-content-table"
-           tal:define="have_preview python:request.get('preview') and request.get('topic')"
-           tal:condition="python: have_preview or numitems">
+           tal:condition="python: view.preview_topic or numitems">
       <thead>
         <tr tal:condition="batch">
           <th class="align-left" i18n:translate="">Topics</th>
@@ -177,37 +142,29 @@
         </tr>
       </thead>
       <tbody>
-        <tal:preview condition="have_preview">
+        <tal:preview tal:condition="view/preview_topic">
           <tr class="preview">
             <td class="topic">
-              <p tal:content="structure python:view.format_text(request.form['topic'])" />
-              <form method="post"
-                    id="previewform"
-                    tal:condition="request/form/preview | nothing"
-                    tal:attributes="action context/absolute_url">
-                <input class="button-preview" 
-		       type="hidden" 
-		       name="topic" 
-		       id="preview_topic"
-                       tal:attributes="value python:unicode(request.form['topic'], 'UTF-8')" />
-                <input class="button-post;"
-                       name="post_submit"
-                       type="submit" 
-                       value="Post topic" 
-                       i18n:attributes="value" />
+              <p tal:content="structure python:view.format_text(view.topic)" />
+              <form method="post" id="previewform"
+                    tal:attributes="action here_url">
                 <!-- todd says 'i don't know, man' about the next bit of code,
                      and i tend to fully agree... it works though, both in js
                      and non-js situations, and looks consistent
                      (so let's not think about it too much, i suggest ;)
                 -->
-                <a tal:attributes="href context/absolute_url">
-                  <input class="button-clear" 
-                         name="clear"
-                         type="button" 
-                         value="Clear"
+                <a tal:attributes="href here_url">
+                  <input class="button-clear" type="button"
+                         name="clear" value="Clear"
                          i18n:attributes="value"
-                         tal:attributes="onclick string:document.location='${context/absolute_url}'" />
+                         tal:attributes="onclick string:document.location='${here_url}'" />
                 </a>
+                <input class="button-preview" type="hidden"
+		               name="topic" id="preview_topic"
+                       tal:attributes="value view/topic" />
+                <input class="button-post;" name="post_submit"
+                       type="submit" value="Post topic"
+                       i18n:attributes="value" />
               </form>
             </td>
             <td class="datetime">
@@ -223,7 +180,7 @@
         </tal:preview>
         <tal:loop repeat="topic batch">
           <tal:def define="iterate repeat/topic/odd">
-            <tr tal:attributes="class python: iterate and 'even' or 'odd'">
+            <tr tal:attributes="class python:iterate and 'even' or 'odd'">
               <td class="topic">
                 <p>
                   <a tal:attributes="href topic/url"
@@ -253,73 +210,49 @@
         </tal:loop>
       </tbody>
     </table>
-    <table metal:use-macro="template/macros/pagination">
+    <table metal:use-macro="view/macros/pagination">
       batching nav bar
     </table>
     <tal:if condition="view/can_post">
-      <form id="forum-thread-form"
-            method="post"
-            tal:attributes="action context/absolute_url">
+      <form id="forum-thread-form" method="post" action="#"
+            tal:attributes="action here_url">
         <h3 i18n:translate="">Post a new topic</h3>
         <h5 i18n:translate="">Subject</h5>
         <div class="feedback"
-             tal:condition="python:request.get('preview') and request.get('text') and not request.get('topic')">
+             tal:condition="view/preview_not_topic">
           <span class="warning"
-                i18n:translate="">Please provide a subject for the new topic.</span>
+                i18n:translate="">Please provide a subject for the new topic.
+          </span>
         </div>
         <div class="subject-input">
-          <input class="store"
-                 type="text"
-                 id="topic"                 
-                 name="topic"
-                 size="80"
-                 tal:attributes="value python:unicode(request.form.get('topic', ''), 'UTF-8')"
-                 />
+          <input class="store" type="text"
+                 id="topic" name="topic" size="80"
+                 tal:attributes="value view/topic" />
         </div>
         <div class="anonymous-input"
              tal:condition="view/anonymous_posting_allowed">
-          <input class="store"
-                 type="checkbox"
-                 id="anonymous"
-                 name="anonymous"
-                 tal:attributes="value python:request.form.get('anonymous')" />
+          <input class="store" type="checkbox"
+                 id="anonymous" name="anonymous"
+                 tal:attributes="value view/anonymous" />
            <span i18n:translate="">Post anonymous.</span>
         </div>
         <div id="emoticons">
           <span class="emoticon" tal:repeat="smileydata view/get_smiley_data">
-            <img onclick="add_smiley(this.title)"
-                 alt="emoticon"
+            <img onclick="add_smiley(this.title)" alt="emoticon"
                  i18n:attributes="alt"
-                 tal:attributes="title smileydata/text; src smileydata/href"
-                 />
+                 tal:attributes="title smileydata/text;
+                                 src smileydata/href" />
           </span>
         </div>
         <div class="submit">
-          <input class="button-add-topic"
-                 name="add_topic"
-                 type="submit"
-                 value="Add topic"
+          <input class="button-add-topic" name="add_topic"
+                 type="submit" value="Add topic"
                  i18n:attributes="value" />
-          <input class="button-preview"
-		 name="preview"
-                 type="submit"
-                 value="Preview"
+          <input class="button-preview" name="preview"
+                 type="submit" value="Preview"
                  i18n:attributes="value" />
         </div>
       </form>
     </tal:if>
-    <div tal:condition="not:view/can_post">
-      <form method="post"
-            action="#"
-            tal:attributes="action string:${context/absolute_url}/view.html/authenticate">
-        <input type="hidden" name="came_from" value="#"
-               tal:attributes="value context/absolute_url" />
-        <input class="button-login"
-	       type="submit" 
-               name="login" 
-               value="Login to post a new topic"
-               i18n:attributes="value" />
-      </form>
-    </div>
   </div>
 </tal:block>

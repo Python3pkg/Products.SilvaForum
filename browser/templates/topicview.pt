@@ -1,14 +1,11 @@
 <tal:block xmlns:i18n="http://xml.zope.org/namespaces/i18n"
            i18n:domain="silvaforum">
   <div class="forum"
-       tal:define="dummy view/set_content_type_and_nocache;
-                   message python:view.update() or request.get('message');
-                   comments context/comments;
+       tal:define="comments context/comments;
                    numitems python:len(comments);
+                   here_url context/absolute_url;
                    batch_size context/comment_batch_size;
-                   batch python:context.service_views.Silva.getBatch(comments, size=batch_size, orphan=0);
-                   included python:request.form.has_key('include');"
-       >
+                   batch python:context.service_views.Silva.getBatch(comments, size=batch_size, orphan=0)">
     <script type="text/javascript">
       // <![CDATA[
       window.focussed_form_field = null;
@@ -31,33 +28,23 @@
       };
       // ]]>
     </script>
-    <h2 tal:condition="not: included">
+    <h2>
       <a tal:content="here/aq_parent/get_title"
          tal:attributes="href here/aq_parent/absolute_url">
         forum title
       </a>
     </h2>
-    <tal:if condition="view/can_post">
-      <metal:use use-macro="context/view_forum.pt/macros/user_controls"/>
-    </tal:if>
-    <h4 tal:condition="included">
-      <tal:if condition="python:numitems == 1">
-        <tal:var replace="numitems"/> Reader comment
-      </tal:if>
-      <tal:if condition="python:numitems > 1">
-        <tal:var replace="numitems"/> Reader comments
-      </tal:if>
-    </h4>
-    <div class="feedback"
-         tal:condition="message"
-	 >
-      <span tal:content="message" i18n:translate="">message</span>
+    <tal:usercontrols tal:replace="structure provider:usercontrols" />
+    <div class="feedback" tal:condition="view/message">
+      <span tal:content="view/message" i18n:translate="">message</span>
     </div>
-    <table metal:use-macro="context/view_forum.pt/macros/pagination">
+    <!--
+    <table metal:use-macro="context//macros/pagination">
       batching nav bar
     </table>
+    -->
     <table class="forum-content-table">
-      <tal:block condition="not: included">
+      <tal:block>
         <thead>
           <tr>
             <th class="align-left" i18n:translate="">Author</th>
@@ -66,7 +53,7 @@
         </thead>
       </tal:block>
       <tbody>
-        <tal:block condition="not: included">
+        <tal:block>
           <tr class="topic">
             <td class="author">
               <p>
@@ -76,10 +63,6 @@
             </td>
             <td class="comment">
               <p class="datetime">
-                <span class="icon" 
-                      tal:replace="nothing">
-                  <img tal:replace="structure python:here.render_icon(here)"/>
-                </span>
                 <tal:date content="python:view.format_datetime(context.get_creation_datetime())">
                   datetime
                 </tal:date>
@@ -99,7 +82,7 @@
             <tr tal:attributes="class python: iterate and 'even' or 'odd'">
               <td class="author">
                 <p>
-                  <span class="author" 
+                  <span class="author"
                         tal:content="comment/creator">author</span>
                   <a title="Link to this message"
                      i18n:attributes="title"
@@ -108,12 +91,10 @@
                 </p>
               </td>
               <td class="comment">
-                <tal:block condition="not:included">
                   <p class="permalink"
                      tal:replace="nothing" comment="for the archive">
                     <a tal:attributes="href comment/url">permalink</a>
                   </p>
-                </tal:block>
                 <p class="datetime">
                   <span class="datetime">
                     <tal:date tal:content="python:view.format_datetime(comment['creation_datetime'])"
@@ -147,50 +128,44 @@
                 subject
               </h5>
               <p tal:content="structure python:view.format_text(request.form['text'])"></p>
-              <form method="post"
-                    id="previewform"
+              <form method="post" id="previewform" action="#"
                     enctype="application/x-www-form-urlencoded; charset=UTF-8"
                     tal:condition="request/form/preview | nothing"
-                    tal:attributes="action context/absolute_url">
-                <input type="hidden" name="include"
-                       tal:condition="request/form/include|nothing"
-                       tal:attributes="value request/form/include"/>
-                <input type="hidden" name="title" id="preview_title"
-                       tal:attributes="value python:unicode(request.form['title'], 'UTF-8')" />
-                <input type="hidden" name="text" id="preview_text"
-                       tal:attributes="value python:unicode(request.form['text'], 'UTF-8')" />
-                <input class="button-post-comment"
-                       name="post_comment"
-                       type="submit" 
-                       value="post comment"
-                       i18n:attributes="value" />
+                    tal:attributes="action here_url">
                 <!-- todd says 'i don't know, man' about the next bit of code,
                      and i tend to fully agree... it works though, both in js
                      and non-js situations, and looks consistent
                      (so let's not think about it too much, i suggest ;)
-                  -->
-                <a tal:attributes="href context/absolute_url">
-                  <input class="button-edit-comment"
-                         name="edit_comment"
-                         type="button" 
-                         value="edit comment"
+                -->
+                <a tal:attributes="href here_url">
+                  <input class="button-clear" type="button"
+                         name="clear" value="Clear"
                          i18n:attributes="value"
-                         onclick="history.go(-1);return false;"/></a>
+                         tal:attributes="onclick string:document.location='${here_url}'" />
+                </a>
+                <input type="hidden" name="title" id="preview_title"
+                       tal:attributes="value view/title" />
+                <input type="hidden" name="text" id="preview_text"
+                       tal:attributes="value view/text" />
+                <input class="button-post-comment" type="submit"
+                       name="post_comment"
+                       value="post comment"
+                       i18n:attributes="value" />
               </form>
             </td>
           </tr>
         </tal:preview>
       </tbody>
     </table>
+    <!--
     <table metal:use-macro="context/view_forum.pt/macros/pagination">
       batching nav bar
-    </table>
+    </table>-->
     <tal:if condition="view/can_post">
       <div class="submit"
            tal:condition="python:not request.get('preview')">
-        <input class="button-add-comment"
+        <input class="button-add-comment" type="button"
                name="add_comment"
-               type="button" 
                value="add comment"
                i18n:attributes="value"
                tal:define="show_form python:numitems and 'block' or 'none'"
@@ -211,80 +186,46 @@
                />
         <h3 i18n:translate="">Post a new comment</h3>
         <h5 i18n:translate="">Subject</h5>
-        <input class="store"
-               type="text"
-               name="title"
-               id="title"
-               size="80"
+        <input class="store" type="text"
+               name="title" id="title" size="80"
                onfocus="window.focussed_form_field = this"
-               tal:attributes="value python:unicode(request.form.get('title', ''), 'UTF-8')"
+               tal:attributes="value view/title"
                />
         <h5 i18n:translate="">Message</h5>
-        <textarea class="store"
-                  name="text"
+        <textarea class="store" name="text"
                   id="text"
-                  rows="2"
-                  cols="68"
+                  rows="2" cols="68"
                   onfocus="window.focussed_form_field = this"
-                  tal:content="python:unicode(request.get('text', ''), 'UTF-8')"
-                  tal:attributes="rows python:included and 2 or 10">
+                  tal:content="view/text"
+                  tal:attributes="rows python:10">
         </textarea>
         <div class="anonymous-input"
              tal:condition="view/anonymous_posting_allowed">
-          <input class="store"
-                 type="checkbox"
-                 id="anonymous"
-                 name="anonymous"
-                 tal:attributes="value python:request.form.get('anonymous')" />
+          <input class="store" type="checkbox"
+                 id="anonymous" name="anonymous"
+                 tal:attributes="value view/anonymous" />
           <span i18n:translate="">Post anonymous.</span>
         </div>
         <div id="emoticons">
-          <span class="emoticons" tal:repeat="smileydata view/get_smiley_data">
+          <span class="emoticons"
+                tal:repeat="smileydata view/get_smiley_data">
             <img onclick="add_smiley(this.title)"
                  alt="add emoticon"
-                 tal:attributes="title smileydata/text; src smileydata/href"
-                 />
+                 tal:attributes="title smileydata/text;
+                                 src smileydata/href" />
           </span>
         </div>
-        <input type="hidden" name="include"
-               tal:condition="request/form/include|nothing"
-               tal:attributes="value request/form/include"
-               />
         <div class="submit">
-          <input class="button-post"
-                 type="submit"
-                 name="submit"
-                 value="post comment"
-                 i18n:attributes="value"
-                 /> 
-          <input class="button-preview"
-		 type="submit"
-                 name="preview"
-                 value="preview"
-                 i18n:attributes="value"
-                 />
+          <input class="button-post" type="submit"
+                 name="submit" value="post comment"
+                 i18n:attributes="value" />
+          <input class="button-preview" type="submit"
+                 name="preview" value="preview"
+                 i18n:attributes="value" />
         </div>
       </form>
     </div>
-    
-    <div class="submit"
-         tal:condition="not:view/can_post">
-      <form method="post"
-            action="#"
-            tal:attributes="action string:${context/absolute_url}/view.html/authenticate">
-        <input type="hidden" name="came_from" value="#"
-               tal:attributes="value context/absolute_url"
-               />
-        <input class="button-login"
-	       type="submit" 
-               name="login" 
-               value="Login to post a new comment"
-               i18n:attributes="value"
-               />
-      </form>
-    </div>
-    <a name="bottom"></a>
-    
+
   </div>
 
 </tal:block>
