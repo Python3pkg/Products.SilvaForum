@@ -23,7 +23,8 @@
                i18n:attributes="value" />
       </form>
       <form method="post" action="#"
-            tal:attributes="action string:${here_url}/service_resources/Silva/edit_member">
+            tal:attributes="action string:${here_url}/service_resources/Silva/edit_member"
+            tal:condition="provider/can_edit_profile">
         <input class="button-edit-profile" type="submit"
                name="edit-profile" value="Edit profile"
                i18n:attributes="value"

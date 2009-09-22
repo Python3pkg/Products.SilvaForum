@@ -11,7 +11,8 @@ from AccessControl import getSecurityManager, Unauthorized
 from Products.Silva.browser.headers import Headers
 from Products.Silva import mangle
 from Products.Silva import SilvaPermissions
-from Products.SilvaForum.interfaces import IForumView, ITopicView
+from Products.Silva.interfaces import IEditableMember
+
 from Products.SilvaForum.resources.emoticons.emoticons import emoticons, \
     smileydata, get_alt_name
 from Products.SilvaForum.dtformat.dtformat import format_dt
@@ -143,6 +144,13 @@ class UserControls(silvaviews.ContentProvider):
 
     grok.context(IPostable)
     grok.view(ViewBase)
+
+    def can_edit_profile(self):
+        userid = getSecurityManager().getUser().getId()
+        # No other nice way to get the member object from here.
+        member = self.context.aq_inner.service_members.get_member(
+            userid, location=self.context.aq_inner)
+        return IEditableMember.providedBy(member)
 
 
 class ForumView(ViewBase):
