@@ -217,7 +217,7 @@
       <form id="forum-thread-form" method="post" action="#"
             tal:attributes="action here_url">
         <h3 i18n:translate="">Post a new topic</h3>
-        <h5 i18n:translate="">Subject</h5>
+        <label for="topic" i18n:translate="">Subject</label>
         <div class="feedback"
              tal:condition="view/preview_not_topic">
           <span class="warning"
