@@ -195,6 +195,8 @@ class TopicView(ViewBase):
 
     def update(self, authenticate=False, anonymous=False, preview=False,
                cancel=False, title=None, text=None, message=''):
+        if authenticate:
+            self.authenticate()
 
         self.title = unicode(title or '', 'UTF-8').strip()
         self.text = unicode(text or '', 'UTF-8').strip()
