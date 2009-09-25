@@ -207,6 +207,9 @@ class TopicView(ViewBase):
         self.message = unicode(message, 'utf-8')
         self.anonymous = anonymous
         self.preview = preview
+        self.preview_title_text = preview and self.title and self.text
+        self.preview_not_title = preview and not self.title
+        self.preview_not_text = preview and not self.text
 
         if (preview or cancel or (text is None and title is None)):
             return

@@ -224,11 +224,9 @@
                 i18n:translate="">Please provide a subject for the new topic.
           </span>
         </div>
-        <div class="subject-input">
-          <input class="store" type="text"
-                 id="topic" name="topic" size="80"
-                 tal:attributes="value view/topic" />
-        </div>
+        <input class="store" type="text"
+               id="topic" name="topic" size="80"
+               tal:attributes="value view/topic" />
         <div class="anonymous-input"
              tal:condition="view/anonymous_posting_allowed">
           <input class="store" type="checkbox"

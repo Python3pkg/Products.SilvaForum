@@ -58,7 +58,12 @@
             <td class="author">
               <p>
                 <span class="author"
-                      tal:content="python:context.sec_get_creator_info().fullname()">author</span> <span i18n:translate="">posted:</span>
+                      tal:content="python:context.sec_get_creator_info().fullname()">
+                  author
+                </span>
+                <span i18n:translate="">
+                  posted:
+                </span>
               </p>
             </td>
             <td class="comment">
@@ -115,22 +120,19 @@
             </tr>
           </tal:def>
         </tal:loop>
-        <tal:preview condition="python:request.get('preview') and (request.get('title') or request.get('text'))">
+        <tal:preview condition="view/preview_title_text">
           <tr class="preview">
             <td class="author">
               <p><span class="author">Preview</span></p>
             </td>
-            <td class="comment"
-                style="padding-bottom:2px">
-              <h5 tal:define="subject python:unicode(request.form['title'], 'UTF-8')"
-                  tal:condition="subject"
-                  tal:content="structure python:view.format_text(request.form['title'])">
-                subject
+            <td class="comment" style="padding-bottom:2px">
+              <h5 tal:condition="view/title"
+                  tal:content="structure python:view.format_text(view.title)">
+                title
               </h5>
-              <p tal:content="structure python:view.format_text(request.form['text'])"></p>
+              <p tal:content="structure python:view.format_text(view.text)"></p>
               <form method="post" id="previewform" action="#"
                     enctype="application/x-www-form-urlencoded; charset=UTF-8"
-                    tal:condition="request/form/preview | nothing"
                     tal:attributes="action here_url">
                 <!-- todd says 'i don't know, man' about the next bit of code,
                      and i tend to fully agree... it works though, both in js
@@ -148,8 +150,7 @@
                 <input type="hidden" name="text" id="preview_text"
                        tal:attributes="value view/text" />
                 <input class="button-post-comment" type="submit"
-                       name="post_comment"
-                       value="post comment"
+                       name="post_comment" value="post comment"
                        i18n:attributes="value" />
               </form>
             </td>
@@ -163,12 +164,11 @@
     </table>-->
     <tal:if condition="view/can_post">
       <div class="submit"
-           tal:condition="python:not request.get('preview')">
+           tal:condition="not:view/preview">
         <input class="button-add-comment" type="button"
-               name="add_comment"
-               value="add comment"
+               name="add_comment" value="add comment"
                i18n:attributes="value"
-               tal:define="show_form python:numitems and 'block' or 'none'"
+               tal:define="show_form python:view.preview and 'none' or 'block'"
                tal:attributes="style string:display:${show_form}"
                onclick="document.getElementById('form-toggle').style.display='block'; this.style.display='none';"
                />
@@ -176,7 +176,7 @@
     </tal:if>
     <div id="form-toggle"
          tal:condition="view/can_post"
-         tal:define="show_form python:numitems and 'none' or 'block'"
+         tal:define="show_form python:view.preview and 'block' or 'none'"
          tal:attributes="style string:display:${show_form}">
       <form id="forum-comment-form"
             method="post">
@@ -186,12 +186,24 @@
                />
         <h3 i18n:translate="">Post a new comment</h3>
         <h5 i18n:translate="">Subject</h5>
+        <div class="feedback"
+             tal:condition="view/preview_not_title">
+          <span class="warning"
+                i18n:translate="">Please provide a subject for the new comment.
+          </span>
+        </div>
         <input class="store" type="text"
                name="title" id="title" size="80"
                onfocus="window.focussed_form_field = this"
                tal:attributes="value view/title"
                />
         <h5 i18n:translate="">Message</h5>
+        <div class="feedback"
+             tal:condition="view/preview_not_text">
+          <span class="warning"
+                i18n:translate="">Please provide a message for the new comment.
+          </span>
+        </div>
         <textarea class="store" name="text"
                   id="text"
                   rows="2" cols="68"

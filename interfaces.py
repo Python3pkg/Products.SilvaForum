@@ -7,22 +7,6 @@ from zope.interface import Interface
 from Products.Silva.interfaces import IContent, IContainer
 
 
-class IPostableView(Interface):
-    """Generic view interface on item where you can post.
-    """
-
-    def authenticate():
-        """Unauthorized: should redirect you to the login page.
-        """
-
-class IForumView(IPostableView):
-    """View for forum.
-    """
-
-class ITopicView(IPostableView):
-    """View for a topic.
-    """
-
 class IPostable(IContent):
     """ Marker interface for content where you can post content.
     """
