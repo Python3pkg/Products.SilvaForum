@@ -17,7 +17,7 @@ class IForum(IPostable):
         interfaces
     """
 
-    def add_topic(topic):
+    def add_topic(topic, anonymous=False):
         """ Add a topic
         """
 
@@ -30,8 +30,8 @@ class ITopic(IPostable):
     """ A topic in a forum
     """
 
-    def add_comment(comment):
-        """ Add a comment
+    def add_comment(title, text, anonymous=False):
+        """ Add a comment.
         """
 
     def comments():

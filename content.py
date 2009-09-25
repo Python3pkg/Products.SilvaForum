@@ -76,6 +76,15 @@ class ForumFolderBase(FiveViewable):
             id = '%s_%s' % (id, highest)
         return id
 
+    def is_cacheable(self):
+        return False
+
+    def get_content(self):
+        return self
+
+    def content_url(self):
+        return self.get_content().absolute_url()
+
     def anonymous_posting_allowed(self):
         return self.get_forum().get_metadata_element(
             'silvaforum-forum', 'anonymous_posting') == 'yes'
@@ -256,4 +265,7 @@ class Comment(
 
     def is_published(self):
         return False # always allow removal of this object from the SMI
+
+    def is_cacheable(self):
+        return True
 

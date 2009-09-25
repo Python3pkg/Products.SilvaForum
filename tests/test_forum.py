@@ -2,7 +2,9 @@
 # $Id$
 
 from zope.component import getMultiAdapter
+from zope.interface.verify import verifyObject
 
+from Products.SilvaForum import interfaces
 from Products.Silva.tests import SilvaTestCase
 
 from DateTime.DateTime import DateTime
@@ -40,6 +42,8 @@ class ForumTest(SilvaForumTestCase):
             self.root.service_metadata.getCollection().objectIds())
 
     def test_topics(self):
+        self.failUnless(verifyObject(interfaces.IForum, self.forum))
+
         self.assertEquals(0, len(self.forum.topics()))
 
         self.topic1 = self.addObject(self.forum, 'Topic', 'topic1',
@@ -124,6 +128,8 @@ class TopicTest(SilvaForumTestCase):
             self.forum, 'Topic', 'topic', title='Topic', product='SilvaForum')
 
     def test_comments(self):
+        self.failUnless(verifyObject(interfaces.ITopic, self.topic))
+
         self.assertEquals(0, len(self.topic.comments()))
 
         self.comment1 = self.addObject(
@@ -232,6 +238,8 @@ class CommentTest(SilvaForumTestCase):
             title='Comment', product='SilvaForum')
 
     def test_comment(self):
+        self.failUnless(verifyObject(interfaces.IComment, self.comment))
+
         self.assertEquals('Comment', self.comment.get_title())
         self.assertEquals('', self.comment.get_text())
 
