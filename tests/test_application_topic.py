@@ -64,6 +64,15 @@ class TopicFunctionalTestCase(SilvaTestCase.SilvaFunctionalTestCase):
         self.failUnless("New Comment" in browser.contents)
         self.failUnless("It's about a product for forum" in browser.contents)
 
+        browser.getLink("posted").click()
+        self.assertEqual(
+            browser.url,
+            "http://nohost/root/forum/Test_Topic/New_Comment")
+        browser.getLink("Up to topic...").click()
+        self.assertEqual(
+            browser.url,
+            "http://nohost/root/forum/Test_Topic")
+
         # And you can logout to leave.
         self.assertRaises(urllib2.HTTPError,
             browser.getControl('Logout').click)
