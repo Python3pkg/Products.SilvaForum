@@ -50,6 +50,8 @@ class ForumFunctionalTestCase(SilvaTestCase.SilvaFunctionalTestCase):
         browser.getControl("Subject").value = "New Test Topic"
         browser.getControl("Add topic").click()
 
+        self.failUnless("Topic added" in browser.contents)
+
         # And now it's there
         self.failUnless("New Test Topic" in browser.contents)
         browser.getLink("New Test Topic").click()
@@ -99,7 +101,7 @@ class ForumFunctionalTestCase(SilvaTestCase.SilvaFunctionalTestCase):
                             in browser.contents)
 
     def test_forum_preview_and_post(self):
-        """Add a topic, preview and post it.
+        """Enter a topic, preview and post it.
         """
         silva_browser = SilvaBrowser.SilvaBrowser()
         silva_browser.login()
@@ -115,10 +117,14 @@ class ForumFunctionalTestCase(SilvaTestCase.SilvaFunctionalTestCase):
         browser.getControl("Subject").value = "New Test Previewed Topic"
         browser.getControl("Preview").click()
 
+        self.failIf("Topic added" in browser.contents)
+
         # Now we still have the value in the field and we post it
         self.assertEqual(browser.getControl("Subject").value,
                          "New Test Previewed Topic")
         browser.getControl("Post topic").click()
+
+        self.failUnless("Topic added" in browser.contents)
 
         # And it's there
         self.failUnless("New Test Previewed Topic" in browser.contents)

@@ -4,6 +4,10 @@ History
 SilvaForum 0.4 (unreleased)
 ---------------------------
 
+- Refactor all the views, and use silva.core.views now.
+
+- Add functional tests.
+
 SilvaForum 0.3.2 (2009-02-09)
 -----------------------------
 

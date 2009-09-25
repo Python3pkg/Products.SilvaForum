@@ -213,7 +213,7 @@ class TopicView(ViewBase):
         self.authenticate()
 
         if not title and not text:
-            self.message = _('Please fill in one of the two fields.')
+            self.message = _('Please provide a title and a text')
             return
 
         try:

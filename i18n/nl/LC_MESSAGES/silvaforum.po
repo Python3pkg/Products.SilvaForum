@@ -1,7 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: SilvaForum trunkPOT-Creation-Date: Thu Oct 30 15:28:14 2008\n"
-"POT-Creation-Date: Fri Aug 28 12:33:22 2009\n"
+"Project-Id-Version: SilvaForum trunkPOT-Creation-Date: Thu Oct 30 15:28:14 "
+"2008\n"
+"POT-Creation-Date: Fri Sep 25 18:07:23 2009\n"
 "PO-Revision-Date: 2009-08-28 12:33+0100\n"
 "Last-Translator: Wim Boucquaert <wim@infrae.com>\n"
 "Language-Team: Silva Translators <eric+i18n@infrae.com>\n"
@@ -10,189 +11,165 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generated-By: zope/app/translation_files/extract.py\n"
 
-#: /browser/view.py:118
-msgid "Sorry you need to be authorized to use this forum"
-msgstr "Sorry u moet aangemeld zijn om dit forum te gebruiken"
-
-#: /browser/view.py:141
-msgid "Please provide a subject"
-msgstr "Gelieve een onderwerp in te geven"
-
-#: /browser/view.py:173
-msgid "Please fill in one of the two fields."
-msgstr "Gelieve 1 van de 2 velden in te geven"
-
-#: /browser/view.py:181
-msgid "Comment added"
-msgstr "Reactie toegevoegd"
-
-#: /browser/view_comment.pt:6
+#: /browser/templates/commentview.pt:7
 msgid "Up to topic..."
 msgstr "Terug naar onderwerp..."
 
-#: /browser/view_forum.pt:103
-msgid "See the previous result listing: alt-b"
-msgstr "De vorige resultaat lijst weergeven: alt-b"
-
-#: /browser/view_forum.pt:118
-msgid "${B}ack"
-msgstr ""
-
-#: /browser/view_forum.pt:127
-msgid "See the next result listing: alt-n"
-msgstr "De volgende resultaat lijst weergeven: alt-n"
-
-#: /browser/view_forum.pt:134
+#: /browser/templates/forumview.pt:101
 msgid "${N}ext"
 msgstr ""
 
-#: /browser/view_forum.pt:136
+#: /browser/templates/forumview.pt:103
 msgid "Next"
 msgstr "Volgende"
 
-#: /browser/view_forum.pt:143
+#: /browser/templates/forumview.pt:110
 msgid "Go to the last result listing: alt-l"
 msgstr "Ga naar de laatste resultaat lijst: alt-l"
 
-#: /browser/view_forum.pt:149
+#: /browser/templates/forumview.pt:115
 msgid "Last"
 msgstr "Laatste"
 
-#: /browser/view_forum.pt:161
+#: /browser/templates/forumview.pt:127
 msgid "Showing results ${start} to ${end} of ${total}"
 msgstr "Getoonde resultaten ${start} tot ${end} van ${total}"
 
-#: /browser/view_forum.pt:173
+#: /browser/templates/forumview.pt:138
 msgid "Topics"
 msgstr "Onderwerpen"
 
-#: /browser/view_forum.pt:174
+#: /browser/templates/forumview.pt:139
 msgid "Post date"
 msgstr "Verzend datum"
 
-#: /browser/view_forum.pt:175
-#: /browser/view_topic.pt:63
-#: /browser/view_topic.pt:93
-msgid "Author"
-msgstr "Auteur"
-
-#: /browser/view_forum.pt:176
+#: /browser/templates/forumview.pt:141
 msgid "Comments"
 msgstr "Reacties"
 
-#: /browser/view_forum.pt:193
+#: /browser/templates/forumview.pt:166
 msgid "Post topic"
 msgstr "Verzend thema"
 
-#: /browser/view_forum.pt:204
-msgid "Clear"
-msgstr "Leeg maken"
-
-#: /browser/view_forum.pt:214
+#: /browser/templates/forumview.pt:172
 msgid "Now"
 msgstr "Nu"
 
-#: /browser/view_forum.pt:217
-#: /browser/view_forum.pt:303
-msgid "Preview"
-msgstr "Voorbeeld"
-
-#: /browser/view_forum.pt:263
+#: /browser/templates/forumview.pt:220
 msgid "Post a new topic"
 msgstr "Plaats een nieuw thema"
 
-#: /browser/view_forum.pt:264
-#: /browser/view_topic.pt:213
-msgid "Subject"
-msgstr "Onderwerp"
+#: /browser/templates/forumview.pt:224
+msgid "Please provide a subject for the new topic"
+msgstr ""
 
-#: /browser/view_forum.pt:267
-msgid "Please provide a subject for the new topic."
-msgstr "Gelieve een onderwerp te geven voor het thema."
-
-#: /browser/view_forum.pt:286
-#: /browser/view_topic.pt:239
-msgid "Post anonymous."
-msgstr "Anoniem plaatsen."
-
-#: /browser/view_forum.pt:290
+#: /browser/templates/forumview.pt:240
 msgid "emoticon"
 msgstr "emoticon"
 
-#: /browser/view_forum.pt:298
+#: /browser/templates/forumview.pt:247
 msgid "Add topic"
 msgstr "Thema toevoegen"
 
-#: /browser/view_forum.pt:317
-msgid "Login to post a new topic"
-msgstr "Aanmelden om nieuwe thema te posten"
-
-#: /browser/view_forum.pt:43
-msgid "Forum user controls"
-msgstr "Forum gebruiker acties"
-
-#: /browser/view_forum.pt:51
-msgid "Logout"
-msgstr "Afmelden"
-
-#: /browser/view_forum.pt:60
-msgid "Edit profile"
-msgstr "Profiel bewerken"
-
-#: /browser/view_forum.pt:88
+#: /browser/templates/forumview.pt:55
 msgid "Go to the first result listing: alt-f"
 msgstr "Ga naar de eerste resultaat lijst: alt-f"
 
-#: /browser/view_include.pt:5
-msgid "Included Topic"
-msgstr "Inbegrepen Thema"
+#: /browser/templates/forumview.pt:70
+msgid "See the previous result listing: alt-b"
+msgstr "De vorige resultaat lijst weergeven: alt-b"
 
-#: /browser/view_topic.pt:104
-msgid "Link to this message"
-msgstr "Linken naar dit bericht"
+#: /browser/templates/forumview.pt:85
+msgid "${B}ack"
+msgstr ""
 
-#: /browser/view_topic.pt:107
-msgid "posted"
-msgstr "verzonden"
+#: /browser/templates/forumview.pt:94
+msgid "See the next result listing: alt-n"
+msgstr "De volgende resultaat lijst weergeven: alt-n"
 
-#: /browser/view_topic.pt:162
-#: /browser/view_topic.pt:254
-msgid "post comment"
-msgstr "verzend reactie"
+#: /browser/templates/topicview.pt:144 /browser/templates/forumview.pt:158
+msgid "Clear"
+msgstr "Leeg maken"
 
-#: /browser/view_topic.pt:173
-msgid "edit comment"
-msgstr "reactie bewerken"
+#: /browser/templates/topicview.pt:153 /browser/templates/topicview.pt:232
+msgid "Post comment"
+msgstr ""
 
-#: /browser/view_topic.pt:191
-msgid "add comment"
-msgstr "reactie toevoegen"
+#: /browser/templates/topicview.pt:169
+msgid "Add comment"
+msgstr ""
 
-#: /browser/view_topic.pt:212
+#: /browser/templates/topicview.pt:188
 msgid "Post a new comment"
 msgstr "Een nieuwe reactie plaatsen"
 
-#: /browser/view_topic.pt:222
+#: /browser/templates/topicview.pt:189 /browser/templates/forumview.pt:221
+msgid "Subject"
+msgstr "Onderwerp"
+
+#: /browser/templates/topicview.pt:192
+msgid "Please provide a subject for the new comment"
+msgstr ""
+
+#: /browser/templates/topicview.pt:201
 msgid "Message"
 msgstr "Bericht"
 
-#: /browser/view_topic.pt:278
-msgid "Login to post a new comment"
-msgstr "Aanmelden om nieuwe reactie te plaatsen"
+#: /browser/templates/topicview.pt:204
+msgid "Please provide a message for the new comment"
+msgstr ""
 
-#: /browser/view_topic.pt:64
+#: /browser/templates/topicview.pt:220 /browser/templates/forumview.pt:236
+msgid "Post anonymous"
+msgstr ""
+
+#: /browser/templates/topicview.pt:235 /browser/templates/forumview.pt:175
+#: /browser/templates/forumview.pt:250
+msgid "Preview"
+msgstr "Voorbeeld"
+
+#: /browser/templates/topicview.pt:50 /browser/templates/topicview.pt:81
+#: /browser/templates/forumview.pt:140
+msgid "Author"
+msgstr "Auteur"
+
+#: /browser/templates/topicview.pt:51
 msgid "Topic"
 msgstr "Thema"
 
-#: /browser/view_topic.pt:74
+#: /browser/templates/topicview.pt:64
 msgid "posted:"
 msgstr "verzonden:"
 
-#: /browser/view_topic.pt:94
+#: /browser/templates/topicview.pt:82
 msgid "Comment"
 msgstr "Reactie"
 
-#: /content.py:172
+#: /browser/templates/topicview.pt:92
+msgid "Link to this message"
+msgstr "Linken naar dit bericht"
+
+#: /browser/templates/topicview.pt:95
+msgid "posted"
+msgstr "verzonden"
+
+#: /browser/views.py:128
+msgid "Sorry you need to be authorized to use this forum"
+msgstr "Sorry u moet aangemeld zijn om dit forum te gebruiken"
+
+#: /browser/views.py:174
+msgid "Please provide a subject"
+msgstr "Gelieve een onderwerp in te geven"
+
+#: /browser/views.py:216
+msgid "Please provide a title and a text"
+msgstr ""
+
+#: /browser/views.py:226
+msgid "Comment added"
+msgstr "Reactie toegevoegd"
+
+#: /content.py:170
 msgid "anonymous"
 msgstr "anoniem"
 
@@ -201,8 +178,7 @@ msgid "Just added"
 msgstr "Net toegevoegd"
 
 # Default: "time"
-#: /dtformat/dtformat.py:28
-#: /dtformat/dtformat.py:33
+#: /dtformat/dtformat.py:28 /dtformat/dtformat.py:33
 msgid "Added ${time} ago"
 msgstr "${time} gelden toegevoegd"
 
@@ -267,7 +243,6 @@ msgid "text"
 msgstr "tekst"
 
 #: /views/edit/Content/Comment/get_tabs.py:10
-#: /browser/view_topic.pt:260
 msgid "preview"
 msgstr "voorbeeld"
 
@@ -297,6 +272,41 @@ msgstr "tekst aangepast"
 msgid "Properties changed: ${changed}"
 msgstr "Eigenschappen gewijzigd: ${changed}"
 
+#~ msgid "Please fill in one of the two fields."
+#~ msgstr "Gelieve 1 van de 2 velden in te geven"
+
+#~ msgid "Please provide a subject for the new topic."
+#~ msgstr "Gelieve een onderwerp te geven voor het thema."
+
+#~ msgid "Post anonymous."
+#~ msgstr "Anoniem plaatsen."
+
+#~ msgid "Login to post a new topic"
+#~ msgstr "Aanmelden om nieuwe thema te posten"
+
+#~ msgid "Forum user controls"
+#~ msgstr "Forum gebruiker acties"
+
+#~ msgid "Logout"
+#~ msgstr "Afmelden"
+
+#~ msgid "Edit profile"
+#~ msgstr "Profiel bewerken"
+
+#~ msgid "Included Topic"
+#~ msgstr "Inbegrepen Thema"
+
+#~ msgid "post comment"
+#~ msgstr "verzend reactie"
+
+#~ msgid "edit comment"
+#~ msgstr "reactie bewerken"
+
+#~ msgid "add comment"
+#~ msgstr "reactie toevoegen"
+
+#~ msgid "Login to post a new comment"
+#~ msgstr "Aanmelden om nieuwe reactie te plaatsen"
+
 #~ msgid "Do not display my name with the message."
 #~ msgstr "Geef mijn naam niet weer in dit bericht."
-

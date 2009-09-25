@@ -153,7 +153,8 @@
                      and non-js situations, and looks consistent
                      (so let's not think about it too much, i suggest ;)
                 -->
-                <a tal:attributes="href here_url">
+                <a style="text-decoration: none"
+                   tal:attributes="href here_url">
                   <input class="button-clear" type="button"
                          name="clear" value="Clear"
                          i18n:attributes="value"
@@ -221,7 +222,7 @@
         <div class="feedback"
              tal:condition="view/preview_not_topic">
           <span class="warning"
-                i18n:translate="">Please provide a subject for the new topic.
+                i18n:translate="">Please provide a subject for the new topic
           </span>
         </div>
         <input class="store" type="text"
@@ -232,7 +233,7 @@
           <input class="store" type="checkbox"
                  id="anonymous" name="anonymous"
                  tal:attributes="value view/anonymous" />
-           <span i18n:translate="">Post anonymous.</span>
+           <span i18n:translate="">Post anonymous</span>
         </div>
         <div id="emoticons">
           <span class="emoticon" tal:repeat="smileydata view/get_smiley_data">

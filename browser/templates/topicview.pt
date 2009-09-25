@@ -132,14 +132,14 @@
               </h5>
               <p tal:content="structure python:view.format_text(view.text)"></p>
               <form method="post" id="previewform" action="#"
-                    enctype="application/x-www-form-urlencoded; charset=UTF-8"
                     tal:attributes="action here_url">
                 <!-- todd says 'i don't know, man' about the next bit of code,
                      and i tend to fully agree... it works though, both in js
                      and non-js situations, and looks consistent
                      (so let's not think about it too much, i suggest ;)
                 -->
-                <a tal:attributes="href here_url">
+                <a style="text-decoration: none"
+                   tal:attributes="href here_url">
                   <input class="button-clear" type="button"
                          name="clear" value="Clear"
                          i18n:attributes="value"
@@ -185,11 +185,11 @@
                tal:attributes="value python:view.get_last_batch_start(numitems)"
                />
         <h3 i18n:translate="">Post a new comment</h3>
-        <h5 i18n:translate="">Subject</h5>
+        <label for="title" i18n:translate="">Subject</label>
         <div class="feedback"
              tal:condition="view/preview_not_title">
           <span class="warning"
-                i18n:translate="">Please provide a subject for the new comment.
+                i18n:translate="">Please provide a subject for the new comment
           </span>
         </div>
         <input class="store" type="text"
@@ -197,11 +197,11 @@
                onfocus="window.focussed_form_field = this"
                tal:attributes="value view/title"
                />
-        <h5 i18n:translate="">Message</h5>
+        <label for="text" i18n:translate="">Message</label>
         <div class="feedback"
              tal:condition="view/preview_not_text">
           <span class="warning"
-                i18n:translate="">Please provide a message for the new comment.
+                i18n:translate="">Please provide a message for the new comment
           </span>
         </div>
         <textarea class="store" name="text"
@@ -216,7 +216,7 @@
           <input class="store" type="checkbox"
                  id="anonymous" name="anonymous"
                  tal:attributes="value view/anonymous" />
-          <span i18n:translate="">Post anonymous.</span>
+          <span i18n:translate="">Post anonymous</span>
         </div>
         <div id="emoticons">
           <span class="emoticons"
