@@ -4,27 +4,21 @@
 
 import re
 
-from zope.component import getMultiAdapter
-
 from AccessControl import getSecurityManager, Unauthorized
 
-from Products.Silva.browser.headers import Headers
 from Products.Silva import mangle
-from Products.Silva import SilvaPermissions
 from Products.Silva.interfaces import IEditableMember
 
 from Products.SilvaForum.resources.emoticons.emoticons import emoticons, \
-    smileydata, get_alt_name
+    smileydata
 from Products.SilvaForum.dtformat.dtformat import format_dt
 
 from DateTime import DateTime
-from zExceptions import Redirect
 from urllib import quote
 
 from Products.SilvaForum.i18n import translate as _
 from Products.SilvaForum.interfaces import IForum, ITopic, \
     IComment, IPostable
-from zope.i18n import translate
 
 from silva.core.views import views as silvaviews
 from five import grok

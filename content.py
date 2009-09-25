@@ -10,7 +10,6 @@ from OFS import SimpleItem
 from Products.Silva import mangle
 from Products.Silva.Content import Content
 from Products.Silva.Publication import Publication
-from Products.Silva.SilvaObject import SilvaObject
 from Products.Silva.Folder import Folder
 from Products.Silva.i18n import translate as _
 

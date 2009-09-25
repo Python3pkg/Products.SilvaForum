@@ -1,17 +1,12 @@
 # -*- coding: utf-8 -*-
+# $Id$
 
-# Copyright (c) 2007-2008 Infrae. All rights reserved.
-# See also LICENSE.txt
-# SilvaForum
-# Python
+from zope.component import getMultiAdapter
 
 from Products.Silva.tests import SilvaTestCase
-from Testing import ZopeTestCase
-from Testing.ZopeTestCase import utils
-from zope.component import getMultiAdapter
-from datetime import datetime
+
 from DateTime.DateTime import DateTime
-import os
+from Testing import ZopeTestCase
 
 ZopeTestCase.installProduct('SilvaForum')
 
