@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SilvaForum trunkPOT-Creation-Date: Thu Oct 30 15:28:14 "
 "2008\n"
-"POT-Creation-Date: Fri Sep 25 18:07:23 2009\n"
+"POT-Creation-Date: Fri Sep 25 18:17:35 2009\n"
 "PO-Revision-Date: 2009-08-28 12:33+0100\n"
 "Last-Translator: Wim Boucquaert <wim@infrae.com>\n"
 "Language-Team: Silva Translators <eric+i18n@infrae.com>\n"
@@ -87,43 +87,43 @@ msgstr ""
 msgid "See the next result listing: alt-n"
 msgstr "De volgende resultaat lijst weergeven: alt-n"
 
-#: /browser/templates/topicview.pt:144 /browser/templates/forumview.pt:158
+#: /browser/templates/topicview.pt:143 /browser/templates/forumview.pt:158
 msgid "Clear"
 msgstr "Leeg maken"
 
-#: /browser/templates/topicview.pt:153 /browser/templates/topicview.pt:232
+#: /browser/templates/topicview.pt:152 /browser/templates/topicview.pt:231
 msgid "Post comment"
 msgstr ""
 
-#: /browser/templates/topicview.pt:169
+#: /browser/templates/topicview.pt:168
 msgid "Add comment"
 msgstr ""
 
-#: /browser/templates/topicview.pt:188
+#: /browser/templates/topicview.pt:187
 msgid "Post a new comment"
 msgstr "Een nieuwe reactie plaatsen"
 
-#: /browser/templates/topicview.pt:189 /browser/templates/forumview.pt:221
+#: /browser/templates/topicview.pt:188 /browser/templates/forumview.pt:221
 msgid "Subject"
 msgstr "Onderwerp"
 
-#: /browser/templates/topicview.pt:192
+#: /browser/templates/topicview.pt:191
 msgid "Please provide a subject for the new comment"
 msgstr ""
 
-#: /browser/templates/topicview.pt:201
+#: /browser/templates/topicview.pt:200
 msgid "Message"
 msgstr "Bericht"
 
-#: /browser/templates/topicview.pt:204
+#: /browser/templates/topicview.pt:203
 msgid "Please provide a message for the new comment"
 msgstr ""
 
-#: /browser/templates/topicview.pt:220 /browser/templates/forumview.pt:236
+#: /browser/templates/topicview.pt:219 /browser/templates/forumview.pt:236
 msgid "Post anonymous"
 msgstr ""
 
-#: /browser/templates/topicview.pt:235 /browser/templates/forumview.pt:175
+#: /browser/templates/topicview.pt:234 /browser/templates/forumview.pt:175
 #: /browser/templates/forumview.pt:250
 msgid "Preview"
 msgstr "Voorbeeld"
@@ -152,6 +152,22 @@ msgstr "Linken naar dit bericht"
 #: /browser/templates/topicview.pt:95
 msgid "posted"
 msgstr "verzonden"
+
+#: /browser/templates/usercontrols.pt:10
+msgid "Login to post a new topic"
+msgstr "Aanmelden om nieuwe thema te posten"
+
+#: /browser/templates/usercontrols.pt:16
+msgid "Forum user controls"
+msgstr "Forum gebruiker acties"
+
+#: /browser/templates/usercontrols.pt:22
+msgid "Logout"
+msgstr "Afmelden"
+
+#: /browser/templates/usercontrols.pt:29
+msgid "Edit profile"
+msgstr "Profiel bewerken"
 
 #: /browser/views.py:128
 msgid "Sorry you need to be authorized to use this forum"
@@ -280,18 +296,6 @@ msgstr "Eigenschappen gewijzigd: ${changed}"
 
 #~ msgid "Post anonymous."
 #~ msgstr "Anoniem plaatsen."
-
-#~ msgid "Login to post a new topic"
-#~ msgstr "Aanmelden om nieuwe thema te posten"
-
-#~ msgid "Forum user controls"
-#~ msgstr "Forum gebruiker acties"
-
-#~ msgid "Logout"
-#~ msgstr "Afmelden"
-
-#~ msgid "Edit profile"
-#~ msgstr "Profiel bewerken"
 
 #~ msgid "Included Topic"
 #~ msgstr "Inbegrepen Thema"

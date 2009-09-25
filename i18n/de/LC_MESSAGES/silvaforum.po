@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: Fri Sep 25 18:07:23 2009\n"
+"POT-Creation-Date: Fri Sep 25 18:17:35 2009\n"
 "PO-Revision-Date: 2009-09-03 16:40+0100\n"
 "Last-Translator: Wim Boucquaert <wim@infrae.com>\n"
 "Language-Team: Silva i18n team <walco@infrae.com>\n"
@@ -57,7 +57,7 @@ msgstr "Jetzt"
 
 #: /browser/templates/forumview.pt:220
 msgid "Post a new topic"
-msgstr "Ein neues Thema erstellen."
+msgstr "Ein neues Thema erstellen"
 
 #: /browser/templates/forumview.pt:224
 msgid "Please provide a subject for the new topic"
@@ -88,43 +88,43 @@ msgstr ""
 msgid "See the next result listing: alt-n"
 msgstr "Um die nächsten Ergebnisse zu zeigen: alt-n"
 
-#: /browser/templates/topicview.pt:144 /browser/templates/forumview.pt:158
+#: /browser/templates/topicview.pt:143 /browser/templates/forumview.pt:158
 msgid "Clear"
 msgstr "Löschen"
 
-#: /browser/templates/topicview.pt:153 /browser/templates/topicview.pt:232
+#: /browser/templates/topicview.pt:152 /browser/templates/topicview.pt:231
 msgid "Post comment"
-msgstr ""
+msgstr "Kommentar erstellen"
 
-#: /browser/templates/topicview.pt:169
+#: /browser/templates/topicview.pt:168
 msgid "Add comment"
-msgstr ""
+msgstr "Kommentar hinzufügen"
 
-#: /browser/templates/topicview.pt:188
+#: /browser/templates/topicview.pt:187
 msgid "Post a new comment"
 msgstr "Ein neues Kommentar erstellen"
 
-#: /browser/templates/topicview.pt:189 /browser/templates/forumview.pt:221
+#: /browser/templates/topicview.pt:188 /browser/templates/forumview.pt:221
 msgid "Subject"
 msgstr "Betreff"
 
-#: /browser/templates/topicview.pt:192
+#: /browser/templates/topicview.pt:191
 msgid "Please provide a subject for the new comment"
-msgstr ""
+msgstr "Bitte stellen Sie einen Betreff für das neue Thema zur Verfügung"
 
-#: /browser/templates/topicview.pt:201
+#: /browser/templates/topicview.pt:200
 msgid "Message"
 msgstr "Nachricht"
 
-#: /browser/templates/topicview.pt:204
+#: /browser/templates/topicview.pt:203
 msgid "Please provide a message for the new comment"
 msgstr ""
 
-#: /browser/templates/topicview.pt:220 /browser/templates/forumview.pt:236
+#: /browser/templates/topicview.pt:219 /browser/templates/forumview.pt:236
 msgid "Post anonymous"
-msgstr ""
+msgstr "Poste anonym"
 
-#: /browser/templates/topicview.pt:235 /browser/templates/forumview.pt:175
+#: /browser/templates/topicview.pt:234 /browser/templates/forumview.pt:175
 #: /browser/templates/forumview.pt:250
 msgid "Preview"
 msgstr "Vorschau"
@@ -153,6 +153,23 @@ msgstr "Link zu dieser Nachricht"
 #: /browser/templates/topicview.pt:95
 msgid "posted"
 msgstr "erstellt"
+
+#: /browser/templates/usercontrols.pt:10
+msgid "Login to post a new topic"
+msgstr "Login um einen neuen Kommentar zu erstellen"
+
+#: /browser/templates/usercontrols.pt:16
+msgid "Forum user controls"
+msgstr "Forum Benutzereinstellungen"
+
+#: /browser/templates/usercontrols.pt:22
+msgid "Logout"
+msgstr "Logout"
+
+#: /browser/templates/usercontrols.pt:29
+#, fuzzy
+msgid "Edit profile"
+msgstr "Profil editieren"
 
 #: /browser/views.py:128
 msgid "Sorry you need to be authorized to use this forum"
@@ -277,36 +294,11 @@ msgstr "Eigenschaften geŠndert: ${changed}"
 #~ msgid "Please fill in one of the two fields."
 #~ msgstr "Bitte füllen Sie eines der beiden Felder aus."
 
-#~ msgid "Please provide a subject for the new topic."
-#~ msgstr "Bitte stellen Sie einen Betreff für das neue Thema zur Verfügung."
-
-#~ msgid "Post anonymous."
-#~ msgstr "Poste anonym."
-
-#~ msgid "Login to post a new topic"
-#~ msgstr "Login um einen neuen Kommentar zu erstellen"
-
-#~ msgid "Forum user controls"
-#~ msgstr "Forum Benutzereinstellungen"
-
-#~ msgid "Logout"
-#~ msgstr "Logout"
-
-#, fuzzy
-#~ msgid "Edit profile"
-#~ msgstr "Profil editieren"
-
 #~ msgid "Included Topic"
 #~ msgstr "Inkludiertes Thema"
 
-#~ msgid "post comment"
-#~ msgstr "Kommentar erstellen"
-
 #~ msgid "edit comment"
 #~ msgstr "Kommentar bearbeiten"
-
-#~ msgid "add comment"
-#~ msgstr "Kommentar hinzufügen"
 
 #~ msgid "Login to post a new comment"
 #~ msgstr "Login um ein neues Thema zu erstellen"

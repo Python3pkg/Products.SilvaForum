@@ -1,5 +1,6 @@
 <div class="controls"
-     tal:define="here_url context/absolute_url">
+     tal:define="here_url context/absolute_url"
+     i18n:domain="silvaforum">
     <tal:login tal:condition="not:view/can_post">
       <form method="post" action="#"
             tal:attributes="action here_url">

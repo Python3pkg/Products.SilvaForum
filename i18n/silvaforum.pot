@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SilvaForum trunk"
-"POT-Creation-Date: Fri Sep 25 18:07:23 2009\n"
+"POT-Creation-Date: Fri Sep 25 18:17:35 2009\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Silva Translators <eric+i18n@infrae.com>\n"
@@ -86,47 +86,47 @@ msgstr ""
 msgid "See the next result listing: alt-n"
 msgstr ""
 
-#: /browser/templates/topicview.pt:144
+#: /browser/templates/topicview.pt:143
 #: /browser/templates/forumview.pt:158
 msgid "Clear"
 msgstr ""
 
-#: /browser/templates/topicview.pt:153
-#: /browser/templates/topicview.pt:232
+#: /browser/templates/topicview.pt:152
+#: /browser/templates/topicview.pt:231
 msgid "Post comment"
 msgstr ""
 
-#: /browser/templates/topicview.pt:169
+#: /browser/templates/topicview.pt:168
 msgid "Add comment"
 msgstr ""
 
-#: /browser/templates/topicview.pt:188
+#: /browser/templates/topicview.pt:187
 msgid "Post a new comment"
 msgstr ""
 
-#: /browser/templates/topicview.pt:189
+#: /browser/templates/topicview.pt:188
 #: /browser/templates/forumview.pt:221
 msgid "Subject"
 msgstr ""
 
-#: /browser/templates/topicview.pt:192
+#: /browser/templates/topicview.pt:191
 msgid "Please provide a subject for the new comment"
 msgstr ""
 
-#: /browser/templates/topicview.pt:201
+#: /browser/templates/topicview.pt:200
 msgid "Message"
 msgstr ""
 
-#: /browser/templates/topicview.pt:204
+#: /browser/templates/topicview.pt:203
 msgid "Please provide a message for the new comment"
 msgstr ""
 
-#: /browser/templates/topicview.pt:220
+#: /browser/templates/topicview.pt:219
 #: /browser/templates/forumview.pt:236
 msgid "Post anonymous"
 msgstr ""
 
-#: /browser/templates/topicview.pt:235
+#: /browser/templates/topicview.pt:234
 #: /browser/templates/forumview.pt:175
 #: /browser/templates/forumview.pt:250
 msgid "Preview"
@@ -156,6 +156,22 @@ msgstr ""
 
 #: /browser/templates/topicview.pt:95
 msgid "posted"
+msgstr ""
+
+#: /browser/templates/usercontrols.pt:10
+msgid "Login to post a new topic"
+msgstr ""
+
+#: /browser/templates/usercontrols.pt:16
+msgid "Forum user controls"
+msgstr ""
+
+#: /browser/templates/usercontrols.pt:22
+msgid "Logout"
+msgstr ""
+
+#: /browser/templates/usercontrols.pt:29
+msgid "Edit profile"
 msgstr ""
 
 #: /browser/views.py:128
