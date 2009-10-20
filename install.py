@@ -29,7 +29,7 @@ def install(root):
         ('Silva Forum', 'Silva Forum Topic', 'Silva Forum Comment'),
         ('silva-content', 'silva-extra'))
     root.service_metadata.initializeMetadata()
-    
+
     # edit
     reg.register('edit', 'Silva Forum',
                  ['edit', 'Container', 'Folder', 'Forum'])
@@ -47,7 +47,7 @@ def install(root):
 
     configureAddables(root)
     configureMetadata(root)
-    
+
 def uninstall(root):
     reg = root.service_view_registry
     reg.unregister('edit', 'Silva Forum')
@@ -67,7 +67,7 @@ def configureAddables(root):
     non_addables = ('Silva Forum Topic',
                     'Silva Forum Comment')
     addables = ('Silva Forum',)
-    current_addables = root.get_silva_addables_allowed_in_publication()
+    current_addables = root.get_silva_addables_allowed_in_container()
     new_addables = []
     for a in current_addables:
         if a not in non_addables:
@@ -75,7 +75,7 @@ def configureAddables(root):
     for a in addables:
         if a not in new_addables:
             new_addables.append(a)
-    root.set_silva_addables_allowed_in_publication(new_addables)
+    root.set_silva_addables_allowed_in_container(new_addables)
 
 def configureMetadata(context):
     product = package_home(globals())
@@ -121,7 +121,10 @@ def unconfigureMetadata(root):
     mapping.editMappings(default, tm)
 
     # Remove the metadata set specifications
-    root.service_metadata.collection.manage_delObjects(metadatasets)
+    collection = root.service_metadata.collection
+    for metadataset in metadatasets:
+        if collection._getOb(metadataset, None) is not None:
+            collection.manage_delObjects(metadataset)
 
 def is_installed(root):
     return hasattr(root.service_views, 'SilvaForum')

@@ -2,18 +2,16 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:i18n="http://namespaces.zope.org/i18n"
     xmlns:five="http://namespaces.zope.org/five"
+    xmlns:grok="http://namespaces.zope.org/grok"
     xmlns:silva="http://infrae.com/ns/silvaconf"
     xmlns:browser="http://namespaces.zope.org/browser"
-    i18n_domain="silva"
-    >
+    i18n_domain="silva">
+
+
+  <include package="silva.core.views" />
 
   <!-- i18n -->
   <i18n:registerTranslations directory="i18n" />
-
-  <!--
-  <include package=".adapters" /> 
-  -->
-  <include package=".browser" />
 
   <!-- define SilvaForum core as the root 'extension' -->
   <silva:extension
@@ -23,12 +21,6 @@
     />
 
   <!-- permissions -->
-  <class class=".content.FiveViewable">
-    <require permission="zope.Public"
-             attributes="view" />
-    <require permission="silva.ReadSilvaContent"
-             attributes="preview" />
-  </class>
   <class class=".content.Forum">
     <require permission="silva.ReadSilvaContent"
              attributes="add_topic" />
@@ -72,5 +64,7 @@
     extension_name="SilvaForum"
     icon="www/comment.gif"
     />
+
+ <grok:grok package=".browser" />
 
 </configure>
