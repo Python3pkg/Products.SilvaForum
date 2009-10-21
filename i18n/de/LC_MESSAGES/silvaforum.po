@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: Fri Sep 25 18:17:35 2009\n"
-"PO-Revision-Date: 2009-09-03 16:40+0100\n"
+"POT-Creation-Date: Wed Oct 21 16:47:27 2009\n"
+"PO-Revision-Date: 2009-10-21 16:49+0100\n"
 "Last-Translator: Wim Boucquaert <wim@infrae.com>\n"
 "Language-Team: Silva i18n team <walco@infrae.com>\n"
 "MIME-Version: 1.0\n"
@@ -42,9 +42,20 @@ msgstr "Themen"
 msgid "Post date"
 msgstr "Datum der Erstellung"
 
+#: /browser/templates/forumview.pt:140
+#: /browser/templates/topicview.pt:50
+#: /browser/templates/topicview.pt:81
+msgid "Author"
+msgstr "Autor"
+
 #: /browser/templates/forumview.pt:141
 msgid "Comments"
 msgstr "Kommentare"
+
+#: /browser/templates/forumview.pt:158
+#: /browser/templates/topicview.pt:143
+msgid "Clear"
+msgstr "Löschen"
 
 #: /browser/templates/forumview.pt:166
 #, fuzzy
@@ -55,13 +66,29 @@ msgstr "Thema erstellen"
 msgid "Now"
 msgstr "Jetzt"
 
+#: /browser/templates/forumview.pt:175
+#: /browser/templates/forumview.pt:250
+#: /browser/templates/topicview.pt:234
+msgid "Preview"
+msgstr "Vorschau"
+
 #: /browser/templates/forumview.pt:220
 msgid "Post a new topic"
 msgstr "Ein neues Thema erstellen"
 
+#: /browser/templates/forumview.pt:221
+#: /browser/templates/topicview.pt:188
+msgid "Subject"
+msgstr "Betreff"
+
 #: /browser/templates/forumview.pt:224
 msgid "Please provide a subject for the new topic"
 msgstr ""
+
+#: /browser/templates/forumview.pt:236
+#: /browser/templates/topicview.pt:219
+msgid "Post anonymous"
+msgstr "Poste anonym"
 
 #: /browser/templates/forumview.pt:240
 msgid "emoticon"
@@ -88,11 +115,8 @@ msgstr ""
 msgid "See the next result listing: alt-n"
 msgstr "Um die nächsten Ergebnisse zu zeigen: alt-n"
 
-#: /browser/templates/topicview.pt:143 /browser/templates/forumview.pt:158
-msgid "Clear"
-msgstr "Löschen"
-
-#: /browser/templates/topicview.pt:152 /browser/templates/topicview.pt:231
+#: /browser/templates/topicview.pt:152
+#: /browser/templates/topicview.pt:231
 msgid "Post comment"
 msgstr "Kommentar erstellen"
 
@@ -103,10 +127,6 @@ msgstr "Kommentar hinzufügen"
 #: /browser/templates/topicview.pt:187
 msgid "Post a new comment"
 msgstr "Ein neues Kommentar erstellen"
-
-#: /browser/templates/topicview.pt:188 /browser/templates/forumview.pt:221
-msgid "Subject"
-msgstr "Betreff"
 
 #: /browser/templates/topicview.pt:191
 msgid "Please provide a subject for the new comment"
@@ -119,20 +139,6 @@ msgstr "Nachricht"
 #: /browser/templates/topicview.pt:203
 msgid "Please provide a message for the new comment"
 msgstr ""
-
-#: /browser/templates/topicview.pt:219 /browser/templates/forumview.pt:236
-msgid "Post anonymous"
-msgstr "Poste anonym"
-
-#: /browser/templates/topicview.pt:234 /browser/templates/forumview.pt:175
-#: /browser/templates/forumview.pt:250
-msgid "Preview"
-msgstr "Vorschau"
-
-#: /browser/templates/topicview.pt:50 /browser/templates/topicview.pt:81
-#: /browser/templates/forumview.pt:140
-msgid "Author"
-msgstr "Autor"
 
 #: /browser/templates/topicview.pt:51
 msgid "Topic"
@@ -167,9 +173,8 @@ msgid "Logout"
 msgstr "Logout"
 
 #: /browser/templates/usercontrols.pt:29
-#, fuzzy
 msgid "Edit profile"
-msgstr "Profil editieren"
+msgstr "Profil bearbeiten"
 
 #: /browser/views.py:128
 msgid "Sorry you need to be authorized to use this forum"
@@ -178,6 +183,10 @@ msgstr "Sorry, Sie müssen sich authentisieren um das Forum zu benutzen."
 #: /browser/views.py:174
 msgid "Please provide a subject"
 msgstr "Bitte geben Sie einen Betreff an."
+
+#: /browser/views.py:183
+msgid "Topic added"
+msgstr "Thema hinzugefügt"
 
 #: /browser/views.py:216
 msgid "Please provide a title and a text"
@@ -196,7 +205,8 @@ msgid "Just added"
 msgstr "Soeben hinzugefügt"
 
 # Default: "time"
-#: /dtformat/dtformat.py:28 /dtformat/dtformat.py:33
+#: /dtformat/dtformat.py:28
+#: /dtformat/dtformat.py:33
 msgid "Added ${time} ago"
 msgstr "Vor ${time} hinzugefügt"
 
@@ -238,8 +248,7 @@ msgstr "${number} Minuten"
 
 #: /schema/silvaforum-forum.xml:27
 msgid "Allow hiding the name of the creator in topics and comments."
-msgstr ""
-"Erlaube, den Namen des Erstellers in Themen und Kommentaren zu verbergen."
+msgstr "Erlaube, den Namen des Erstellers in Themen und Kommentaren zu verbergen."
 
 #: /schema/silvaforum-forum.xml:29
 msgid "anonymous posting allowed"
@@ -293,12 +302,10 @@ msgstr "Eigenschaften geŠndert: ${changed}"
 
 #~ msgid "Please fill in one of the two fields."
 #~ msgstr "Bitte füllen Sie eines der beiden Felder aus."
-
 #~ msgid "Included Topic"
 #~ msgstr "Inkludiertes Thema"
-
 #~ msgid "edit comment"
 #~ msgstr "Kommentar bearbeiten"
-
 #~ msgid "Login to post a new comment"
 #~ msgstr "Login um ein neues Thema zu erstellen"
+
