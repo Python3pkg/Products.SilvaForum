@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: Wed Oct 21 16:47:27 2009\n"
-"PO-Revision-Date: 2009-10-21 16:49+0100\n"
+"PO-Revision-Date: 2009-10-21 16:59+0100\n"
 "Last-Translator: Wim Boucquaert <wim@infrae.com>\n"
 "Language-Team: Silva i18n team <walco@infrae.com>\n"
 "MIME-Version: 1.0\n"
@@ -58,7 +58,6 @@ msgid "Clear"
 msgstr "Löschen"
 
 #: /browser/templates/forumview.pt:166
-#, fuzzy
 msgid "Post topic"
 msgstr "Thema erstellen"
 
@@ -95,7 +94,6 @@ msgid "emoticon"
 msgstr "Emoticon"
 
 #: /browser/templates/forumview.pt:247
-#, fuzzy
 msgid "Add topic"
 msgstr "Thema hinzufügen"
 
