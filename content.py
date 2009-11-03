@@ -12,7 +12,7 @@ from Products.Silva.Publication import Publication
 from Products.Silva.Folder import Folder
 from Products.Silva.i18n import translate as _
 
-from Products.ZCatalog.CatalogPathAwareness import CatalogPathAware
+from Products.ZCatalog.CatalogPathAwareness import CatalogAware
 from Products.SilvaForum.interfaces import IForum, ITopic, IComment
 
 
@@ -219,7 +219,7 @@ class Topic(ForumFolderBase, Folder, CreatorMixin):
         return len(self.objectValues('Silva Forum Comment'))
 
 class Comment(
-        CatalogPathAware, Content, SimpleItem.SimpleItem, CreatorMixin):
+        CatalogAware, Content, SimpleItem.SimpleItem, CreatorMixin):
     interface.implements(IComment)
     meta_type = 'Silva Forum Comment'
     default_catalog = 'service_catalog'
