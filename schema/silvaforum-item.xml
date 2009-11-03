@@ -5,7 +5,7 @@
 <description>Settings for SilvaForum items</description>
 <minimalrole>Chief Editor</minimalrole>
   <metadata_element id="anonymous">
-    <index_type>TextIndex</index_type>
+    <index_type>FieldIndex</index_type>
     <index_p>0</index_p>
 
     <field_type>RadioField</field_type>
