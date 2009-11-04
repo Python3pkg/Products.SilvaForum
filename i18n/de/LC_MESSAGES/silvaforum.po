@@ -82,7 +82,7 @@ msgstr "Betreff"
 
 #: /browser/templates/forumview.pt:224
 msgid "Please provide a subject for the new topic"
-msgstr ""
+msgstr "Bitte geben Sie einen Betreff für das neue Thema an"
 
 #: /browser/templates/forumview.pt:236
 #: /browser/templates/topicview.pt:219
@@ -136,7 +136,7 @@ msgstr "Nachricht"
 
 #: /browser/templates/topicview.pt:203
 msgid "Please provide a message for the new comment"
-msgstr ""
+msgstr "Bitte geben Sie eine Nachricht für den neuen Kommentar an"
 
 #: /browser/templates/topicview.pt:51
 msgid "Topic"
@@ -188,7 +188,7 @@ msgstr "Thema hinzugefügt"
 
 #: /browser/views.py:216
 msgid "Please provide a title and a text"
-msgstr ""
+msgstr "Bitte geben Sie einen Titel und einen Text an"
 
 #: /browser/views.py:226
 msgid "Comment added"
