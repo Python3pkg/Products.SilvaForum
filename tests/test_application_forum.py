@@ -5,10 +5,11 @@
 
 from Products.SilvaForum import interfaces
 from Products.Silva.tests import SilvaTestCase, SilvaBrowser
+from Products.SilvaForum.content import Topic
 
 from Testing.ZopeTestCase import installProduct
 
-import urllib2
+import urllib2, re
 
 class ForumFunctionalTestCase(SilvaTestCase.SilvaFunctionalTestCase):
     """Functional test for Silva Forum.
@@ -80,6 +81,73 @@ class ForumFunctionalTestCase(SilvaTestCase.SilvaFunctionalTestCase):
 
         self.failUnless("Please provide a subject" in browser.contents)
 
+    def __activate_anonymous_post(self):
+        forum = self.forum
+        metadata = forum.service_metadata.getMetadata(forum)
+        metadata.setValues('silvaforum-forum', {'anonymous_posting': 'yes'})
+        
+    def test_forum_post_as_anonymous(self):
+        """Post a new topic as anonymous
+        """
+        self.__activate_anonymous_post()
+        silva_browser = SilvaBrowser.SilvaBrowser()
+        silva_browser.login()
+        browser = silva_browser.browser
+        forum_url = silva_browser.get_root_url() + '/forum'
+
+        self.assertEqual(
+            silva_browser.go(forum_url),
+            (200, 'http://nohost/root/forum'))
+
+        self.failIf("Please provide a subject" in browser.contents)
+
+        browser.getControl("Subject").value = "Anonymous post"
+        browser.getControl(name="anonymous").value = '1'
+        browser.getControl("Add topic").click()
+        
+        self.failUnless("Topic added" \
+                        in browser.contents)
+        
+        regex = re.compile(r'<td class="poster">\s*<p>(.*?)</p>\s*</td>')
+        match = re.search(regex, browser.contents)
+        self.failUnless(match is not None)
+        author = match.group(1)
+        self.assertEqual(author, 'anonymous')
+
+    def test_forum_comment_as_anonymous(self):
+        """Post a new comment as anonymous
+        """
+        topic = self.forum.manage_addProduct['SilvaForum']\
+            .manage_addTopic('topic0', 'this is some topic')
+        self.__activate_anonymous_post()
+
+        silva_browser = SilvaBrowser.SilvaBrowser()
+        silva_browser.login()
+        browser = silva_browser.browser
+        browser = silva_browser.browser
+        topic_url = silva_browser.get_root_url() + '/forum/topic0'
+        
+        self.assertEqual(
+            silva_browser.go(topic_url),
+            (200, 'http://nohost/root/forum/topic0'))
+
+        self.failUnless("this is some topic" in browser.contents)
+        
+        browser.getControl('Subject').value = 'acomment'
+        browser.getControl('Message').value = 'Comment body with some text'
+        browser.getControl(name='anonymous').value = '1'
+        browser.getControl('Post comment').click()
+        
+        self.failUnless("Comment added" in browser.contents)
+        self.failUnless("anonymous" in browser.contents)
+        browser.getLink('posted').click()
+        self.assertEqual(browser.url,
+                         "http://nohost/root/forum/topic0/acomment")
+        match = re.search(r'by\s*(\w+)', browser.contents)
+        self.failIf(match is None, "author pattern does not match anything")
+        author = match.group(1)
+        self.assertEqual("anonymous", author)
+        
     def test_forum_preview_validation(self):
         """Try to preview an empty topic.
         """

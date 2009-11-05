@@ -87,7 +87,7 @@ msgstr "Bitte geben Sie einen Betreff für das neue Thema an"
 #: /browser/templates/forumview.pt:236
 #: /browser/templates/topicview.pt:219
 msgid "Post anonymous"
-msgstr "Poste anonym"
+msgstr "Anonym posten"
 
 #: /browser/templates/forumview.pt:240
 msgid "emoticon"

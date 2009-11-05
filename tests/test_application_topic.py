@@ -24,7 +24,6 @@ class TopicFunctionalTestCase(SilvaTestCase.SilvaFunctionalTestCase):
             self.forum, 'Topic', 'Test_Topic',
             title='Test Topic', product='SilvaForum')
 
-
     def test_login_and_post_comment(self):
         """Login to post a new comment in a topic.
         """
@@ -95,6 +94,19 @@ class TopicFunctionalTestCase(SilvaTestCase.SilvaFunctionalTestCase):
         browser.getControl("Post comment").click()
 
         self.failUnless("Please provide a title and a text" in browser.contents)
+
+    def test_post_topic_as_anonymous(self):
+        """Try to post a new topic as anonymous
+        """
+
+        silva_browser = SilvaBrowser.SilvaBrowser()
+        browser = silva_browser.browser
+        forum_url = silva_browser.get_root_url() + '/forum'
+        self.assertEqual(
+            silva_browser.go(forum_url),
+            (200, 'http://nohost/root/forum'))
+        
+        
 
     def test_topic_preview_validation(self):
         """Try to preview an empty or incomplete comment.
