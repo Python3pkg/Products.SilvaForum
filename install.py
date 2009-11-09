@@ -4,7 +4,8 @@
 # Python
 
 from Products.Silva.install import add_fss_directory_view
-from Globals import package_home
+from App.Common import package_home
+
 import os
 
 def install(root):
