@@ -3,10 +3,11 @@
 # $Id$
 
 import re
-from zope import interface
+from zope import interface, component
 from OFS import SimpleItem
 
 from Products.Silva import mangle
+from Products.SilvaMetadata.interfaces import IMetadataService
 from Products.Silva.Content import Content
 from Products.Silva.Publication import Publication
 from Products.Silva.Folder import Folder
@@ -32,6 +33,7 @@ class ForumFolderBase(object):
     reg_nonword = re.compile('\W')
     reg_start_under = re.compile('^_+')
     reg_number_at_end = re.compile('\d+$')
+
     def _generate_id(self, string):
         """ This produces a chopped string id from a title, or
             text, or else uses unknown. For dublicates the
@@ -69,8 +71,10 @@ class ForumFolderBase(object):
         return self.get_content().absolute_url()
 
     def anonymous_posting_allowed(self):
-        return self.get_forum().get_metadata_element(
-            'silvaforum-forum', 'anonymous_posting') == 'yes'
+        metadata = component.getUtility(IMetadataService)
+        enabled = metadata.getMetadataValue(
+            self.get_forum(), 'silvaforum-forum', 'anonymous_posting')
+        return enabled == 'yes'
 
 
 class Forum(ForumFolderBase, Publication):
@@ -116,7 +120,8 @@ class Forum(ForumFolderBase, Publication):
             # have automaticly generated number parts if needed.
             raise ValueError('Reserved id: "%s"' % id)
         if anonymous:
-            binding = self.get_root().service_metadata.getMetadata(topic)
+            metadata = component.getUtility(IMetadataService)
+            binding = metadata.getMetadata(topic)
             binding.setValues('silvaforum-item', {'anonymous': 'yes'})
         return topic
 
@@ -147,8 +152,11 @@ class Forum(ForumFolderBase, Publication):
 
 
 class CreatorMixin(object):
+
     def get_creator(self):
-        anonymous = self.get_metadata_element('silvaforum-item', 'anonymous')
+        metadata = component.getUtility(IMetadataService)
+        anonymous = metadata.getMetadataValue(
+            self, 'silvaforum-item', 'anonymous')
         if anonymous == 'yes':
             return _('anonymous')
         return self.sec_get_creator_info().fullname()

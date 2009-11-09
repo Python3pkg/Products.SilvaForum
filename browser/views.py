@@ -180,7 +180,7 @@ class ForumView(ViewBase):
             self.message = str(e)
             return
         url = self.context.absolute_url()
-        msg = 'Topic added'
+        msg = _('Topic added')
         self.response.redirect(
             '%s?message=%s' % (
                 self.context.absolute_url(),

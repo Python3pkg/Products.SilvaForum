@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 # $Id$
 
-from zope.component import getMultiAdapter
+from zope.component import getMultiAdapter, getUtility
 from zope.interface.verify import verifyObject
 
+from Products.SilvaMetadata.interfaces import IMetadataService
 from Products.SilvaForum import interfaces
 from Products.Silva.tests import SilvaTestCase
 
@@ -25,29 +26,30 @@ class SilvaForumTestCase(SilvaTestCase.SilvaTestCase):
 class ForumTest(SilvaForumTestCase):
 
     def test_metadata_set_installed(self):
+        metadata = getUtility(IMetadataService)
         self.assertRaises(
-            Exception, self.forum.get_metadata_element,
+            Exception, metadata.getMetadataValue, self.forum,
             'silvaforum-forum', 'thisdoesnotexist')
-        self.forum.get_metadata_element(
-            'silvaforum-forum', 'anonymous_posting')
+        self.assertEquals(metadata.getMetadataValue(
+                self.forum, 'silvaforum-forum', 'anonymous_posting'), 'no')
 
     def test_uninstall_metadata(self):
         from Products.SilvaForum.install import unconfigureMetadata
-        self.assert_(
-            'silvaforum-forum' in
-            self.root.service_metadata.getCollection().objectIds())
+        metadata = getUtility(IMetadataService)
+        self.failUnless(
+            'silvaforum-forum' in metadata.getCollection().objectIds())
         unconfigureMetadata(self.root)
-        self.assertFalse(
-            'silvaforum-forum' in
-            self.root.service_metadata.getCollection().objectIds())
+        self.failIf(
+            'silvaforum-forum' in metadata.getCollection().objectIds())
 
     def test_topics(self):
         self.failUnless(verifyObject(interfaces.IForum, self.forum))
 
         self.assertEquals(0, len(self.forum.topics()))
 
-        self.topic1 = self.addObject(self.forum, 'Topic', 'topic1',
-                                      title='Topic 1', product='SilvaForum')
+        self.topic1 = self.addObject(
+            self.forum, 'Topic', 'topic1',
+            title='Topic 1', product='SilvaForum')
         self.assertEquals(1, len(self.forum.topics()))
 
     def test_add_topic(self):
@@ -103,19 +105,21 @@ class ForumTest(SilvaForumTestCase):
         self.assertRaises(
             ValueError, self.forum.add_topic, 'Foo bar!', True)
 
-        binding = self.root.service_metadata.getMetadata(self.forum)
+        metadata = getUtility(IMetadataService)
+        binding = metadata.getMetadata(self.forum)
         binding.setValues('silvaforum-forum', {'anonymous_posting': 'yes'})
         topic = self.forum.add_topic('Foo bar!', True)
 
-        self.assert_(topic.get_metadata_element(
-            'silvaforum-item', 'anonymous') == 'yes')
+        binding = metadata.getMetadata(topic)
+        self.failUnless(binding.get('silvaforum-item', 'anonymous') == 'yes')
         topics = self.forum.topics()
         self.assertEquals(topics[0]['creator'], 'anonymous')
 
     def test_not_anonymous(self):
+        metadata = getUtility(IMetadataService)
         topic = self.forum.add_topic('Spam and eggs')
-        self.assert_(topic.get_metadata_element(
-            'silvaforum-item', 'anonymous') == 'no')
+        self.assert_(metadata.getMetadataValue(
+                topic, 'silvaforum-item', 'anonymous') == 'no')
         topics = self.forum.topics()
         self.assertEquals(topics[0]['creator'], 'test_user_1_')
 
@@ -150,26 +154,31 @@ class TopicTest(SilvaForumTestCase):
                 len(self.topic.objectValues('Silva Forum Comment')))
 
     def test_not_anonymous(self):
+        metadata = getUtility(IMetadataService)
+
         comment = self.topic.add_comment('Foo', 'Foo, bar and baz!')
         self.assert_(comment.creator() != 'anonymous')
-        self.assert_(comment.get_metadata_element(
-            'silvaforum-item', 'anonymous') == 'no')
+        self.assertEquals(metadata.getMetadataValue(
+                comment, 'silvaforum-item', 'anonymous'), 'no')
         self.assertEquals(self.topic.comments()[0]['creator'], 'test_user_1_')
 
     def test_anonymous_not_allowed(self):
-        self.assert_(self.forum.get_metadata_element(
-            'silvaforum-forum', 'anonymous_posting') == 'no')
+        metadata = getUtility(IMetadataService)
+
+        self.assertEqual(metadata.getMetadataValue(
+                self.forum, 'silvaforum-forum', 'anonymous_posting'), 'no')
         self.assertRaises(
             ValueError, self.topic.add_comment,
             'Foo', 'Foo, bar and baz', True)
 
     def test_anonymous(self):
-        binding = self.root.service_metadata.getMetadata(self.forum)
+        metadata = getUtility(IMetadataService)
+        binding = metadata.getMetadata(self.forum)
         binding.setValues('silvaforum-forum', {'anonymous_posting': 'yes'})
 
         comment = self.topic.add_comment('Foo', 'Foo, bar and baz', True)
-        self.assert_(comment.get_metadata_element(
-            'silvaforum-item', 'anonymous') == 'yes')
+        binding = metadata.getMetadata(comment)
+        self.assertEquals(binding.get('silvaforum-item', 'anonymous'), 'yes')
         self.assertEquals(self.topic.comments()[-1]['creator'], 'anonymous')
 
 

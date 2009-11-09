@@ -58,7 +58,7 @@
             <td class="author">
               <p>
                 <span class="author"
-                      tal:content="python:context.sec_get_creator_info().fullname()">
+                      tal:content="python:context.get_creator()">
                   author
                 </span>
                 <span i18n:translate="">

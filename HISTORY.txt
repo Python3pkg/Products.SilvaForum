@@ -4,6 +4,9 @@ History
 SilvaForum 1.0 (unreleased)
 ---------------------------
 
+- Don't use anymore get_metadata_element as this is a script of the
+  old layout system.
+
 Ported from 0.4:
 
 - Refactor all the views, and use silva.core.views now.
