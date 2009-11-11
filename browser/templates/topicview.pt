@@ -38,11 +38,7 @@
     <div class="feedback" tal:condition="view/message">
       <span tal:content="view/message" i18n:translate="">message</span>
     </div>
-    <!--
-    <table metal:use-macro="context//macros/pagination">
-      batching nav bar
-    </table>
-    -->
+
     <table class="forum-content-table">
       <tal:block>
         <thead>
@@ -88,7 +84,7 @@
               <td class="author">
                 <p>
                   <span class="author"
-                        tal:content="comment/creator">author</span>
+                       tal:content="python:context.get_creator()">author</span>
                   <a title="Link to this message"
                      i18n:attributes="title"
                      tal:attributes="href string:${comment/topic_url}/${comment/id}">
