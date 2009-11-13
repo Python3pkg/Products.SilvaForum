@@ -197,7 +197,7 @@
                 </p>
               </td>
               <td class="poster">
-                <p tal:content="topic/creator">
+                <p tal:content="python:context.get_creator()">
                   author
                 </p>
               </td>
