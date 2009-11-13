@@ -197,7 +197,7 @@
                 </p>
               </td>
               <td class="poster">
-                <p tal:content="context/creator">
+                <p tal:content="topic/creator">
                   author
                 </p>
               </td>
