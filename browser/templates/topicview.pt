@@ -154,10 +154,7 @@
         </tal:preview>
       </tbody>
     </table>
-    <!--
-    <table metal:use-macro="context/view_forum.pt/macros/pagination">
-      batching nav bar
-    </table>-->
+ 
     <tal:if condition="view/can_post">
       <div class="submit"
            tal:condition="not:view/preview">
