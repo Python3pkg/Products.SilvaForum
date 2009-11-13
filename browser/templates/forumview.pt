@@ -228,13 +228,6 @@
         <input class="store" type="text"
                id="topic" name="topic" size="80"
                tal:attributes="value view/topic" />
-        <div class="anonymous-input"
-             tal:condition="view/anonymous_posting_allowed">
-          <input class="store" type="checkbox"
-                 id="anonymous" name="anonymous"
-                 tal:attributes="value view/anonymous" />
-           <span i18n:translate="">Post anonymous</span>
-        </div>
         <div id="emoticons">
           <span class="emoticon" tal:repeat="smileydata view/get_smiley_data">
             <img onclick="add_smiley(this.title)" alt="emoticon"
@@ -242,6 +235,13 @@
                  tal:attributes="title smileydata/text;
                                  src smileydata/href" />
           </span>
+        </div>
+        <div class="anonymous-input"
+             tal:condition="view/anonymous_posting_allowed">
+          <input class="store" type="checkbox"
+                 id="anonymous" name="anonymous"
+                 tal:attributes="value view/anonymous" />
+           <span i18n:translate="">Post anonymous</span>
         </div>
         <div class="submit">
           <input class="button-add-topic" name="add_topic"
