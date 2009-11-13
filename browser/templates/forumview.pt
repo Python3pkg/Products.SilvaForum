@@ -236,12 +236,12 @@
                                  src smileydata/href" />
           </span>
         </div>
-        <div class="anonymous-input"
+        <div id="anonymous-input"
              tal:condition="view/anonymous_posting_allowed">
-          <input class="store" type="checkbox"
-                 id="anonymous" name="anonymous"
+          <input class="store anonymous" type="checkbox"
+                 name="anonymous"
                  tal:attributes="value view/anonymous" />
-           <span i18n:translate="">Post anonymous</span>
+           <span class="anonymous" i18n:translate="">Post anonymous</span>
         </div>
         <div class="submit">
           <input class="button-add-topic" name="add_topic"
