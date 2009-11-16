@@ -48,7 +48,6 @@ class ForumFolderBase(FiveViewable):
     reg_under = re.compile('_+')
     reg_nonword = re.compile('\W')
     reg_start_under = re.compile('^_+')
-    reg_number_at_end = re.compile('\d+$')
     def _generate_id(self, string):
         """ This produces a chopped string id from a title, or
             text, or else uses unknown. For dublicates the
@@ -68,10 +67,13 @@ class ForumFolderBase(FiveViewable):
             id = 'unknown'
         if id in self.objectIds():
             highest = 1
+            regex = re.compile('^%s_(\d+)$' % re.escape(id))
             for other_id in self.objectIds():
-                match = self.reg_number_at_end.search(other_id)
-                if other_id.startswith(id) and match:
-                    highest = int(match.group(0))
+                match = regex.search(other_id)
+                if match:
+                    new_int = int(match.group(1))
+                    if new_int > highest:
+                        highest = new_int
             highest += 1
             id = '%s_%s' % (id, highest)
         return id
