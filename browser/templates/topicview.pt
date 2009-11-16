@@ -54,7 +54,7 @@
             <td class="author">
               <p>
                 <span class="author"
-                      tal:content="python:context.get_creator()">
+                      tal:content="context/get_creator">
                   author
                 </span>
                 <span i18n:translate="">
@@ -84,7 +84,7 @@
               <td class="author">
                 <p>
                   <span class="author"
-                       tal:content="python:context.get_creator()">author</span>
+                       tal:content="comment/creator">author</span>
                   <a title="Link to this message"
                      i18n:attributes="title"
                      tal:attributes="href string:${comment/topic_url}/${comment/id}">
