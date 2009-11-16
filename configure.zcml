@@ -9,6 +9,7 @@
 
 
   <include package="silva.core.views" />
+  <include package="silva.batch" />
 
   <!-- i18n -->
   <i18n:registerTranslations directory="i18n" />

@@ -3,6 +3,11 @@
 # $Id$
 
 import re
+from zope import component
+from five import grok
+
+from zeam.utils.batch import batch
+from zeam.utils.batch.interfaces import IBatching
 
 from AccessControl import getSecurityManager, Unauthorized
 
@@ -21,7 +26,6 @@ from Products.SilvaForum.interfaces import IForum, ITopic, \
     IComment, IPostable
 
 from silva.core.views import views as silvaviews
-from five import grok
 
 minimal_add_role = 'Authenticated'
 
@@ -158,6 +162,14 @@ class ForumView(ViewBase):
         if authenticate:
             self.authenticate()
 
+        self.topics = batch(
+            self.context.topics(), count=self.context.topic_batch_size,
+            name='topics', request=self.request)
+
+        self.batch = component.getMultiAdapter(
+            (self.context, self.topics, self.request),
+            IBatching)()
+
         self.topic = unicode(topic or '', 'utf-8').strip()
         self.message = unicode(message, 'utf-8')
         self.anonymous = anonymous
@@ -197,6 +209,14 @@ class TopicView(ViewBase):
                cancel=False, title=None, text=None, message=''):
         if authenticate:
             self.authenticate()
+
+        self.comments = batch(
+            self.context.comments(), count=self.context.comment_batch_size,
+            name='comments', request=self.request)
+
+        self.batch = component.getMultiAdapter(
+            (self.context, self.comments, self.request),
+            IBatching)()
 
         self.title = unicode(title or '', 'UTF-8').strip()
         self.text = unicode(text or '', 'UTF-8').strip()

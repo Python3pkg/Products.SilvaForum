@@ -1,12 +1,7 @@
 <tal:block xmlns:i18n="http://xml.zope.org/namespaces/i18n"
            i18n:domain="silvaforum">
   <div class="forum"
-       tal:define="topics context/topics;
-                   here_url context/absolute_url;
-                   numitems python:len(topics);
-                   batch_size context/topic_batch_size;
-                   batch python:context.service_views.Silva.getBatch(topics, size=batch_size, orphan=0);
-                   ">
+       tal:define="here_url context/absolute_url">
     <script type="text/javascript">
       // <![CDATA[
       function add_smiley(text_to_add) {
@@ -40,101 +35,11 @@
          tal:condition="view/message">
       <span tal:content="view/message" i18n:translate="">message</span>
     </div>
-
-    <metal:def define-macro="pagination">
-      <table class="pagination"
-             tal:condition="python:numitems > batch_size">
-        <tbody>
-          <tr>
-            <td>
-              <div class="float-left" style="width:8em; text-align:left"
-                   tal:define="
-			       previous_batch_url python:view.get_batch_prev_link(batch.start-1);
-			       firstlink python:view.get_batch_first_link(batch.start-1);
-			       ">
-                <a href="firstbatch"
-                   accesskey="f"
-                   title="Go to the first result listing: alt-f"
-                   i18n:attributes="title"
-                   tal:condition="firstlink"
-                   tal:attributes="href firstlink"
-                   ><img class="control"
-                   alt="First"
-                   tal:define="image context/globals/leftdouble.gif"
-                   tal:attributes="
-                   src image/absolute_url;
-                   width image/width;
-                   height image/height;
-                   " />&nbsp;
-                </a>
-                <a href="previousbatch"
-                   accesskey="b"
-                   title="See the previous result listing: alt-b"
-                   i18n:attributes="title"
-                   tal:condition="previous_batch_url"
-                   tal:attributes="href previous_batch_url"
-                   ><img class="control"
-                   alt="Previous"
-                   tal:define="image context/globals/left.gif"
-                   tal:attributes="
-                   src image/absolute_url;
-                   width image/width;
-                   height image/height;
-                   " />
-                <tal:block i18n:translate="">
-                  <u i18n:name="B">B</u>ack
-                </tal:block>
-                </a>&nbsp;
-              </div>
-              <div class="float-right"
-		   style="width:8em; text-align:right"
-                   tal:define="next_batch_url python:view.get_batch_next_link(batch.start-1, numitems);
-                               lastlink python:view.get_batch_last_link(batch.start-1, numitems);
-                               ">&nbsp;
-              <a href="nextbatch"
-                 accesskey="n"
-                 title="See the next result listing: alt-n"
-                 i18n:attributes="title"
-                 tal:condition="next_batch_url"
-                 tal:attributes="href next_batch_url">
-                <tal:block i18n:translate="">
-                  <u i18n:name="N">N</u>ext
-                </tal:block>
-                <img alt="Next"
-                     i18n:attributes="alt"
-                     tal:define="image context/globals/right.gif"
-                     tal:attributes="src image/absolute_url;
-                                     width image/width;
-                                     height image/height;" />
-              </a>
-              <a href="#" accesskey="l"
-                 title="Go to the last result listing: alt-l"
-                 i18n:attributes="title"
-                 tal:condition="lastlink"
-                 tal:attributes="href lastlink">&nbsp;
-                <img class="control"
-                     alt="Last"
-                     i18n:attributes="alt"
-                     tal:define="image context/globals/rightdouble.gif"
-                     tal:attributes="src image/absolute_url;
-                                     width image/width;
-                                     height image/height;" />
-              </a>
-              </div>
-              <tal:block i18n:translate="">
-                Showing results <tal:block i18n:name="start" replace="batch/start" />
-                to <tal:block i18n:name="end" replace="batch/end" />
-                of <tal:block i18n:name="total" replace="numitems" />
-              </tal:block>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </metal:def>
+    <tal:navigation tal:replace="structure view/batch" />
     <table class="forum-content-table"
-           tal:condition="python: view.preview_topic or numitems">
+           tal:condition="python: view.preview_topic or view.topics">
       <thead>
-        <tr tal:condition="batch">
+        <tr tal:condition="view/topics">
           <th class="align-left" i18n:translate="">Topics</th>
           <th class="align-left" i18n:translate="">Post date</th>
           <th class="align-left" i18n:translate="">Author</th>
@@ -179,7 +84,7 @@
             </td>
           </tr>
         </tal:preview>
-        <tal:loop repeat="topic batch">
+        <tal:loop repeat="topic view/topics">
           <tal:def define="iterate repeat/topic/odd">
             <tr tal:attributes="class python:iterate and 'even' or 'odd'">
               <td class="topic">
@@ -211,9 +116,7 @@
         </tal:loop>
       </tbody>
     </table>
-    <table metal:use-macro="view/macros/pagination">
-      batching nav bar
-    </table>
+    <tal:navigation tal:replace="structure view/batch" />
     <tal:if condition="view/can_post">
       <form id="forum-thread-form" method="post" action="#"
             tal:attributes="action here_url">
