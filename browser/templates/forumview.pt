@@ -144,7 +144,7 @@
           <input class="store anonymous" type="checkbox"
                  name="anonymous"
                  tal:attributes="value view/anonymous" />
-           <span class="anonymous" i18n:translate="">Post anonymous</span>
+          <span class="anonymous" i18n:translate="">Post anonymous</span>
         </div>
         <div class="submit">
           <input class="button-add-topic" name="add_topic"
