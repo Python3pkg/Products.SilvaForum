@@ -10,6 +10,7 @@ from zeam.utils.batch import batch
 from zeam.utils.batch.interfaces import IBatching
 
 from AccessControl import getSecurityManager, Unauthorized
+from DateTime import DateTime
 
 from Products.Silva import mangle
 from Products.Silva.interfaces import IEditableMember
@@ -17,10 +18,6 @@ from Products.Silva.interfaces import IEditableMember
 from Products.SilvaForum.resources.emoticons.emoticons import emoticons, \
     smileydata
 from Products.SilvaForum.dtformat.dtformat import format_dt
-
-from DateTime import DateTime
-from urllib import quote
-
 from Products.SilvaForum.i18n import translate as _
 from Products.SilvaForum.interfaces import IForum, ITopic, \
     IComment, IPostable
@@ -38,54 +35,6 @@ class ViewBase(silvaviews.View):
 
     def format_datetime(self, dt):
         return format_dt(self, dt, DateTime())
-
-    def render_url(self, url, **qs_params):
-        if not qs_params:
-            return url
-
-        # add /view to url if in include mode, also make sure
-        # the ?include parameter is present
-        if self.request.has_key('include'):
-            qs_params['include'] = self.request['include']
-            if not url.endswith('/view'):
-                url += '/view'
-
-        params = []
-        for key, val in qs_params.items():
-            params.append('%s=%s' %  (key, quote(unicode(val).encode('utf8'))))
-
-        return '%s?%s' % (url, '&'.join(params))
-
-    def get_batch_first_link(self, current_offset):
-        if current_offset == 0:
-            return
-        return self.render_url(self.context.absolute_url(), batch_start=0)
-
-    def get_batch_prev_link(self, current_offset, batchsize=10):
-        if current_offset < batchsize:
-            return
-        prevoffset = current_offset - batchsize
-        return self.render_url(
-            self.context.absolute_url(), batch_start=prevoffset)
-
-    def get_batch_next_link(self, current_offset, numitems, batchsize=10):
-        if current_offset >= (numitems - batchsize):
-            return
-        offset = current_offset + batchsize
-        return self.render_url(self.context.absolute_url(), batch_start=offset)
-
-    def get_last_batch_start(self, numitems, batchsize=10):
-        rest = numitems % batchsize
-        offset = numitems - rest
-        if rest == 0:
-            offset -= batchsize
-        return offset
-
-    def get_batch_last_link(self, current_offset, numitems, batchsize=10):
-        if current_offset >= (numitems - batchsize):
-            return
-        offset = self.get_last_batch_start(numitems)
-        return self.render_url(self.context.absolute_url(), batch_start=offset)
 
     def replace_links(self, text):
         # do regex for links and replace at occurrence
@@ -194,9 +143,7 @@ class ForumView(ViewBase):
         url = self.context.absolute_url()
         msg = _('Topic added')
         self.response.redirect(
-            '%s?message=%s' % (
-                self.context.absolute_url(),
-                quote(msg)))
+            mangle.urlencode(self.context.absolute_url(), message=msg))
 
 
 class TopicView(ViewBase):
@@ -244,13 +191,9 @@ class TopicView(ViewBase):
             return
 
         msg = _('Comment added')
-        num_items = self.context.number_of_comments()
 
-        url = self.render_url(self.context.absolute_url(),
-                              message=msg,
-                              batch_start=self.get_last_batch_start(num_items))
-
-        self.response.redirect('%s#bottom' % url)
+        self.response.redirect(
+            mangle.urlencode(self.context.absolute_url(), message=msg))
 
 
 class CommentView(ViewBase):
