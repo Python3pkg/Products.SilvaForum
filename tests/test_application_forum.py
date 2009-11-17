@@ -143,7 +143,7 @@ class ForumFunctionalTestCase(SilvaTestCase.SilvaFunctionalTestCase):
         browser.getLink('posted').click()
         self.assertEqual(browser.url,
                          "http://nohost/root/forum/topic0/acomment")
-        match = re.search(r'by\s*(\w+)', browser.contents)
+        match = re.search(r'by<\/span>\s*(\w+)', browser.contents)
         self.failIf(match is None, "author pattern does not match anything")
         author = match.group(1)
         self.assertEqual("anonymous", author)
