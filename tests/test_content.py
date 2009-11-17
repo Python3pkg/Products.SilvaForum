@@ -204,37 +204,6 @@ class TopicViewTest(SilvaForumTestCase):
 
         self.view.update()
 
-    # test some stuff on ViewBase here...
-    def test_get_batch_first_link(self):
-        link = self.view.get_batch_first_link(1)
-        self.assert_(link.endswith('?batch_start=0'))
-        link = self.view.get_batch_first_link(0)
-        self.assert_(link is None)
-
-    def test_get_batch_last_link(self):
-        link = self.view.get_batch_last_link(0, 15, 10)
-        self.assert_(link.endswith('?batch_start=10'))
-        link = self.view.get_batch_last_link(10, 15, 10)
-        self.assert_(link is None)
-        link = self.view.get_batch_last_link(0, 10, 10)
-        self.assert_(link is None)
-
-    def test_get_batch_prev_link(self):
-        link = self.view.get_batch_prev_link(10, 10)
-        self.assert_(link.endswith('?batch_start=0'))
-        link = self.view.get_batch_prev_link(20, 10)
-        self.assert_(link.endswith('?batch_start=10'))
-        link = self.view.get_batch_prev_link(2, 10)
-        self.assert_(link is None)
-
-    def test_get_batch_next_link(self):
-        link = self.view.get_batch_next_link(10, 25, 10)
-        self.assert_(link.endswith('?batch_start=20'))
-        link = self.view.get_batch_next_link(20, 25, 10)
-        self.assert_(link is None)
-        link = self.view.get_batch_next_link(10, 20, 10)
-        self.assert_(link is None)
-
 
 class CommentTest(SilvaForumTestCase):
 

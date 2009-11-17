@@ -1,11 +1,7 @@
 <tal:block xmlns:i18n="http://xml.zope.org/namespaces/i18n"
            i18n:domain="silvaforum">
   <div class="forum"
-       tal:define="comments context/comments;
-                   numitems python:len(comments);
-                   here_url context/absolute_url;
-                   batch_size context/comment_batch_size;
-                   batch python:context.service_views.Silva.getBatch(comments, size=batch_size, orphan=0)">
+       tal:define="here_url context/absolute_url">
     <script type="text/javascript">
       // <![CDATA[
       window.focussed_form_field = null;
@@ -38,11 +34,7 @@
     <div class="feedback" tal:condition="view/message">
       <span tal:content="view/message" i18n:translate="">message</span>
     </div>
-    <!--
-    <table metal:use-macro="context//macros/pagination">
-      batching nav bar
-    </table>
-    -->
+    <tal:navigation tal:replace="structure view/batch" />
     <table class="forum-content-table">
       <tal:block>
         <thead>
@@ -58,7 +50,7 @@
             <td class="author">
               <p>
                 <span class="author"
-                      tal:content="python:context.get_creator()">
+                      tal:content="context/get_creator">
                   author
                 </span>
                 <span i18n:translate="">
@@ -77,18 +69,18 @@
               </h4>
             </td>
           </tr>
-          <tr tal:condition="batch">
+          <tr tal:condition="view/comments">
             <th class="align-left" i18n:translate="">Author</th>
             <th class="align-left" i18n:translate="">Comment</th>
           </tr>
         </tal:block>
-        <tal:loop repeat="comment batch">
+        <tal:loop repeat="comment view/comments">
           <tal:def define="iterate repeat/comment/odd">
             <tr tal:attributes="class python: iterate and 'even' or 'odd'">
               <td class="author">
                 <p>
                   <span class="author"
-                        tal:content="comment/creator">author</span>
+                       tal:content="comment/creator">author</span>
                   <a title="Link to this message"
                      i18n:attributes="title"
                      tal:attributes="href string:${comment/topic_url}/${comment/id}">
@@ -158,10 +150,7 @@
         </tal:preview>
       </tbody>
     </table>
-    <!--
-    <table metal:use-macro="context/view_forum.pt/macros/pagination">
-      batching nav bar
-    </table>-->
+    <tal:navigation tal:replace="structure view/batch" />
     <tal:if condition="view/can_post">
       <div class="submit"
            tal:condition="not:view/preview">
@@ -180,10 +169,6 @@
          tal:attributes="style string:display:${show_form}">
       <form id="forum-comment-form"
             method="post">
-        <!-- this puts the preview at the end of the batch -->
-        <input type="hidden" name="batch_start" value="#"
-               tal:attributes="value python:view.get_last_batch_start(numitems)"
-               />
         <h3 i18n:translate="">Post a new comment</h3>
         <label for="title" i18n:translate="">Subject</label>
         <div class="feedback"
@@ -211,13 +196,6 @@
                   tal:content="view/text"
                   tal:attributes="rows python:10">
         </textarea>
-        <div class="anonymous-input"
-             tal:condition="view/anonymous_posting_allowed">
-          <input class="store" type="checkbox"
-                 id="anonymous" name="anonymous"
-                 tal:attributes="value view/anonymous" />
-          <span i18n:translate="">Post anonymous</span>
-        </div>
         <div id="emoticons">
           <span class="emoticons"
                 tal:repeat="smileydata view/get_smiley_data">
@@ -226,6 +204,13 @@
                  tal:attributes="title smileydata/text;
                                  src smileydata/href" />
           </span>
+        </div>
+        <div id="anonymous-input"
+             tal:condition="view/anonymous_posting_allowed">
+          <input class="store anonymous" type="checkbox"
+                 name="anonymous"
+                 tal:attributes="value view/anonymous" />
+          <span class="anonymous" i18n:translate="">Post anonymous</span>
         </div>
         <div class="submit">
           <input class="button-post" type="submit"

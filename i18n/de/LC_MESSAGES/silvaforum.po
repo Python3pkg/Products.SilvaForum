@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: Fri Aug 28 12:33:22 2009\n"
-"PO-Revision-Date: 2009-08-28 12:44+0100\n"
+"POT-Creation-Date: Wed Oct 21 16:47:27 2009\n"
+"PO-Revision-Date: 2009-10-21 17:09+0100\n"
 "Last-Translator: Wim Boucquaert <wim@infrae.com>\n"
 "Language-Team: Silva i18n team <walco@infrae.com>\n"
 "MIME-Version: 1.0\n"
@@ -10,194 +10,193 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: zope/app/translation_files/extract.py\n"
 
-#: /browser/view.py:118
-msgid "Sorry you need to be authorized to use this forum"
-msgstr "Sorry, Sie müssen sich authentisieren um das Forum zu benutzen."
-
-#: /browser/view.py:141
-msgid "Please provide a subject"
-msgstr "Bitte geben Sie einen Betreff an."
-
-#: /browser/view.py:173
-msgid "Please fill in one of the two fields."
-msgstr "Bitte füllen Sie eines der beiden Felder aus."
-
-#: /browser/view.py:181
-msgid "Comment added"
-msgstr "Kommentar hinzugefügt."
-
-#: /browser/view_comment.pt:6
+#: /browser/templates/commentview.pt:7
 msgid "Up to topic..."
 msgstr "Nach oben zum Thema ..."
 
-#: /browser/view_forum.pt:103
-msgid "See the previous result listing: alt-b"
-msgstr "Um zum vorherigen Ergebnis zu wechseln: alt-b"
-
-#: /browser/view_forum.pt:118
-msgid "${B}ack"
-msgstr ""
-
-#: /browser/view_forum.pt:127
-msgid "See the next result listing: alt-n"
-msgstr "Um die nächsten Ergebnisse zu zeigen: alt-n"
-
-#: /browser/view_forum.pt:134
+#: /browser/templates/forumview.pt:101
 msgid "${N}ext"
 msgstr ""
 
-#: /browser/view_forum.pt:136
+#: /browser/templates/forumview.pt:103
 msgid "Next"
 msgstr "Nächste"
 
-#: /browser/view_forum.pt:143
+#: /browser/templates/forumview.pt:110
 msgid "Go to the last result listing: alt-l"
 msgstr "Um zum letzten Ergebnis zu wechseln: alt-l"
 
-#: /browser/view_forum.pt:149
+#: /browser/templates/forumview.pt:115
 msgid "Last"
 msgstr "Letzte"
 
-#: /browser/view_forum.pt:161
+#: /browser/templates/forumview.pt:127
 msgid "Showing results ${start} to ${end} of ${total}"
 msgstr "Zeige Ergebnisse ${start} bis {end} von ${total}"
 
-#: /browser/view_forum.pt:173
+#: /browser/templates/forumview.pt:138
 msgid "Topics"
 msgstr "Themen"
 
-#: /browser/view_forum.pt:174
+#: /browser/templates/forumview.pt:139
 msgid "Post date"
 msgstr "Datum der Erstellung"
 
-#: /browser/view_forum.pt:175
-#: /browser/view_topic.pt:63
-#: /browser/view_topic.pt:93
+#: /browser/templates/forumview.pt:140
+#: /browser/templates/topicview.pt:50
+#: /browser/templates/topicview.pt:81
 msgid "Author"
 msgstr "Autor"
 
-#: /browser/view_forum.pt:176
+#: /browser/templates/forumview.pt:141
 msgid "Comments"
 msgstr "Kommentare"
 
-#: /browser/view_forum.pt:193
-#, fuzzy
-msgid "Post topic"
-msgstr "Thema erstellen"
-
-#: /browser/view_forum.pt:204
+#: /browser/templates/forumview.pt:158
+#: /browser/templates/topicview.pt:143
 msgid "Clear"
 msgstr "Löschen"
 
-#: /browser/view_forum.pt:214
+#: /browser/templates/forumview.pt:166
+msgid "Post topic"
+msgstr "Thema erstellen"
+
+#: /browser/templates/forumview.pt:172
 msgid "Now"
 msgstr "Jetzt"
 
-#: /browser/view_forum.pt:217
-#: /browser/view_forum.pt:303
+#: /browser/templates/forumview.pt:175
+#: /browser/templates/forumview.pt:250
+#: /browser/templates/topicview.pt:234
 msgid "Preview"
 msgstr "Vorschau"
 
-#: /browser/view_forum.pt:263
+#: /browser/templates/forumview.pt:220
 msgid "Post a new topic"
-msgstr "Ein neues Thema erstellen."
+msgstr "Ein neues Thema erstellen"
 
-#: /browser/view_forum.pt:264
-#: /browser/view_topic.pt:213
+#: /browser/templates/forumview.pt:221
+#: /browser/templates/topicview.pt:188
 msgid "Subject"
 msgstr "Betreff"
 
-#: /browser/view_forum.pt:267
-msgid "Please provide a subject for the new topic."
-msgstr "Bitte stellen Sie einen Betreff für das neue Thema zur Verfügung."
+#: /browser/templates/forumview.pt:224
+msgid "Please provide a subject for the new topic"
+msgstr "Bitte geben Sie einen Betreff für das neue Thema an"
 
-#: /browser/view_forum.pt:286
-#: /browser/view_topic.pt:239
-msgid "Post anonymous."
-msgstr ""
+#: /browser/templates/forumview.pt:236
+#: /browser/templates/topicview.pt:219
+msgid "Post anonymous"
+msgstr "Anonym posten"
 
-#: /browser/view_forum.pt:290
+#: /browser/templates/forumview.pt:240
 msgid "emoticon"
 msgstr "Emoticon"
 
-#: /browser/view_forum.pt:298
-#, fuzzy
+#: /browser/templates/forumview.pt:247
 msgid "Add topic"
 msgstr "Thema hinzufügen"
 
-#: /browser/view_forum.pt:317
-msgid "Login to post a new topic"
-msgstr "Login um einen neuen Kommentar zu erstellen"
-
-#: /browser/view_forum.pt:43
-msgid "Forum user controls"
-msgstr "Forum Benutzereinstellungen"
-
-#: /browser/view_forum.pt:51
-msgid "Logout"
-msgstr "Logout"
-
-#: /browser/view_forum.pt:60
-#, fuzzy
-msgid "Edit profile"
-msgstr "Profil editieren"
-
-#: /browser/view_forum.pt:88
+#: /browser/templates/forumview.pt:55
 msgid "Go to the first result listing: alt-f"
 msgstr "Um zum ersten Ergebnis zu wechseln: alt-f"
 
-#: /browser/view_include.pt:5
-msgid "Included Topic"
-msgstr "Inkludiertes Thema"
+#: /browser/templates/forumview.pt:70
+msgid "See the previous result listing: alt-b"
+msgstr "Um zum vorherigen Ergebnis zu wechseln: alt-b"
 
-#: /browser/view_topic.pt:104
-msgid "Link to this message"
-msgstr "Link zu dieser Nachricht"
+#: /browser/templates/forumview.pt:85
+msgid "${B}ack"
+msgstr ""
 
-#: /browser/view_topic.pt:107
-msgid "posted"
-msgstr "erstellt"
+#: /browser/templates/forumview.pt:94
+msgid "See the next result listing: alt-n"
+msgstr "Um die nächsten Ergebnisse zu zeigen: alt-n"
 
-#: /browser/view_topic.pt:162
-#: /browser/view_topic.pt:254
-msgid "post comment"
+#: /browser/templates/topicview.pt:152
+#: /browser/templates/topicview.pt:231
+msgid "Post comment"
 msgstr "Kommentar erstellen"
 
-#: /browser/view_topic.pt:173
-msgid "edit comment"
-msgstr "Kommentar bearbeiten"
-
-#: /browser/view_topic.pt:191
-msgid "add comment"
+#: /browser/templates/topicview.pt:168
+msgid "Add comment"
 msgstr "Kommentar hinzufügen"
 
-#: /browser/view_topic.pt:212
+#: /browser/templates/topicview.pt:187
 msgid "Post a new comment"
 msgstr "Ein neues Kommentar erstellen"
 
-#: /browser/view_topic.pt:222
+#: /browser/templates/topicview.pt:191
+msgid "Please provide a subject for the new comment"
+msgstr "Bitte stellen Sie einen Betreff für das neue Thema zur Verfügung"
+
+#: /browser/templates/topicview.pt:200
 msgid "Message"
 msgstr "Nachricht"
 
-#: /browser/view_topic.pt:278
-msgid "Login to post a new comment"
-msgstr "Login um ein neues Thema zu erstellen"
+#: /browser/templates/topicview.pt:203
+msgid "Please provide a message for the new comment"
+msgstr "Bitte geben Sie eine Nachricht für den neuen Kommentar an"
 
-#: /browser/view_topic.pt:64
+#: /browser/templates/topicview.pt:51
 msgid "Topic"
 msgstr "Thema"
 
-#: /browser/view_topic.pt:74
+#: /browser/templates/topicview.pt:64
 msgid "posted:"
 msgstr "erstellt:"
 
-#: /browser/view_topic.pt:94
+#: /browser/templates/topicview.pt:82
 msgid "Comment"
 msgstr "Kommentar"
 
-#: /content.py:172
+#: /browser/templates/topicview.pt:92
+msgid "Link to this message"
+msgstr "Link zu dieser Nachricht"
+
+#: /browser/templates/topicview.pt:95
+msgid "posted"
+msgstr "erstellt"
+
+#: /browser/templates/usercontrols.pt:10
+msgid "Login to post a new topic"
+msgstr "Login um einen neuen Kommentar zu erstellen"
+
+#: /browser/templates/usercontrols.pt:16
+msgid "Forum user controls"
+msgstr "Forum Benutzereinstellungen"
+
+#: /browser/templates/usercontrols.pt:22
+msgid "Logout"
+msgstr "Logout"
+
+#: /browser/templates/usercontrols.pt:29
+msgid "Edit profile"
+msgstr "Profil bearbeiten"
+
+#: /browser/views.py:128
+msgid "Sorry you need to be authorized to use this forum"
+msgstr "Sorry, Sie müssen sich authentisieren um das Forum zu benutzen."
+
+#: /browser/views.py:174
+msgid "Please provide a subject"
+msgstr "Bitte geben Sie einen Betreff an."
+
+#: /browser/views.py:183
+msgid "Topic added"
+msgstr "Thema hinzugefügt"
+
+#: /browser/views.py:216
+msgid "Please provide a title and a text"
+msgstr "Bitte geben Sie einen Titel und einen Text an"
+
+#: /browser/views.py:226
+msgid "Comment added"
+msgstr "Kommentar hinzugefügt."
+
+#: /content.py:170
 msgid "anonymous"
-msgstr ""
+msgstr "Anonym"
 
 #: /dtformat/dtformat.py:25
 msgid "Just added"
@@ -247,19 +246,19 @@ msgstr "${number} Minuten"
 
 #: /schema/silvaforum-forum.xml:27
 msgid "Allow hiding the name of the creator in topics and comments."
-msgstr ""
+msgstr "Erlaube, den Namen des Erstellers in Themen und Kommentaren zu verbergen."
 
 #: /schema/silvaforum-forum.xml:29
 msgid "anonymous posting allowed"
-msgstr ""
+msgstr "Anonyme Einträge sind erlaubt."
 
 #: /schema/silvaforum-item.xml:27
 msgid "Hide the name of the creator in the public view."
-msgstr ""
+msgstr "Verberge den Namen des Erstellers in der öffentlichen Ansicht."
 
 #: /schema/silvaforum-item.xml:29
 msgid "Anonymous"
-msgstr ""
+msgstr "Anonym"
 
 #: /views/edit/Content/Comment/form.form:29
 msgid "subject"
@@ -270,7 +269,6 @@ msgid "text"
 msgstr "Text"
 
 #: /views/edit/Content/Comment/get_tabs.py:10
-#: /browser/view_topic.pt:260
 msgid "preview"
 msgstr "Vorschau"
 
@@ -299,4 +297,13 @@ msgstr "Text aktualisiert"
 #: /views/edit/Content/Comment/submit.py:41
 msgid "Properties changed: ${changed}"
 msgstr "Eigenschaften geŠndert: ${changed}"
+
+#~ msgid "Please fill in one of the two fields."
+#~ msgstr "Bitte füllen Sie eines der beiden Felder aus."
+#~ msgid "Included Topic"
+#~ msgstr "Inkludiertes Thema"
+#~ msgid "edit comment"
+#~ msgstr "Kommentar bearbeiten"
+#~ msgid "Login to post a new comment"
+#~ msgstr "Login um ein neues Thema zu erstellen"
 
