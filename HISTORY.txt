@@ -1,12 +1,17 @@
 History
 =======
 
-SilvaForum 0.4 (unreleased)
+SilvaForum 0.4 (2009-11-18)
 ---------------------------
 
 - Refactor all the views, and use silva.core.views now.
 
+- An external batch component is used: silva.batch.
+
 - Add functional tests.
+
+Installing SilvaForum requires now that you setup silva.core.views and
+silva.batch in your environment.
 
 SilvaForum 0.3.2 (2009-02-09)
 -----------------------------
