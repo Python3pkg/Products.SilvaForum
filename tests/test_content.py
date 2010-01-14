@@ -157,7 +157,7 @@ class TopicTest(SilvaForumTestCase):
         metadata = getUtility(IMetadataService)
 
         comment = self.topic.add_comment('Foo', 'Foo, bar and baz!')
-        self.assert_(comment.creator() != 'anonymous')
+        self.assert_(comment.get_creator() != 'anonymous')
         self.assertEquals(metadata.getMetadataValue(
                 comment, 'silvaforum-item', 'anonymous'), 'no')
         self.assertEquals(self.topic.comments()[0]['creator'], 'test_user_1_')
