@@ -78,6 +78,9 @@ class ForumFolderBase(object):
 
 
 class Forum(ForumFolderBase, Publication):
+    """This represent a Forum. It can contain Topics.
+    """
+
     interface.implements(IForum)
     meta_type = 'Silva Forum'
 
@@ -163,6 +166,8 @@ class CreatorMixin(object):
 
 
 class Topic(ForumFolderBase, Folder, CreatorMixin):
+    """This represent a Topic of a Forum.
+    """
     interface.implements(ITopic)
     meta_type = 'Silva Forum Topic'
 
@@ -228,6 +233,9 @@ class Topic(ForumFolderBase, Folder, CreatorMixin):
 
 
 class Comment(Content, SimpleItem.SimpleItem, CreatorMixin):
+    """This represent a Comment which is contained inside a Topic of a
+    Forum.
+    """
     interface.implements(IComment)
     meta_type = 'Silva Forum Comment'
 
