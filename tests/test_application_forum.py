@@ -85,7 +85,7 @@ class ForumFunctionalTestCase(SilvaTestCase.SilvaFunctionalTestCase):
         forum = self.forum
         metadata = forum.service_metadata.getMetadata(forum)
         metadata.setValues('silvaforum-forum', {'anonymous_posting': 'yes'})
-        
+
     def test_forum_post_as_anonymous(self):
         """Post a new topic as anonymous
         """
@@ -104,10 +104,10 @@ class ForumFunctionalTestCase(SilvaTestCase.SilvaFunctionalTestCase):
         browser.getControl("Subject").value = "Anonymous post"
         browser.getControl(name="anonymous").value = '1'
         browser.getControl("Add topic").click()
-        
+
         self.failUnless("Topic added" \
                         in browser.contents)
-        
+
         regex = re.compile(r'<td class="poster">\s*<p>(.*?)</p>\s*</td>')
         match = re.search(regex, browser.contents)
         self.failUnless(match is not None)
@@ -126,18 +126,18 @@ class ForumFunctionalTestCase(SilvaTestCase.SilvaFunctionalTestCase):
         browser = silva_browser.browser
         browser = silva_browser.browser
         topic_url = silva_browser.get_root_url() + '/forum/topic0'
-        
+
         self.assertEqual(
             silva_browser.go(topic_url),
             (200, 'http://nohost/root/forum/topic0'))
 
         self.failUnless("this is some topic" in browser.contents)
-        
+
         browser.getControl('Subject').value = 'acomment'
         browser.getControl('Message').value = 'Comment body with some text'
         browser.getControl(name='anonymous').value = '1'
         browser.getControl('Post comment').click()
-        
+
         self.failUnless("Comment added" in browser.contents)
         self.failUnless("anonymous" in browser.contents)
         browser.getLink('posted').click()
@@ -147,7 +147,7 @@ class ForumFunctionalTestCase(SilvaTestCase.SilvaFunctionalTestCase):
         self.failIf(match is None, "author pattern does not match anything")
         author = match.group(1)
         self.assertEqual("anonymous", author)
-        
+
     def test_forum_preview_validation(self):
         """Try to preview an empty topic.
         """
