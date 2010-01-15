@@ -7,7 +7,6 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     i18n_domain="silva">
 
-
   <include package="silva.core.views" />
   <include package="silva.batch" />
 
@@ -21,33 +20,7 @@
     depends="Silva"
     />
 
-  <!-- permissions -->
-  <class class=".content.Forum">
-    <require permission="silva.ReadSilvaContent"
-             attributes="add_topic" />
-    <require permission="zope.Public"
-             attributes="topics" />
-  </class>
-  <class class=".content.Topic">
-    <require permission="silva.ReadSilvaContent"
-             attributes="add_comment" />
-    <require permission="silva.ReadSilvaContent"
-             attributes="set_text" />
-    <require permission="zope.Public"
-             attributes="comments" />
-    <require permission="zope.Public"
-             attributes="get_text" />
-  </class>
-  <class class=".content.Comment">
-    <require permission="zope.Public"
-             attributes="get_text" />
-    <require permission="silva.ReadSilvaContent"
-             attributes="set_text" />
-  </class>
-
   <!-- register content types -->
-
-  <!-- XXX not sure how to get the right factory called here... -->
   <silva:content
     content=".content.Forum"
     extension_name="SilvaForum"
@@ -66,6 +39,6 @@
     icon="www/comment.gif"
     />
 
- <grok:grok package=".browser" />
+  <grok:grok package=".browser" />
 
 </configure>

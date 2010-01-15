@@ -124,7 +124,6 @@ class ForumFunctionalTestCase(SilvaTestCase.SilvaFunctionalTestCase):
         silva_browser = SilvaBrowser.SilvaBrowser()
         silva_browser.login()
         browser = silva_browser.browser
-        browser = silva_browser.browser
         topic_url = silva_browser.get_root_url() + '/forum/topic0'
 
         self.assertEqual(

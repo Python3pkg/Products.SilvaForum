@@ -1,17 +1,18 @@
 # Copyright (c) 2007-2010 Infrae. All rights reserved.
 # See also LICENSES.txt
-# SilvaForum
-# Python
+# $Id$
 
 from datetime import datetime, timedelta
 from zope.i18n import translate
 
-from Products.SilvaForum.i18n import translate as _
+from silva.translations import translate as _
 
-def format_dt(self, formatdate, currentdate=None):
+
+def dtformat(request, formatdate, currentdate=None):
+    """Format a datetime object into a nice human like string.
     """
-    Format a datetime return string 
-    """
+    if currentdate is None:
+        currentdata = datetime.now()
     dt = currentdate - formatdate
     if isinstance(dt, float):
         # XXX args are zope's DateTime instances rather than datetimes...
@@ -19,22 +20,26 @@ def format_dt(self, formatdate, currentdate=None):
     if dt.days > 28:
         return str(formatdate)
 
-    ret = format_items(self, dt)
-    
-    if not ret:
-        return _('Just added')
-    if len(ret) > 2:
-        str_format = ', '.join(ret[:-1])
-        msg = _('Added ${time} ago', mapping={'time':str_format})
-        #return 'Added ' + ', '.join(ret[:-1]) + ' ago'
-        return msg
-    else:
-        str_format = ', '.join(ret)
-        msg = _('Added ${time} ago', mapping={'time':str_format})
-        #return 'Added ' + ', '.join(ret) + ' ago'
-        return msg
+    parts = dtformat_timedelta(request, dt)
+    # translation helper
+    def _(str, **kwargs):
+        kwargs['context'] = request
+        kwargs['domain'] = 'silvaforum'
+        return translate(str, **kwargs)
 
-def format_items(self, dt):
+    if not parts:
+        return _('Just added')
+    if len(parts) > 2:
+        str_format = ', '.join(parts[:-1])
+        return _('Added ${time} ago', mapping={'time': str_format})
+    else:
+        str_format = ', '.join(parts)
+        return _('Added ${time} ago', mapping={'time': str_format})
+
+
+def dtformat_timedelta(request, dt):
+    """Format a timedelta object in a nice human like string.
+    """
 
     # calculate time units
     weeks = int(dt.days / 7)
@@ -46,10 +51,10 @@ def format_items(self, dt):
 
     # translation helper
     def _(str, **kwargs):
-        kwargs['context'] = self.request
+        kwargs['context'] = request
         kwargs['domain'] = 'silvaforum'
         return translate(str, **kwargs)
-    
+
     ret = []
     if weeks:
         if weeks == 1:

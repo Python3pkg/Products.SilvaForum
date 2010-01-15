@@ -11,7 +11,8 @@ from Products.SilvaMetadata.interfaces import IMetadataService
 from Products.Silva.Content import Content
 from Products.Silva.Publication import Publication
 from Products.Silva.Folder import Folder
-from Products.Silva.i18n import translate as _
+
+from silva.translations import translate as _
 
 from Products.SilvaForum.interfaces import IForum, ITopic, IComment
 

@@ -13,16 +13,16 @@ from AccessControl import getSecurityManager, Unauthorized
 from DateTime import DateTime
 
 from Products.Silva import mangle
-from silva.core.interfaces import IEditableMember
 
 from Products.SilvaForum.resources.emoticons.emoticons import emoticons, \
     smileydata
-from Products.SilvaForum.dtformat.dtformat import format_dt
-from Products.SilvaForum.i18n import translate as _
+from Products.SilvaForum.dtformat import dtformat
 from Products.SilvaForum.interfaces import IForum, ITopic, \
     IComment, IPostable
 
+from silva.core.interfaces import IEditableMember
 from silva.core.views import views as silvaviews
+from silva.translations import translate as _
 
 minimal_add_role = 'Authenticated'
 
@@ -34,7 +34,7 @@ class ViewBase(silvaviews.View):
     grok.baseclass()
 
     def format_datetime(self, dt):
-        return format_dt(self, dt, DateTime())
+        return dtformat(self.request, dt, DateTime())
 
     def replace_links(self, text):
         # do regex for links and replace at occurrence
