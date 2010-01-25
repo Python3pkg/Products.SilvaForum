@@ -1,8 +1,10 @@
 History
 =======
 
-SilvaForum 1.0 (unreleased)
+SilvaForum 1.0 (2010-01-25)
 ---------------------------
+
+- Refactor some tests.
 
 - Don't use anymore get_metadata_element as this is a script of the
   old layout system.

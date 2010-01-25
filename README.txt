@@ -11,12 +11,6 @@ or questions) and add comments to existing topics. SilvaForum can be
 integrated with OpenID authentication and a CAPTCHA to prevent
 *spambots* from attempting to post.
 
-Installating SilvaForum
------------------------
-
-See INSTALL.txt for installation instructions, plus how to activate
-the Silva Forum stylesheet.
-
 Using SilvaForum
 ----------------
 
