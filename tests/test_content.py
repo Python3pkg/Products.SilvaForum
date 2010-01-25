@@ -8,7 +8,6 @@ from Products.SilvaMetadata.interfaces import IMetadataService
 from Products.SilvaForum import interfaces
 from Products.Silva.tests import SilvaTestCase
 
-from DateTime.DateTime import DateTime
 from Testing import ZopeTestCase
 
 ZopeTestCase.installProduct('SilvaForum')

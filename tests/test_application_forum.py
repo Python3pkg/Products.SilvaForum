@@ -3,9 +3,7 @@
 # See also LICENSES.txt
 # $Id$
 
-from Products.SilvaForum import interfaces
 from Products.Silva.tests import SilvaTestCase, SilvaBrowser
-from Products.SilvaForum.content import Topic
 
 from Testing.ZopeTestCase import installProduct
 

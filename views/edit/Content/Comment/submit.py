@@ -4,7 +4,7 @@
 # Python
 
 from Products.Silva import mangle
-from Products.Formulator.Errors import ValidationError, FormValidationError
+from Products.Formulator.Errors import FormValidationError
 from Products.Silva.i18n import translate as _
 from zope.i18n import translate
 
