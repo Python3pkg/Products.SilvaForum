@@ -1,1 +1,1 @@
-SilvaForum 1.0
+SilvaForum 1.1 (unreleased)
