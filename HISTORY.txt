@@ -1,7 +1,7 @@
 History
 =======
 
-SilvaForum 1.0 (2010-01-25)
+SilvaForum 1.0 (2010-01-29)
 ---------------------------
 
 - Refactor some tests.
