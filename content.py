@@ -85,7 +85,7 @@ class Forum(ForumFolderBase, Publication):
     interface.implements(IForum)
     meta_type = 'Silva Forum'
 
-    _addables_allowed_in_publication = ('Silva Forum Topic',)
+    _addables_allowed_in_container = ('Silva Forum Topic',)
 
     def __init__(self, *args, **kwargs):
         super(Forum, self).__init__(*args, **kwargs)
