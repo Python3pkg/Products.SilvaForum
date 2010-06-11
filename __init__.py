@@ -2,7 +2,7 @@
 # See also LICENSES.txt
 # $Id$
 
+from Products.FileSystemSite.DirectoryView import registerDirectory
 
-def initialize(context):
-    from Products.Silva.fssite import registerDirectory
-    registerDirectory('resources', globals())
+registerDirectory('resources', globals())
+
