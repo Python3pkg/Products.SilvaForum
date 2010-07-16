@@ -3,11 +3,11 @@
 # $Id$
 
 import re
-from zope import component
-from five import grok
 
+from five import grok
 from zeam.utils.batch import batch
 from zeam.utils.batch.interfaces import IBatching
+from zope import component
 
 from AccessControl import getSecurityManager, Unauthorized
 from DateTime import DateTime

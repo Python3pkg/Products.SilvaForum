@@ -1,12 +1,12 @@
 History
 =======
 
-SilvaForum 1.1 (unreleased)
+SilvaForum 2.3 (2010/07/16)
 ---------------------------
 
-- ...
+- Compatibility fixes for Zope 2.12, Python 2.6 and Silva 2.3.
 
-SilvaForum 1.0 (2010-01-29)
+SilvaForum 1.0 (2010/01/29)
 ---------------------------
 
 - Refactor some tests.

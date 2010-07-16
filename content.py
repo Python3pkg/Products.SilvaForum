@@ -3,6 +3,7 @@
 # $Id$
 
 import re
+
 from zope import interface, component
 from OFS import SimpleItem
 
