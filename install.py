@@ -36,27 +36,16 @@ def install(root):
                  ['edit', 'Container', 'Folder', 'Forum'])
     reg.register('edit', 'Silva Forum Topic',
                  ['edit', 'Container', 'Folder', 'Topic'])
-    reg.register('edit', 'Silva Forum Comment',
-                 ['edit', 'Content', 'Comment'])
-
-    # add
-    reg.register('add', 'Silva Forum', ['add', 'Forum'])
-    reg.register('add', 'Silva Forum Topic', ['add', 'Topic'])
-    reg.register('add', 'Silva Forum Comment', ['add', 'Comment'])
 
     # public is done from Five views
-
     configureAddables(root)
     configureMetadata(root)
+
 
 def uninstall(root):
     reg = root.service_view_registry
     reg.unregister('edit', 'Silva Forum')
     reg.unregister('edit', 'Silva Forum Topic')
-    reg.unregister('edit', 'Silva Forum Comment')
-    reg.unregister('add', 'Silva Forum')
-    reg.unregister('add', 'Silva Forum Topic')
-    reg.unregister('add', 'Silva Forum Comment')
 
     root.service_views.manage_delObjects(['SilvaForum'])
     root.service_resources.manage_delObjects(['SilvaForum'])

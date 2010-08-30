@@ -3,6 +3,9 @@
 # $Id$
 
 from Products.FileSystemSite.DirectoryView import registerDirectory
+from silva.core import conf as silvaconf
 
 registerDirectory('resources', globals())
 
+silvaconf.extensionName('SilvaForum')
+silvaconf.extensionTitle('Silva Forum')

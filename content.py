@@ -4,7 +4,8 @@
 
 import re
 
-from zope import interface, component
+from five import grok
+from zope import schema, component
 from OFS import SimpleItem
 
 from Products.Silva import mangle
@@ -13,7 +14,10 @@ from Products.Silva.Content import Content
 from Products.Silva.Publication import Publication
 from Products.Silva.Folder import Folder
 
+from silva.core.conf.interfaces import ITitledContent
+from silva.core import conf as silvaconf
 from silva.translations import translate as _
+from zeam.form import silva as silvaforms
 
 from Products.SilvaForum.interfaces import IForum, ITopic, IComment
 
@@ -80,18 +84,20 @@ class ForumFolderBase(object):
 
 
 class Forum(ForumFolderBase, Publication):
-    """This represent a Forum. It can contain Topics.
+    """A Silva Forum is rendered as a web forum, where visitors can
+    create topics and comments.
     """
-
-    interface.implements(IForum)
+    grok.implements(IForum)
     meta_type = 'Silva Forum'
-
-    _addables_allowed_in_container = ('Silva Forum Topic',)
+    silvaconf.icon('www/forum.gif')
 
     def __init__(self, *args, **kwargs):
         super(Forum, self).__init__(*args, **kwargs)
         self._lastid = 0
         self.topic_batch_size = 10
+
+    def get_silva_addables_allowed_in_container(self):
+        return ['Silva Forum Topic']
 
     def get_forum(self):
         return self
@@ -118,7 +124,7 @@ class Forum(ForumFolderBase, Publication):
             raise ValueError('anonymous posting is not allowed!')
         id = self._generate_id(topic)
         self.manage_addProduct['SilvaForum'].manage_addTopic(id, topic)
-        topic = dict(self.objectItems()).get(id)
+        topic = getattr(self, id, None)
         if topic is None:
             # apparently zope refused to add the object, probably an id clash.
             # for example (title, or add_topic). topic objects themselves
@@ -156,6 +162,13 @@ class Forum(ForumFolderBase, Publication):
         return True
 
 
+class ForumAddForm(silvaforms.SMIAddForm):
+    """Forum Add Form
+    """
+    grok.context(IForum)
+    grok.name(u"Silva Forum")
+
+
 class CreatorMixin(object):
 
     def get_creator(self):
@@ -168,9 +181,10 @@ class CreatorMixin(object):
 
 
 class Topic(ForumFolderBase, Folder, CreatorMixin):
-    """This represent a Topic of a Forum.
+    """Topic of a Silva Forum. It will contains comments posted by users.
     """
-    interface.implements(ITopic)
+    grok.implements(ITopic)
+    silvaconf.icon('www/topic.gif')
     meta_type = 'Silva Forum Topic'
 
     def __init__(self, *args, **kwargs):
@@ -178,6 +192,9 @@ class Topic(ForumFolderBase, Folder, CreatorMixin):
         self._lastid = 0
         self._text = ''
         self.comment_batch_size = 10
+
+    def get_silva_addables_allowed_in_container(self):
+        return ['Silva Forum Comment']
 
     def add_comment(self, title, text, anonymous=False):
         """ add a comment to the topic
@@ -222,9 +239,6 @@ class Topic(ForumFolderBase, Folder, CreatorMixin):
     def set_text(self, text):
         self._text = text
 
-    def get_silva_addables_allowed(self):
-        return ('Silva Forum Comment',)
-
     def is_published(self):
         # always return true to make that the object is always visible
         # in public listings
@@ -234,11 +248,19 @@ class Topic(ForumFolderBase, Folder, CreatorMixin):
         return len(self.objectValues('Silva Forum Comment'))
 
 
-class Comment(Content, SimpleItem.SimpleItem, CreatorMixin):
-    """This represent a Comment which is contained inside a Topic of a
-    Forum.
+class TopicAddForm(silvaforms.SMIAddForm):
+    """Topic Add Form
     """
-    interface.implements(IComment)
+    grok.context(ITopic)
+    grok.name(u'Silva Forum Topic')
+
+
+class Comment(Content, SimpleItem.SimpleItem, CreatorMixin):
+    """A comment is the smallest content of a Silva Forum, contained
+    in a topic.
+    """
+    grok.implements(IComment)
+    silvaconf.icon('www/comment.gif')
     meta_type = 'Silva Forum Comment'
 
     def __init__(self, *args, **kwargs):
@@ -255,6 +277,25 @@ class Comment(Content, SimpleItem.SimpleItem, CreatorMixin):
     def is_published(self):
         return False # always allow removal of this object from the SMI
 
-    def is_cacheable(self):
-        return True
 
+class ICommentSchema(ITitledContent):
+    text = schema.Text(
+        title=u"comment",
+        description=u"Comment text")
+
+
+class CommentAddForm(silvaforms.SMIAddForm):
+    """Comment Add Form.
+    """
+    grok.context(IComment)
+    grok.name(u'Silva Forum Comment')
+
+    fields = silvaforms.Fields(ICommentSchema)
+
+
+class CommentEditForm(silvaforms.SMIEditForm):
+    """Comment Edit Form.
+    """
+    grok.context(IComment)
+
+    fields = silvaforms.Fields(ICommentSchema).omit('id')
