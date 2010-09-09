@@ -51,7 +51,7 @@
           <tr class="preview">
             <td class="topic">
               <p tal:content="structure python:view.format_text(view.topic)" />
-              <form method="post" id="previewform"
+              <form method="post" id="previewform" name="previewform"
                     tal:attributes="action here_url">
                 <!-- todd says 'i don't know, man' about the next bit of code,
                      and i tend to fully agree... it works though, both in js
@@ -66,9 +66,9 @@
                          tal:attributes="onclick string:document.location='${here_url}'" />
                 </a>
                 <input class="button-preview" type="hidden"
-		               name="topic" id="preview_topic"
+                       name="topic" id="preview_topic"
                        tal:attributes="value view/topic" />
-                <input class="button-post;" name="post_submit"
+                <input class="button-post;" name="submit"
                        type="submit" value="Post topic"
                        i18n:attributes="value" />
               </form>
@@ -119,7 +119,7 @@
     <tal:navigation tal:replace="structure view/batch" />
     <tal:if condition="view/can_post">
       <form id="forum-thread-form" method="post" action="#"
-            tal:attributes="action here_url">
+            tal:attributes="action here_url" name="posttopic">
         <h3 i18n:translate="">Post a new topic</h3>
         <label for="topic" i18n:translate="">Subject</label>
         <div class="feedback"
@@ -147,7 +147,7 @@
           <span class="anonymous" i18n:translate="">Post anonymous</span>
         </div>
         <div class="submit">
-          <input class="button-add-topic" name="add_topic"
+          <input class="button-add-topic" name="submit"
                  type="submit" value="Add topic"
                  i18n:attributes="value" />
           <input class="button-preview" name="preview"

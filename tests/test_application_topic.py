@@ -3,193 +3,175 @@
 # See also LICENSES.txt
 # $Id$
 
-from Products.Silva.tests import SilvaTestCase, SilvaBrowser
+import unittest
 
-from Testing.ZopeTestCase import installProduct
+from zope.component import getUtility
 
-import urllib2
+from Products.SilvaMetadata.interfaces import IMetadataService
+from Products.SilvaForum.testing import FunctionalLayer
 
 
-class TopicFunctionalTestCase(SilvaTestCase.SilvaFunctionalTestCase):
+class TopicFunctionalTestCase(unittest.TestCase):
     """Functional test for Silva Forum.
     """
+    layer = FunctionalLayer
 
-    def afterSetUp(self):
-        self.root.service_extensions.install('SilvaForum')
-        self.forum = self.addObject(
-            self.silva, 'Forum', 'forum',
-            title='Test Forum', product='SilvaForum')
-        self.topic = self.addObject(
-            self.forum, 'Topic', 'Test_Topic',
-            title='Test Topic', product='SilvaForum')
+    def setUp(self):
+        self.root = self.layer.get_application()
+        self.layer.login('author')
+        factory = self.root.manage_addProduct['SilvaForum']
+        factory.manage_addForum('forum', 'Test Forum')
+        factory = self.root.forum.manage_addProduct['SilvaForum']
+        factory.manage_addTopic('topic', 'Test Topic')
 
     def test_login_and_post_comment(self):
         """Login to post a new comment in a topic.
         """
-        silva_browser = SilvaBrowser.SilvaBrowser()
-        browser = silva_browser.browser
+        browser = self.layer.get_browser()
+        browser.inspect.add('feedback', '//div[@class="feedback"]/span')
+        browser.inspect.add('title', '//div[@id="content"]/descendant::h2')
+        browser.inspect.add('author', '//span[@class="author"]')
 
-        forum_url = silva_browser.get_root_url() + '/forum'
-        self.assertEqual(
-            silva_browser.go(forum_url),
-            (200, 'http://nohost/root/forum'))
-
-        self.failUnless('Test Forum' in browser.contents)
-        browser.getLink('Test Topic').click()
+        self.assertEqual(browser.open('/root/forum'), 200)
+        self.assertEqual(browser.inspect.title, ['Test Forum'])
+        self.assertEqual(browser.get_link('Test Topic').click(), 200)
 
         # You need to login to post something. The login button
         # actually raise a 401 so you have a browser login.
-        self.failIf("Post a new comment" in browser.contents)
-        self.assertRaises(urllib2.HTTPError,
-            browser.getControl('Login to post a new topic').click)
+        self.assertFalse("Post a new comment" in browser.contents)
+        browser.login('dummy', 'dummy')
+        browser.reload()
 
-        silva_browser.login()
-        browser = silva_browser.browser
-        self.assertEqual(
-            silva_browser.go(forum_url),
-            (200, 'http://nohost/root/forum'))
-        browser.getLink('Test Topic').click()
+        self.assertTrue("Post a new comment" in browser.contents)
+        form = browser.get_form('postcomment')
 
         # You can now add a topic
-        self.failUnless("Post a new comment" in browser.contents)
-        browser.getControl("Subject").value = "New Comment"
-        browser.getControl("Message").value = "It's about a product for forum"
-        browser.getControl("Post comment").click()
+        form.get_control("title").value = "New Comment"
+        form.get_control("text").value = "It's about a product for forum"
+        self.assertEqual(form.get_control("submit").click(), 200)
 
-        self.failUnless("Comment added" in browser.contents)
+        self.assertEqual(browser.inspect.feedback, ["Comment added"])
+        self.assertEqual(browser.inspect.author[-1], "dummy")
+        self.assertTrue("New Comment" in browser.contents)
+        self.assertTrue("It's about a product for forum" in browser.contents)
 
-        # And now it's there
-        self.failUnless("New Comment" in browser.contents)
-        self.failUnless("It's about a product for forum" in browser.contents)
+        self.assertEqual(browser.get_link("posted").click(), 200)
+        self.assertEqual(browser.location, "/root/forum/topic/New_Comment")
+        self.assertEqual(browser.get_link("Up to topic...").click(), 200)
+        self.assertEqual(browser.location, "/root/forum/topic")
 
-        browser.getLink("posted").click()
+    def test_post_comment_as_anonymous(self):
+        """Post a new comment as anonymous
+        """
+        metadata = getUtility(IMetadataService).getMetadata(self.root.forum)
+        metadata.setValues('silvaforum-forum', {'anonymous_posting': 'yes'})
+
+        browser = self.layer.get_browser()
+        browser.inspect.add('feedback', '//div[@class="feedback"]/span')
+        browser.inspect.add('author', '//span[@class="author"]')
+        browser.login('dummy', 'dummy')
+
+        self.assertEqual(browser.open('/root/forum'), 200)
+        self.assertEqual(browser.get_link('Test Topic').click(), 200)
+
+        form = browser.get_form('postcomment')
+        form.get_control("title").value = "Anonymous Comment"
+        form.get_control("text").value = "It's a secret"
+        form.get_control("anonymous").checked = True
+        self.assertEqual(form.get_control("submit").click(), 200)
+
+        self.assertEqual(browser.inspect.feedback, ["Comment added"])
+        self.assertEqual(browser.inspect.author[-1], "anonymous")
+        self.assertEqual(browser.get_link("posted").click(), 200)
         self.assertEqual(
-            browser.url,
-            "http://nohost/root/forum/Test_Topic/New_Comment")
-        browser.getLink("Up to topic...").click()
-        self.assertEqual(
-            browser.url,
-            "http://nohost/root/forum/Test_Topic")
-
-        # And you can logout to leave.
-        self.assertRaises(urllib2.HTTPError,
-            browser.getControl('Logout').click)
+            browser.location, "/root/forum/topic/Anonymous_Comment")
 
     def test_topic_post_validation(self):
         """Try to add an empty comment.
         """
-        silva_browser = SilvaBrowser.SilvaBrowser()
-        silva_browser.login()
-        browser = silva_browser.browser
+        browser = self.layer.get_browser()
+        browser.inspect.add('feedback', '//div[@class="feedback"]/span')
+        browser.login('dummy', 'dummy')
 
-        forum_url = silva_browser.get_root_url() + '/forum'
+        self.assertEqual(browser.open('/root/forum'), 200)
+        self.assertEqual(browser.get_link('Test Topic').click(), 200)
+        self.assertEqual(browser.inspect.feedback, [])
+
+        form = browser.get_form('postcomment')
+        self.assertEqual(form.get_control("submit").click(), 200)
         self.assertEqual(
-            silva_browser.go(forum_url),
-            (200, 'http://nohost/root/forum'))
-        browser.getLink('Test Topic').click()
-
-        self.failIf("Please provide a title and a text" in browser.contents)
-
-        browser.getControl("Post comment").click()
-
-        self.failUnless("Please provide a title and a text" in browser.contents)
-
-    def test_post_topic_as_anonymous(self):
-        """Try to post a new topic as anonymous
-        """
-
-        silva_browser = SilvaBrowser.SilvaBrowser()
-        browser = silva_browser.browser
-        forum_url = silva_browser.get_root_url() + '/forum'
-        self.assertEqual(
-            silva_browser.go(forum_url),
-            (200, 'http://nohost/root/forum'))
-        
-        
+            browser.inspect.feedback,
+            ["Please provide a title and a text"])
 
     def test_topic_preview_validation(self):
         """Try to preview an empty or incomplete comment.
         """
-        silva_browser = SilvaBrowser.SilvaBrowser()
-        silva_browser.login()
-        browser = silva_browser.browser
+        browser = self.layer.get_browser()
+        browser.inspect.add('feedback', '//div[@class="feedback"]/span')
+        browser.login('dummy', 'dummy')
 
-        forum_url = silva_browser.get_root_url() + '/forum'
+        self.assertEqual(browser.open('/root/forum'), 200)
+        self.assertEqual(browser.get_link('Test Topic').click(), 200)
+        self.assertEqual(browser.inspect.feedback, [])
+
+        form = browser.get_form('postcomment')
+        self.assertEqual(form.get_control("preview").click(), 200)
         self.assertEqual(
-            silva_browser.go(forum_url),
-            (200, 'http://nohost/root/forum'))
-        browser.getLink('Test Topic').click()
+            browser.inspect.feedback,
+            ["Please provide a subject for the new comment",
+             "Please provide a message for the new comment"])
 
-        self.failIf("Please provide a subject for the new comment" \
-                        in browser.contents)
-        self.failIf("Please provide a message for the new comment" \
-                        in browser.contents)
+        form = browser.get_form('postcomment')
+        form.get_control('title').value = 'Previewed comment'
+        self.assertEqual(form.get_control("preview").click(), 200)
 
-        browser.getControl('Preview').click()
-
-        self.failUnless("Please provide a subject for the new comment" \
-                        in browser.contents)
-        self.failUnless("Please provide a message for the new comment" \
-                        in browser.contents)
-
-        browser.getControl('Subject').value = 'New previewed comment'
-        browser.getControl('Preview').click()
-
-        self.failIf("Please provide a subject for the new comment" \
-                        in browser.contents)
-        self.failUnless("Please provide a message for the new comment" \
-                        in browser.contents)
         self.assertEqual(
-            browser.getControl('Subject').value,
-            'New previewed comment')
+            browser.inspect.feedback,
+            ["Please provide a message for the new comment"])
+        form = browser.get_form('postcomment')
+        self.assertEqual(form.get_control('title').value, 'Previewed comment')
 
-        browser.getControl('Subject').value = ''
-        browser.getControl('Message').value = 'New previewed message'
-        browser.getControl('Preview').click()
+        form.get_control('title').value = ''
+        form.get_control('text').value = 'Previewed message'
+        self.assertEqual(form.get_control("preview").click(), 200)
 
-        self.failUnless("Please provide a subject for the new comment" \
-                        in browser.contents)
-        self.failIf("Please provide a message for the new comment" \
-                        in browser.contents)
         self.assertEqual(
-            browser.getControl('Message').value,
-            'New previewed message')
+            browser.inspect.feedback,
+            ["Please provide a subject for the new comment"])
+        form = browser.get_form('postcomment')
+        self.assertEqual(form.get_control('text').value, 'Previewed message')
 
     def test_comment_preview_and_post(self):
         """Enter a comment, preview and post it.
         """
-        silva_browser = SilvaBrowser.SilvaBrowser()
-        silva_browser.login()
-        browser = silva_browser.browser
+        browser = self.layer.get_browser()
+        browser.login('dummy', 'dummy')
+        browser.inspect.add('feedback', '//div[@class="feedback"]/span')
 
-        forum_url = silva_browser.get_root_url() + '/forum'
-        self.assertEqual(
-            silva_browser.go(forum_url),
-            (200, 'http://nohost/root/forum'))
-        browser.getLink('Test Topic').click()
+        self.assertEqual(browser.open('/root/forum'), 200)
+        self.assertEqual(browser.get_link('Test Topic').click(), 200)
 
         # Add and preview a new comment
-        self.failUnless("Post a new comment" in browser.contents)
-        browser.getControl("Subject").value = "New Previewed Comment"
-        browser.getControl("Message").value = "It's about a product for forum"
-        browser.getControl("Preview").click()
+        self.assertTrue("Post a new comment" in browser.contents)
+        form = browser.get_form('postcomment')
+        form.get_control("title").value = "New Previewed Comment"
+        form.get_control("text").value = "It's about a product for forum"
+        self.assertEqual(form.get_control("preview").click(), 200)
+        self.assertEqual(browser.inspect.feedback, [])
 
-        self.failIf("Comment added" in browser.contents)
+        form = browser.get_form('previewcomment')
+        self.assertEqual(
+            form.get_control('title').value, 'New Previewed Comment')
+        self.assertEqual(
+            form.get_control('text').value, "It's about a product for forum")
+        self.assertEqual(form.get_control("post_comment").click(), 200)
 
-        browser.getControl("Post comment", index=0).click()
-
-        self.failUnless("Comment added" in browser.contents)
-        self.failUnless("New Previewed Comment" in browser.contents)
-        self.failUnless("It's about a product for forum" in browser.contents)
+        self.assertEqual(browser.inspect.feedback, ["Comment added"])
+        self.assertTrue("New Previewed Comment" in browser.contents)
+        self.assertTrue("It's about a product for forum" in browser.contents)
 
 
-
-import unittest
 def test_suite():
-
-    installProduct('SilvaForum')
-
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TopicFunctionalTestCase))
     return suite
-

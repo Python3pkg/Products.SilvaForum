@@ -83,8 +83,8 @@
                        tal:content="comment/creator">author</span>
                   <a title="Link to this message"
                      i18n:attributes="title"
-                     tal:attributes="href string:${comment/topic_url}/${comment/id}">
-                    <span i18n:translate="">posted</span></a>:
+                     tal:attributes="href string:${comment/topic_url}/${comment/id}"
+                     i18n:translate="">posted</a>:
                 </p>
               </td>
               <td class="comment">
@@ -124,6 +124,7 @@
               </h5>
               <p tal:content="structure python:view.format_text(view.text)"></p>
               <form method="post" id="previewform" action="#"
+                    name="previewcomment"
                     tal:attributes="action here_url">
                 <!-- todd says 'i don't know, man' about the next bit of code,
                      and i tend to fully agree... it works though, both in js
@@ -167,8 +168,7 @@
          tal:condition="view/can_post"
          tal:define="show_form python:view.preview and 'block' or 'none'"
          tal:attributes="style string:display:${show_form}">
-      <form id="forum-comment-form"
-            method="post">
+      <form id="forum-comment-form" method="post" name="postcomment">
         <h3 i18n:translate="">Post a new comment</h3>
         <label for="title" i18n:translate="">Subject</label>
         <div class="feedback"

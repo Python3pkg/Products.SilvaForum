@@ -204,12 +204,10 @@ class Topic(ForumFolderBase, Folder, CreatorMixin):
         idstring = title
         if not idstring:
             idstring = text
-        id = self._generate_id(idstring)
-        self.manage_addProduct['SilvaForum'].manage_addComment(id, title)
-        comment = dict(self.objectItems()).get(id)
-        if comment is None:
-            # see add_topic comments
-            raise ValueError('Reserved id: "%s"' % id)
+        identifier = self._generate_id(idstring)
+        factory = self.manage_addProduct['SilvaForum']
+        factory.manage_addComment(identifier, title)
+        comment = self[identifier]
         comment.set_text(text)
         if anonymous:
             binding = self.get_root().service_metadata.getMetadata(comment)
@@ -219,17 +217,15 @@ class Topic(ForumFolderBase, Folder, CreatorMixin):
     def comments(self):
         """ returns an iterable of all comments
         """
-        comments = [{
-            'id': obj.id,
-            'url': obj.absolute_url(),
-            'title': obj.get_title(),
-            'creator': obj.get_creator(),
-            'creation_datetime': obj.get_creation_datetime(),
-            'text': obj.get_text(),
-            'topic_url': obj.aq_parent.absolute_url(),
-        } for obj in self.objectValues('Silva Forum Comment')]
-        comments
-        return comments
+        return [{
+            'id': comment.id,
+            'url': comment.absolute_url(),
+            'title': comment.get_title(),
+            'creator': comment.get_creator(),
+            'creation_datetime': comment.get_creation_datetime(),
+            'text': comment.get_text(),
+            'topic_url': comment.aq_parent.absolute_url(),
+        } for comment in self.objectValues('Silva Forum Comment')]
 
     # XXX this is a bit strange... topic is a Folder type but still has
     # text-data attributes
