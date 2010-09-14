@@ -11,6 +11,12 @@ from Products.SilvaMetadata.interfaces import IMetadataService
 from Products.SilvaForum.testing import FunctionalLayer
 
 
+def forum_settings(browser):
+    browser.inspect.add('feedback', '//div[@class="feedback"]/span')
+    browser.inspect.add('title', '//div[@id="content"]/descendant::h2')
+    browser.inspect.add('author', '//td[@class="poster"]/p')
+
+
 class ForumFunctionalTestCase(unittest.TestCase):
     """Functional test for Silva Forum.
     """
@@ -25,10 +31,7 @@ class ForumFunctionalTestCase(unittest.TestCase):
     def test_login_forum_and_post(self):
         """Login to post a new topic.
         """
-        browser = self.layer.get_browser()
-        browser.inspect.add('feedback', '//div[@class="feedback"]/span')
-        browser.inspect.add('title', '//div[@id="content"]/descendant::h2')
-        browser.inspect.add('author', '//td[@class="poster"]/p')
+        browser = self.layer.get_browser(forum_settings)
 
         self.assertEqual(browser.open('/root/forum'), 200)
         self.assertEqual(browser.inspect.title, ['Test Forum'])
@@ -55,8 +58,7 @@ class ForumFunctionalTestCase(unittest.TestCase):
     def test_forum_post_validation(self):
         """Try to add an empty topic.
         """
-        browser = self.layer.get_browser()
-        browser.inspect.add('feedback', '//div[@class="feedback"]/span')
+        browser = self.layer.get_browser(forum_settings)
         browser.login('dummy', 'dummy')
 
         self.assertEqual(browser.open('/root/forum'), 200)
@@ -72,9 +74,7 @@ class ForumFunctionalTestCase(unittest.TestCase):
         metadata = getUtility(IMetadataService).getMetadata(self.root.forum)
         metadata.setValues('silvaforum-forum', {'anonymous_posting': 'yes'})
 
-        browser = self.layer.get_browser()
-        browser.inspect.add('feedback', '//div[@class="feedback"]/span')
-        browser.inspect.add('author', '//td[@class="poster"]/p')
+        browser = self.layer.get_browser(forum_settings)
         browser.login('dummy', 'dummy')
         self.assertEqual(browser.open('/root/forum'), 200)
 
@@ -89,8 +89,7 @@ class ForumFunctionalTestCase(unittest.TestCase):
     def test_forum_preview_validation(self):
         """Try to preview an empty topic.
         """
-        browser = self.layer.get_browser()
-        browser.inspect.add('feedback', '//div[@class="feedback"]/span')
+        browser = self.layer.get_browser(forum_settings)
         browser.login('dummy', 'dummy')
 
         self.assertEqual(browser.open('/root/forum'), 200)
@@ -105,8 +104,7 @@ class ForumFunctionalTestCase(unittest.TestCase):
     def test_forum_preview_and_post(self):
         """Enter a topic, preview and post it.
         """
-        browser = self.layer.get_browser()
-        browser.inspect.add('feedback', '//div[@class="feedback"]/span')
+        browser = self.layer.get_browser(forum_settings)
         browser.login('dummy', 'dummy')
 
         self.assertEqual(browser.open('/root/forum'), 200)

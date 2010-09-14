@@ -135,5 +135,3 @@ def test_suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TestFormatDT))
     return suite
-
-

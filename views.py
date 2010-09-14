@@ -14,7 +14,7 @@ from DateTime import DateTime
 
 from Products.Silva import mangle
 
-from Products.SilvaForum.resources.emoticons.emoticons import emoticons, \
+from Products.SilvaForum.emoticons.emoticons import emoticons, \
     smileydata
 from Products.SilvaForum.dtformat import dtformat
 from Products.SilvaForum.interfaces import IForum, ITopic, \
@@ -49,7 +49,6 @@ class ViewBase(silvaviews.View):
         if not isinstance(text, unicode):
             text = unicode(text, 'utf-8')
         text = mangle.entities(text)
-        root = self.context.aq_inner.get_root()
         text = self.replace_links(text)
         text = emoticons(text,
             self.get_resources().emoticons.smilies.absolute_url())
@@ -58,7 +57,6 @@ class ViewBase(silvaviews.View):
 
     def get_smiley_data(self):
         ret = []
-        root = self.context.aq_inner.get_root()
         service_url = self.get_resources().emoticons.smilies.absolute_url()
         for image, smileys in smileydata.items():
             ret.append({
