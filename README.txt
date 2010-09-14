@@ -56,6 +56,8 @@ http://www.bijvoet-center.nl/ for the assignment to build the forum.
 Thank you Mark James of http://www.famfamfam.com/ for the great icons,
 which we used in the forum views!
 
+And the them of JForum for emoticons icons.
+
 Questions, remarks, etc.
 ========================
 

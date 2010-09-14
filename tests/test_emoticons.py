@@ -4,8 +4,7 @@
 
 import unittest
 
-from Products.SilvaForum.emoticons.emoticons import (
-    emoticons, flatten_smileydata)
+from Products.SilvaForum.emoticons import emoticons, flatten_smileydata
 
 
 class EmoticonsTestCase(unittest.TestCase):

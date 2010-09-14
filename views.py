@@ -14,8 +14,7 @@ from DateTime import DateTime
 
 from Products.Silva import mangle
 
-from Products.SilvaForum.emoticons.emoticons import emoticons, \
-    smileydata
+from Products.SilvaForum.emoticons import emoticons, smileydata
 from Products.SilvaForum.dtformat import dtformat
 from Products.SilvaForum.interfaces import IForum, ITopic, \
     IComment, IPostable
