@@ -8,7 +8,7 @@
     <index_type>FieldIndex</index_type>
     <index_p>0</index_p>
     <field_type>RadioField</field_type>
-    <acquire_p>0</acquire_p>
+    <acquire_p>1</acquire_p>
     <read_only_p>0</read_only_p>
     <read_guard>
       <roles></roles>
@@ -63,7 +63,7 @@
     <index_type>FieldIndex</index_type>
     <index_p>0</index_p>
     <field_type>RadioField</field_type>
-    <acquire_p>0</acquire_p>
+    <acquire_p>1</acquire_p>
     <read_only_p>0</read_only_p>
     <read_guard>
       <roles></roles>
