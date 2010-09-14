@@ -19,5 +19,4 @@ class SilvaForumLayer(SilvaLayer):
         transaction.commit()
 
 
-FunctionalLayer = SilvaForumLayer(
-    Products.SilvaForum, zcml_file='configure.zcml')
+FunctionalLayer = SilvaForumLayer(Products.SilvaForum)
