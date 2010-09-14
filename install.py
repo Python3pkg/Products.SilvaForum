@@ -10,8 +10,6 @@ import os
 
 def install(root):
     # install the views directory into service_views
-    add_fss_directory_view(root.service_views,
-                           'SilvaForum', __file__, 'views')
     add_fss_directory_view(root.service_resources,
                            'SilvaForum', __file__, 'resources')
 
@@ -23,19 +21,11 @@ def install(root):
     root.manage_permission('Add Silva Forum Comments',
                            ['Author', 'Editor', 'ChiefEditor', 'Manager'])
 
-    reg = root.service_view_registry
-
     # define metadata sets
     root.service_metadata.addTypesMapping(
         ('Silva Forum', 'Silva Forum Topic', 'Silva Forum Comment'),
         ('silva-content', 'silva-extra'))
     root.service_metadata.initializeMetadata()
-
-    # edit
-    reg.register('edit', 'Silva Forum',
-                 ['edit', 'Container', 'Folder', 'Forum'])
-    reg.register('edit', 'Silva Forum Topic',
-                 ['edit', 'Container', 'Folder', 'Topic'])
 
     # public is done from Five views
     configureAddables(root)
@@ -117,4 +107,4 @@ def unconfigureMetadata(root):
             collection.manage_delObjects(metadataset)
 
 def is_installed(root):
-    return hasattr(root.service_views, 'SilvaForum')
+    return hasattr(root.service_resources, 'SilvaForum')

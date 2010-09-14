@@ -198,7 +198,7 @@
         </textarea>
         <div id="emoticons">
           <span class="emoticons"
-                tal:repeat="smileydata view/get_smiley_data">
+                tal:repeat="smileydata view/smileys">
             <img onclick="add_smiley(this.title)"
                  alt="add emoticon"
                  tal:attributes="title smileydata/text;

@@ -8,6 +8,7 @@ from five import grok
 from zeam.utils.batch import batch
 from zeam.utils.batch.interfaces import IBatching
 from zope import component
+from zope.cachedescriptors.property import CachedProperty
 
 from AccessControl import getSecurityManager, Unauthorized
 from DateTime import DateTime
@@ -44,28 +45,26 @@ class ViewBase(silvaviews.View):
         text = re.compile('(<a\shref="www)').sub('<a href="http://www', text)
         return text
 
+    @CachedProperty
+    def emoticons_directory(self):
+        return self.static['emoticons']()
+
     def format_text(self, text):
         if not isinstance(text, unicode):
             text = unicode(text, 'utf-8')
-        text = mangle.entities(text)
-        text = self.replace_links(text)
-        text = emoticons(text,
-            self.get_resources().emoticons.smilies.absolute_url())
+        text = self.replace_links(mangle.entities(text))
+        text = emoticons(text, self.emoticons_directory)
         text = text.replace('\n', '<br />')
         return text
 
-    def get_smiley_data(self):
-        ret = []
-        service_url = self.get_resources().emoticons.smilies.absolute_url()
-        for image, smileys in smileydata.items():
-            ret.append({
-                'text': smileys[0],
-                'href': service_url + '/' + image,
-            })
-        return ret
-
-    def get_resources(self):
-        return self.context.aq_inner.get_root().service_resources.SilvaForum
+    def smileys(self):
+        smileys = []
+        for filename, syntaxes in smileydata.items():
+            smileys.append({
+                'text': syntaxes[0],
+                'href': '/'.join((self.emoticons_directory, filename)),
+                })
+        return smileys
 
     def can_post(self):
         """Return true if the current user is allowed to post.
@@ -85,22 +84,13 @@ class ViewBase(silvaviews.View):
 class UserControls(silvaviews.ContentProvider):
     """Login/User details.
     """
-
     grok.context(IPostable)
     grok.view(ViewBase)
-
-    def can_edit_profile(self):
-        userid = getSecurityManager().getUser().getId()
-        # No other nice way to get the member object from here.
-        member = self.context.aq_inner.service_members.get_member(
-            userid, location=self.context.aq_inner)
-        return IEditableMember.providedBy(member)
 
 
 class ForumView(ViewBase):
     """View for a forum.
     """
-
     grok.context(IForum)
 
     def update(self, authenticate=False, anonymous=False,
@@ -137,7 +127,6 @@ class ForumView(ViewBase):
         except ValueError, e:
             self.message = str(e)
             return
-        url = self.context.absolute_url()
         msg = _('Topic added')
         self.response.redirect(
             mangle.urlencode(self.context.absolute_url(), message=msg))
@@ -146,7 +135,6 @@ class ForumView(ViewBase):
 class TopicView(ViewBase):
     """ View on a Topic. The TopicView is a collection of comments.
     """
-
     grok.context(ITopic)
 
     def update(self, authenticate=False, anonymous=False, preview=False,
@@ -181,8 +169,7 @@ class TopicView(ViewBase):
             return
 
         try:
-            comment = self.context.add_comment(
-                self.title, self.text, anonymous)
+            self.context.add_comment(self.title, self.text, anonymous)
         except ValueError, e:
             self.message = str(e)
             return
@@ -194,6 +181,6 @@ class TopicView(ViewBase):
 
 
 class CommentView(ViewBase):
-
+    """View a comment.
+    """
     grok.context(IComment)
-
