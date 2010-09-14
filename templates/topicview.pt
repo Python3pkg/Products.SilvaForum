@@ -206,7 +206,7 @@
           </span>
         </div>
         <div id="anonymous-input"
-             tal:condition="view/anonymous_posting_allowed">
+             tal:condition="view/anonymous_posting">
           <input class="store anonymous" type="checkbox"
                  name="anonymous"
                  tal:attributes="value view/anonymous" />

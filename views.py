@@ -4,24 +4,23 @@
 
 import re
 
-from five import grok
-from zeam.utils.batch import batch
-from zeam.utils.batch.interfaces import IBatching
-from zope import component
-from zope.cachedescriptors.property import CachedProperty
-
 from AccessControl import getSecurityManager, Unauthorized
 from DateTime import DateTime
 
 from Products.Silva import mangle
-
 from Products.SilvaForum.emoticons import emoticons, smileydata
 from Products.SilvaForum.dtformat import dtformat
 from Products.SilvaForum.interfaces import IForum, ITopic, \
     IComment, IPostable
 
+from five import grok
 from silva.core.views import views as silvaviews
+from silva.core.views.httpheaders import HTTPResponseHeaders
 from silva.translations import translate as _
+from zeam.utils.batch import batch
+from zeam.utils.batch.interfaces import IBatching
+from zope import component
+from zope.publisher.interfaces.browser import IBrowserRequest
 
 MINIMAL_ADD_ROLE = 'Authenticated'
 
@@ -38,9 +37,21 @@ def replace_links(text):
     return ABSOLUTE_LINK_RE.sub('<a href="http://www', text)
 
 
-class ViewBase(silvaviews.View):
+class FindResponseHeaders(HTTPResponseHeaders):
+    """This reliably set HTTP headers on file serving, for GET and
+    HEAD requests.
+    """
+    grok.adapts(IBrowserRequest, IPostable)
 
+    def cache_headers(self):
+        self.disable_cache()
+
+
+class ViewBase(silvaviews.View):
     grok.baseclass()
+
+    def update(self):
+        self.emoticons_directory = self.static['emoticons']()
 
     def format_datetime(self, dt):
         return dtformat(self.request, dt, DateTime())
@@ -53,9 +64,16 @@ class ViewBase(silvaviews.View):
                 mangle.entities(text)), self.emoticons_directory)
         return text.replace('\n', '<br />')
 
-    @CachedProperty
-    def emoticons_directory(self):
-        return self.static['emoticons']()
+
+class ContainerViewBase(ViewBase):
+    grok.baseclass()
+
+    def update(self):
+        super(ContainerViewBase, self).update()
+        self.captcha_posting = self.context.unauthenticated_posting_allowed()
+        self.anonymous_posting = self.context.anonymous_posting_allowed()
+        sm = getSecurityManager()
+        self.is_logged_in = sm.getUser().has_role(MINIMAL_ADD_ROLE)
 
     def smileys(self):
         smileys = []
@@ -69,39 +87,55 @@ class ViewBase(silvaviews.View):
     def can_post(self):
         """Return true if the current user is allowed to post.
         """
-        sec = getSecurityManager()
-        return sec.getUser().has_role(MINIMAL_ADD_ROLE)
+        if self.captcha_posting:
+            return True
+        return self.is_logged_in
 
     def authenticate(self):
-        if not self.can_post():
+        if not self.is_logged_in:
             msg = _('Sorry you need to be authorized to use this forum')
             raise Unauthorized(msg)
 
-    @CachedProperty
-    def unauthenticated_posting_allowed(self):
-        pass
-
-    @CachedProperty
-    def anonymous_posting_allowed(self):
-        return self.context.anonymous_posting_allowed()
 
 
 class UserControls(silvaviews.ContentProvider):
     """Login/User details.
     """
     grok.context(IPostable)
-    grok.view(ViewBase)
+    grok.view(ContainerViewBase)
 
 
-class ForumView(ViewBase):
+class ForumView(ContainerViewBase):
     """View for a forum.
     """
     grok.context(IForum)
 
     def update(self, authenticate=False, anonymous=False,
                preview=False, cancel=False, topic=None, message=''):
+        super(ForumView, self).update()
         if authenticate:
             self.authenticate()
+
+        self.topic = unicode(topic or '', 'utf-8').strip()
+        self.message = unicode(message, 'utf-8')
+        self.anonymous = anonymous
+        self.preview = preview
+        self.preview_topic = preview and self.topic
+        self.preview_not_topic = preview and not self.topic
+
+        if not (preview or cancel or topic is None):
+            self.authenticate()
+
+            if not self.topic:
+                self.message = _('Please provide a subject')
+            else:
+                try:
+                    self.context.add_topic(self.topic, anonymous)
+                except ValueError, e:
+                    self.message = str(e)
+                else:
+                    self.message = _('Topic added')
+                    self.topic = u''
 
         self.topics = batch(
             self.context.topics(), count=self.context.topic_batch_size,
@@ -111,49 +145,17 @@ class ForumView(ViewBase):
             (self.context, self.topics, self.request),
             IBatching)()
 
-        self.topic = unicode(topic or '', 'utf-8').strip()
-        self.message = unicode(message, 'utf-8')
-        self.anonymous = anonymous
-        self.preview = preview
-        self.preview_topic = preview and self.topic
-        self.preview_not_topic = preview and not self.topic
 
-        if (preview or cancel or topic is None):
-            return
-
-        self.authenticate()
-
-        if not self.topic:
-            self.message = _('Please provide a subject')
-            return
-
-        try:
-            self.context.add_topic(self.topic, anonymous)
-        except ValueError, e:
-            self.message = str(e)
-            return
-        msg = _('Topic added')
-        self.response.redirect(
-            mangle.urlencode(self.context.absolute_url(), message=msg))
-
-
-class TopicView(ViewBase):
+class TopicView(ContainerViewBase):
     """ View on a Topic. The TopicView is a collection of comments.
     """
     grok.context(ITopic)
 
     def update(self, authenticate=False, anonymous=False, preview=False,
                cancel=False, title=None, text=None, message=''):
+        super(TopicView, self).update()
         if authenticate:
             self.authenticate()
-
-        self.comments = batch(
-            self.context.comments(), count=self.context.comment_batch_size,
-            name='comments', request=self.request)
-
-        self.batch = component.getMultiAdapter(
-            (self.context, self.comments, self.request),
-            IBatching)()
 
         self.title = unicode(title or '', 'UTF-8').strip()
         self.text = unicode(text or '', 'UTF-8').strip()
@@ -164,25 +166,26 @@ class TopicView(ViewBase):
         self.preview_not_title = preview and not self.title
         self.preview_not_text = preview and not self.text
 
-        if (preview or cancel or (text is None and title is None)):
-            return
+        if not (preview or cancel or (text is None and title is None)):
+            self.authenticate()
 
-        self.authenticate()
+            if not title and not text:
+                self.message = _('Please provide a title and a text')
+            else:
+                try:
+                    self.context.add_comment(self.title, self.text, anonymous)
+                except ValueError, e:
+                    self.message = str(e)
+                else:
+                    self.message = _('Comment added')
 
-        if not title and not text:
-            self.message = _('Please provide a title and a text')
-            return
+        self.comments = batch(
+            self.context.comments(), count=self.context.comment_batch_size,
+            name='comments', request=self.request)
 
-        try:
-            self.context.add_comment(self.title, self.text, anonymous)
-        except ValueError, e:
-            self.message = str(e)
-            return
-
-        msg = _('Comment added')
-
-        self.response.redirect(
-            mangle.urlencode(self.context.absolute_url(), message=msg))
+        self.batch = component.getMultiAdapter(
+            (self.context, self.comments, self.request),
+            IBatching)()
 
 
 class CommentView(ViewBase):

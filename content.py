@@ -272,13 +272,8 @@ class Comment(ForumPost, Content, SimpleItem):
     silvaconf.icon('www/comment.gif')
     meta_type = 'Silva Forum Comment'
 
-    security = ClassSecurityInfo()
-
-
     def is_published(self):
         return False # always allow removal of this object from the SMI
-
-InitializeClass(Comment)
 
 
 class ICommentSchema(ITitledContent):

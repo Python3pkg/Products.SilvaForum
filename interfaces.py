@@ -2,19 +2,33 @@
 # See also LICENSES.txt
 # $Id$
 
-from silva.core.interfaces import IContent
+from silva.core.interfaces import IContent, IContainer
 
 
 class IPostable(IContent):
-    """ Marker interface for content where you can post content.
+    """Content where you can post content.
     """
 
 
-class IForum(IPostable):
-    """ Silva Forum is a collection of topics containing comments
+class IPost(IContainer):
+    """Posted content.
+    """
 
-        see ITopic and IComment for (respectively) the topic and comment
-        interfaces
+    def get_creator():
+        """Return post creator name.
+        """
+
+    def get_text():
+        """Return post text content
+        """
+
+    def set_text(text):
+        """Set post text content
+        """
+
+
+class IForum(IPostable):
+    """Silva Forum is a collection of topics containing comments.
     """
 
     def add_topic(topic, anonymous=False):
@@ -26,7 +40,7 @@ class IForum(IPostable):
         """
 
 
-class ITopic(IPostable):
+class ITopic(IPostable, IPost):
     """ A topic in a forum
     """
 
@@ -38,24 +52,7 @@ class ITopic(IPostable):
         """ Return all comments (list)
         """
 
-    def get_text():
-        """ Return the text content
-        """
 
-    def set_text(text):
-        """ Set the text content
-        """
-
-
-class IComment(IContent):
+class IComment(IPost):
     """ A single comment in a forum
     """
-
-    def get_text():
-        """ Return the text content.
-        """
-
-    def set_text(text):
-        """ Set the text content.
-        """
-

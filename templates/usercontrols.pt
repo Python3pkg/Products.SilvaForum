@@ -1,7 +1,7 @@
 <div class="controls"
      tal:define="here_url context/absolute_url"
      i18n:domain="silvaforum">
-    <tal:login tal:condition="not:view/can_post">
+    <tal:login tal:condition="not:view/is_logged_in">
       <form method="post" action="#"
             tal:attributes="action here_url">
         <input type="hidden" name="came_from" value="#"
@@ -12,7 +12,7 @@
                i18n:attributes="value" />
       </form>
     </tal:login>
-    <tal:logout tal:condition="view/can_post">
+    <tal:logout tal:condition="view/is_logged_in">
       <h6 i18n:translate="">Forum user controls</h6>
       <form method="post" action="#"
             tal:attributes="action string:${here_url}/service_members/logout">

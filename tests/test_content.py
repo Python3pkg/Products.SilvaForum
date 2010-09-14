@@ -243,6 +243,7 @@ class CommentViewTest(SilvaForumTestCase):
         view = getMultiAdapter(
             (self.root.forum.topic.com, TestRequest()),
             name=u'content.html')
+        view.update()
 
         self.assertEqual('foo bar', view.format_text('foo bar'))
         self.assertEqual('foo<br />bar', view.format_text('foo\nbar'))
