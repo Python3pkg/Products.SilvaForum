@@ -33,14 +33,9 @@ def install(root):
 
 
 def uninstall(root):
-    reg = root.service_view_registry
-    reg.unregister('edit', 'Silva Forum')
-    reg.unregister('edit', 'Silva Forum Topic')
-
-    root.service_views.manage_delObjects(['SilvaForum'])
     root.service_resources.manage_delObjects(['SilvaForum'])
-
     unconfigureMetadata(root)
+
 
 def configureAddables(root):
     """Make sure the right items are addable in the root"""
@@ -63,8 +58,8 @@ def configureMetadata(context):
     collection = context.service_metadata.getCollection()
 
     for metatypes, setname in (
-            (('Silva Forum',), 'silvaforum-forum'),
-            (('Silva Forum Topic', 'Silva Forum Comment'), 'silvaforum-item')):
+            (('Silva Forum', 'Silva Forum Topic'), 'silvaforum-forum'),
+            (('Silva Forum Topic', 'Silva Forum Comment',), 'silvaforum-item')):
         if setname not in collection.objectIds():
             xmlfile = os.path.join(schema, '%s.xml' % (setname,))
             definition = open(xmlfile, 'r')

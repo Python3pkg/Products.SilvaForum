@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <metadata_set id="silvaforum-forum" ns_uri="http://infrae.com/namespaces/metadata/silvaforum-forum" ns_prefix="silvaforum-forum">
-<title></title>
+<title>Forum Settings</title>
 <category>layout</category>
 <description>Settings for the SilvaForum Forum object</description>
 <minimalrole>Chief Editor</minimalrole>

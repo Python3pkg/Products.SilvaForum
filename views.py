@@ -20,13 +20,22 @@ from Products.SilvaForum.dtformat import dtformat
 from Products.SilvaForum.interfaces import IForum, ITopic, \
     IComment, IPostable
 
-from silva.core.interfaces import IEditableMember
 from silva.core.views import views as silvaviews
 from silva.translations import translate as _
 
-minimal_add_role = 'Authenticated'
+MINIMAL_ADD_ROLE = 'Authenticated'
 
 grok.templatedir('templates')
+
+LINK_RE = re.compile(
+    r'(((ht|f)tp(s?)\:\/\/|(ht|f)tp(s?)\:'
+    r'\/\/www\.|www\.|mailto\:)\S+[^).\s])')
+ABSOLUTE_LINK_RE = re.compile(r'(<a\shref="www)')
+
+def replace_links(text):
+    # do regex for links and replace at occurrence
+    text = LINK_RE.sub('<a href="\g<1>">\g<1></a>', text)
+    return ABSOLUTE_LINK_RE.sub('<a href="http://www', text)
 
 
 class ViewBase(silvaviews.View):
@@ -36,26 +45,17 @@ class ViewBase(silvaviews.View):
     def format_datetime(self, dt):
         return dtformat(self.request, dt, DateTime())
 
-    def replace_links(self, text):
-        # do regex for links and replace at occurrence
-        text = re.compile(
-            '(((ht|f)tp(s?)\:\/\/|(ht|f)tp(s?)\:'
-            '\/\/www\.|www\.|mailto\:)\S+[^).\s])'
-        ).sub('<a href="\g<1>">\g<1></a>',text)
-        text = re.compile('(<a\shref="www)').sub('<a href="http://www', text)
-        return text
+    def format_text(self, text):
+        if not isinstance(text, unicode):
+            text = unicode(text, 'utf-8')
+        text = emoticons(
+            replace_links(
+                mangle.entities(text)), self.emoticons_directory)
+        return text.replace('\n', '<br />')
 
     @CachedProperty
     def emoticons_directory(self):
         return self.static['emoticons']()
-
-    def format_text(self, text):
-        if not isinstance(text, unicode):
-            text = unicode(text, 'utf-8')
-        text = self.replace_links(mangle.entities(text))
-        text = emoticons(text, self.emoticons_directory)
-        text = text.replace('\n', '<br />')
-        return text
 
     def smileys(self):
         smileys = []
@@ -70,13 +70,18 @@ class ViewBase(silvaviews.View):
         """Return true if the current user is allowed to post.
         """
         sec = getSecurityManager()
-        return sec.getUser().has_role(minimal_add_role)
+        return sec.getUser().has_role(MINIMAL_ADD_ROLE)
 
     def authenticate(self):
         if not self.can_post():
             msg = _('Sorry you need to be authorized to use this forum')
             raise Unauthorized(msg)
 
+    @CachedProperty
+    def unauthenticated_posting_allowed(self):
+        pass
+
+    @CachedProperty
     def anonymous_posting_allowed(self):
         return self.context.anonymous_posting_allowed()
 

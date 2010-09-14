@@ -9,6 +9,7 @@ from zope.publisher.browser import TestRequest
 
 from Products.Silva.testing import assertTriggersEvents
 from Products.SilvaForum import interfaces
+from Products.SilvaForum.views import replace_links
 from Products.SilvaForum.testing import FunctionalLayer
 from Products.SilvaMetadata.interfaces import IMetadataService
 
@@ -247,42 +248,42 @@ class CommentViewTest(SilvaForumTestCase):
         self.assertEqual('foo<br />bar', view.format_text('foo\nbar'))
         self.assertEquals('foo&lt;bar', view.format_text('foo<bar'))
 
+class ReplaceLinkTestCase(unittest.TestCase):
+
     def test_replace_links(self):
-        view = getMultiAdapter(
-            (self.root.forum.topic.com, TestRequest()),
-            name=u'content.html')
 
         text = 'aaa aaa www.link.org aaa'
         self.assertEquals(
             'aaa aaa <a href="http://www.link.org">www.link.org</a> aaa',
-            view.replace_links(text))
+            replace_links(text))
         text = 'aa aa http://www.link.org a'
         self.assertEquals(
             'aa aa <a href="http://www.link.org">http://www.link.org</a> a',
-            view.replace_links(text))
+            replace_links(text))
         text = 'aa aa http://link.org a'
         self.assertEquals(
             'aa aa <a href="http://link.org">http://link.org</a> a',
-            view.replace_links(text))
+            replace_links(text))
         text = 'aa aa https://www.security.org a'
         self.assertEquals(
             'aa aa <a href="https://www.security.org">https://www.security.org</a> a',
-            view.replace_links(text))
+            replace_links(text))
         text = 'aa aa mailto:myemail@myemail.com a'
         self.assertEquals(
             'aa aa <a href="mailto:myemail@myemail.com">mailto:myemail@myemail.com</a> a',
-            view.replace_links(text))
+            replace_links(text))
         text = 'www.link.org.'
         self.assertEquals(
             '<a href="http://www.link.org">www.link.org</a>.',
-            view.replace_links(text))
+            replace_links(text))
         text = '(www.link.org)'
         self.assertEquals(
             '(<a href="http://www.link.org">www.link.org</a>)',
-            view.replace_links(text))
+            replace_links(text))
 
 def test_suite():
     suite = unittest.TestSuite()
+    suite.addTest(unittest.makeSuite(ReplaceLinkTestCase))
     suite.addTest(unittest.makeSuite(ForumTest))
     suite.addTest(unittest.makeSuite(TopicTest))
     suite.addTest(unittest.makeSuite(TopicViewTest))

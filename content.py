@@ -6,6 +6,9 @@ import re
 
 from five import grok
 from zope import schema, component
+
+from AccessControl import ClassSecurityInfo
+from App.class_init import InitializeClass
 from OFS import SimpleItem
 
 from Products.Silva import mangle
@@ -20,7 +23,6 @@ from silva.translations import translate as _
 from zeam.form import silva as silvaforms
 
 from Products.SilvaForum.interfaces import IForum, ITopic, IComment
-
 
 
 class ForumFolderBase(object):
@@ -73,13 +75,16 @@ class ForumFolderBase(object):
     def get_content(self):
         return self
 
-    def content_url(self):
-        return self.get_content().absolute_url()
-
     def anonymous_posting_allowed(self):
         metadata = component.getUtility(IMetadataService)
         enabled = metadata.getMetadataValue(
             self.get_forum(), 'silvaforum-forum', 'anonymous_posting')
+        return enabled == 'yes'
+
+    def unauthenticated_posting_allowed(self):
+        metadata = component.getUtility(IMetadataService)
+        enabled = metadata.getMetadataValue(
+            self.get_forum(), 'silvaforum-forum', 'unauthenticated_posting')
         return enabled == 'yes'
 
 
@@ -91,6 +96,8 @@ class Forum(ForumFolderBase, Publication):
     meta_type = 'Silva Forum'
     silvaconf.icon('www/forum.gif')
 
+    security = ClassSecurityInfo()
+
     def __init__(self, *args, **kwargs):
         super(Forum, self).__init__(*args, **kwargs)
         self._lastid = 0
@@ -99,9 +106,11 @@ class Forum(ForumFolderBase, Publication):
     def get_silva_addables_allowed_in_container(self):
         return ['Silva Forum Topic']
 
+    security.declareProtected('View', 'get_forum')
     def get_forum(self):
         return self
 
+    security.declareProtected('View', 'get_topic')
     def get_topic(self, title):
         """
         return a topic object by title
@@ -111,12 +120,14 @@ class Forum(ForumFolderBase, Publication):
             if topic.get_title() == title:
                 return topic
 
+    security.declareProtected('View', 'get_topics')
     def get_topics(self):
         """
         return a list of topic objects
         """
         return self.objectValues('Silva Forum Topic')
 
+    security.declareProtected('Change Silva content', 'add_topic')
     def add_topic(self, topic, anonymous=False):
         """ add a topic to the forum
         """
@@ -153,6 +164,7 @@ class Forum(ForumFolderBase, Publication):
         topics.reverse()
         return topics
 
+    security.declareProtected('View', 'number_of_topics')
     def number_of_topics(self):
         return len(self.get_topics())
 
@@ -160,6 +172,8 @@ class Forum(ForumFolderBase, Publication):
         # always return true to make that the object is always visible
         # in public listings
         return True
+
+InitializeClass(Forum)
 
 
 class ForumAddForm(silvaforms.SMIAddForm):
@@ -169,23 +183,14 @@ class ForumAddForm(silvaforms.SMIAddForm):
     grok.name(u"Silva Forum")
 
 
-class CreatorMixin(object):
-
-    def get_creator(self):
-        metadata = component.getUtility(IMetadataService)
-        anonymous = metadata.getMetadataValue(
-            self, 'silvaforum-item', 'anonymous')
-        if anonymous == 'yes':
-            return _('anonymous')
-        return self.sec_get_creator_info().fullname()
-
-
-class Topic(ForumFolderBase, Folder, CreatorMixin):
+class Topic(ForumFolderBase, Folder):
     """Topic of a Silva Forum. It will contains comments posted by users.
     """
     grok.implements(ITopic)
     silvaconf.icon('www/topic.gif')
     meta_type = 'Silva Forum Topic'
+
+    security = ClassSecurityInfo()
 
     def __init__(self, *args, **kwargs):
         super(Topic, self).__init__(*args, **kwargs)
@@ -196,6 +201,7 @@ class Topic(ForumFolderBase, Folder, CreatorMixin):
     def get_silva_addables_allowed_in_container(self):
         return ['Silva Forum Comment']
 
+    security.declareProtected('Change Silva content', 'add_comment')
     def add_comment(self, title, text, anonymous=False):
         """ add a comment to the topic
         """
@@ -229,9 +235,11 @@ class Topic(ForumFolderBase, Folder, CreatorMixin):
 
     # XXX this is a bit strange... topic is a Folder type but still has
     # text-data attributes
+    security.declareProtected('View', 'get_text')
     def get_text(self):
         return self._text
 
+    security.declareProtected('Change Silva content', 'set_text')
     def set_text(self, text):
         self._text = text
 
@@ -240,8 +248,20 @@ class Topic(ForumFolderBase, Folder, CreatorMixin):
         # in public listings
         return True
 
+    security.declareProtected('Access contents information', 'get_text')
+    def get_creator(self):
+        metadata = component.getUtility(IMetadataService)
+        anonymous = metadata.getMetadataValue(
+            self, 'silvaforum-item', 'anonymous')
+        if anonymous == 'yes':
+            return _('anonymous')
+        return self.sec_get_creator_info().fullname()
+
+    security.declareProtected('View', 'number_of_comments')
     def number_of_comments(self):
         return len(self.objectValues('Silva Forum Comment'))
+
+InitializeClass(Topic)
 
 
 class TopicAddForm(silvaforms.SMIAddForm):
@@ -251,7 +271,7 @@ class TopicAddForm(silvaforms.SMIAddForm):
     grok.name(u'Silva Forum Topic')
 
 
-class Comment(Content, SimpleItem.SimpleItem, CreatorMixin):
+class Comment(Content, SimpleItem.SimpleItem):
     """A comment is the smallest content of a Silva Forum, contained
     in a topic.
     """
@@ -259,19 +279,33 @@ class Comment(Content, SimpleItem.SimpleItem, CreatorMixin):
     silvaconf.icon('www/comment.gif')
     meta_type = 'Silva Forum Comment'
 
+    security = ClassSecurityInfo()
+
     def __init__(self, *args, **kwargs):
         super(Comment, self).__init__(*args, **kwargs)
         self._text = ''
 
+    security.declareProtected('View', 'get_text')
     def get_text(self):
         return self._text
 
+    security.declareProtected('Change Silva content', 'set_text')
     def set_text(self, text):
         self._text = text
-        self.sec_update_last_author_info()
+
+    security.declareProtected('Access contents information', 'get_text')
+    def get_creator(self):
+        metadata = component.getUtility(IMetadataService)
+        anonymous = metadata.getMetadataValue(
+            self, 'silvaforum-item', 'anonymous')
+        if anonymous == 'yes':
+            return _('anonymous')
+        return self.sec_get_creator_info().fullname()
 
     def is_published(self):
         return False # always allow removal of this object from the SMI
+
+InitializeClass(Comment)
 
 
 class ICommentSchema(ITitledContent):

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <metadata_set id="silvaforum-item" ns_uri="http://infrae.com/namespaces/metadata/silvaforum-item" ns_prefix="silvaforum-item">
-<title></title>
-<category>layout</category>
+<title>Forum Content</title>
+<category></category>
 <description>Settings for SilvaForum items</description>
 <minimalrole>Chief Editor</minimalrole>
   <metadata_element id="anonymous">
@@ -24,7 +24,7 @@
     </write_guard>
     <field_values>
       <value key="required" type="int" value="1" />
-      <value key="description" type="str" value="Hide the name of the creator in the public view." />
+      <value key="description" type="str" value="Hide the name of the creator to the public." />
 
       <value key="title" type="str" value="Anonymous" />
       <value key="items" type="list" value="[('no', 'no'), ('yes', 'yes')]" />
