@@ -5,7 +5,8 @@
 
 import unittest
 
-from zope.component import getUtility
+from zope.publisher.browser import TestRequest
+from zope.component import getUtility, getMultiAdapter
 
 from Products.SilvaMetadata.interfaces import IMetadataService
 from Products.SilvaForum.testing import FunctionalLayer
@@ -27,6 +28,12 @@ def forum_settings(browser):
     browser.inspect.add(
         'preview_author',
         '//table[@class="forum-content-preview"]//td[@class="author"]/p')
+
+
+def get_captcha_word(browser):
+    request = TestRequest(HTTP_COOKIE=browser.get_request_header('Cookie'))
+    captcha = getMultiAdapter((object(), request), name='captcha')
+    return captcha._generate_words()[1]
 
 
 class ForumFunctionalTestCase(unittest.TestCase):
@@ -63,6 +70,11 @@ class ForumFunctionalTestCase(unittest.TestCase):
         # You can now add a topic
         self.assertTrue("Post a new topic" in browser.contents)
         form = browser.get_form('post')
+
+        # By default you have no captcha or anonymous options
+        self.assertRaises(AssertionError, form.get_control, 'captcha')
+        self.assertRaises(AssertionError, form.get_control, 'anonymous')
+
         form.get_control("topic").value = "New Test Topic"
         self.assertEqual(form.get_control("action.post").click(), 200)
 
@@ -127,6 +139,91 @@ class ForumFunctionalTestCase(unittest.TestCase):
 
         self.assertEqual(browser.inspect.topics["Anonymous post"].click(), 200)
         self.assertEqual(browser.location, '/root/forum/Anonymous_post')
+
+    def test_post_preview_unauthenticated_with_captcha(self):
+        """Activate unauthenicated posting and test the captcha
+        integration.
+        """
+        metadata = getUtility(IMetadataService).getMetadata(self.root.forum)
+        metadata.setValues(
+            'silvaforum-forum',
+            {'unauthenticated_posting': 'yes',
+             'anonymous_posting': 'yes'})
+
+        browser = self.layer.get_browser(forum_settings)
+        self.assertEqual(browser.open('/root/forum'), 200)
+
+        # We are not authenticated, but the form to post is here
+        self.assertTrue("Post a new topic" in browser.contents)
+        form = browser.get_form('post')
+
+        # The anonymous options is not here, even if it selected, are
+        # we already are anonymous
+        self.assertRaises(AssertionError, form.get_control, 'anonymous')
+
+        form.get_control("topic").value = "Hello world"
+        self.assertEqual(form.get_control("action.preview").click(), 200)
+
+        self.assertEqual(browser.inspect.feedback, [])
+        self.assertEqual(browser.inspect.preview_topic, ["Hello world"])
+        self.assertEqual(browser.inspect.preview_author, ['anonymous'])
+        self.assertEqual(browser.inspect.topics, [])
+        self.assertEqual(browser.inspect.authors, [])
+
+        # Try to post
+        form = browser.get_form('post')
+        self.assertEqual(form.get_control("topic").value, "Hello world")
+        self.assertEqual(form.get_control("action.post").click(), 200)
+
+        # We didn't fill the captcha, the post was not commited
+        self.assertEqual(browser.inspect.feedback, ["Invalid captcha value"])
+        self.assertEqual(browser.inspect.preview_topic, [])
+        self.assertEqual(browser.inspect.preview_author, [])
+        self.assertEqual(browser.inspect.topics, [])
+        self.assertEqual(browser.inspect.authors, [])
+
+        # Try to post filling the captcha
+        form = browser.get_form('post')
+        form.get_control("captcha").value = get_captcha_word(browser)
+        self.assertEqual(form.get_control("topic").value, "Hello world")
+        self.assertEqual(form.get_control("action.post").click(), 200)
+
+        self.assertEqual(browser.inspect.feedback, ["Topic added"])
+        self.assertEqual(browser.inspect.preview_topic, [])
+        self.assertEqual(browser.inspect.preview_author, [])
+        self.assertEqual(browser.inspect.topics, ['Hello world'])
+        self.assertEqual(browser.inspect.authors, ['anonymous'])
+
+    def test_post_authenticated_with_captcha(self):
+        """Activate unauthenicated posting and test that you have no
+        captcha for authenticated users.
+        """
+        metadata = getUtility(IMetadataService).getMetadata(self.root.forum)
+        metadata.setValues(
+            'silvaforum-forum',
+            {'unauthenticated_posting': 'yes',
+             'anonymous_posting': 'yes'})
+
+        browser = self.layer.get_browser(forum_settings)
+        browser.login('dummy', 'dummy')
+        self.assertEqual(browser.open('/root/forum'), 200)
+
+        # We are not authenticated, but the form to post is here
+        self.assertTrue("Post a new topic" in browser.contents)
+        form = browser.get_form('post')
+
+        # The captcha options is not here as we are already authenticated
+        self.assertRaises(AssertionError, form.get_control, 'captcha')
+
+        form.get_control("topic").value = "Hello forum"
+        self.assertEqual(form.get_control("anonymous").checked, False)
+        self.assertEqual(form.get_control("action.post").click(), 200)
+
+        self.assertEqual(browser.inspect.feedback, ["Topic added"])
+        self.assertEqual(browser.inspect.preview_topic, [])
+        self.assertEqual(browser.inspect.preview_author, [])
+        self.assertEqual(browser.inspect.topics, ['Hello forum'])
+        self.assertEqual(browser.inspect.authors, ['dummy'])
 
     def test_preview_validation(self):
         """Try to preview an empty topic.
