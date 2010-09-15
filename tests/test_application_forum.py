@@ -47,7 +47,7 @@ class ForumFunctionalTestCase(SilvaTestCase.SilvaFunctionalTestCase):
         # You can now add a topic
         self.failUnless("Post a new topic" in browser.contents)
         browser.getControl("Subject").value = "New Test Topic"
-        browser.getControl("Add topic").click()
+        browser.getControl("Post topic").click()
 
         self.failUnless("Topic added" in browser.contents)
 
@@ -75,7 +75,7 @@ class ForumFunctionalTestCase(SilvaTestCase.SilvaFunctionalTestCase):
 
         self.failIf("Please provide a subject" in browser.contents)
 
-        browser.getControl("Add topic").click()
+        browser.getControl("Post topic").click()
 
         self.failUnless("Please provide a subject" in browser.contents)
 
@@ -101,7 +101,7 @@ class ForumFunctionalTestCase(SilvaTestCase.SilvaFunctionalTestCase):
 
         browser.getControl("Subject").value = "Anonymous post"
         browser.getControl(name="anonymous").value = '1'
-        browser.getControl("Add topic").click()
+        browser.getControl("Post topic").click()
 
         self.failUnless("Topic added" \
                         in browser.contents)

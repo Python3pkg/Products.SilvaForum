@@ -1,37 +1,25 @@
-<div class="controls"
-     tal:define="here_url context/absolute_url"
+<div class="forum-user-controls"
+     tal:define="here_url context/@@absolute_url"
      i18n:domain="silvaforum">
-    <tal:login tal:condition="not:view/can_post">
-      <form method="post" action="#"
-            tal:attributes="action here_url">
-        <input type="hidden" name="came_from" value="#"
-               tal:attributes="value here_url" />
-        <input type="hidden" name="authenticate" value="1" />
-        <input class="button-login" type="submit" name="login"
-               value="Login to post a new topic"
-               i18n:attributes="value" />
-      </form>
-    </tal:login>
-    <tal:logout tal:condition="view/can_post">
-      <h6 i18n:translate="">Forum user controls</h6>
-      <form method="post" action="#"
-            tal:attributes="action string:${here_url}/service_members/logout">
-        <input type="hidden" name="came_from"
-               value="#"
-               tal:attributes="value here_url" />
-        <input class="button-login" type="submit"
-               name="login" value="Logout"
-               i18n:attributes="value" />
-      </form>
-      <form method="post" action="#"
-            tal:attributes="action string:${here_url}/service_resources/Silva/edit_member"
-            tal:condition="provider/can_edit_profile">
-        <input class="button-edit-profile" type="submit"
-               name="edit-profile" value="Edit profile"
-               i18n:attributes="value"
-               onclick="userWindow = window.open('service_resources/Silva/edit_member', 'userWindow', 'width=450, height=250, resizable=no');
-                        userWindow.focus();
-                        return false;" />
-      </form>
-    </tal:logout>
+  <tal:login tal:condition="not:view/is_logged_in">
+    <form method="post" action="#"
+          tal:attributes="action here_url">
+      <input type="hidden" name="came_from" value="#"
+             tal:attributes="value here_url" />
+      <input type="submit" name="action.authenticate"
+             value="Login to post a new topic"
+             i18n:attributes="value" />
+    </form>
+  </tal:login>
+  <tal:logout tal:condition="view/is_logged_in">
+    <h6 i18n:translate="">Forum user controls</h6>
+    <form method="post" action="#"
+          tal:attributes="action string:${here_url}/service_members/logout">
+      <input type="hidden" name="came_from"
+             value="#"
+             tal:attributes="value here_url" />
+      <input type="submit" name="logout" value="Logout"
+             i18n:attributes="value" />
+    </form>
+  </tal:logout>
 </div>

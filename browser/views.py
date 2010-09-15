@@ -3,34 +3,41 @@
 # $Id$
 
 import re
-from zope import component
-from five import grok
-
-from zeam.utils.batch import batch
-from zeam.utils.batch.interfaces import IBatching
 
 from AccessControl import getSecurityManager, Unauthorized
 from DateTime import DateTime
 
 from Products.Silva import mangle
-
 from Products.SilvaForum.resources.emoticons.emoticons import emoticons, \
     smileydata
 from Products.SilvaForum.dtformat import dtformat
 from Products.SilvaForum.interfaces import IForum, ITopic, \
     IComment, IPostable
 
-from silva.core.interfaces import IEditableMember
+from five import grok
 from silva.core.views import views as silvaviews
+from silva.core.views.httpheaders import HTTPResponseHeaders
 from silva.translations import translate as _
+from zeam.utils.batch import batch
+from zeam.utils.batch.interfaces import IBatching
+from zope.component import getMultiAdapter
+from zope.publisher.interfaces.browser import IBrowserRequest
 
-minimal_add_role = 'Authenticated'
+MINIMAL_ADD_ROLE = 'Authenticated'
 
 grok.templatedir('templates')
 
+class FindResponseHeaders(HTTPResponseHeaders):
+    """This reliably set HTTP headers on file serving, for GET and
+    HEAD requests.
+    """
+    grok.adapts(IBrowserRequest, IPostable)
+
+    def cache_headers(self):
+        self.disable_cache()
+
 
 class ViewBase(silvaviews.View):
-
     grok.baseclass()
 
     def format_datetime(self, dt):
@@ -49,16 +56,32 @@ class ViewBase(silvaviews.View):
         if not isinstance(text, unicode):
             text = unicode(text, 'utf-8')
         text = mangle.entities(text)
-        root = self.context.aq_inner.get_root()
         text = self.replace_links(text)
         text = emoticons(text,
             self.get_resources().emoticons.smilies.absolute_url())
         text = text.replace('\n', '<br />')
         return text
 
+    def get_resources(self):
+        return self.context.aq_inner.get_root().service_resources.SilvaForum
+
+class ContainerViewBase(ViewBase):
+    grok.baseclass()
+
+    def update(self):
+        super(ContainerViewBase, self).update()
+        user = getSecurityManager().getUser()
+
+        self.captcha_posting = self.context.unauthenticated_posting_allowed()
+        self.anonymous_posting = self.context.anonymous_posting_allowed()
+        self.is_logged_in = user.has_role(MINIMAL_ADD_ROLE)
+        self.need_captcha = self.captcha_posting and not self.is_logged_in
+        self.need_anonymous_option = self.anonymous_posting and not self.need_captcha
+        self.can_post = self.captcha_posting or self.is_logged_in
+
+        self.message = u''
     def get_smiley_data(self):
         ret = []
-        root = self.context.aq_inner.get_root()
         service_url = self.get_resources().emoticons.smilies.absolute_url()
         for image, smileys in smileydata.items():
             ret.append({
@@ -67,136 +90,188 @@ class ViewBase(silvaviews.View):
             })
         return ret
 
-    def get_resources(self):
-        return self.context.aq_inner.get_root().service_resources.SilvaForum
-
-    def can_post(self):
-        """Return true if the current user is allowed to post.
-        """
-        sec = getSecurityManager()
-        return sec.getUser().has_role(minimal_add_role)
-
     def authenticate(self):
-        if not self.can_post():
+        if not self.is_logged_in:
             msg = _('Sorry you need to be authorized to use this forum')
             raise Unauthorized(msg)
+        return True
 
-    def anonymous_posting_allowed(self):
-        return self.context.anonymous_posting_allowed()
+    def get_preview_username(self, anonymous):
+        if anonymous or self.need_captcha:
+            return _('anonymous')
+        else:
+            userid = getSecurityManager().getUser().getId()
+            member = self.context.aq_inner.service_members.get_member(userid)
+            if member is None:
+                return _('anonymous')
+            return member.fullname()
+
+    def authorized_to_post(self):
+        # This is intended for the posting action, not the template.
+        if self.need_captcha:
+            value = self.request.form.get('captcha')
+            captcha = getMultiAdapter(
+                (self.context, self.request), name='captcha')
+            if not captcha.verify(value):
+                self.message = _(u'Invalid captcha value')
+                return False
+            return True
+        return self.authenticate()
+
+    def action_authenticate(self, *args):
+        self.authenticate()
+
+    ACTIONS = [
+        ('action.authenticate', action_authenticate),
+        ('action.clear', lambda *args: None,),
+        ]
 
 
 class UserControls(silvaviews.ContentProvider):
     """Login/User details.
     """
-
     grok.context(IPostable)
-    grok.view(ViewBase)
-
-    def can_edit_profile(self):
-        userid = getSecurityManager().getUser().getId()
-        # No other nice way to get the member object from here.
-        member = self.context.aq_inner.service_members.get_member(
-            userid, location=self.context.aq_inner)
-        return IEditableMember.providedBy(member)
+    grok.view(ContainerViewBase)
 
 
-class ForumView(ViewBase):
+class ForumView(ContainerViewBase):
     """View for a forum.
     """
-
     grok.context(IForum)
 
-    def update(self, authenticate=False, anonymous=False,
-               preview=False, cancel=False, topic=None, message=''):
-        if authenticate:
-            self.authenticate()
+    topic = ''
+    username = ''
+    anonymous = False
+    preview = False
+    preview_validated = False
+    preview_not_topic = False
+
+    def action_preview(self, topic, anonymous):
+        self.topic = topic
+        self.anonymous = anonymous
+        self.username = self.get_preview_username(anonymous)
+        self.preview = True
+        self.preview_validated = bool(topic)
+        self.preview_not_topic = not topic
+
+    def action_post(self, topic, anonymous):
+        success = False
+        if self.authorized_to_post():
+            if not topic:
+                self.message = _('Please provide a subject')
+            else:
+                try:
+                    self.context.aq_inner.add_topic(
+                        topic, self.need_captcha or anonymous)
+                except ValueError, e:
+                    self.message = str(e)
+                else:
+                    self.message = _('Topic added')
+                    success = True
+        if not success:
+            self.topic = topic
+            self.anonymous = anonymous
+
+    ACTIONS = ContainerViewBase.ACTIONS + [
+        ('action.preview', action_preview),
+        ('action.post', action_post),
+        ]
+
+    def update(self, topic=None, anonymous=False):
+        super(ForumView, self).update()
+
+        topic = unicode(topic or '', 'UTF-8').strip()
+
+        for name, action in self.ACTIONS:
+            if name in self.request.form:
+                action(self, topic, anonymous)
+                break
 
         self.topics = batch(
-            self.context.topics(), count=self.context.topic_batch_size,
+            self.context.aq_inner.topics(), count=self.context.topic_batch_size,
             name='topics', request=self.request)
 
-        self.batch = component.getMultiAdapter(
-            (self.context, self.topics, self.request),
-            IBatching)()
-
-        self.topic = unicode(topic or '', 'utf-8').strip()
-        self.message = unicode(message, 'utf-8')
-        self.anonymous = anonymous
-        self.preview = preview
-        self.preview_topic = preview and self.topic
-        self.preview_not_topic = preview and not self.topic
-
-        if (preview or cancel or topic is None):
-            return
-
-        self.authenticate()
-
-        if not self.topic:
-            self.message = _('Please provide a subject')
-            return
-
-        try:
-            self.context.add_topic(self.topic, anonymous)
-        except ValueError, e:
-            self.message = str(e)
-            return
-        url = self.context.absolute_url()
-        msg = _('Topic added')
-        self.response.redirect(
-            mangle.urlencode(self.context.absolute_url(), message=msg))
+        # We don't want batch links to include form data.
+        self.request.form.clear()
+        self.navigation = getMultiAdapter(
+            (self.context, self.topics, self.request), IBatching)()
 
 
-class TopicView(ViewBase):
+class TopicView(ContainerViewBase):
     """ View on a Topic. The TopicView is a collection of comments.
     """
-
     grok.context(ITopic)
 
-    def update(self, authenticate=False, anonymous=False, preview=False,
-               cancel=False, title=None, text=None, message=''):
-        if authenticate:
-            self.authenticate()
+    title = ''
+    text = ''
+    username = ''
+    anonymous = False
+    preview = False
+    preview_validated = False
+    preview_not_title = False
+    preview_not_text = False
+
+    def get_forum(self):
+        return self.context.aq_inner.aq_parent
+
+    def action_preview(self, title, text, anonymous):
+        self.title = title
+        self.text = text
+        self.anonymous = anonymous
+        self.username = self.get_preview_username(anonymous)
+        self.preview = True
+        self.preview_validated = bool(title and text)
+        self.preview_not_title = not title
+        self.preview_not_text = not text
+
+    def action_post(self, title, text, anonymous):
+        success = False
+        if self.authorized_to_post():
+            if not title or not text:
+                self.message = _('Please provide a title and a text')
+            else:
+                try:
+                    self.context.aq_inner.add_comment(
+                        title, text, self.need_captcha or anonymous)
+                except ValueError, e:
+                    self.message = str(e)
+                else:
+                    self.message = _('Comment added')
+                    success = True
+        if not success:
+            self.title = title
+            self.text = text
+            self.anonymous = anonymous
+
+    ACTIONS = ContainerViewBase.ACTIONS + [
+        ('action.preview', action_preview),
+        ('action.post', action_post),
+        ]
+
+    def update(self, title=None, text=None, anonymous=False):
+        super(TopicView, self).update()
+
+        title = unicode(title or '', 'UTF-8').strip()
+        text = unicode(text or '', 'UTF-8').strip()
+
+        for name, action in self.ACTIONS:
+            if name in self.request.form:
+                action(self, title, text, anonymous)
+                break
 
         self.comments = batch(
-            self.context.comments(), count=self.context.comment_batch_size,
+            self.context.aq_inner.comments(), count=self.context.comment_batch_size,
             name='comments', request=self.request)
 
-        self.batch = component.getMultiAdapter(
-            (self.context, self.comments, self.request),
-            IBatching)()
-
-        self.title = unicode(title or '', 'UTF-8').strip()
-        self.text = unicode(text or '', 'UTF-8').strip()
-        self.message = unicode(message, 'utf-8')
-        self.anonymous = anonymous
-        self.preview = preview
-        self.preview_title_text = preview and self.title and self.text
-        self.preview_not_title = preview and not self.title
-        self.preview_not_text = preview and not self.text
-
-        if (preview or cancel or (text is None and title is None)):
-            return
-
-        self.authenticate()
-
-        if not title and not text:
-            self.message = _('Please provide a title and a text')
-            return
-
-        try:
-            comment = self.context.add_comment(
-                self.title, self.text, anonymous)
-        except ValueError, e:
-            self.message = str(e)
-            return
-
-        msg = _('Comment added')
-
-        self.response.redirect(
-            mangle.urlencode(self.context.absolute_url(), message=msg))
+        # We don't want batch links to include form data.
+        self.request.form.clear()
+        navigation = getMultiAdapter(
+            (self.context, self.comments, self.request), IBatching)
+        self.navigation = navigation()
+        self.action_url = navigation.last + '#forum-bottom'
 
 
 class CommentView(ViewBase):
-
+    """View a comment.
+    """
     grok.context(IComment)
-

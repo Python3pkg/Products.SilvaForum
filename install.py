@@ -84,8 +84,8 @@ def configureMetadata(context):
     collection = context.service_metadata.getCollection()
 
     for metatypes, setname in (
-            (('Silva Forum',), 'silvaforum-forum'),
-            (('Silva Forum Topic', 'Silva Forum Comment'), 'silvaforum-item')):
+            (('Silva Forum', 'Silva Forum Topic'), 'silvaforum-forum'),
+            (('Silva Forum Topic', 'Silva Forum Comment',), 'silvaforum-item')):
         if setname not in collection.objectIds():
             xmlfile = os.path.join(schema, '%s.xml' % (setname,))
             definition = open(xmlfile, 'r')
