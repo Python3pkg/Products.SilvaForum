@@ -112,7 +112,7 @@ class ForumPost(object):
     def set_text(self, text):
         self._text = text
 
-    security.declareProtected('Access contents information', 'get_text')
+    security.declareProtected('Access contents information', 'get_creator')
     def get_creator(self):
         metadata = component.getUtility(IMetadataService)
         anonymous = metadata.getMetadataValue(

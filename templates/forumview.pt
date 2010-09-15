@@ -1,126 +1,42 @@
 <tal:block xmlns:i18n="http://xml.zope.org/namespaces/i18n"
            i18n:domain="silvaforum">
   <div class="forum"
-       tal:define="here_url context/absolute_url">
+       tal:define="here_url context/@@absolute_url">
     <script type="text/javascript">
       // <![CDATA[
       function add_smiley(text_to_add) {
       /* add a smiley to the topic field
       */
-      // XXX this is a bit scary... the DOM specs say text nodes can
-      // be split up, but afaik that never happens in browsers... if,
-      // however, people start reporting missing last bits of text, please
-      // fix this code... ;)
       var topic = document.getElementById('topic');
       var content = topic.value;
       var lastchar = content.charAt(content.length - 1);
       if (lastchar && lastchar != ' ' && lastchar != '\t' && lastchar != '\n'
-      && lastchar != '\r') {
-      content += ' ';
+          && lastchar != '\r') {
+         content += ' ';
       };
       content += text_to_add + ' ';
-      // XXX please check the argument order here! might be wrong...
-      // stupid DOM :(
       topic.value = content;
       topic.focus();
       };
       // ]]>
     </script>
 
-    <h2 tal:content="here/get_title">
-      forum title
+    <h2 tal:content="context/get_title">
+      Forum Title
     </h2>
     <tal:usercontrols tal:replace="structure provider:usercontrols" />
-    <div class="feedback"
-         tal:condition="view/message">
-      <span tal:content="view/message" i18n:translate="">message</span>
-    </div>
-    <tal:navigation tal:replace="structure view/batch" />
-    <table class="forum-content-table"
-           tal:condition="python: view.preview_topic or view.topics">
-      <thead>
-        <tr tal:condition="view/topics">
-          <th class="align-left" i18n:translate="">Topics</th>
-          <th class="align-left" i18n:translate="">Post date</th>
-          <th class="align-left" i18n:translate="">Author</th>
-          <th class="align-right" i18n:translate="">Comments</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tal:preview tal:condition="view/preview_topic">
-          <tr class="preview">
-            <td class="topic">
-              <p tal:content="structure python:view.format_text(view.topic)" />
-              <form method="post" id="previewform" name="previewform"
-                    tal:attributes="action here_url">
-                <!-- todd says 'i don't know, man' about the next bit of code,
-                     and i tend to fully agree... it works though, both in js
-                     and non-js situations, and looks consistent
-                     (so let's not think about it too much, i suggest ;)
-                -->
-                <a style="text-decoration: none"
-                   tal:attributes="href here_url">
-                  <input class="button-clear" type="button"
-                         name="clear" value="Clear"
-                         i18n:attributes="value"
-                         tal:attributes="onclick string:document.location='${here_url}'" />
-                </a>
-                <input class="button-preview" type="hidden"
-                       name="topic" id="preview_topic"
-                       tal:attributes="value view/topic" />
-                <input class="button-post;" name="submit"
-                       type="submit" value="Post topic"
-                       i18n:attributes="value" />
-              </form>
-            </td>
-            <td class="datetime">
-              <p i18n:translate="">Now</p>
-            </td>
-            <td class="author">
-              <p i18n:translate="">Preview</p>
-            </td>
-            <td class="comments">
-              0
-            </td>
-          </tr>
-        </tal:preview>
-        <tal:loop repeat="topic view/topics">
-          <tal:def define="iterate repeat/topic/odd">
-            <tr tal:attributes="class python:iterate and 'even' or 'odd'">
-              <td class="topic">
-                <p>
-                  <a tal:attributes="href topic/url"
-                     tal:content="structure python:view.format_text(topic['title'])">
-                    subject
-                  </a>
-                </p>
-              </td>
-              <td class="datetime">
-                <p tal:content="python:view.format_datetime(topic['creation_datetime'])"
-                   i18n:translate="">
-                  datatime
-                </p>
-              </td>
-              <td class="poster">
-                <p tal:content="topic/creator">
-                  author
-                </p>
-              </td>
-              <td class="comments">
-                <p tal:content="topic/commentlen">
-                  number
-                </p>
-              </td>
-            </tr>
-          </tal:def>
-        </tal:loop>
-      </tbody>
-    </table>
-    <tal:navigation tal:replace="structure view/batch" />
-    <tal:if condition="view/can_post">
-      <form id="forum-thread-form" method="post" action="#"
-            tal:attributes="action here_url" name="posttopic">
-        <h3 i18n:translate="">Post a new topic</h3>
+
+    <form id="forum-thread-form"
+          class="forum-form" method="post" name="post" action="#"
+          tal:condition="view/can_post"
+          tal:attributes="action string:${here_url}#forum-top" >
+      <h3><a name="forum-top" i18n:translate="">Post a new topic</a></h3>
+      <div class="feedback"
+           tal:condition="view/message">
+        <span tal:content="view/message" i18n:translate="">message</span>
+      </div>
+
+      <div class="forum-field">
         <label for="topic" i18n:translate="">Subject</label>
         <div class="feedback"
              tal:condition="view/preview_not_topic">
@@ -139,22 +55,112 @@
                                  src smileydata/href" />
           </span>
         </div>
-        <div id="anonymous-input"
-             tal:condition="view/anonymous_posting">
-          <input class="store anonymous" type="checkbox"
-                 name="anonymous"
-                 tal:attributes="value view/anonymous" />
-          <span class="anonymous" i18n:translate="">Post anonymous</span>
-        </div>
-        <div class="submit">
-          <input class="button-add-topic" name="submit"
-                 type="submit" value="Add topic"
-                 i18n:attributes="value" />
-          <input class="button-preview" name="preview"
-                 type="submit" value="Preview"
-                 i18n:attributes="value" />
-        </div>
-      </form>
-    </tal:if>
+      </div>
+
+      <div class="forum-field"
+           tal:condition="view/need_anonymous_option">
+        <input type="checkbox" name="anonymous" id="anonymous"
+               tal:attributes="checked python:view.anonymous and 'checked' or None" />
+        <label for="anonymous" i18n:translate="">Post anonymous</label>
+      </div>
+
+      <div class="forum-submit">
+        <input type="submit" name="action.preview" value="Preview"
+               i18n:attributes="value" />
+        <input type="submit" name="action.clear" value="Clear"
+               tal:condition="view/preview"
+               i18n:attributes="value" />
+      </div>
+
+      <table class="forum-content-preview"
+             tal:condition="view/preview_validated">
+        <thead>
+          <tr tal:condition="view/topics">
+            <th class="align-left" i18n:translate="">Topics</th>
+            <th class="align-left" i18n:translate="">Post date</th>
+            <th class="align-left" i18n:translate="">Author</th>
+            <th class="align-right" i18n:translate="">Comments</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="preview">
+            <td class="topic">
+              <p tal:content="structure python:view.format_text(view.topic)" />
+            </td>
+            <td class="datetime">
+              <p i18n:translate="">Now</p>
+            </td>
+            <td class="author">
+              <p tal:content="view/username">current username</p>
+            </td>
+            <td class="comments">
+              0
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+
+      <div class="forum-field"
+           tal:condition="view/need_captcha"
+           tal:define="captcha nocall:context/@@captcha">
+        <label for="captcha" i18n:translate="">
+          Retype the following captcha to post your topic
+        </label><br />
+        <img tal:replace="structure captcha/image_tag" /><br />
+        <input type="text" name="captcha" id="captcha" value="" />
+      </div>
+
+      <div class="forum-submit">
+        <input type="submit" name="action.post" value="Post topic"
+               i18n:attributes="value" />
+      </div>
+    </form>
+
+    <tal:navigation tal:replace="structure view/navigation" />
+    <table class="forum-content-table"
+           tal:condition="view/topics">
+      <thead>
+        <tr tal:condition="view/topics">
+          <th class="align-left" i18n:translate="">Topics</th>
+          <th class="align-left" i18n:translate="">Post date</th>
+          <th class="align-left" i18n:translate="">Author</th>
+          <th class="align-right" i18n:translate="">Comments</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tal:topics repeat="topic view/topics">
+          <tr tal:define="iterate repeat/topic/odd"
+              tal:attributes="class python:iterate and 'even' or 'odd'">
+            <td class="topic">
+              <p>
+                <a tal:attributes="href topic/url"
+                   tal:content="structure python:view.format_text(topic['title'])">
+                  subject
+                </a>
+              </p>
+            </td>
+            <td class="datetime">
+              <p tal:content="python:view.format_datetime(topic['creation_datetime'])"
+                 i18n:translate="">
+                datatime
+              </p>
+            </td>
+            <td class="poster">
+              <p tal:content="topic/creator">
+                author
+              </p>
+            </td>
+            <td class="comments">
+              <p tal:content="topic/commentlen">
+                number
+              </p>
+            </td>
+          </tr>
+        </tal:topics>
+      </tbody>
+    </table>
+    <tal:navigation tal:replace="structure view/navigation" />
+
   </div>
 </tal:block>

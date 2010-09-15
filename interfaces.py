@@ -5,12 +5,12 @@
 from silva.core.interfaces import IContent, IContainer
 
 
-class IPostable(IContent):
+class IPostable(IContainer):
     """Content where you can post content.
     """
 
 
-class IPost(IContainer):
+class IPost(IContent):
     """Posted content.
     """
 

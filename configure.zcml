@@ -7,8 +7,9 @@
   <include package="five.grok" />
   <include package="silva.core.conf" />
   <include package="silva.core.views" />
-  <include package="zeam.form.silva" />
   <include package="silva.batch" />
+  <include package="silva.captcha" />
+  <include package="zeam.form.silva" />
 
   <!-- i18n -->
   <i18n:registerTranslations directory="i18n" />

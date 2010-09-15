@@ -13,8 +13,20 @@ from Products.SilvaForum.testing import FunctionalLayer
 
 def forum_settings(browser):
     browser.inspect.add('feedback', '//div[@class="feedback"]/span')
-    browser.inspect.add('title', '//div[@id="content"]/descendant::h2')
-    browser.inspect.add('author', '//td[@class="poster"]/p')
+    browser.inspect.add('title', '//div[@class="forum"]/descendant::h2')
+    browser.inspect.add(
+        'topics',
+        '//table[@class="forum-content-table"]//td[@class="topic"]/p/a',
+        type='link')
+    browser.inspect.add(
+        'authors',
+        '//table[@class="forum-content-table"]//td[@class="poster"]/p')
+    browser.inspect.add(
+        'preview_topic',
+        '//table[@class="forum-content-preview"]//td[@class="topic"]/p')
+    browser.inspect.add(
+        'preview_author',
+        '//table[@class="forum-content-preview"]//td[@class="author"]/p')
 
 
 class ForumFunctionalTestCase(unittest.TestCase):
@@ -28,7 +40,7 @@ class ForumFunctionalTestCase(unittest.TestCase):
         factory = self.root.manage_addProduct['SilvaForum']
         factory.manage_addForum('forum', 'Test Forum')
 
-    def test_login_forum_and_post(self):
+    def test_login_and_post(self):
         """Login to post a new topic.
         """
         browser = self.layer.get_browser(forum_settings)
@@ -36,39 +48,53 @@ class ForumFunctionalTestCase(unittest.TestCase):
         self.assertEqual(browser.open('/root/forum'), 200)
         self.assertEqual(browser.inspect.title, ['Test Forum'])
 
+        # By default the forum is empty
+        self.assertEqual(browser.inspect.feedback, [])
+        self.assertEqual(browser.inspect.topics, [])
+        self.assertEqual(browser.inspect.authors, [])
+
         # You need to login to post something. The login button
         # actually raise a 401 so you have a browser login.
         self.assertFalse("Post a new topic" in browser.contents)
+        self.assertRaises(AssertionError, browser.get_form, 'post')
         browser.login('dummy', 'dummy')
         browser.reload()
 
         # You can now add a topic
         self.assertTrue("Post a new topic" in browser.contents)
-        form = browser.get_form('posttopic')
+        form = browser.get_form('post')
         form.get_control("topic").value = "New Test Topic"
-        self.assertEqual(form.get_control("submit").click(), 200)
+        self.assertEqual(form.get_control("action.post").click(), 200)
 
         self.assertEqual(browser.inspect.feedback, ["Topic added"])
-        self.assertEqual(browser.inspect.author, ['dummy'])
 
-        self.assertTrue("New Test Topic" in browser.contents)
-        browser.get_link("New Test Topic").click()
+        # The form is cleared after
+        form = browser.get_form('post')
+        self.assertEqual(form.get_control("topic").value, '')
+
+        self.assertEqual(browser.inspect.topics, ["New Test Topic"])
+        self.assertEqual(browser.inspect.authors, ['dummy'])
+
+        self.assertEqual(browser.inspect.topics["New Test Topic"].click(), 200)
         self.assertEqual(browser.location, "/root/forum/New_Test_Topic")
 
-    def test_forum_post_validation(self):
+    def test_post_validation(self):
         """Try to add an empty topic.
         """
         browser = self.layer.get_browser(forum_settings)
         browser.login('dummy', 'dummy')
 
         self.assertEqual(browser.open('/root/forum'), 200)
-        self.assertEqual(browser.inspect.feedback, [])
 
-        form = browser.get_form('posttopic')
-        self.assertEqual(form.get_control("submit").click(), 200)
+        form = browser.get_form('post')
+        self.assertEqual(form.get_control("action.post").click(), 200)
+
+        # Error reporting nothing posted
         self.assertEqual(browser.inspect.feedback, ["Please provide a subject"])
+        self.assertEqual(browser.inspect.topics, [])
+        self.assertEqual(browser.inspect.authors, [])
 
-    def test_forum_post_as_anonymous(self):
+    def test_post_and_preview_as_anonymous(self):
         """Post a new topic as anonymous
         """
         metadata = getUtility(IMetadataService).getMetadata(self.root.forum)
@@ -78,57 +104,110 @@ class ForumFunctionalTestCase(unittest.TestCase):
         browser.login('dummy', 'dummy')
         self.assertEqual(browser.open('/root/forum'), 200)
 
-        form = browser.get_form('posttopic')
+        form = browser.get_form('post')
         form.get_control("topic").value = "Anonymous post"
+        self.assertEqual(form.get_control("anonymous").checked, False)
         form.get_control("anonymous").checked = True
-        self.assertEqual(form.get_control("submit").click(), 200)
+        self.assertEqual(form.get_control("action.preview").click(), 200)
+
+        self.assertEqual(browser.inspect.feedback, [])
+        self.assertEqual(browser.inspect.preview_topic, ["Anonymous post"])
+        self.assertEqual(browser.inspect.preview_author, ['anonymous'])
+
+        form = browser.get_form('post')
+        self.assertEqual(form.get_control("topic").value, "Anonymous post")
+        self.assertEqual(form.get_control("anonymous").checked, True)
+        self.assertEqual(form.get_control("action.post").click(), 200)
 
         self.assertEqual(browser.inspect.feedback, ["Topic added"])
-        self.assertEqual(browser.inspect.author, ['anonymous'])
+        self.assertEqual(browser.inspect.preview_topic, [])
+        self.assertEqual(browser.inspect.preview_author, [])
+        self.assertEqual(browser.inspect.topics, ["Anonymous post"])
+        self.assertEqual(browser.inspect.authors, ['anonymous'])
 
-    def test_forum_preview_validation(self):
+        self.assertEqual(browser.inspect.topics["Anonymous post"].click(), 200)
+        self.assertEqual(browser.location, '/root/forum/Anonymous_post')
+
+    def test_preview_validation(self):
         """Try to preview an empty topic.
         """
         browser = self.layer.get_browser(forum_settings)
         browser.login('dummy', 'dummy')
 
         self.assertEqual(browser.open('/root/forum'), 200)
-        self.assertEqual(browser.inspect.feedback, [])
 
-        form = browser.get_form('posttopic')
-        self.assertEqual(form.get_control("preview").click(), 200)
+        form = browser.get_form('post')
+        self.assertEqual(form.get_control("action.preview").click(), 200)
+
         self.assertEqual(
             browser.inspect.feedback,
             ["Please provide a subject for the new topic"])
+        self.assertEqual(browser.inspect.preview_topic, [])
+        self.assertEqual(browser.inspect.preview_author, [])
+        self.assertEqual(browser.inspect.topics, [])
+        self.assertEqual(browser.inspect.authors, [])
 
-    def test_forum_preview_and_post(self):
+    def test_preview_and_post(self):
         """Enter a topic, preview and post it.
         """
         browser = self.layer.get_browser(forum_settings)
         browser.login('dummy', 'dummy')
-
         self.assertEqual(browser.open('/root/forum'), 200)
-        self.assertEqual(browser.inspect.feedback, [])
 
         # Preview a new topic
-        form = browser.get_form('posttopic')
+        form = browser.get_form('post')
         form.get_control("topic").value = "Previewed Topic"
-        self.assertEqual(form.get_control("preview").click(), 200)
+        self.assertEqual(form.get_control("action.preview").click(), 200)
+
         self.assertEqual(browser.inspect.feedback, [])
+        self.assertEqual(browser.inspect.preview_topic, ['Previewed Topic'])
+        self.assertEqual(browser.inspect.preview_author, ['dummy'])
+
+        # Nothing is created, it is still a preview
+        self.assertEqual(browser.inspect.topics, [])
+        self.assertEqual(browser.inspect.authors, [])
 
         # Now we still have the value in the field and we post it
-        form = browser.get_form('posttopic')
+        form = browser.get_form('post')
         self.assertEqual(form.get_control('topic').value, "Previewed Topic")
-        form = browser.get_form('previewform')
-        self.assertEqual(form.get_control('topic').value, "Previewed Topic")
-        self.assertEqual(form.get_control("submit").click(), 200)
+        self.assertEqual(form.get_control("action.post").click(), 200)
 
         self.assertEqual(browser.inspect.feedback, ["Topic added"])
+        self.assertEqual(browser.inspect.preview_topic, [])
+        self.assertEqual(browser.inspect.preview_author, [])
 
         # And it's there
-        self.assertTrue("Previewed Topic" in browser.contents)
-        browser.get_link("Previewed Topic").click()
+        self.assertEqual(browser.inspect.topics, ["Previewed Topic"])
+        self.assertEqual(browser.inspect.authors, ["dummy"])
+
+        self.assertEqual(browser.inspect.topics["Previewed Topic"].click(), 200)
         self.assertEqual(browser.location, "/root/forum/Previewed_Topic")
+
+    def test_preview_clear(self):
+        browser = self.layer.get_browser(forum_settings)
+        browser.login('dummy', 'dummy')
+        self.assertEqual(browser.open('/root/forum'), 200)
+
+        # Preview a new topic
+        form = browser.get_form('post')
+        form.get_control("topic").value = "Previewed Topic"
+        self.assertEqual(form.get_control("action.preview").click(), 200)
+
+        # Now we still have the value in the field and we post it
+        form = browser.get_form('post')
+        self.assertEqual(form.get_control('topic').value, "Previewed Topic")
+        self.assertEqual(form.get_control("action.clear").click(), 200)
+
+        self.assertEqual(browser.inspect.feedback, [])
+        self.assertEqual(browser.inspect.preview_topic, [])
+        self.assertEqual(browser.inspect.preview_author, [])
+
+        form = browser.get_form('post')
+        self.assertEqual(form.get_control('topic').value, "")
+
+        # No topic have been created
+        self.assertEqual(browser.inspect.topics, [])
+        self.assertEqual(browser.inspect.authors, [])
 
 
 def test_suite():

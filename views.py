@@ -16,10 +16,11 @@ from Products.SilvaForum.interfaces import IForum, ITopic, \
 from five import grok
 from silva.core.views import views as silvaviews
 from silva.core.views.httpheaders import HTTPResponseHeaders
+from silva.core.services.interfaces import IMemberService
 from silva.translations import translate as _
 from zeam.utils.batch import batch
 from zeam.utils.batch.interfaces import IBatching
-from zope import component
+from zope.component import getMultiAdapter, getUtility
 from zope.publisher.interfaces.browser import IBrowserRequest
 
 MINIMAL_ADD_ROLE = 'Authenticated'
@@ -70,10 +71,16 @@ class ContainerViewBase(ViewBase):
 
     def update(self):
         super(ContainerViewBase, self).update()
+        user = getSecurityManager().getUser()
+
         self.captcha_posting = self.context.unauthenticated_posting_allowed()
         self.anonymous_posting = self.context.anonymous_posting_allowed()
-        sm = getSecurityManager()
-        self.is_logged_in = sm.getUser().has_role(MINIMAL_ADD_ROLE)
+        self.is_logged_in = user.has_role(MINIMAL_ADD_ROLE)
+        self.need_captcha = self.captcha_posting and not self.is_logged_in
+        self.need_anonymous_option = self.anonymous_posting and not self.need_captcha
+        self.can_post = self.captcha_posting or self.is_logged_in
+
+        self.message = u''
 
     def smileys(self):
         smileys = []
@@ -84,18 +91,41 @@ class ContainerViewBase(ViewBase):
                 })
         return smileys
 
-    def can_post(self):
-        """Return true if the current user is allowed to post.
-        """
-        if self.captcha_posting:
-            return True
-        return self.is_logged_in
-
     def authenticate(self):
         if not self.is_logged_in:
             msg = _('Sorry you need to be authorized to use this forum')
             raise Unauthorized(msg)
+        return True
 
+    def get_preview_username(self, anonymous):
+        if anonymous or self.need_captcha:
+            return _('anonymous')
+        else:
+            userid = getSecurityManager().getUser().getId()
+            member = getUtility(IMemberService).get_member(userid)
+            if member is None:
+                return _('anonymous')
+            return member.fullname()
+
+    def authorized_to_post(self):
+        # This is intended for the posting action, not the template.
+        if self.need_captcha:
+            value = self.request.form.get('captcha')
+            captcha = getMultiAdapter(
+                (self.context, self.request), name='captcha')
+            if not captcha.verify(value):
+                self.message = _(u'Invalid captcha value')
+                return False
+            return True
+        return self.authenticate()
+
+    def action_authenticate(self, *args):
+        self.authenticate()
+
+    ACTIONS = [
+        ('action.authenticate', action_authenticate),
+        ('action.clear', lambda *args: None,),
+        ]
 
 
 class UserControls(silvaviews.ContentProvider):
@@ -110,40 +140,62 @@ class ForumView(ContainerViewBase):
     """
     grok.context(IForum)
 
-    def update(self, authenticate=False, anonymous=False,
-               preview=False, cancel=False, topic=None, message=''):
-        super(ForumView, self).update()
-        if authenticate:
-            self.authenticate()
+    topic = ''
+    username = ''
+    anonymous = False
+    preview = False
+    preview_validated = False
+    preview_not_topic = False
 
-        self.topic = unicode(topic or '', 'utf-8').strip()
-        self.message = unicode(message, 'utf-8')
+    def action_preview(self, topic, anonymous):
+        self.topic = topic
         self.anonymous = anonymous
-        self.preview = preview
-        self.preview_topic = preview and self.topic
-        self.preview_not_topic = preview and not self.topic
+        self.username = self.get_preview_username(anonymous)
+        self.preview = True
+        self.preview_validated = bool(topic)
+        self.preview_not_topic = not topic
 
-        if not (preview or cancel or topic is None):
-            self.authenticate()
-
-            if not self.topic:
+    def action_post(self, topic, anonymous):
+        success = False
+        if self.authorized_to_post():
+            if not topic:
                 self.message = _('Please provide a subject')
             else:
                 try:
-                    self.context.add_topic(self.topic, anonymous)
+                    self.context.add_topic(
+                        topic, self.need_captcha or anonymous)
                 except ValueError, e:
                     self.message = str(e)
                 else:
                     self.message = _('Topic added')
-                    self.topic = u''
+                    success = True
+        if not success:
+            self.topic = topic
+            self.anonymous = anonymous
+
+    ACTIONS = ContainerViewBase.ACTIONS + [
+        ('action.preview', action_preview),
+        ('action.post', action_post),
+        ]
+
+    def update(self, topic=None, anonymous=False):
+        super(ForumView, self).update()
+
+        topic = unicode(topic or '', 'UTF-8').strip()
+
+        for name, action in self.ACTIONS:
+            if name in self.request.form:
+                action(self, topic, anonymous)
+                break
 
         self.topics = batch(
             self.context.topics(), count=self.context.topic_batch_size,
             name='topics', request=self.request)
 
-        self.batch = component.getMultiAdapter(
-            (self.context, self.topics, self.request),
-            IBatching)()
+        # We don't want batch links to include form data.
+        self.request.form.clear()
+        self.navigation = getMultiAdapter(
+            (self.context, self.topics, self.request), IBatching)()
 
 
 class TopicView(ContainerViewBase):
@@ -151,41 +203,70 @@ class TopicView(ContainerViewBase):
     """
     grok.context(ITopic)
 
-    def update(self, authenticate=False, anonymous=False, preview=False,
-               cancel=False, title=None, text=None, message=''):
-        super(TopicView, self).update()
-        if authenticate:
-            self.authenticate()
+    title = ''
+    text = ''
+    username = ''
+    anonymous = False
+    preview = False
+    preview_validated = False
+    preview_not_title = False
+    preview_not_text = False
 
-        self.title = unicode(title or '', 'UTF-8').strip()
-        self.text = unicode(text or '', 'UTF-8').strip()
-        self.message = unicode(message, 'utf-8')
+    def action_preview(self, title, text, anonymous):
+        self.title = title
+        self.text = text
         self.anonymous = anonymous
-        self.preview = preview
-        self.preview_title_text = preview and self.title and self.text
-        self.preview_not_title = preview and not self.title
-        self.preview_not_text = preview and not self.text
+        self.username = self.get_preview_username(anonymous)
+        self.preview = True
+        self.preview_validated = bool(title and text)
+        self.preview_not_title = not title
+        self.preview_not_text = not text
 
-        if not (preview or cancel or (text is None and title is None)):
-            self.authenticate()
-
-            if not title and not text:
+    def action_post(self, title, text, anonymous):
+        success = False
+        if self.authorized_to_post():
+            if not title or not text:
                 self.message = _('Please provide a title and a text')
             else:
                 try:
-                    self.context.add_comment(self.title, self.text, anonymous)
+                    self.context.add_comment(
+                        title, text, self.need_captcha or anonymous)
                 except ValueError, e:
                     self.message = str(e)
                 else:
                     self.message = _('Comment added')
+                    success = True
+        if not success:
+            self.title = title
+            self.text = text
+            self.anonymous = anonymous
+
+    ACTIONS = ContainerViewBase.ACTIONS + [
+        ('action.preview', action_preview),
+        ('action.post', action_post),
+        ]
+
+    def update(self, title=None, text=None, anonymous=False):
+        super(TopicView, self).update()
+
+        title = unicode(title or '', 'UTF-8').strip()
+        text = unicode(text or '', 'UTF-8').strip()
+
+        for name, action in self.ACTIONS:
+            if name in self.request.form:
+                action(self, title, text, anonymous)
+                break
 
         self.comments = batch(
             self.context.comments(), count=self.context.comment_batch_size,
             name='comments', request=self.request)
 
-        self.batch = component.getMultiAdapter(
-            (self.context, self.comments, self.request),
-            IBatching)()
+        # We don't want batch links to include form data.
+        self.request.form.clear()
+        navigation = getMultiAdapter(
+            (self.context, self.comments, self.request), IBatching)
+        self.navigation = navigation()
+        self.action_url = navigation.last + '#forum-bottom'
 
 
 class CommentView(ViewBase):
