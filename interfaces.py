@@ -2,7 +2,7 @@
 # See also LICENSES.txt
 # $Id$
 
-from silva.core.interfaces import IContent, IContainer
+from silva.core.interfaces import IContent, ISilvaObject, IContainer
 
 
 class IPostable(IContainer):
@@ -10,7 +10,7 @@ class IPostable(IContainer):
     """
 
 
-class IPost(IContent):
+class IPost(ISilvaObject):
     """Posted content.
     """
 
@@ -53,6 +53,6 @@ class ITopic(IPostable, IPost):
         """
 
 
-class IComment(IPost):
+class IComment(IPost, IContent):
     """ A single comment in a forum
     """
