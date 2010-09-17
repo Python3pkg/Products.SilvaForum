@@ -23,8 +23,11 @@ def install(root):
 
     # define metadata sets
     root.service_metadata.addTypesMapping(
-        ('Silva Forum', 'Silva Forum Topic', 'Silva Forum Comment'),
+        ('Silva Forum Topic', 'Silva Forum Comment'),
         ('silva-content', 'silva-extra'))
+    root.service_metadata.addTypesMapping(
+        ('Silva Forum',),
+        ('silva-content', 'silva-extra', 'silva-layout',))
     root.service_metadata.initializeMetadata()
 
     # public is done from Five views
