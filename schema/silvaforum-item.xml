@@ -24,9 +24,9 @@
     </write_guard>
     <field_values>
       <value key="required" type="int" value="1" />
-      <value key="description" type="str" value="Hide the name of the creator to the public." />
+      <value key="description" type="str" value="Hide the name of the comment creator from the public." />
 
-      <value key="title" type="str" value="Anonymous" />
+      <value key="title" type="str" value="anonymous post" />
       <value key="items" type="list" value="[('no', 'no'), ('yes', 'yes')]" />
       <value key="default" type="str" value="no"/>
       <value key="enabled" type="int" value="1" />
