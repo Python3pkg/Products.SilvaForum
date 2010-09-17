@@ -22,7 +22,7 @@
     </write_guard>
     <field_values>
       <value key="required" type="int" value="1" />
-      <value key="description" type="str" value="Allow hiding the name of the creator in topics and comments." />
+      <value key="description" type="str" value="Allow creators to suppress their name when creating topics and comments." />
       <value key="title" type="str" value="anonymous posting allowed" />
       <value key="items" type="list" value="[('no', 'no'), ('yes', 'yes')]" />
       <value key="default" type="str" value="no"/>
@@ -77,7 +77,7 @@
     </write_guard>
     <field_values>
       <value key="required" type="int" value="1" />
-      <value key="description" type="str" value="Allow unauthenticated user to post. A CAPTCHA is used to prevent spam" />
+      <value key="description" type="str" value="Allow unauthenticated users to post. A CAPTCHA will be used to prevent spam." />
       <value key="title" type="str" value="unauthenticated posting allowed" />
       <value key="items" type="list" value="[('no', 'no'), ('yes', 'yes')]" />
       <value key="default" type="str" value="no"/>
