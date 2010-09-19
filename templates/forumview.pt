@@ -39,6 +39,14 @@
       <h3 class="heading" i18n:translate="">Post a new topic</h3>
 
       <div class="forum-field">
+        <div id="emoticons">
+          <span class="emoticon" tal:repeat="smileydata view/smileys">
+            <img onclick="add_smiley(this.title)" alt="emoticon"
+                 i18n:attributes="alt"
+                 tal:attributes="title smileydata/text;
+                                 src smileydata/href" />
+          </span>
+        </div>
         <label for="topic" i18n:translate="">Subject</label>
         <div class="feedback"
              tal:condition="view/preview_not_topic">
@@ -49,14 +57,6 @@
         <input class="store" type="text"
                id="topic" name="topic" size="70"
                tal:attributes="value view/topic" />
-        <div id="emoticons">
-          <span class="emoticon" tal:repeat="smileydata view/smileys">
-            <img onclick="add_smiley(this.title)" alt="emoticon"
-                 i18n:attributes="alt"
-                 tal:attributes="title smileydata/text;
-                                 src smileydata/href" />
-          </span>
-        </div>
       </div>
 
       <div class="forum-field"
@@ -104,14 +104,17 @@
         </tbody>
       </table>
 
-      <div class="forum-field"
+      <div class="forum-field captcha-field"
            tal:condition="view/need_captcha"
            tal:define="captcha nocall:context/@@captcha">
-        <label for="captcha" i18n:translate="">
-          To post your message enter the characters in the captcha (not case sensitive):
-        </label><br />
-        <img tal:replace="structure captcha/image_tag" /><br />
-        <input type="text" name="captcha" id="captcha" value="" />
+        <div class="captcha">
+          <img tal:replace="structure captcha/image_tag" /><br />
+          <input type="text" name="captcha" id="captcha" value="" size="18" />
+        </div>
+        <label for="captcha" class="captcha-hint" i18n:translate="">
+            To post your message enter the characters in this image.
+            You don't need to capitalize them.
+        </label>
       </div>
 
       <div class="forum-submit">

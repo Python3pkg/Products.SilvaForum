@@ -1,6 +1,10 @@
 /* _______ Silva Forum selectors _______ */
+div.forum h3 {
+  margin-bottom: 0.5em;
+  text-transform: none;
+}
 div.forum-user-controls {
-    float: right;
+  float: right;
 }
 /* _______ posting forms _______ */
 form.forum-form {
@@ -8,17 +12,31 @@ form.forum-form {
   padding: 0.5em;
   border: 1px solid gray;
 }
-div.forum-field, div.forum-submit {
-  margin: 0.5em 0;
-}
-div.forum-field label {
-  line-height: 180%;
+input[type=text], textarea {
+  margin: 0.3em 0;
 }
 input.store, textarea.store {
   width: 98%;
 }
+input[type=submit] {
+  margin: 0.1em 0;
+}
 div#emoticons {
-  padding-top: 0.2em;
+  float: right;
+  padding-right: 0.7em;
+}
+div.captcha-field {
+  margin-top: 1.2em;
+}
+div.captcha {
+  float: left;
+  padding-right: 1em;
+}
+div.captcha img {
+  margin: 0.3em 0;
+}
+div.forum-submit {
+  clear: both;
 }
 div.feedback {
   margin-bottom: 0.5em;
@@ -30,6 +48,7 @@ div.feedback {
 div.feedback span.warning {
   color: #a00;
 }
+
 /* _______ forum content _______ */
 table.forum-content-table {
   width: 100%;
@@ -46,11 +65,11 @@ table.forum-content-table tr {
   vertical-align: top;
 }
 table.forum-content-table th {
-    color: gray;
-    text-align: left;
+  color: gray;
+  text-align: left;
 }
 table.forum-content-table th.comments, table.forum-content-table td.comments p {
-    text-align: right;
+  text-align: right;
 }
 table.forum-content-table td.topic {
   padding-bottom: 0.5em;
@@ -67,10 +86,10 @@ table.forum-content-table h5 {
   font-size: 14px;
 }
 table.forum-content-table p {
-    margin: 0;
-    line-height: 18px;
-    text-align: left;
+  margin: 0;
+  line-height: 18px;
+  text-align: left;
 }
 table.forum-content-table p.topic, table.forum-content-table p.comment {
-    font-size: 13px;
+  font-size: 13px;
 }
