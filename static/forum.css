@@ -1,0 +1,76 @@
+/* _______ Silva Forum selectors _______ */
+div.forum-user-controls {
+    float: right;
+}
+/* _______ posting forms _______ */
+form.forum-form {
+  margin: 0.5em 0;
+  padding: 0.5em;
+  border: 1px solid gray;
+}
+div.forum-field, div.forum-submit {
+  margin: 0.5em 0;
+}
+div.forum-field label {
+  line-height: 180%;
+}
+input.store, textarea.store {
+  width: 98%;
+}
+div#emoticons {
+  padding-top: 0.2em;
+}
+div.feedback {
+  margin-bottom: 0.5em;
+  padding: 0.25em;
+  border: 1px solid #8fc511;
+  color: #003448;
+  background-color: transparent;
+}
+div.feedback span.warning {
+  color: #a00;
+}
+/* _______ forum content _______ */
+table.forum-content-table {
+  width: 100%;
+}
+div.batchNav {
+  text-align: center;
+}
+div.batchNav a.current {
+  font-weight: bold;
+  text-decoration: none;
+  color: #7baa0f;
+}
+table.forum-content-table tr {
+  vertical-align: top;
+}
+table.forum-content-table th {
+    color: gray;
+    text-align: left;
+}
+table.forum-content-table th.comments, table.forum-content-table td.comments p {
+    text-align: right;
+}
+table.forum-content-table td.topic {
+  padding-bottom: 0.5em;
+}
+table.forum-content-table td.comment {
+  padding-bottom: 1em;
+}
+table.forum-content-table h4 {
+  margin: 0 0 0.7em;
+  font-size: 17px;
+}
+table.forum-content-table h5 {
+  margin: 0;
+  font-size: 14px;
+}
+table.forum-content-table p {
+    margin: 0;
+    line-height: 18px;
+    text-align: left;
+}
+table.forum-content-table p.topic, table.forum-content-table p.comment {
+    font-size: 13px;
+}
