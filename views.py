@@ -93,7 +93,7 @@ class ContainerViewBase(ViewBase):
 
     def authenticate(self):
         if not self.is_logged_in:
-            msg = _('Sorry you need to be authorized to use this forum')
+            msg = _('Sorry, you need to be authenticated to use this forum.')
             raise Unauthorized(msg)
         return True
 
@@ -159,7 +159,7 @@ class ForumView(ContainerViewBase):
         success = False
         if self.authorized_to_post():
             if not topic:
-                self.message = _('Please provide a subject')
+                self.message = _('Please provide a subject.')
             else:
                 try:
                     self.context.add_topic(
@@ -167,7 +167,7 @@ class ForumView(ContainerViewBase):
                 except ValueError, e:
                     self.message = str(e)
                 else:
-                    self.message = _('Topic added')
+                    self.message = _('Topic added.')
                     success = True
         if not success:
             self.topic = topic
@@ -226,7 +226,7 @@ class TopicView(ContainerViewBase):
         success = False
         if self.authorized_to_post():
             if not title or not text:
-                self.message = _('Please provide a title and a text')
+                self.message = _('Please provide a subject and a message.')
             else:
                 try:
                     self.context.add_comment(
@@ -234,7 +234,7 @@ class TopicView(ContainerViewBase):
                 except ValueError, e:
                     self.message = str(e)
                 else:
-                    self.message = _('Comment added')
+                    self.message = _('Comment added.')
                     success = True
         if not success:
             self.title = title
