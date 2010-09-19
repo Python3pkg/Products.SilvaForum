@@ -140,19 +140,25 @@
              i18n:translate="">Post a new comment</a>
         </h3>
         <div class="forum-field">
-          <label for="title" i18n:translate="">Subject</label>
           <div class="feedback"
                tal:condition="view/preview_not_title">
             <span class="warning"
                   i18n:translate="">Please provide a subject for the new comment.
             </span>
           </div>
+          <label for="title" i18n:translate="">Subject</label>
           <input type="text" name="title" id="title" size="80" class="store"
                  onfocus="window.focussed_form_field = this"
                  tal:attributes="value view/title"
                  />
         </div>
         <div class="forum-field">
+          <div class="feedback"
+               tal:condition="view/preview_not_text">
+            <span class="warning"
+                  i18n:translate="">Please provide a message for the new comment.
+            </span>
+          </div>
           <div id="emoticons">
             <span class="emoticons"
                   tal:repeat="smileydata view/smileys">
@@ -163,12 +169,6 @@
             </span>
           </div>
           <label for="text" i18n:translate="">Message</label>
-          <div class="feedback"
-               tal:condition="view/preview_not_text">
-            <span class="warning"
-                  i18n:translate="">Please provide a message for the new comment.
-            </span>
-          </div>
           <textarea name="text" id="text" rows="5" cols="68" class="store"
                     onfocus="window.focussed_form_field = this"
                     tal:content="view/text">
