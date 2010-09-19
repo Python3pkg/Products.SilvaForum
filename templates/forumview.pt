@@ -21,31 +21,32 @@
       // ]]>
     </script>
 
-    <h2 tal:content="context/get_title">
+    <tal:usercontrols tal:replace="structure provider:usercontrols" />
+    <h2 class="heading"
+      tal:content="context/get_title">
       Forum Title
     </h2>
-    <tal:usercontrols tal:replace="structure provider:usercontrols" />
 
     <form id="forum-thread-form"
           class="forum-form" method="post" name="post" action="#"
           tal:condition="view/can_post"
           tal:attributes="action string:${here_url}#forum-top" >
-      <h3><a name="forum-top" i18n:translate="">Post a new topic</a></h3>
       <div class="feedback"
            tal:condition="view/message">
         <span tal:content="view/message" i18n:translate="">message</span>
       </div>
+      <h3 class="heading"><a name="forum-top" i18n:translate="">Post a new topic</a></h3>
 
       <div class="forum-field">
         <label for="topic" i18n:translate="">Subject</label>
         <div class="feedback"
              tal:condition="view/preview_not_topic">
           <span class="warning"
-                i18n:translate="">Please provide a subject for the new topic
+                i18n:translate="">Please provide a subject for the new topic.
           </span>
         </div>
         <input class="store" type="text"
-               id="topic" name="topic" size="80"
+               id="topic" name="topic" size="70"
                tal:attributes="value view/topic" />
         <div id="emoticons">
           <span class="emoticon" tal:repeat="smileydata view/smileys">
@@ -61,7 +62,7 @@
            tal:condition="view/need_anonymous_option">
         <input type="checkbox" name="anonymous" id="anonymous"
                tal:attributes="checked python:view.anonymous and 'checked' or None" />
-        <label for="anonymous" i18n:translate="">Post anonymous</label>
+        <label for="anonymous" i18n:translate="">Post as anonymous</label>
       </div>
 
       <div class="forum-submit">
@@ -72,20 +73,21 @@
                i18n:attributes="value" />
       </div>
 
-      <table class="forum-content-preview"
+      <table class="forum-content-table forum-preview"
              tal:condition="view/preview_validated">
         <thead>
           <tr tal:condition="view/topics">
-            <th class="align-left" i18n:translate="">Topics</th>
-            <th class="align-left" i18n:translate="">Post date</th>
-            <th class="align-left" i18n:translate="">Author</th>
-            <th class="align-right" i18n:translate="">Comments</th>
+            <th class="topic" i18n:translate="">Topics</th>
+            <th class="datetime" i18n:translate="">Post date</th>
+            <th class="poster" i18n:translate="">Author</th>
+            <th class="comments" i18n:translate="">Comments</th>
           </tr>
         </thead>
         <tbody>
           <tr class="preview">
             <td class="topic">
-              <p tal:content="structure python:view.format_text(view.topic)" />
+              <p class="topic"
+                tal:content="structure python:view.format_text(view.topic)" />
             </td>
             <td class="datetime">
               <p i18n:translate="">Now</p>
@@ -94,7 +96,7 @@
               <p tal:content="view/username">current username</p>
             </td>
             <td class="comments">
-              0
+              <p>0</p>
             </td>
           </tr>
 
@@ -105,7 +107,7 @@
            tal:condition="view/need_captcha"
            tal:define="captcha nocall:context/@@captcha">
         <label for="captcha" i18n:translate="">
-          Retype the following captcha to post your topic
+          Retype the following captcha to post your topic (case insensitive):
         </label><br />
         <img tal:replace="structure captcha/image_tag" /><br />
         <input type="text" name="captcha" id="captcha" value="" />
@@ -122,10 +124,10 @@
            tal:condition="view/topics">
       <thead>
         <tr tal:condition="view/topics">
-          <th class="align-left" i18n:translate="">Topics</th>
-          <th class="align-left" i18n:translate="">Post date</th>
-          <th class="align-left" i18n:translate="">Author</th>
-          <th class="align-right" i18n:translate="">Comments</th>
+          <th class="topic" i18n:translate="">Topics</th>
+          <th class="datetime" i18n:translate="">Post date</th>
+          <th class="poster" i18n:translate="">Author</th>
+          <th class="comments" i18n:translate="">Comments</th>
         </tr>
       </thead>
       <tbody>
@@ -133,7 +135,7 @@
           <tr tal:define="iterate repeat/topic/odd"
               tal:attributes="class python:iterate and 'even' or 'odd'">
             <td class="topic">
-              <p>
+              <p class="topic">
                 <a tal:attributes="href topic/url"
                    tal:content="structure python:view.format_text(topic['title'])">
                   subject

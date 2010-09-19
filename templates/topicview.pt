@@ -24,6 +24,7 @@
       };
       // ]]>
     </script>
+    <tal:usercontrols tal:replace="structure provider:usercontrols" />
     <h2 tal:define="forum context/aq_parent">
       <a title="up to forum..."
          tal:attributes="href forum/@@absolute_url"
@@ -32,15 +33,14 @@
         forum title
       </a>
     </h2>
-    <tal:usercontrols tal:replace="structure provider:usercontrols" />
 
     <tal:navigation tal:replace="structure view/navigation" />
     <table class="forum-content-table">
       <tal:block>
         <thead>
           <tr>
-            <th class="align-left" i18n:translate="">Author</th>
-            <th class="align-left" i18n:translate="">Topic</th>
+            <th class="author" i18n:translate="">Author</th>
+            <th class="comment" i18n:translate="">Topic</th>
           </tr>
         </thead>
       </tal:block>
@@ -57,25 +57,29 @@
               </span>
             </p>
           </td>
-          <td class="comment">
+          <td class="topic">
             <p class="datetime"
                tal:content="python:view.format_datetime(context.get_creation_datetime())">
                 datetime
             </p>
-            <h4 tal:content="structure python:view.format_text(context.get_title())">
+            <h4 class="heading" tal:content="structure python:view.format_text(context.get_title())">
               subject
             </h4>
           </td>
         </tr>
         <tr tal:condition="view/comments">
-          <th class="align-left" i18n:translate="">Author</th>
-          <th class="align-left" i18n:translate="">Comment</th>
+          <th class="author" i18n:translate="">Author</th>
+          <th class="author" i18n:translate="">Comment</th>
         </tr>
         <tal:comments tal:repeat="comment view/comments">
           <tr tal:define="iterate repeat/comment/odd"
               tal:attributes="class python: iterate and 'even' or 'odd'">
             <td class="author">
               <p>
+                <a name="forum-bottom"
+                   tal:condition="repeat/comment/end"
+                   tal:omit-tag="view/preview">
+                </a>
                 <span class="author"
                       tal:content="comment/creator">author</span>
                 <a title="Link to this message"
@@ -90,15 +94,12 @@
                  i18n:translate="">
                 datetime
               </p>
-              <a name="forum-bottom"
-                 tal:condition="repeat/comment/end"
-                 tal:omit-tag="view/preview">
-                <h5 tal:define="subject comment/title"
-                    tal:condition="subject"
-                    tal:content="structure python:view.format_text(subject)">
-                  topic
-                </h5>
-              </a>
+              <h5 class="heading"
+                  tal:define="subject comment/title"
+                  tal:condition="subject"
+                  tal:content="structure python:view.format_text(subject)">
+                topic
+              </h5>
               <p class="comment"
                  tal:content="structure python:view.format_text(comment['text'])">
                 comment
@@ -128,25 +129,25 @@
          tal:define="display python:show_form and 'block' or 'none'"
          tal:attributes="style string:display:${display}">
       <form id="forum-comment-form" method="post" name="post"
-            action="#"
+            action="#" class="forum-form"
             tal:attributes="action view/action_url">
-        <h3>
+        <div class="feedback" tal:condition="view/message">
+          <span tal:content="view/message" i18n:translate="">message</span>
+        </div>
+        <h3 class="heading">
           <a name="forum-bottom"
              tal:omit-tag="not:view/preview"
              i18n:translate="">Post a new comment</a>
         </h3>
-        <div class="feedback" tal:condition="view/message">
-          <span tal:content="view/message" i18n:translate="">message</span>
-        </div>
         <div class="forum-field">
           <label for="title" i18n:translate="">Subject</label>
           <div class="feedback"
                tal:condition="view/preview_not_title">
             <span class="warning"
-                  i18n:translate="">Please provide a subject for the new comment
+                  i18n:translate="">Please provide a subject for the new comment.
             </span>
           </div>
-          <input type="text" name="title" id="title" size="80"
+          <input type="text" name="title" id="title" size="80" class="store"
                  onfocus="window.focussed_form_field = this"
                  tal:attributes="value view/title"
                  />
@@ -156,13 +157,12 @@
           <div class="feedback"
                tal:condition="view/preview_not_text">
             <span class="warning"
-                  i18n:translate="">Please provide a message for the new comment
+                  i18n:translate="">Please provide a message for the new comment.
             </span>
           </div>
-          <textarea name="text" id="text" rows="2" cols="68"
+          <textarea name="text" id="text" rows="6" cols="68" class="store"
                     onfocus="window.focussed_form_field = this"
-                    tal:content="view/text"
-                    tal:attributes="rows python:10">
+                    tal:content="view/text">
           </textarea>
           <div id="emoticons">
             <span class="emoticons"
@@ -179,7 +179,7 @@
              tal:condition="view/need_anonymous_option">
           <input type="checkbox" name="anonymous" id="anonymous"
                  tal:attributes="checked python:view.anonymous and 'checked' or None" />
-          <label for="anonymous" i18n:translate="">Post anonymous</label>
+          <label for="anonymous" i18n:translate="">Post as anonymous</label>
         </div>
 
         <div class="forum-submit">
@@ -190,25 +190,26 @@
                  i18n:attributes="value" />
         </div>
 
-        <table class="forum-content-preview"
+        <table class="forum-content-table forum-preview"
                tal:condition="view/preview_validated">
           <thead>
             <tr>
-              <th class="align-left" i18n:translate="">Author</th>
-              <th class="align-left" i18n:translate="">Topic</th>
+              <th class="author" i18n:translate="">Author</th>
+              <th class="comment" i18n:translate="">Topic</th>
             </tr>
           </thead>
           <tbody>
             <tr class="preview">
               <td class="author">
-                <p>
-                  <span class="author"
+                <p class="author">
+                  <span class="username"
                         tal:content="view/username">current username</span>
                   <tal:posted i18n:translate="">posted</tal:posted>
                 </p>
               </td>
               <td class="comment">
-                <h5 tal:condition="view/title"
+                <h5 class="heading"
+                    tal:condition="view/title"
                     tal:content="structure python:view.format_text(view.title)">
                   title
                 </h5>
