@@ -26,23 +26,19 @@ class SilvaForumTestCase(unittest.TestCase):
 
 class ForumTest(SilvaForumTestCase):
 
-    def test_metadata_set_installed(self):
+    def test_metadata_installed(self):
         metadata = getUtility(IMetadataService)
         self.assertRaises(
             Exception, metadata.getMetadataValue, self.root.forum,
             'silvaforum-forum', 'thisdoesnotexist')
         self.assertEquals(
             metadata.getMetadataValue(
-                self.root.forum, 'silvaforum-forum', 'anonymous_posting'), 'no')
-
-    def test_uninstall_metadata(self):
-        from Products.SilvaForum.install import unconfigureMetadata
-        metadata = getUtility(IMetadataService)
-        self.assertTrue(
-            'silvaforum-forum' in metadata.getCollection().objectIds())
-        unconfigureMetadata(self.root)
-        self.failIf(
-            'silvaforum-forum' in metadata.getCollection().objectIds())
+                self.root.forum, 'silvaforum-forum', 'anonymous_posting'),
+            'no')
+        self.assertEquals(
+            metadata.getMetadataValue(
+                self.root.forum, 'silvaforum-forum', 'unauthenticated_posting'),
+            'no')
 
     def test_topics(self):
         forum = self.root.forum
