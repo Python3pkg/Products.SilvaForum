@@ -28,14 +28,14 @@ def topic_settings(browser):
         '[position() > 1]')
     browser.inspect.add(
         'preview_subject',
-        '//table[@class="forum-content-preview"]//td[@class="comment"]/h5')
+        '//table[contains(@class,"forum-preview")]//td[@class="comment"]/h5')
     browser.inspect.add(
         'preview_comment',
-        '//table[@class="forum-content-preview"]'
+        '//table[contains(@class,"forum-preview")]'
         '//td[@class="comment"]/p[@class="comment"]')
     browser.inspect.add(
         'preview_author',
-        '//table[@class="forum-content-preview"]//span[@class="author"]')
+        '//table[contains(@class,"forum-preview")]//p[@class="author"]/span')
 
 
 def get_captcha_word(browser):
@@ -92,7 +92,7 @@ class TopicFunctionalTestCase(unittest.TestCase):
         form.get_control("text").value = "It's about a product for forum"
         self.assertEqual(form.get_control("action.post").click(), 200)
 
-        self.assertEqual(browser.inspect.feedback, ["Comment added"])
+        self.assertEqual(browser.inspect.feedback, ["Comment added."])
 
         self.assertEqual(browser.inspect.subjects, ["New Comment"])
         self.assertEqual(browser.inspect.authors, ["dummy"])
@@ -134,7 +134,7 @@ class TopicFunctionalTestCase(unittest.TestCase):
         self.assertEqual(form.get_control("anonymous").checked, True)
         self.assertEqual(form.get_control("action.post").click(), 200)
 
-        self.assertEqual(browser.inspect.feedback, ["Comment added"])
+        self.assertEqual(browser.inspect.feedback, ["Comment added."])
         self.assertEqual(browser.inspect.subjects, ["Anonymous Comment"])
         self.assertEqual(browser.inspect.comments, ["It's a secret"])
         self.assertEqual(browser.inspect.authors, ["anonymous"])
@@ -193,7 +193,7 @@ class TopicFunctionalTestCase(unittest.TestCase):
         self.assertEqual(form.get_control("action.post").click(), 200)
 
         # And the comment is added
-        self.assertEqual(browser.inspect.feedback, ["Comment added"])
+        self.assertEqual(browser.inspect.feedback, ["Comment added."])
         self.assertEqual(browser.inspect.preview_author, [])
         self.assertEqual(browser.inspect.preview_subject, [])
         self.assertEqual(browser.inspect.preview_comment, [])
@@ -228,7 +228,7 @@ class TopicFunctionalTestCase(unittest.TestCase):
         self.assertEqual(form.get_control("action.post").click(), 200)
 
         # And the comment is added
-        self.assertEqual(browser.inspect.feedback, ["Comment added"])
+        self.assertEqual(browser.inspect.feedback, ["Comment added."])
         self.assertEqual(browser.inspect.preview_author, [])
         self.assertEqual(browser.inspect.preview_subject, [])
         self.assertEqual(browser.inspect.preview_comment, [])
@@ -249,7 +249,7 @@ class TopicFunctionalTestCase(unittest.TestCase):
         self.assertEqual(form.get_control("action.post").click(), 200)
         self.assertEqual(
             browser.inspect.feedback,
-            ["Please provide a title and a text"])
+            ["Please provide a subject and a message."])
 
         # Noting is created
         self.assertEqual(browser.inspect.subjects, [])
@@ -269,15 +269,15 @@ class TopicFunctionalTestCase(unittest.TestCase):
         self.assertEqual(form.get_control("action.preview").click(), 200)
         self.assertEqual(
             browser.inspect.feedback,
-            ["Please provide a subject for the new comment",
-             "Please provide a message for the new comment"])
+            ["Please provide a subject for the new comment.",
+             "Please provide a message for the new comment."])
 
         form = browser.get_form('post')
         form.get_control('title').value = 'Previewed comment'
         self.assertEqual(form.get_control("action.preview").click(), 200)
         self.assertEqual(
             browser.inspect.feedback,
-            ["Please provide a message for the new comment"])
+            ["Please provide a message for the new comment."])
 
         form = browser.get_form('post')
         self.assertEqual(form.get_control('title').value, 'Previewed comment')
@@ -286,7 +286,7 @@ class TopicFunctionalTestCase(unittest.TestCase):
         self.assertEqual(form.get_control("action.preview").click(), 200)
         self.assertEqual(
             browser.inspect.feedback,
-            ["Please provide a subject for the new comment"])
+            ["Please provide a subject for the new comment."])
 
         form = browser.get_form('post')
         self.assertEqual(form.get_control('text').value, 'Previewed message')
@@ -337,7 +337,7 @@ class TopicFunctionalTestCase(unittest.TestCase):
         self.assertEqual(form.get_control("action.post").click(), 200)
 
         # The comment is added and the preview is gone
-        self.assertEqual(browser.inspect.feedback, ["Comment added"])
+        self.assertEqual(browser.inspect.feedback, ["Comment added."])
         self.assertEqual(browser.inspect.preview_author, [])
         self.assertEqual(browser.inspect.preview_subject, [])
         self.assertEqual(browser.inspect.preview_comment, [])

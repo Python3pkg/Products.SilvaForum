@@ -14,7 +14,7 @@ from Products.SilvaForum.testing import FunctionalLayer
 
 def forum_settings(browser):
     browser.inspect.add('feedback', '//div[@class="feedback"]/span')
-    browser.inspect.add('title', '//div[@class="forum"]/descendant::h2')
+    browser.inspect.add('title', '//div[@class="forum"]//h2')
     browser.inspect.add(
         'topics',
         '//table[@class="forum-content-table"]//td[@class="topic"]/p/a',
@@ -24,10 +24,10 @@ def forum_settings(browser):
         '//table[@class="forum-content-table"]//td[@class="poster"]/p')
     browser.inspect.add(
         'preview_topic',
-        '//table[@class="forum-content-preview"]//td[@class="topic"]/p')
+        '//table[contains(@class,"forum-preview")]//td[@class="topic"]/p')
     browser.inspect.add(
         'preview_author',
-        '//table[@class="forum-content-preview"]//td[@class="author"]/p')
+        '//table[contains(@class,"forum-preview")]//td[@class="author"]/p')
 
 
 def get_captcha_word(browser):
@@ -78,7 +78,7 @@ class ForumFunctionalTestCase(unittest.TestCase):
         form.get_control("topic").value = "New Test Topic"
         self.assertEqual(form.get_control("action.post").click(), 200)
 
-        self.assertEqual(browser.inspect.feedback, ["Topic added"])
+        self.assertEqual(browser.inspect.feedback, ["Topic added."])
 
         # The form is cleared after
         form = browser.get_form('post')
@@ -102,7 +102,7 @@ class ForumFunctionalTestCase(unittest.TestCase):
         self.assertEqual(form.get_control("action.post").click(), 200)
 
         # Error reporting nothing posted
-        self.assertEqual(browser.inspect.feedback, ["Please provide a subject"])
+        self.assertEqual(browser.inspect.feedback, ["Please provide a subject."])
         self.assertEqual(browser.inspect.topics, [])
         self.assertEqual(browser.inspect.authors, [])
 
@@ -131,7 +131,7 @@ class ForumFunctionalTestCase(unittest.TestCase):
         self.assertEqual(form.get_control("anonymous").checked, True)
         self.assertEqual(form.get_control("action.post").click(), 200)
 
-        self.assertEqual(browser.inspect.feedback, ["Topic added"])
+        self.assertEqual(browser.inspect.feedback, ["Topic added."])
         self.assertEqual(browser.inspect.preview_topic, [])
         self.assertEqual(browser.inspect.preview_author, [])
         self.assertEqual(browser.inspect.topics, ["Anonymous post"])
@@ -188,7 +188,7 @@ class ForumFunctionalTestCase(unittest.TestCase):
         self.assertEqual(form.get_control("topic").value, "Hello world")
         self.assertEqual(form.get_control("action.post").click(), 200)
 
-        self.assertEqual(browser.inspect.feedback, ["Topic added"])
+        self.assertEqual(browser.inspect.feedback, ["Topic added."])
         self.assertEqual(browser.inspect.preview_topic, [])
         self.assertEqual(browser.inspect.preview_author, [])
         self.assertEqual(browser.inspect.topics, ['Hello world'])
@@ -219,7 +219,7 @@ class ForumFunctionalTestCase(unittest.TestCase):
         self.assertEqual(form.get_control("anonymous").checked, False)
         self.assertEqual(form.get_control("action.post").click(), 200)
 
-        self.assertEqual(browser.inspect.feedback, ["Topic added"])
+        self.assertEqual(browser.inspect.feedback, ["Topic added."])
         self.assertEqual(browser.inspect.preview_topic, [])
         self.assertEqual(browser.inspect.preview_author, [])
         self.assertEqual(browser.inspect.topics, ['Hello forum'])
@@ -238,7 +238,7 @@ class ForumFunctionalTestCase(unittest.TestCase):
 
         self.assertEqual(
             browser.inspect.feedback,
-            ["Please provide a subject for the new topic"])
+            ["Please provide a subject for the new topic."])
         self.assertEqual(browser.inspect.preview_topic, [])
         self.assertEqual(browser.inspect.preview_author, [])
         self.assertEqual(browser.inspect.topics, [])
@@ -269,7 +269,7 @@ class ForumFunctionalTestCase(unittest.TestCase):
         self.assertEqual(form.get_control('topic').value, "Previewed Topic")
         self.assertEqual(form.get_control("action.post").click(), 200)
 
-        self.assertEqual(browser.inspect.feedback, ["Topic added"])
+        self.assertEqual(browser.inspect.feedback, ["Topic added."])
         self.assertEqual(browser.inspect.preview_topic, [])
         self.assertEqual(browser.inspect.preview_author, [])
 
