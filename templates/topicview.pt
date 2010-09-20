@@ -1,7 +1,7 @@
 <tal:block xmlns:i18n="http://xml.zope.org/namespaces/i18n"
            i18n:domain="silvaforum">
   <div class="forum"
-       tal:define="show_form python:view.preview or view.message">
+       tal:define="show_form python:view.preview or view.message or view.text_missing">
     <script type="text/javascript">
       // <![CDATA[
       window.focussed_form_field = null;
@@ -140,12 +140,6 @@
              i18n:translate="">Post a new comment</a>
         </h3>
         <div class="forum-field">
-          <div class="feedback"
-               tal:condition="view/preview_not_title">
-            <span class="warning"
-                  i18n:translate="">Please provide a subject for the new comment.
-            </span>
-          </div>
           <label for="title" i18n:translate="">Subject</label>
           <input type="text" name="title" id="title" size="80" class="store"
                  onfocus="window.focussed_form_field = this"
@@ -153,8 +147,7 @@
                  />
         </div>
         <div class="forum-field">
-          <div class="feedback"
-               tal:condition="view/preview_not_text">
+          <div class="feedback" tal:condition="view/text_missing">
             <span class="warning"
                   i18n:translate="">Please provide a message for the new comment.
             </span>

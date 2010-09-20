@@ -249,12 +249,23 @@ class TopicFunctionalTestCase(unittest.TestCase):
         self.assertEqual(form.get_control("action.post").click(), 200)
         self.assertEqual(
             browser.inspect.feedback,
-            ["Please provide a subject and a message."])
+            ["Please provide a message for the new comment."])
 
         # Noting is created
         self.assertEqual(browser.inspect.subjects, [])
         self.assertEqual(browser.inspect.comments, [])
         self.assertEqual(browser.inspect.authors, [])
+
+        # If you provide only a message, it works. The title of the
+        # topic is used by default.
+        form = browser.get_form('post')
+        form.get_control('text').value = 'Use default title'
+        self.assertEqual(form.get_control("action.post").click(), 200)
+
+        self.assertEqual(browser.inspect.feedback, ["Comment added."])
+        self.assertEqual(browser.inspect.subjects, ['Test Topic'])
+        self.assertEqual(browser.inspect.comments, ['Use default title'])
+        self.assertEqual(browser.inspect.authors, ['dummy'])
 
     def test_preview_validation(self):
         """Try to preview an empty or incomplete comment.
@@ -269,10 +280,10 @@ class TopicFunctionalTestCase(unittest.TestCase):
         self.assertEqual(form.get_control("action.preview").click(), 200)
         self.assertEqual(
             browser.inspect.feedback,
-            ["Please provide a subject for the new comment.",
-             "Please provide a message for the new comment."])
+            ["Please provide a message for the new comment."])
 
         form = browser.get_form('post')
+        self.assertEqual(form.get_control("title").value, 'Test Topic')
         form.get_control('title').value = 'Previewed comment'
         self.assertEqual(form.get_control("action.preview").click(), 200)
         self.assertEqual(
@@ -281,15 +292,6 @@ class TopicFunctionalTestCase(unittest.TestCase):
 
         form = browser.get_form('post')
         self.assertEqual(form.get_control('title').value, 'Previewed comment')
-        form.get_control('title').value = ''
-        form.get_control('text').value = 'Previewed message'
-        self.assertEqual(form.get_control("action.preview").click(), 200)
-        self.assertEqual(
-            browser.inspect.feedback,
-            ["Please provide a subject for the new comment."])
-
-        form = browser.get_form('post')
-        self.assertEqual(form.get_control('text').value, 'Previewed message')
 
         # Nothing was post
         self.assertEqual(browser.inspect.subjects, [])

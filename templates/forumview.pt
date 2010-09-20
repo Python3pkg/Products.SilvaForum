@@ -3,7 +3,7 @@
   <div class="forum"
        tal:define="
          here_url context/@@absolute_url;
-         show_form python:view.preview or view.message">
+         show_form python:view.preview or view.message or view.topic_missing">
     <script type="text/javascript">
       // <![CDATA[
       function add_smiley(text_to_add) {
@@ -58,7 +58,7 @@
 
         <div class="forum-field">
           <div class="feedback"
-               tal:condition="view/preview_not_topic">
+               tal:condition="view/topic_missing">
             <span class="warning"
                   i18n:translate="">Please provide a subject for the new topic.
             </span>

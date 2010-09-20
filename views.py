@@ -141,11 +141,11 @@ class ForumView(ContainerViewBase):
     grok.context(IForum)
 
     topic = ''
+    topic_missing = False
     username = ''
     anonymous = False
     preview = False
     preview_validated = False
-    preview_not_topic = False
 
     def action_preview(self, topic, anonymous):
         self.topic = topic
@@ -153,13 +153,13 @@ class ForumView(ContainerViewBase):
         self.username = self.get_preview_username(anonymous)
         self.preview = True
         self.preview_validated = bool(topic)
-        self.preview_not_topic = not topic
+        self.topic_missing = not topic
 
     def action_post(self, topic, anonymous):
         success = False
         if self.authorized_to_post():
             if not topic:
-                self.message = _('Please provide a subject.')
+                self.topic_missing = True
             else:
                 try:
                     self.context.add_topic(
@@ -205,28 +205,31 @@ class TopicView(ContainerViewBase):
 
     title = ''
     text = ''
+    text_missing = False
     username = ''
     anonymous = False
     preview = False
     preview_validated = False
-    preview_not_title = False
-    preview_not_text = False
+
+    def get_topic_title(self):
+        return self.context.get_title()
 
     def action_preview(self, title, text, anonymous):
-        self.title = title
+        self.title = title if title else self.get_topic_title()
         self.text = text
         self.anonymous = anonymous
         self.username = self.get_preview_username(anonymous)
         self.preview = True
-        self.preview_validated = bool(title and text)
-        self.preview_not_title = not title
-        self.preview_not_text = not text
+        self.preview_validated = bool(text)
+        self.text_missing = not text
 
     def action_post(self, title, text, anonymous):
         success = False
         if self.authorized_to_post():
-            if not title or not text:
-                self.message = _('Please provide a subject and a message.')
+            if not title:
+                title = self.get_topic_title()
+            if not text:
+                self.text_missing = True
             else:
                 try:
                     self.context.add_comment(

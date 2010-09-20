@@ -102,7 +102,9 @@ class ForumFunctionalTestCase(unittest.TestCase):
         self.assertEqual(form.get_control("action.post").click(), 200)
 
         # Error reporting nothing posted
-        self.assertEqual(browser.inspect.feedback, ["Please provide a subject."])
+        self.assertEqual(
+            browser.inspect.feedback,
+            ["Please provide a subject for the new topic."])
         self.assertEqual(browser.inspect.topics, [])
         self.assertEqual(browser.inspect.authors, [])
 
