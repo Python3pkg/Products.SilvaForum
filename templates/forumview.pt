@@ -42,7 +42,6 @@
       </div>
     </tal:button>
 
-    <a name="forum-top"></a>
     <div id="form-toggle"
          tal:condition="view/can_post"
          tal:define="display python:show_form and 'block' or 'none'"
@@ -50,7 +49,7 @@
       <form id="forum-thread-form"
             class="forum-form" method="post" name="post" action="#"
             tal:condition="view/can_post"
-            tal:attributes="action string:${here_url}#forum-top" >
+            tal:attributes="action string:${here_url}" >
         <div class="feedback"
              tal:condition="view/message">
           <span tal:content="view/message" i18n:translate="">message</span>
