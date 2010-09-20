@@ -112,9 +112,9 @@
     <tal:navigation tal:replace="structure view/navigation" />
 
     <tal:button tal:condition="view/can_post">
-      <div class="submit"
+      <div class="toggle"
            tal:condition="not:view/preview">
-        <input class="forum-add-comment" type="button" value="Add comment"
+        <input class="forum-add-comment" type="button" value="Add a comment"
                i18n:attributes="value"
                tal:define="display python:show_form and 'none' or 'block'"
                tal:attributes="style string:display:${display}"

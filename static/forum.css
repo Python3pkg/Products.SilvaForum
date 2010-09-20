@@ -21,6 +21,9 @@ input.store, textarea.store {
 input[type=submit] {
   margin: 0.1em 0;
 }
+div.toggle {
+  margin: 0.5em 0;
+}
 div#emoticons {
   float: right;
   padding-right: 0.7em;

@@ -1,7 +1,9 @@
 <tal:block xmlns:i18n="http://xml.zope.org/namespaces/i18n"
            i18n:domain="silvaforum">
   <div class="forum"
-       tal:define="here_url context/@@absolute_url">
+       tal:define="
+         here_url context/@@absolute_url;
+         show_form python:view.preview or view.message">
     <script type="text/javascript">
       // <![CDATA[
       function add_smiley(text_to_add) {
@@ -27,101 +29,119 @@
       Forum Title
     </h2>
 
+    <tal:button tal:condition="view/can_post">
+      <div class="toggle"
+           tal:condition="not:view/preview">
+        <input class="forum-add-comment" type="button" value="Add a topic"
+               i18n:attributes="value"
+               tal:define="display python:show_form and 'none' or 'block'"
+               tal:attributes="style string:display:${display}"
+               onclick="document.getElementById('form-toggle').style.display='block';
+                        this.style.display='none';"
+               />
+      </div>
+    </tal:button>
+
     <a name="forum-top"></a>
-    <form id="forum-thread-form"
-          class="forum-form" method="post" name="post" action="#"
-          tal:condition="view/can_post"
-          tal:attributes="action string:${here_url}#forum-top" >
-      <div class="feedback"
-           tal:condition="view/message">
-        <span tal:content="view/message" i18n:translate="">message</span>
-      </div>
-      <h3 class="heading" i18n:translate="">Post a new topic</h3>
-
-      <div class="forum-field">
+    <div id="form-toggle"
+         tal:condition="view/can_post"
+         tal:define="display python:show_form and 'block' or 'none'"
+         tal:attributes="style string:display:${display}">
+      <form id="forum-thread-form"
+            class="forum-form" method="post" name="post" action="#"
+            tal:condition="view/can_post"
+            tal:attributes="action string:${here_url}#forum-top" >
         <div class="feedback"
-             tal:condition="view/preview_not_topic">
-          <span class="warning"
-                i18n:translate="">Please provide a subject for the new topic.
-          </span>
+             tal:condition="view/message">
+          <span tal:content="view/message" i18n:translate="">message</span>
         </div>
-        <div id="emoticons">
-          <span class="emoticon" tal:repeat="smileydata view/smileys">
-            <img onclick="add_smiley(this.title)" alt="emoticon"
-                 i18n:attributes="alt"
-                 tal:attributes="title smileydata/text;
-                                 src smileydata/href" />
-          </span>
+        <h3 class="heading" i18n:translate="">Post a new topic</h3>
+
+        <div class="forum-field">
+          <div class="feedback"
+               tal:condition="view/preview_not_topic">
+            <span class="warning"
+                  i18n:translate="">Please provide a subject for the new topic.
+            </span>
+          </div>
+          <div id="emoticons">
+            <span class="emoticon" tal:repeat="smileydata view/smileys">
+              <img onclick="add_smiley(this.title)" alt="emoticon"
+                   i18n:attributes="alt"
+                   tal:attributes="title smileydata/text;
+                                   src smileydata/href" />
+            </span>
+          </div>
+          <label for="topic" i18n:translate="">Subject</label>
+          <input class="store" type="text"
+                 id="topic" name="topic" size="70"
+                 tal:attributes="value view/topic" />
         </div>
-        <label for="topic" i18n:translate="">Subject</label>
-        <input class="store" type="text"
-               id="topic" name="topic" size="70"
-               tal:attributes="value view/topic" />
-      </div>
 
-      <div class="forum-field"
-           tal:condition="view/need_anonymous_option">
-        <input type="checkbox" name="anonymous" id="anonymous"
-               tal:attributes="checked python:view.anonymous and 'checked' or None" />
-        <label for="anonymous" i18n:translate="">Post as anonymous</label>
-      </div>
-
-      <div class="forum-submit">
-        <input type="submit" name="action.preview" value="Preview"
-               i18n:attributes="value" />
-        <input type="submit" name="action.clear" value="Clear"
-               tal:condition="view/preview"
-               i18n:attributes="value" />
-      </div>
-
-      <table class="forum-content-table forum-preview"
-             tal:condition="view/preview_validated">
-        <thead>
-          <tr tal:condition="view/topics">
-            <th class="topic" i18n:translate="">Topics</th>
-            <th class="datetime" i18n:translate="">Post date</th>
-            <th class="poster" i18n:translate="">Author</th>
-            <th class="comments" i18n:translate="">Comments</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="preview">
-            <td class="topic">
-              <p class="topic"
-                tal:content="structure python:view.format_text(view.topic)" />
-            </td>
-            <td class="datetime">
-              <p i18n:translate="">Now</p>
-            </td>
-            <td class="author">
-              <p tal:content="view/username">current username</p>
-            </td>
-            <td class="comments">
-              <p>0</p>
-            </td>
-          </tr>
-
-        </tbody>
-      </table>
-
-      <div class="forum-field captcha-field"
-           tal:condition="view/need_captcha"
-           tal:define="captcha nocall:context/@@captcha">
-        <div class="captcha">
-          <img tal:replace="structure captcha/image_tag" /><br />
-          <input type="text" name="captcha" id="captcha" value="" size="18" />
+        <div class="forum-field"
+             tal:condition="view/need_anonymous_option">
+          <input type="checkbox" name="anonymous" id="anonymous"
+                 tal:attributes="checked python:view.anonymous and 'checked' or None" />
+          <label for="anonymous" i18n:translate="">Post as anonymous</label>
         </div>
-        <label for="captcha" class="captcha-hint" i18n:translate="">
-            To post your message enter the characters in this image.
-            You can type them in lower case.
-        </label>
-      </div>
 
-      <div class="forum-submit">
-        <input type="submit" name="action.post" value="Post topic"
-               i18n:attributes="value" />
-      </div>
-    </form>
+        <div class="forum-submit">
+          <input type="submit" name="action.preview" value="Preview"
+                 i18n:attributes="value" />
+          <input type="submit" name="action.clear" value="Clear"
+                 tal:condition="view/preview"
+                 i18n:attributes="value" />
+        </div>
+
+        <table class="forum-content-table forum-preview"
+               tal:condition="view/preview_validated">
+          <thead>
+            <tr tal:condition="view/topics">
+              <th class="topic" i18n:translate="">Topics</th>
+              <th class="datetime" i18n:translate="">Post date</th>
+              <th class="poster" i18n:translate="">Author</th>
+              <th class="comments" i18n:translate="">Comments</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="preview">
+              <td class="topic">
+                <p class="topic"
+                  tal:content="structure python:view.format_text(view.topic)" />
+              </td>
+              <td class="datetime">
+                <p i18n:translate="">Now</p>
+              </td>
+              <td class="author">
+                <p tal:content="view/username">current username</p>
+              </td>
+              <td class="comments">
+                <p>0</p>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+
+        <div class="forum-field captcha-field"
+             tal:condition="view/need_captcha"
+             tal:define="captcha nocall:context/@@captcha">
+          <div class="captcha">
+            <img tal:replace="structure captcha/image_tag" /><br />
+            <input type="text" name="captcha" id="captcha" value="" size="18" />
+          </div>
+          <label for="captcha" class="captcha-hint" i18n:translate="">
+              To post your message enter the characters in this image.
+              You can type them in lower case.
+          </label>
+        </div>
+
+        <div class="forum-submit">
+          <input type="submit" name="action.post" value="Post topic"
+                 i18n:attributes="value" />
+        </div>
+      </form>
+    </div>
 
     <tal:navigation tal:replace="structure view/navigation" />
     <table class="forum-content-table"
