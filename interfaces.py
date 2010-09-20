@@ -2,15 +2,19 @@
 # See also LICENSES.txt
 # $Id$
 
+from zope.interface import Interface
 from silva.core.interfaces import IContent, ISilvaObject, IContainer
 
+class IPostContent(Interface):
+    """Identify all postable/post content.
+    """
 
-class IPostable(IContainer):
+class IPostable(IPostContent, IContainer):
     """Content where you can post content.
     """
 
 
-class IPost(ISilvaObject):
+class IPost(IPostContent, ISilvaObject):
     """Posted content.
     """
 
