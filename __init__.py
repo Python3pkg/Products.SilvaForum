@@ -16,6 +16,8 @@ class IExtension(Interface):
 
 
 class SilvaForumInstaller(DefaultInstaller):
+    not_globally_addables = ['Silva Forum Topic', 'Silva Forum Comment']
+    default_permissions = {'Silva Forum': roleinfo.EDITOR_ROLES}
     metadata = {('Silva Forum Topic', 'Silva Forum Comment'):
                     ('silva-content', 'silva-extra', 'silvaforum-item'),
                 ('Silva Forum',):
@@ -24,10 +26,6 @@ class SilvaForumInstaller(DefaultInstaller):
                     ('silvaforum-forum',)}
 
     def install_custom(self, root):
-        self.configure_addables(
-            root, ['Silva Forum'], ['Silva Forum Topic', 'Silva Forum Comment'])
-        self.configure_security(root, ['Silva Forum Topic', 'Silva Forum Comment'])
-        self.configure_security(root, ['Silva Forum'], roleinfo.EDITOR_ROLES)
         self.configure_metadata(root, self.metadata, globals())
 
     def uninstall_custom(self, root):
