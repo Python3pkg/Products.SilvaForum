@@ -1,0 +1,15 @@
+To: <%(toaddress)s>
+From: Silva Subscription Service <subscription-service@example.com>
+Subject: New comment posted "%(contenttitle)s"
+Content-Type: text/plain; charset=utf-8
+
+
+A new comment has been posted at:
+
+URL: %(contenturl)s
+
+title: %(contenttitle)s
+
+If you want to cancel your notification, please follow this link:
+
+%(serviceurlforsubscribedcontent)s

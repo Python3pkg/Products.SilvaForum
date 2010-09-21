@@ -17,10 +17,12 @@ from Products.Silva.Content import Content
 from Products.Silva.Publication import Publication
 from Products.Silva.Folder import Folder
 
-from silva.core.conf.interfaces import ITitledContent
+from silva.app.subscriptions.interfaces import ISubscriptionService
 from silva.core import conf as silvaconf
+from silva.core.conf.interfaces import ITitledContent
 from silva.translations import translate as _
 from zeam.form import silva as silvaforms
+from zope.lifecycleevent.interfaces import IObjectCreatedEvent
 
 from Products.SilvaForum.interfaces import IForum, ITopic, IComment
 
@@ -297,3 +299,10 @@ class CommentEditForm(silvaforms.SMIEditForm):
     grok.context(IComment)
 
     fields = silvaforms.Fields(ICommentSchema).omit('id')
+
+
+@grok.subscribe(IComment, IObjectCreatedEvent)
+def notify_new_comment(comment, event):
+    service = component.getUtility(ISubscriptionService)
+    if service is not None:
+        service.sendNotificationEmail(comment, 'forum_event_template')
