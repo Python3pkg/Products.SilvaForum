@@ -234,6 +234,8 @@
       </form>
     </div>
 
+    <tal:provider tal:replace="structure provider:subscriptions" />
+
   </div>
 
 </tal:block>

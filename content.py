@@ -305,4 +305,4 @@ class CommentEditForm(silvaforms.SMIEditForm):
 def notify_new_comment(comment, event):
     service = component.getUtility(ISubscriptionService)
     if service is not None:
-        service.sendNotificationEmail(comment, 'forum_event_template')
+        service.send_notification(comment, 'forum_event_template')
