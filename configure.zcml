@@ -9,10 +9,12 @@
   <include package="silva.core.conf" />
   <include package="silva.core.views" />
   <include package="silva.core.layout" />
-  <include package="silva.batch" />
-  <include package="silva.captcha" />
   <include package="silva.resourceinclude" />
   <include package="zeam.form.silva" />
+
+  <include package="silva.app.subscriptions" />
+  <include package="silva.batch" />
+  <include package="silva.captcha" />
 
   <!-- i18n -->
   <i18n:registerTranslations directory="i18n" />
