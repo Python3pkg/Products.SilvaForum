@@ -60,7 +60,7 @@
           <td class="topic">
             <p class="datetime"
                tal:content="python:view.format_datetime(context.get_creation_datetime())">
-                datetime
+              datetime
             </p>
             <h4 class="heading" tal:content="structure python:view.format_text(context.get_title())">
               subject
@@ -111,158 +111,154 @@
     </table>
     <tal:navigation tal:replace="structure view/navigation" />
 
-    <tal:button tal:condition="view/can_post">
-      <div class="dialog-toggle"
-           tal:condition="not:view/preview">
+    <tal:post tal:condition="view/can_post">
+      <div class="dialog-opener"
+           tal:define="display python:show_form and 'none' or 'block'"
+           tal:attributes="style string:display:${display}">
         <input id="forum-post" type="button" value="Add a comment"
                i18n:attributes="value"
                />
       </div>
-    </tal:button>
-    <tal:comment tal:replace="nothing">
-      XXX Needs conditions: if subscribing is possible, and all things are
-      properly configured. We don't want users seeing "There was an error"
-      because the site manager doesn't have everything setup.
-    </tal:comment>
-    <tal:button tal:condition="view/can_post">
-      <div class="dialog-toggle"
-           tal:condition="not:view/preview">
+      <div class="forum-dialog forum-post-dialog"
+           tal:define="display python:show_form and 'block' or 'none'"
+           tal:attributes="style string:display:${display}">
+        <input id="forum-post-closer" class="dialog-closer" type="image"
+               str="#" width="16" height="16" title="hide post form"
+               tal:attributes="src static/close_window.png"
+               i18n:attributes="title" />
+        <form method="post" name="post" action="#"
+              tal:attributes="action view/action_url">
+          <h3 class="heading">
+            <a name="forum-bottom"
+               tal:omit-tag="not:view/preview"
+               i18n:translate="">Post a new comment</a>
+          </h3>
+          <div class="feedback" tal:condition="view/message">
+            <span tal:content="view/message" i18n:translate="">message</span>
+          </div>
+          <div class="forum-field">
+            <label for="title" i18n:translate="">Subject</label>
+            <input type="text" name="title" id="title" size="80" class="store"
+                   onfocus="window.focussed_form_field = this"
+                   tal:attributes="value view/title"
+                   />
+          </div>
+          <div class="forum-field">
+            <div class="feedback" tal:condition="view/text_missing">
+              <span class="warning"
+                    i18n:translate="">Please provide a message for the new comment.
+              </span>
+            </div>
+            <div id="emoticons">
+              <span class="emoticons"
+                    tal:repeat="smileydata view/smileys">
+                <img onclick="add_smiley(this.title)"
+                     alt="add emoticon"
+                     tal:attributes="title smileydata/text;
+                                     src smileydata/href" />
+              </span>
+            </div>
+            <label for="text" i18n:translate="">Message</label>
+            <textarea name="text" id="text" rows="5" cols="68" class="store"
+                      onfocus="window.focussed_form_field = this"
+                      tal:content="view/text">
+            </textarea>
+          </div>
+
+          <tal:comment tal:replace="nothing">
+            XXX Needs condition: if email address is known and user is not
+            yet subscribed. Address needs to be inserted in the label.
+          </tal:comment>
+          <div class="forum-field"
+               tal:condition="view/have_subscriptions">
+            <input type="checkbox" name="forum-subscribe" checked="checked" />
+            <label for="forum-subscribe">
+              Subscribe me to the new topic (torvald@infrae.com)
+            </label>
+          </div>
+
+          <div class="forum-field"
+               tal:condition="view/need_anonymous_option">
+            <input type="checkbox" name="anonymous" id="anonymous"
+                   tal:attributes="checked python:view.anonymous and 'checked' or None" />
+            <label for="anonymous" i18n:translate="">Post as anonymous</label>
+          </div>
+
+          <div class="forum-submit">
+            <input type="submit" name="action.preview" value="Preview"
+                   i18n:attributes="value" />
+            <input type="submit" name="action.clear" value="Clear"
+                   tal:condition="view/preview"
+                   i18n:attributes="value" />
+          </div>
+
+          <table class="forum-content-table forum-preview"
+                 tal:condition="view/preview_validated">
+            <thead>
+              <tr>
+                <th class="author" i18n:translate="">Author</th>
+                <th class="comment" i18n:translate="">Topic</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="preview">
+                <td class="author">
+                  <p class="author">
+                    <span class="username"
+                          tal:content="view/username">current username</span>
+                    <tal:posted i18n:translate="">posted</tal:posted>
+                  </p>
+                </td>
+                <td class="comment">
+                  <h5 class="heading"
+                      tal:condition="view/title"
+                      tal:content="structure python:view.format_text(view.title)">
+                    title
+                  </h5>
+                  <p class="comment"
+                     tal:content="structure python:view.format_text(view.text)">
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="forum-field captcha-field"
+               tal:condition="view/need_captcha"
+               tal:define="captcha nocall:context/@@captcha">
+            <div class="captcha">
+              <img tal:replace="structure captcha/image_tag" /><br />
+              <input type="text" name="captcha" id="captcha" value="" size="18" />
+            </div>
+            <label for="captcha" i18n:translate="">
+              To post your message enter the characters in this image.
+              You can type them in lower case.
+            </label>
+          </div>
+
+          <div class="forum-submit">
+            <input type="submit" name="action.post" value="Post comment"
+                   i18n:attributes="value" />
+          </div>
+        </form>
+      </div>
+    </tal:post>
+
+    <tal:subscriptions tal:condition="view/have_subscriptions">
+      <div class="dialog-opener">
         <input id="forum-subscribe" type="button"
                value="Subscribe to topic"
                i18n:attributes="value"
                />
       </div>
-    </tal:button>
-
-    <div class="forum-dialog forum-post-dialog"
-         tal:condition="view/can_post"
-         tal:define="display python:show_form and 'block' or 'none'"
-         tal:attributes="style string:display:${display}">
-      <form method="post" name="post" action="#"
-            tal:attributes="action view/action_url">
-        <input class="forum-hide-form" type="image"
-               src="++resource++Products.SilvaForum/close_window.png"
-               width="16" height="16" alt="close window"
-               i18n:attributes="alt"
-               tal:define="display python:show_form and 'none' or 'block'"
-               tal:attributes="style string:display:${display};;float:right" />
-        <div class="feedback" tal:condition="view/message">
-          <span tal:content="view/message" i18n:translate="">message</span>
-        </div>
-        <h3 class="heading">
-          <a name="forum-bottom"
-             tal:omit-tag="not:view/preview"
-             i18n:translate="">Post a new comment</a>
-        </h3>
-        <div class="forum-field">
-          <label for="title" i18n:translate="">Subject</label>
-          <input type="text" name="title" id="title" size="80" class="store"
-                 onfocus="window.focussed_form_field = this"
-                 tal:attributes="value view/title"
-                 />
-        </div>
-        <div class="forum-field">
-          <div class="feedback" tal:condition="view/text_missing">
-            <span class="warning"
-                  i18n:translate="">Please provide a message for the new comment.
-            </span>
-          </div>
-          <div id="emoticons">
-            <span class="emoticons"
-                  tal:repeat="smileydata view/smileys">
-              <img onclick="add_smiley(this.title)"
-                   alt="add emoticon"
-                   tal:attributes="title smileydata/text;
-                                   src smileydata/href" />
-            </span>
-          </div>
-          <label for="text" i18n:translate="">Message</label>
-          <textarea name="text" id="text" rows="5" cols="68" class="store"
-                    onfocus="window.focussed_form_field = this"
-                    tal:content="view/text">
-          </textarea>
-        </div>
-
-        <tal:comment tal:replace="nothing">
-          XXX Needs condition: if email address is known and user is not
-          yet subscribed. Address needs to be inserted in the label.
-        </tal:comment>
-        <div class="forum-field"
-          tal:condition="not: view/need_captcha">
-          <input type="checkbox" name="forum-subscribe" id="forum-subscribe"
-            checked="checked">
-          <label for="forum-subscribe">Subscribe me to the new topic (torvald@infrae.com)</label>
-        </div>
-
-        <div class="forum-field"
-             tal:condition="view/need_anonymous_option">
-          <input type="checkbox" name="anonymous" id="anonymous"
-                 tal:attributes="checked python:view.anonymous and 'checked' or None" />
-          <label for="anonymous" i18n:translate="">Post as anonymous</label>
-        </div>
-
-        <div class="forum-submit">
-          <input type="submit" name="action.preview" value="Preview"
-                 i18n:attributes="value" />
-          <input type="submit" name="action.clear" value="Clear"
-                 tal:condition="view/preview"
-                 i18n:attributes="value" />
-        </div>
-
-        <table class="forum-content-table forum-preview"
-               tal:condition="view/preview_validated">
-          <thead>
-            <tr>
-              <th class="author" i18n:translate="">Author</th>
-              <th class="comment" i18n:translate="">Topic</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="preview">
-              <td class="author">
-                <p class="author">
-                  <span class="username"
-                        tal:content="view/username">current username</span>
-                  <tal:posted i18n:translate="">posted</tal:posted>
-                </p>
-              </td>
-              <td class="comment">
-                <h5 class="heading"
-                    tal:condition="view/title"
-                    tal:content="structure python:view.format_text(view.title)">
-                  title
-                </h5>
-                <p class="comment"
-                   tal:content="structure python:view.format_text(view.text)">
-                </p>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-        <div class="forum-field captcha-field"
-             tal:condition="view/need_captcha"
-             tal:define="captcha nocall:context/@@captcha">
-          <div class="captcha">
-            <img tal:replace="structure captcha/image_tag" /><br />
-            <input type="text" name="captcha" id="captcha" value="" size="18" />
-          </div>
-          <label for="captcha" i18n:translate="">
-            To post your message enter the characters in this image.
-            You can type them in lower case.
-          </label>
-        </div>
-
-        <div class="forum-submit">
-          <input type="submit" name="action.post" value="Post comment"
-                 i18n:attributes="value" />
-        </div>
-      </form>
-    </div>
-
-    <div class="forum-dialog forum-subscribe-dialog" style="display: none">
-      <tal:provider tal:replace="structure provider:subscriptions" />
-    </div>
+      <div class="forum-dialog forum-subscribe-dialog" style="display: none">
+        <input id="forum-subscribe-closer" class="dialog-closer" type="image"
+               src="#" width="16" height="16" title="hide subscribe form"
+               tal:attributes="src static/close_window.png"
+               i18n:attributes="title" />
+        <tal:provider tal:replace="structure provider:subscriptions" />
+      </div>
+    </tal:subscriptions>
 
   </div>
 

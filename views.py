@@ -17,6 +17,7 @@ from five import grok
 from silva.core.views import views as silvaviews
 from silva.core.views.httpheaders import HTTPResponseHeaders
 from silva.core.services.interfaces import IMemberService
+from silva.app.subscriptions.interfaces import ISubscriptionService
 from silva.translations import translate as _
 from zeam.utils.batch import batch
 from zeam.utils.batch.interfaces import IBatching
@@ -77,9 +78,11 @@ class ContainerViewBase(ViewBase):
         self.anonymous_posting = self.context.anonymous_posting_allowed()
         self.is_logged_in = user.has_role(MINIMAL_ADD_ROLE)
         self.need_captcha = self.captcha_posting and not self.is_logged_in
-        self.need_anonymous_option = self.anonymous_posting and not self.need_captcha
+        self.need_anonymous_option = (
+            self.anonymous_posting and not self.need_captcha)
         self.can_post = self.captcha_posting or self.is_logged_in
-
+        self.have_subscriptions = getUtility(
+            ISubscriptionService).are_subscriptions_enabled(self.context)
         self.message = u''
 
     def smileys(self):

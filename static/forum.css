@@ -10,6 +10,7 @@ div.forum-user-controls {
 }
 /* _______ posting forms _______ */
 div.forum-dialog {
+  position: relative;
   margin: 0.5em 0;
   padding: 0.5em;
   border: 1px solid gray;
@@ -23,7 +24,12 @@ input.store, textarea.store {
 input[type=submit] {
   margin: 0.1em 0;
 }
-div.dialog-toggle {
+input.dialog-closer {
+  position: absolute;
+  right: 0.5em;
+  top: 0.5em;
+}
+div.dialog-opener {
   margin: 0.5em 0;
 }
 div#emoticons {
