@@ -17,11 +17,12 @@ from five import grok
 from silva.core.views import views as silvaviews
 from silva.core.views.httpheaders import HTTPResponseHeaders
 from silva.core.services.interfaces import IMemberService
-from silva.app.subscriptions.interfaces import ISubscriptionService
+from silva.app.subscriptions.interfaces import (
+    ISubscriptionService, ISubscriptionManager)
 from silva.translations import translate as _
 from zeam.utils.batch import batch
 from zeam.utils.batch.interfaces import IBatching
-from zope.component import getMultiAdapter, getUtility
+from zope.component import getMultiAdapter, getUtility, queryUtility
 from zope.publisher.interfaces.browser import IBrowserRequest
 
 MINIMAL_ADD_ROLE = 'Authenticated'
@@ -67,6 +68,16 @@ class ViewBase(silvaviews.View):
         return text.replace('\n', '<br />')
 
 
+def cached_method(method):
+    def cached(self):
+        key = '_v_cached_method_' + method.func_name
+        if key not in self.__dict__:
+            self.__dict__[key] = method(self)
+        return self.__dict__[key]
+    cached.func_name = method.func_name
+    return cached
+
+
 class ContainerViewBase(ViewBase):
     grok.baseclass()
 
@@ -81,8 +92,19 @@ class ContainerViewBase(ViewBase):
         self.need_anonymous_option = (
             self.anonymous_posting and not self.need_captcha)
         self.can_post = self.captcha_posting or self.is_logged_in
-        self.have_subscriptions = getUtility(
-            ISubscriptionService).are_subscriptions_enabled(self.context)
+        self.have_subscriptions = False
+        service = queryUtility(ISubscriptionService)
+        if service is not None:
+            self.have_subscriptions = service.are_subscriptions_enabled(
+                self.context)
+        self.inline_subscription = False
+        if self.have_subscriptions:
+            email = self.get_user_email()
+            if email:
+                if not ISubscriptionManager(
+                    self.context).is_subscribed(email):
+                    self.inline_subscription = True
+
         self.message = u''
 
     def smileys(self):
@@ -100,15 +122,26 @@ class ContainerViewBase(ViewBase):
             raise Unauthorized(msg)
         return True
 
+    @cached_method
+    def get_member(self):
+        userid = getSecurityManager().getUser().getId()
+        return getUtility(IMemberService).get_member(userid)
+
     def get_preview_username(self, anonymous):
         if anonymous or self.need_captcha:
             return _('anonymous')
         else:
-            userid = getSecurityManager().getUser().getId()
-            member = getUtility(IMemberService).get_member(userid)
+            member = self.get_member()
             if member is None:
                 return _('anonymous')
             return member.fullname()
+
+    @cached_method
+    def get_user_email(self):
+        member = self.get_member()
+        if member is not None:
+            return member.email()
+        return None
 
     def authorized_to_post(self):
         # This is intended for the posting action, not the template.

@@ -165,15 +165,13 @@
             </textarea>
           </div>
 
-          <tal:comment tal:replace="nothing">
-            XXX Needs condition: if email address is known and user is not
-            yet subscribed. Address needs to be inserted in the label.
-          </tal:comment>
           <div class="forum-field"
-               tal:condition="view/have_subscriptions">
-            <input type="checkbox" name="forum-subscribe" checked="checked" />
-            <label for="forum-subscribe">
-              Subscribe me to the new topic (torvald@infrae.com)
+               tal:condition="view/inline_subscription">
+            <input type="checkbox" name="subscribe" id="subscribe"
+                   checked="checked" />
+            <label for="subscribe">
+              Subscribe me to the new topic
+              (<span tal:replace="view/get_user_email" />)
             </label>
           </div>
 
