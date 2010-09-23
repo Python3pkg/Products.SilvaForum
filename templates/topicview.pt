@@ -113,14 +113,33 @@
 
     <tal:button tal:condition="view/can_post">
       <div class="toggle"
-           tal:condition="not:view/preview">
+        tal:condition="not:view/preview">
         <input class="forum-add-comment" type="button" value="Add a comment"
-               id="silvaforum-toggle-post-switch" i18n:attributes="value"
-               tal:define="display python:show_form and 'none' or 'block'"
-               tal:attributes="style string:display:${display}"
-               onclick="document.getElementById('silvaforum-toggle-post-form').style.display='block';
-                        this.style.display='none';"
-               />
+          id="silvaforum-toggle-post-switch" i18n:attributes="value"
+          tal:define="display python:show_form and 'none' or 'block'"
+          tal:attributes="style string:display:${display}"
+          onclick="
+            document.getElementById('silvaforum-toggle-post-form').style.display='block';
+            this.style.display='none';"
+        />
+      </div>
+    </tal:button>
+    <tal:comment tal:replace="nothing">
+      XXX Needs conditions: if subscribing is possible, and all things are
+      properly configured. We don't want users seeing "There was an error"
+      because the site manager doesn't have everything setup.
+    </tal:comment>
+    <tal:button tal:condition="view/can_post">
+      <div class="toggle"
+        tal:condition="not:view/preview">
+        <input class="forum-subscribe" type="button" value="Subscribe to topic"
+          id="silvaforum-toggle-subscribe-switch" i18n:attributes="value"
+          tal:define="display python:show_form and 'none' or 'block'"
+          tal:attributes="style string:display:${display}"
+          onclick="
+            document.getElementById('silvaforum-toggle-subscribe-form').style.display='block';
+            this.style.display='none';"
+        />
       </div>
     </tal:button>
 
@@ -256,7 +275,11 @@
       </form>
     </div>
 
-    <tal:provider tal:replace="structure provider:subscriptions" />
+    <div id="silvaforum-toggle-subscribe-form"
+      tal:define="display python:show_form and 'block' or 'none'"
+      tal:attributes="style string:display:${display}">
+      <tal:provider tal:replace="structure provider:subscriptions" />
+    </div>
 
   </div>
 
