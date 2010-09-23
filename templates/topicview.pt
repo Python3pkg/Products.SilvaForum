@@ -115,16 +115,16 @@
       <div class="toggle"
            tal:condition="not:view/preview">
         <input class="forum-add-comment" type="button" value="Add a comment"
-               i18n:attributes="value"
+               id="silvaforum-toggle-post-switch" i18n:attributes="value"
                tal:define="display python:show_form and 'none' or 'block'"
                tal:attributes="style string:display:${display}"
-               onclick="document.getElementById('form-toggle').style.display='block';
+               onclick="document.getElementById('silvaforum-toggle-post-form').style.display='block';
                         this.style.display='none';"
                />
       </div>
     </tal:button>
 
-    <div id="form-toggle"
+    <div id="silvaforum-toggle-post-form"
          tal:condition="view/can_post"
          tal:define="display python:show_form and 'block' or 'none'"
          tal:attributes="style string:display:${display}">
@@ -134,6 +134,17 @@
         <div class="feedback" tal:condition="view/message">
           <span tal:content="view/message" i18n:translate="">message</span>
         </div>
+        <input class="forum-hide-form" type="image"
+          src="++resource++Products.SilvaForum/close_window.png"
+          width="16" height="16" alt="close window"
+          i18n:attributes="alt"
+          tal:define="display python:show_form and 'none' or 'block'"
+          tal:attributes="style string:display:${display};;float:right"
+          onclick="
+            document.getElementById('silvaforum-toggle-post-form').style.display='none';
+            document.getElementById('silvaforum-toggle-post-switch').style.display='block';
+            return false;
+        "/>
         <h3 class="heading">
           <a name="forum-bottom"
              tal:omit-tag="not:view/preview"
@@ -166,6 +177,17 @@
                     onfocus="window.focussed_form_field = this"
                     tal:content="view/text">
           </textarea>
+        </div>
+
+        <tal:comment tal:replace="nothing">
+          XXX Needs condition: if email address is known and user is not
+          yet subscribed. Address needs to be inserted in the label.
+        </tal:comment>
+        <div class="forum-field"
+          tal:condition="not: view/need_captcha">
+          <input type="checkbox" name="forum-subscribe" id="forum-subscribe"
+            checked="checked">
+          <label for="forum-subscribe">Subscribe me to the new topic (torvald@infrae.com)</label>
         </div>
 
         <div class="forum-field"
