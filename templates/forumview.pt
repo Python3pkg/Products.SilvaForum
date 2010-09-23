@@ -3,7 +3,7 @@
   <div class="forum"
        tal:define="
                    here_url context/@@absolute_url;
-                   show_form python:view.preview or view.message or view.topic_missing">
+                   show_form python:view.preview or view.messages or view.topic_missing">
     <script type="text/javascript">
       // <![CDATA[
       function add_smiley(text_to_add) {
@@ -49,8 +49,9 @@
               tal:attributes="action string:${here_url}" >
           <h3 class="heading" i18n:translate="">Post a new topic</h3>
           <div class="feedback"
-               tal:condition="view/message">
-            <span tal:content="view/message" i18n:translate="">message</span>
+               tal:condition="view/messages">
+            <span tal:repeat="message view/messages"
+                  tal:content="message">message</span>
           </div>
           <div class="forum-field">
             <div class="feedback"
@@ -76,7 +77,8 @@
           <div class="forum-field"
                tal:condition="view/inline_subscription">
             <input type="checkbox" name="subscribe" id="subscribe"
-                   checked="checked" />
+                   checked="#"
+                   tal:attributes="checked python:view.subscribe and 'checked' or None" />
             <label for="subscribe">
               Subscribe me to the new topic
               (<span tal:replace="view/get_user_email" />)

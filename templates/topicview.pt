@@ -1,7 +1,7 @@
 <tal:block xmlns:i18n="http://xml.zope.org/namespaces/i18n"
            i18n:domain="silvaforum">
   <div class="forum"
-       tal:define="show_form python:view.preview or view.message or view.text_missing">
+       tal:define="show_form python:view.preview or view.messages or view.text_missing">
     <script type="text/javascript">
       // <![CDATA[
       window.focussed_form_field = null;
@@ -133,8 +133,9 @@
                tal:omit-tag="not:view/preview"
                i18n:translate="">Post a new comment</a>
           </h3>
-          <div class="feedback" tal:condition="view/message">
-            <span tal:content="view/message" i18n:translate="">message</span>
+          <div class="feedback" tal:condition="view/messages">
+            <span tal:repeat="message view/messages"
+                  tal:content="message">message</span>
           </div>
           <div class="forum-field">
             <label for="title" i18n:translate="">Subject</label>
@@ -168,7 +169,8 @@
           <div class="forum-field"
                tal:condition="view/inline_subscription">
             <input type="checkbox" name="subscribe" id="subscribe"
-                   checked="checked" />
+                   checked="#"
+                   tal:attributes="checked python:view.subscribe and 'checked' or None" />
             <label for="subscribe">
               Subscribe me to the new topic
               (<span tal:replace="view/get_user_email" />)

@@ -105,7 +105,7 @@ class ContainerViewBase(ViewBase):
                     self.context).is_subscribed(email):
                     self.inline_subscription = True
 
-        self.message = u''
+        self.messages = []
 
     def smileys(self):
         smileys = []
@@ -150,10 +150,24 @@ class ContainerViewBase(ViewBase):
             captcha = getMultiAdapter(
                 (self.context, self.request), name='captcha')
             if not captcha.verify(value):
-                self.message = _(u'Invalid captcha value')
+                self.messages = [_(u'Invalid captcha value')]
                 return False
             return True
         return self.authenticate()
+
+    def do_subscribe_user(self, content):
+        if self.inline_subscription:
+            if self.request.form.get('subscribe', False):
+                service = getUtility(ISubscriptionService)
+                try:
+                    service.request_subscription(
+                        content, self.get_user_email())
+                except:
+                    return _(u"An error happened while subscribing "
+                             u"you to the post.")
+                return _(u"A confirmation mail have been sent "
+                         u"for your subscription.")
+        return None
 
     def action_authenticate(self, *args):
         self.authenticate()
@@ -182,6 +196,7 @@ class ForumView(ContainerViewBase):
     anonymous = False
     preview = False
     preview_validated = False
+    subscribe = True
 
     def action_preview(self, topic, anonymous):
         self.topic = topic
@@ -190,6 +205,7 @@ class ForumView(ContainerViewBase):
         self.preview = True
         self.preview_validated = bool(topic)
         self.topic_missing = not topic
+        self.subscribe = 'subscribe' in self.request.form
 
     def action_post(self, topic, anonymous):
         success = False
@@ -198,16 +214,20 @@ class ForumView(ContainerViewBase):
                 self.topic_missing = True
             else:
                 try:
-                    self.context.add_topic(
+                    content = self.context.add_topic(
                         topic, self.need_captcha or anonymous)
                 except ValueError, e:
-                    self.message = str(e)
+                    self.messages = [str(e)]
                 else:
-                    self.message = _('Topic added.')
+                    self.messages = [_('Topic added.')]
+                    subscription_message = self.do_subscribe_user(content)
+                    if subscription_message:
+                        self.messages.append(subscription_message)
                     success = True
         if not success:
             self.topic = topic
             self.anonymous = anonymous
+            self.subscribe = 'subscribe' in self.request.form
 
     ACTIONS = ContainerViewBase.ACTIONS + [
         ('action.preview', action_preview),
@@ -247,6 +267,7 @@ class TopicView(ContainerViewBase):
     anonymous = False
     preview = False
     preview_validated = False
+    subscribe = True
 
     def get_topic_title(self):
         return self.context.get_title()
@@ -259,6 +280,7 @@ class TopicView(ContainerViewBase):
         self.preview = True
         self.preview_validated = bool(text)
         self.text_missing = not text
+        self.subscribe = 'subscribe' in self.request.form
 
     def action_post(self, title, text, anonymous):
         success = False
@@ -269,17 +291,22 @@ class TopicView(ContainerViewBase):
                 self.text_missing = True
             else:
                 try:
-                    self.context.add_comment(
+                    content = self.context.add_comment(
                         title, text, self.need_captcha or anonymous)
                 except ValueError, e:
-                    self.message = str(e)
+                    self.messages = [str(e)]
                 else:
-                    self.message = _('Comment added.')
+                    self.messages = [_('Comment added.')]
                     success = True
+                    subscription_message = self.do_subscribe_user(content)
+                    if subscription_message:
+                        self.messages.append(subscription_message)
+
         if not success:
             self.title = title
             self.text = text
             self.anonymous = anonymous
+            self.subscribe = 'subscribe' in self.request.form
 
     ACTIONS = ContainerViewBase.ACTIONS + [
         ('action.preview', action_preview),
