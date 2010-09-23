@@ -63,7 +63,7 @@ class SMIFunctionalTestCase(unittest.TestCase):
             form.get_control('editform.action.save-changes').click(),
             200)
         self.assertEqual(
-            browser.inspect.feedback, ['Modification saved'])
+            browser.inspect.feedback, ['Changes saved.'])
 
         self.assertEqual(self.root.forum.topic.number_of_comments(), 1)
         self.assertEqual(
