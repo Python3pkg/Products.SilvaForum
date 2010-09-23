@@ -9,7 +9,7 @@ div.forum-user-controls {
   float: right;
 }
 /* _______ posting forms _______ */
-form.forum-form {
+div.forum-dialog {
   margin: 0.5em 0;
   padding: 0.5em;
   border: 1px solid gray;
@@ -23,7 +23,7 @@ input.store, textarea.store {
 input[type=submit] {
   margin: 0.1em 0;
 }
-div.toggle {
+div.dialog-toggle {
   margin: 0.5em 0;
 }
 div#emoticons {

@@ -33,4 +33,9 @@
      context=".interfaces.IPostContent"
      include="forum.css" />
 
+  <browser:resourceInclude
+     layer="silva.core.layout.interfaces.ISilvaLayer"
+     context=".interfaces.IPostContent"
+     include="forum.js" />
+
 </configure>
