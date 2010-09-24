@@ -11,9 +11,17 @@ div.forum-user-controls {
 /* _______ posting forms _______ */
 div.forum-dialog {
   position: relative;
+  position:
   margin: 0.5em 0;
   padding: 0.5em;
   border: 1px solid gray;
+  height: 1px;
+}
+input, textarea {
+  border: 1px solid #aaa;
+}
+input.dialog-closer {
+  border: none;  
 }
 input[type=text], textarea {
   margin: 0.3em 0;
@@ -56,8 +64,10 @@ div.feedback {
   color: #003448;
   background-color: transparent;
 }
-div.feedback span.warning {
+div.feedback.warning {
+  border: 1px solid #a00;
   color: #a00;
+  background-color: transparent
 }
 
 /* _______ forum content _______ */
@@ -78,6 +88,7 @@ table.forum-content-table tr {
 table.forum-content-table th {
   color: gray;
   text-align: left;
+  font-size:15px;
 }
 table.forum-content-table th.comments, table.forum-content-table td.comments p {
   text-align: right;
