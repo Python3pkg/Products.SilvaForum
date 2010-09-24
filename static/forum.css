@@ -15,7 +15,7 @@ div.forum-dialog {
   margin: 0.5em 0;
   padding: 0.5em;
   border: 1px solid gray;
-  height: 1px;
+  display: inline-block;
 }
 input, textarea {
   border: 1px solid #aaa;
