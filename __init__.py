@@ -2,13 +2,14 @@
 # See also LICENSES.txt
 # $Id$
 
-from Products.Silva.install import add_helper, fileobject_add_helper
+from Products.Silva.install import add_helper, pt_add_helper
+from five import grok
 from silva.app.subscriptions.interfaces import ISubscriptionService
 from silva.core import conf as silvaconf
 from silva.core.conf.installer import DefaultInstaller, roleinfo
 from zope import component
 from zope.interface import Interface
-
+from zope.lifecycleevent.interfaces import IObjectCreatedEvent
 
 silvaconf.extensionName('SilvaForum')
 silvaconf.extensionTitle('Silva Forum')
@@ -32,18 +33,19 @@ class SilvaForumInstaller(DefaultInstaller):
     def install_custom(self, root):
         self.configure_metadata(root, self.metadata, globals())
 
-        # Add the subscription template
+        # Add a subscription service
         subscriptions = component.queryUtility(ISubscriptionService)
         if subscriptions is None:
             factory = root.manage_addProduct['silva.app.subscriptions']
             factory.manage_addSubscriptionService()
-            subscriptions = component.getUtility(ISubscriptionService)
-        add_helper(
-            subscriptions, 'forum_event_template', globals(),
-            fileobject_add_helper, True)
 
     def uninstall_custom(self, root):
         self.unconfigure_metadata(root, self.metadata)
 
 
 install = SilvaForumInstaller('SilvaForum', IExtension)
+
+@grok.subscribe(ISubscriptionService, IObjectCreatedEvent)
+def add_forum_notification_tempate(service, event):
+    add_helper(
+        service, 'forum_event_template.pt', globals(), pt_add_helper, True)

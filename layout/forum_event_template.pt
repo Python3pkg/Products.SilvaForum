@@ -1,15 +1,19 @@
-To: <%(toaddress)s>
-From: Silva Subscription Service <subscription-service@example.com>
-Subject: New comment posted "%(contenttitle)s"
+To: <tal:to tal:replace="structure options/to" />
+From: <tal:from tal:replace="structure options/from" />
+Subject: New comment posted "<tal:title tal:replace="context/get_title_or_id" />"
 Content-Type: text/plain; charset=utf-8
 
 
-A new comment has been posted at:
+A new comment has been posted on the topic:
 
-URL: %(contenturl)s
+URL: <tal:url tal:replace="structure context/aq_parent/@@absolute_url" />
 
-title: %(contenttitle)s
+subject: <tal:title tal:replace="context/get_title_or_id" />
+message: <tal:text tal:replace="context/get_text" />
 
 If you want to cancel your notification, please follow this link:
 
-%(serviceurlforsubscribedcontent)s
+<tal:title tal:replace="options/service_url" />
+
+-- 
+Notification from Silva Forum

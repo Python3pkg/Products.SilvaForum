@@ -158,14 +158,10 @@ class Forum(ForumContainer, Publication):
         """
         if anonymous and not self.anonymous_posting_allowed():
             raise ValueError('anonymous posting is not allowed!')
-        id = self._generate_id(topic)
-        self.manage_addProduct['SilvaForum'].manage_addTopic(id, topic)
-        topic = getattr(self, id, None)
-        if topic is None:
-            # apparently zope refused to add the object, probably an id clash.
-            # for example (title, or add_topic). topic objects themselves
-            # have automaticly generated number parts if needed.
-            raise ValueError('Reserved id: "%s"' % id)
+        identifier = self._generate_id(topic)
+        factory = self.manage_addProduct['SilvaForum']
+        factory.manage_addTopic(identifier, topic)
+        topic = self[identifier]
         if anonymous:
             metadata = component.getUtility(IMetadataService)
             binding = metadata.getMetadata(topic)
@@ -231,9 +227,8 @@ class Topic(ForumContainer, ForumPost, Folder):
             idstring = text
         identifier = self._generate_id(idstring)
         factory = self.manage_addProduct['SilvaForum']
-        factory.manage_addComment(identifier, title)
+        factory.manage_addComment(identifier, title, text=text)
         comment = self[identifier]
-        comment.set_text(text)
         if anonymous:
             binding = self.get_root().service_metadata.getMetadata(comment)
             binding.setValues('silvaforum-item', {'anonymous': 'yes'})
