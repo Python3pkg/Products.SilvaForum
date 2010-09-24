@@ -16,4 +16,4 @@ If you want to cancel your notification, please follow this link:
 <tal:title tal:replace="options/service_url" />
 
 -- 
-Notification from Silva Forum
+Notification from <tal:name tal:replace="options/sitename" /> Forum
