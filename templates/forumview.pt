@@ -54,10 +54,10 @@
                   tal:content="message">message</span>
           </div>
           <div class="forum-field">
-            <div class="feedback"
+            <div class="feedback warning"
                  tal:condition="view/topic_missing">
-              <span class="warning"
-                    i18n:translate="">Please provide a subject for the new topic.
+              <span i18n:translate="">
+                Please provide a subject for the new topic.
               </span>
             </div>
             <div id="emoticons">
