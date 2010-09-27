@@ -220,9 +220,9 @@ class ForumView(ContainerViewBase):
                     self.messages = [str(e)]
                 else:
                     self.messages = [_('Topic added.')]
-                    subscription_message = self.do_subscribe_user(content)
-                    if subscription_message:
-                        self.messages.append(subscription_message)
+                    message = self.do_subscribe_user(content)
+                    if message:
+                        self.messages.append(message)
                     success = True
         if not success:
             self.topic = topic
@@ -291,16 +291,16 @@ class TopicView(ContainerViewBase):
                 self.text_missing = True
             else:
                 try:
-                    content = self.context.add_comment(
+                    self.context.add_comment(
                         title, text, self.need_captcha or anonymous)
                 except ValueError, e:
                     self.messages = [str(e)]
                 else:
                     self.messages = [_('Comment added.')]
                     success = True
-                    subscription_message = self.do_subscribe_user(content)
-                    if subscription_message:
-                        self.messages.append(subscription_message)
+                    message = self.do_subscribe_user(self.context)
+                    if message:
+                        self.messages.append(message)
 
         if not success:
             self.title = title

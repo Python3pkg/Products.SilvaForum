@@ -81,8 +81,8 @@
                    tal:attributes="checked python:view.subscribe and 'checked' or None" />
             <label for="subscribe">
               Subscribe me to the new topic
-              (<span tal:replace="view/get_user_email" />)
             </label>
+            (<span tal:replace="view/get_user_email" />)
           </div>
 
           <div class="forum-field"

@@ -5,15 +5,12 @@
 
 import unittest
 
-from zope.publisher.browser import TestRequest
-from zope.component import getUtility, getMultiAdapter
-
-from Products.SilvaMetadata.interfaces import IMetadataService
-from Products.SilvaForum.testing import FunctionalLayer
+from silva.app.subscriptions.interfaces import ISubscriptionManager
+from Products.SilvaForum import testing
 
 
 def topic_settings(browser):
-    browser.inspect.add('feedback', '//div[@class="feedback"]/span')
+    browser.inspect.add('feedback', '//div[contains(@class, "feedback")]/span')
     browser.inspect.add('title', '//div[@class="forum"]/descendant::h2')
     browser.inspect.add(
         'subjects',
@@ -38,16 +35,10 @@ def topic_settings(browser):
         '//table[contains(@class,"forum-preview")]//p[@class="author"]/span')
 
 
-def get_captcha_word(browser):
-    request = TestRequest(HTTP_COOKIE=browser.get_request_header('Cookie'))
-    captcha = getMultiAdapter((object(), request), name='captcha')
-    return captcha._generate_words()[1]
-
-
 class TopicFunctionalTestCase(unittest.TestCase):
     """Functional test for Silva Forum.
     """
-    layer = FunctionalLayer
+    layer = testing.FunctionalLayer
 
     def setUp(self):
         self.root = self.layer.get_application()
@@ -86,6 +77,7 @@ class TopicFunctionalTestCase(unittest.TestCase):
         # There is anonymous or captcha option
         self.assertRaises(AssertionError, form.get_control, 'anonymous')
         self.assertRaises(AssertionError, form.get_control, 'captcha')
+        self.assertRaises(AssertionError, form.get_control, 'subscribe')
 
         # You can now add a topic
         form.get_control("title").value = "New Comment"
@@ -109,8 +101,7 @@ class TopicFunctionalTestCase(unittest.TestCase):
     def test_post_as_anonymous(self):
         """Post a new comment as anonymous
         """
-        metadata = getUtility(IMetadataService).getMetadata(self.root.forum)
-        metadata.setValues('silvaforum-forum', {'anonymous_posting': 'yes'})
+        testing.enable_anonymous_posting(self.root.forum)
 
         browser = self.layer.get_browser(topic_settings)
         browser.login('dummy', 'dummy')
@@ -148,11 +139,7 @@ class TopicFunctionalTestCase(unittest.TestCase):
         """Activate unauthenicated posting and test that if you fill
         the captcha you can post unauthenticated.
         """
-        metadata = getUtility(IMetadataService).getMetadata(self.root.forum)
-        metadata.setValues(
-            'silvaforum-forum',
-            {'unauthenticated_posting': 'yes',
-             'anonymous_posting': 'yes'})
+        testing.enable_unauthenticated_posting(self.root.forum)
 
         browser = self.layer.get_browser(topic_settings)
         self.assertEqual(browser.open('/root/forum'), 200)
@@ -187,7 +174,7 @@ class TopicFunctionalTestCase(unittest.TestCase):
 
         # Filling the captcha and post
         form = browser.get_form('post')
-        form.get_control("captcha").value = get_captcha_word(browser)
+        form.get_control("captcha").value = testing.get_captcha_word(browser)
         self.assertEqual(form.get_control("title").value, "Hello John")
         self.assertEqual(form.get_control("text").value, "I am Henri")
         self.assertEqual(form.get_control("action.post").click(), 200)
@@ -205,11 +192,7 @@ class TopicFunctionalTestCase(unittest.TestCase):
         """Activate unauthenicated posting and test that you have no
         captcha for authenticated users.
         """
-        metadata = getUtility(IMetadataService).getMetadata(self.root.forum)
-        metadata.setValues(
-            'silvaforum-forum',
-            {'unauthenticated_posting': 'yes',
-             'anonymous_posting': 'yes'})
+        testing.enable_unauthenticated_posting(self.root.forum)
 
         browser = self.layer.get_browser(topic_settings)
         browser.login('dummy', 'dummy')
@@ -235,6 +218,91 @@ class TopicFunctionalTestCase(unittest.TestCase):
         self.assertEqual(browser.inspect.subjects, ['Hello Henri'])
         self.assertEqual(browser.inspect.comments, ['I am Dummy'])
         self.assertEqual(browser.inspect.authors, ['dummy'])
+
+    def test_post_and_subscribe(self):
+        """Post and subscribe to a topic.
+        """
+        testing.enable_subscription(self.root.forum)
+        testing.set_member_email('dummy', 'dummy@example.com')
+
+        subscriptions = ISubscriptionManager(self.root.forum.topic)
+        self.assertEqual(
+            subscriptions.is_subscribed('dummy@example.com'),
+            False)
+        self.assertEqual(len(self.root.service_mailhost.messages), 0)
+
+        browser = self.layer.get_browser(topic_settings)
+        browser.login('dummy', 'dummy')
+        self.assertEqual(browser.open('/root/forum'), 200)
+        self.assertEqual(browser.get_link('Test Topic').click(), 200)
+
+        # Post a comment. We don't use a title, so the topic one is used
+        form = browser.get_form('post')
+        form.get_control("text").value = "How are you ?"
+        self.assertEqual(form.get_control('subscribe').checked, True)
+        self.assertEqual(form.get_control("action.post").click(), 200)
+
+        # The comment is added, and the request for subscription is triggred.
+        self.assertEqual(
+            browser.inspect.feedback,
+            ["Comment added.",
+             "A confirmation mail have been sent for your subscription."])
+
+        subscription_request = self.root.service_mailhost.read_last_message()
+        self.assertNotEqual(subscription_request, None)
+        self.assertEqual(subscription_request.mto, ['dummy@example.com'])
+        self.assertEqual(subscription_request.mfrom, 'notification@example.com')
+        self.assertEqual(
+            subscription_request.subject,
+            'Subscription confirmation to "Test Topic"')
+        self.assertEqual(len(subscription_request.urls), 2)
+
+        # the confirmation link is the last url in the mail
+        confirmation_url = subscription_request.urls[-1]
+        self.assertEqual(browser.open(confirmation_url), 200)
+        self.assertEqual(
+            browser.location,
+            '/root/forum/topic/subscriptions.html/@@confirm_subscription')
+        self.assertEqual(
+            browser.html.xpath('//p[@class="subscription-result"]/text()'),
+            ['You have been successfully subscribed. '
+             'You will now receive email notifications.'])
+
+        self.assertEqual(subscriptions.is_subscribed('dummy@example.com'), True)
+
+    def test_post_notification(self):
+        """Post a comment that sends a notification.
+        """
+        testing.enable_subscription(self.root.forum)
+        testing.set_member_email('dummy', 'dummy@example.com')
+
+        subscriptions = ISubscriptionManager(self.root.forum.topic)
+        subscriptions.subscribe('dummy@example.com')
+
+        browser = self.layer.get_browser(topic_settings)
+        browser.login('dummy', 'dummy')
+        self.assertEqual(browser.open('/root/forum'), 200)
+        self.assertEqual(browser.get_link('Test Topic').click(), 200)
+
+        # Post a comment. We don't use a title, so the topic one is used
+        form = browser.get_form('post')
+        form.get_control("title").value = "I am good"
+        form.get_control("text").value = "very, very good"
+
+        # We are already subscribed, so no option to subscribe
+        self.assertRaises(AssertionError, form.get_control, 'subscribe')
+        self.assertEqual(form.get_control("action.post").click(), 200)
+
+        self.assertEqual(browser.inspect.feedback, ["Comment added."])
+
+        # A mail should have been sent to dummy
+        message = self.root.service_mailhost.read_last_message()
+        self.assertNotEqual(message, None)
+        self.assertEqual(message.content_type, 'text/plain')
+        self.assertEqual(message.charset, 'utf-8')
+        self.assertEqual(message.mto, ['dummy@example.com'])
+        self.assertEqual(message.mfrom, 'notification@example.com')
+        self.assertEqual(message.subject, 'New comment posted "I am good"')
 
     def test_post_validation(self):
         """Try to add an empty comment.

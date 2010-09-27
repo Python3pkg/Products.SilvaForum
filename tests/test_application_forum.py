@@ -5,15 +5,12 @@
 
 import unittest
 
-from zope.publisher.browser import TestRequest
-from zope.component import getUtility, getMultiAdapter
-
-from Products.SilvaMetadata.interfaces import IMetadataService
-from Products.SilvaForum.testing import FunctionalLayer
+from Products.SilvaForum import testing
+from silva.app.subscriptions.interfaces import ISubscriptionManager
 
 
 def forum_settings(browser):
-    browser.inspect.add('feedback', '//div[@class="feedback"]/span')
+    browser.inspect.add('feedback', '//div[contains(@class, "feedback")]/span')
     browser.inspect.add('title', '//div[@class="forum"]//h2')
     browser.inspect.add(
         'topics',
@@ -30,16 +27,11 @@ def forum_settings(browser):
         '//table[contains(@class,"forum-preview")]//td[@class="author"]/p')
 
 
-def get_captcha_word(browser):
-    request = TestRequest(HTTP_COOKIE=browser.get_request_header('Cookie'))
-    captcha = getMultiAdapter((object(), request), name='captcha')
-    return captcha._generate_words()[1]
-
 
 class ForumFunctionalTestCase(unittest.TestCase):
     """Functional test for Silva Forum.
     """
-    layer = FunctionalLayer
+    layer = testing.FunctionalLayer
 
     def setUp(self):
         self.root = self.layer.get_application()
@@ -74,6 +66,7 @@ class ForumFunctionalTestCase(unittest.TestCase):
         # By default you have no captcha or anonymous options
         self.assertRaises(AssertionError, form.get_control, 'captcha')
         self.assertRaises(AssertionError, form.get_control, 'anonymous')
+        self.assertRaises(AssertionError, form.get_control, 'subscribe')
 
         form.get_control("topic").value = "New Test Topic"
         self.assertEqual(form.get_control("action.post").click(), 200)
@@ -111,8 +104,7 @@ class ForumFunctionalTestCase(unittest.TestCase):
     def test_post_and_preview_as_anonymous(self):
         """Post a new topic as anonymous
         """
-        metadata = getUtility(IMetadataService).getMetadata(self.root.forum)
-        metadata.setValues('silvaforum-forum', {'anonymous_posting': 'yes'})
+        testing.enable_anonymous_posting(self.root.forum)
 
         browser = self.layer.get_browser(forum_settings)
         browser.login('dummy', 'dummy')
@@ -146,11 +138,7 @@ class ForumFunctionalTestCase(unittest.TestCase):
         """Activate unauthenicated posting and test the captcha
         integration.
         """
-        metadata = getUtility(IMetadataService).getMetadata(self.root.forum)
-        metadata.setValues(
-            'silvaforum-forum',
-            {'unauthenticated_posting': 'yes',
-             'anonymous_posting': 'yes'})
+        testing.enable_unauthenticated_posting(self.root.forum)
 
         browser = self.layer.get_browser(forum_settings)
         self.assertEqual(browser.open('/root/forum'), 200)
@@ -186,7 +174,7 @@ class ForumFunctionalTestCase(unittest.TestCase):
 
         # Try to post filling the captcha
         form = browser.get_form('post')
-        form.get_control("captcha").value = get_captcha_word(browser)
+        form.get_control("captcha").value = testing.get_captcha_word(browser)
         self.assertEqual(form.get_control("topic").value, "Hello world")
         self.assertEqual(form.get_control("action.post").click(), 200)
 
@@ -200,11 +188,7 @@ class ForumFunctionalTestCase(unittest.TestCase):
         """Activate unauthenicated posting and test that you have no
         captcha for authenticated users.
         """
-        metadata = getUtility(IMetadataService).getMetadata(self.root.forum)
-        metadata.setValues(
-            'silvaforum-forum',
-            {'unauthenticated_posting': 'yes',
-             'anonymous_posting': 'yes'})
+        testing.enable_unauthenticated_posting(self.root.forum)
 
         browser = self.layer.get_browser(forum_settings)
         browser.login('dummy', 'dummy')
@@ -226,6 +210,53 @@ class ForumFunctionalTestCase(unittest.TestCase):
         self.assertEqual(browser.inspect.preview_author, [])
         self.assertEqual(browser.inspect.topics, ['Hello forum'])
         self.assertEqual(browser.inspect.authors, ['dummy'])
+
+    def test_post_and_subscribe(self):
+        """Test posting and subscribing to a topic.
+        """
+        testing.enable_subscription(self.root.forum)
+        testing.set_member_email('dummy', 'dummy@example.com')
+
+        self.assertEqual(len(self.root.service_mailhost.messages), 0)
+
+        browser = self.layer.get_browser(forum_settings)
+        browser.login('dummy', 'dummy')
+        self.assertEqual(browser.open('/root/forum'), 200)
+
+        form = browser.get_form('post')
+        form.get_control("topic").value = "topic"
+        self.assertEqual(form.get_control("subscribe").checked, True)
+        self.assertEqual(form.get_control("action.post").click(), 200)
+
+        self.assertEqual(
+            browser.inspect.feedback,
+            ["Topic added.",
+             "A confirmation mail have been sent for your subscription."])
+
+        subscriptions = ISubscriptionManager(self.root.forum.topic)
+        self.assertEqual(subscriptions.is_subscribable(), True)
+
+        subscription_request = self.root.service_mailhost.read_last_message()
+        self.assertNotEqual(subscription_request, None)
+        self.assertEqual(subscription_request.mto, ['dummy@example.com'])
+        self.assertEqual(subscription_request.mfrom, 'notification@example.com')
+        self.assertEqual(
+            subscription_request.subject,
+            'Subscription confirmation to "topic"')
+        self.assertEqual(len(subscription_request.urls), 2)
+
+        # the confirmation link is the last url in the mail
+        confirmation_url = subscription_request.urls[-1]
+        self.assertEqual(browser.open(confirmation_url), 200)
+        self.assertEqual(
+            browser.location,
+            '/root/forum/topic/subscriptions.html/@@confirm_subscription')
+        self.assertEqual(
+            browser.html.xpath('//p[@class="subscription-result"]/text()'),
+            ['You have been successfully subscribed. '
+             'You will now receive email notifications.'])
+
+        self.assertEqual(subscriptions.is_subscribed('dummy@example.com'), True)
 
     def test_preview_validation(self):
         """Try to preview an empty topic.
