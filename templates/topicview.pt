@@ -145,9 +145,9 @@
                    />
           </div>
           <div class="forum-field">
-            <div class="feedback" tal:condition="view/text_missing">
-              <span class="warning"
-                    i18n:translate="">Please provide a message for the new comment.
+            <div class="feedback warning" tal:condition="view/text_missing">
+              <span i18n:translate="">
+                Please provide a message for the new comment.
               </span>
             </div>
             <div id="emoticons">
