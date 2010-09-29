@@ -1,160 +1,115 @@
-/* SilvaForum CSS */
-div.forum {
- margin-bottom: 1em;
-}
+/* This css extends selectors in Silva's default StandardIssue theme. */
 
-div.forum h5 {
-  margin-top: 0.7em;
+/* ______________ Silva Forum selectors ______________ */
+div.forum h3 {
+  margin-bottom: 0.5em;
+  text-transform: none;
 }
-
-/*___________________________________________ PAGINATION SELECTORS __________*/
-table.pagination {
-  width: 100%;
+div.forum-user-controls {
+  float: right;
+}
+/* _______ posting forms _______ */
+div.forum-dialog {
+  position: relative;
+  margin: 0.5em 0;
+  padding: 0.5em;
   border: 1px solid gray;
-  border-spacing: 1px;
-  background-color: #afc3d7;
-  font-size: 100%; /* for moz in SL */
+  display: inline-block;
 }
-table.pagination tr {
-  background-color: #cdd9e5;
-  vertical-align:bottom;
+input, textarea {
+  border: 1px solid #aaa;
 }
-table.pagination td {
-  width: 25%;
-  padding: 0 0.2em 0.1em 0.2em;
-  text-align: center;
+input.dialog-closer {
+  border: none;  
 }
-table.pagination a:link {
-  text-decoration:none;
+input[type=text], textarea {
+  margin: 0.3em 0;
 }
-table.pagination a:visited {
-  text-decoration:none;
+input.store, textarea.store {
+  width: 98%;
 }
-table.pagination a:hover {
-  text-decoration:underline;
+input[type=submit] {
+  margin: 0.1em 0;
+}
+input.dialog-closer {
+  position: absolute;
+  right: 0.5em;
+  top: 0.5em;
+}
+div.dialog-opener {
+  margin: 0.5em 0;
+}
+div#emoticons {
+  float: right;
+  padding-right: 0.7em;
+}
+div.captcha-field {
+  margin-top: 1.2em;
+}
+div.captcha {
+  float: left;
+  padding-right: 1em;
+}
+div.captcha img {
+  margin: 0.3em 0;
+}
+div.forum-submit {
+  clear: both;
+}
+div.feedback, p.form-status {
+  margin-bottom: 0.5em;
+  padding: 0.25em;
+  border: 1px solid #8fc511;
+  color: #003448;
+  background-color: transparent;
+  padding: 0.2em;
+}
+div.feedback.warning, div.form-error, span.field-error {
+  border: 1px solid #a00;
+  color: #a00;
+  background-color: transparent;
+  padding: 0.2em;
 }
 
-/*______________________________________________ LISTING SELECTORS __________*/
+/* _______ forum content _______ */
 table.forum-content-table {
   width: 100%;
-  border: 1px solid gray;
-  border-spacing: 1px;
-  background-color: #afc3d7;
-  font-size: 100%; /* for moz in SL */
 }
-table.forum-content-table thead {
-  background-color: #b0c4d7;
+div.batchNav {
+  text-align: center;
+}
+div.batchNav a.current {
+  font-weight: bold;
+  text-decoration: none;
+  color: #7baa0f;
 }
 table.forum-content-table tr {
   vertical-align: top;
 }
-table.forum-content-table tr.topic {
-  background-color: #ccd9e6;
-}
-table.forum-content-table tr.preview {
-  background-color: #eaf6ef;
-}
-table.forum-content-table tr.odd {
-  background-color: #d4dee9;
-}
-table.forum-content-table tr.even {
-  background-color: #ccd9e6;
-}
-table.forum-content-table th.align-left {
+table.forum-content-table th {
+  color: gray;
   text-align: left;
+  font-size:15px;
 }
-table.forum-content-table th, table.forum-content-table td {
-  padding: 0.1em 0.3em 0;
+table.forum-content-table th.comments, table.forum-content-table td.comments p {
+  text-align: right;
 }
-table.forum-content-table td.author {
-  width: 6em;
-  padding-top:0.2em;
-  font-size: 90%;
+table.forum-content-table td.topic {
+  padding-bottom: 0.5em;
 }
 table.forum-content-table td.comment {
+  padding-bottom: 1em;
 }
 table.forum-content-table h4 {
-  margin: 0 0 0.3em;
+  margin: 0 0 0.7em;
+  font-size: 14px;
 }
 table.forum-content-table h5 {
-  margin-top: 0.4em;
+  margin: 0.2em 0;
+  font-size: 13px;
 }
 table.forum-content-table p {
-  margin-top: 0.3em;
-}
-table.forum-content-table span.author {
-  font-weight: bold;
-}
-span.icon {
-  float:left;
-  margin-right:4px
-}
-table.forum-content-table p.datetime, table.forum-content-table p.permalink {
-  margin-top: 0.4em;
-  color: #555;
-  font-size: 90%;
-}
-table.forum-content-table p.permalink {
-  float: right;
-}
-
-/*_____________________________________________ EMOTICON SELECTORS __________*/
-#emoticons {
   margin: 0;
-  padding-top: 0.2em; 
-  border: 1px solid gray;
-  text-align:center;
+  text-align: left;
 }
 
-div.forum div.emoticon {
-  margin: 0.3em;
-  float: left;
-}
-
-/*____________________________________________ PERMALINK SELECTORS __________*/
-div.forum div#comment {
-  background: #ccd9e6;
-  padding: 0.2em;
-  border: 1px solid gray;
-}
-
-/*____________________________________________ FORM SELECTORS _______________*/
-form {
-  margin:0;
-  padding:0;
-}
-
-div.forum input.store, textarea.store {
-  width: 100%;
-  max-width: 100%; /* for FF, why? */
-}
-
-div.forum div.submit {
-  margin: 0.5em 0 0 0;
-}
-
-div.forum div.controls {
-  margin: 1.7em 0 0 0;
-  padding-bottom:0.5em;
-  border-bottom:1px solid gray
-}
-
-.topic {
-    padding-bottom:2px;
-}
-
-/* styling of the buttons */
-
-.button-preview input, .button-post input, 
-.button-add-topic input, .button-login input, 
-.button-clear input, button-edit-profile {
-    float:right;
-}
-
-.button-preview input, .button-post input, 
-.button-add-topic input, .button-login input, 
-.button-clear input, button-edit-profile {
-    float:left;
-}
-
-/* style is attitude */

@@ -1,20 +1,30 @@
 <tal:block xmlns:i18n="http://xml.zope.org/namespaces/i18n"
            i18n:domain="silvaforum">
   <div class="forum">
-    <p>
+    <p class="up">
       <a href="#"
          tal:attributes="href context/aq_inner/aq_parent/absolute_url"
          i18n:translate="">Up to topic...</a>
     </p>
-    <div id="comment">
-      <tal:block content="python:view.format_datetime(context.get_creation_datetime())" />,
-      <span i18n:translate="">by</span> <tal:block content="context/get_creator" />
-      <h5 tal:content="context/get_title">
-        Subject, if it exists
-      </h5>
-      <p tal:content="structure python:view.format_text(context.get_text())">
-        Comment content
-      </p>
-    </div>
+    <table class="forum-content-table comment">
+      <tbody>
+        <tr class="topic">
+          <td class="comment">
+            <p>
+              <tal:block content="python:view.format_datetime(context.get_creation_datetime())" />,
+              <span i18n:translate="">by</span> <tal:block content="context/get_creator" />
+            </p>
+            <h5 class="heading"
+              tal:content="context/get_title">
+              Subject, if it exists
+            </h5>
+            <p class="comment"
+              tal:content="structure python:view.format_text(context.get_text())">
+              Comment content
+            </p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </tal:block>

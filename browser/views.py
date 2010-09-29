@@ -15,6 +15,7 @@ from Products.SilvaForum.interfaces import IForum, ITopic, \
     IComment, IPostable
 
 from five import grok
+from silva.core.interfaces import ISubscribable
 from silva.core.views import views as silvaviews
 from silva.core.views.httpheaders import HTTPResponseHeaders
 from silva.translations import translate as _
@@ -65,6 +66,16 @@ class ViewBase(silvaviews.View):
     def get_resources(self):
         return self.context.aq_inner.get_root().service_resources.SilvaForum
 
+def cached_method(method):
+    def cached(self):
+        key = '_v_cached_method_' + method.func_name
+        if key not in self.__dict__:
+            self.__dict__[key] = method(self)
+        return self.__dict__[key]
+    cached.func_name = method.func_name
+    return cached
+
+
 class ContainerViewBase(ViewBase):
     grok.baseclass()
 
@@ -76,10 +87,26 @@ class ContainerViewBase(ViewBase):
         self.anonymous_posting = self.context.anonymous_posting_allowed()
         self.is_logged_in = user.has_role(MINIMAL_ADD_ROLE)
         self.need_captcha = self.captcha_posting and not self.is_logged_in
-        self.need_anonymous_option = self.anonymous_posting and not self.need_captcha
+        self.need_anonymous_option = (
+            self.anonymous_posting and not self.need_captcha)
         self.can_post = self.captcha_posting or self.is_logged_in
+        self.have_subscriptions = False
+        service = self.context.aq_inner.service_subscriptions
+        manager = ISubscribable(self.context.aq_inner, None)
+        if service is not None:
+            self.have_subscriptions = (
+                service.subscriptionsEnabled() and
+                manager is not None and
+                manager.isSubscribable())
+        self.inline_subscription = False
+        if self.have_subscriptions:
+            email = self.get_user_email()
+            if email:
+                if not manager.isSubscribed(email):
+                    self.inline_subscription = True
 
-        self.message = u''
+        self.messages = []
+
     def get_smiley_data(self):
         ret = []
         service_url = self.get_resources().emoticons.smilies.absolute_url()
@@ -92,19 +119,30 @@ class ContainerViewBase(ViewBase):
 
     def authenticate(self):
         if not self.is_logged_in:
-            msg = _('Sorry you need to be authorized to use this forum')
+            msg = _('Sorry, you need to be authenticated to use this forum.')
             raise Unauthorized(msg)
         return True
+
+    @cached_method
+    def get_member(self):
+        userid = getSecurityManager().getUser().getId()
+        return self.context.aq_inner.service_members.get_member(userid)
 
     def get_preview_username(self, anonymous):
         if anonymous or self.need_captcha:
             return _('anonymous')
         else:
-            userid = getSecurityManager().getUser().getId()
-            member = self.context.aq_inner.service_members.get_member(userid)
+            member = self.get_member()
             if member is None:
                 return _('anonymous')
             return member.fullname()
+
+    @cached_method
+    def get_user_email(self):
+        member = self.get_member()
+        if member is not None:
+            return member.email()
+        return None
 
     def authorized_to_post(self):
         # This is intended for the posting action, not the template.
@@ -113,10 +151,24 @@ class ContainerViewBase(ViewBase):
             captcha = getMultiAdapter(
                 (self.context, self.request), name='captcha')
             if not captcha.verify(value):
-                self.message = _(u'Invalid captcha value')
+                self.messages = [_(u'Invalid captcha value')]
                 return False
             return True
         return self.authenticate()
+
+    def do_subscribe_user(self, content):
+        if self.inline_subscription:
+            if self.request.form.get('subscribe', False):
+                service = self.context.aq_inner.service_subscriptions
+                try:
+                    service.requestSubscription(
+                        content, self.get_user_email())
+                except:
+                    return _(u"An error happened while subscribing "
+                             u"you to the post.")
+                return _(u"A confirmation mail have been sent "
+                         u"for your subscription.")
+        return None
 
     def action_authenticate(self, *args):
         self.authenticate()
@@ -140,11 +192,12 @@ class ForumView(ContainerViewBase):
     grok.context(IForum)
 
     topic = ''
+    topic_missing = False
     username = ''
     anonymous = False
     preview = False
     preview_validated = False
-    preview_not_topic = False
+    subscribe = True
 
     def action_preview(self, topic, anonymous):
         self.topic = topic
@@ -152,25 +205,30 @@ class ForumView(ContainerViewBase):
         self.username = self.get_preview_username(anonymous)
         self.preview = True
         self.preview_validated = bool(topic)
-        self.preview_not_topic = not topic
+        self.topic_missing = not topic
+        self.subscribe = 'subscribe' in self.request.form
 
     def action_post(self, topic, anonymous):
         success = False
         if self.authorized_to_post():
             if not topic:
-                self.message = _('Please provide a subject')
+                self.topic_missing = True
             else:
                 try:
-                    self.context.aq_inner.add_topic(
+                    content = self.context.aq_inner.add_topic(
                         topic, self.need_captcha or anonymous)
                 except ValueError, e:
-                    self.message = str(e)
+                    self.messages = [str(e)]
                 else:
-                    self.message = _('Topic added')
+                    self.messages = [_('Topic added.')]
+                    message = self.do_subscribe_user(content)
+                    if message:
+                        self.messages.append(message)
                     success = True
         if not success:
             self.topic = topic
             self.anonymous = anonymous
+            self.subscribe = 'subscribe' in self.request.form
 
     ACTIONS = ContainerViewBase.ACTIONS + [
         ('action.preview', action_preview),
@@ -192,9 +250,10 @@ class ForumView(ContainerViewBase):
             name='topics', request=self.request)
 
         # We don't want batch links to include form data.
-        self.request.form.clear()
-        self.navigation = getMultiAdapter(
-            (self.context, self.topics, self.request), IBatching)()
+        navigation = getMultiAdapter(
+            (self.context, self.topics, self.request), IBatching)
+        navigation.keep_form_data = False
+        self.navigation = navigation()
 
 
 class TopicView(ContainerViewBase):
@@ -204,44 +263,56 @@ class TopicView(ContainerViewBase):
 
     title = ''
     text = ''
+    text_missing = False
     username = ''
     anonymous = False
     preview = False
     preview_validated = False
-    preview_not_title = False
-    preview_not_text = False
+    subscribe = True
 
     def get_forum(self):
         return self.context.aq_inner.aq_parent
 
+    def get_topic_title(self):
+        return self.context.get_title()
+
     def action_preview(self, title, text, anonymous):
         self.title = title
+        if not title:
+            self.title = self.get_topic_title()
         self.text = text
         self.anonymous = anonymous
         self.username = self.get_preview_username(anonymous)
         self.preview = True
-        self.preview_validated = bool(title and text)
-        self.preview_not_title = not title
-        self.preview_not_text = not text
+        self.preview_validated = bool(text)
+        self.text_missing = not text
+        self.subscribe = 'subscribe' in self.request.form
 
     def action_post(self, title, text, anonymous):
         success = False
         if self.authorized_to_post():
-            if not title or not text:
-                self.message = _('Please provide a title and a text')
+            if not title:
+                title = self.get_topic_title()
+            if not text:
+                self.text_missing = True
             else:
                 try:
                     self.context.aq_inner.add_comment(
                         title, text, self.need_captcha or anonymous)
                 except ValueError, e:
-                    self.message = str(e)
+                    self.messages = [str(e)]
                 else:
-                    self.message = _('Comment added')
+                    self.messages = [_('Comment added.')]
                     success = True
+                    message = self.do_subscribe_user(self.context.aq_inner)
+                    if message:
+                        self.messages.append(message)
+
         if not success:
             self.title = title
             self.text = text
             self.anonymous = anonymous
+            self.subscribe = 'subscribe' in self.request.form
 
     ACTIONS = ContainerViewBase.ACTIONS + [
         ('action.preview', action_preview),
@@ -264,9 +335,9 @@ class TopicView(ContainerViewBase):
             name='comments', request=self.request)
 
         # We don't want batch links to include form data.
-        self.request.form.clear()
         navigation = getMultiAdapter(
             (self.context, self.comments, self.request), IBatching)
+        navigation.keep_form_data = False
         self.navigation = navigation()
         self.action_url = navigation.last + '#forum-bottom'
 

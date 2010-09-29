@@ -7,12 +7,11 @@
       <input type="hidden" name="came_from" value="#"
              tal:attributes="value here_url" />
       <input type="submit" name="action.authenticate"
-             value="Login to post a new topic"
+             value="Login" title="Login to post freely"
              i18n:attributes="value" />
     </form>
   </tal:login>
   <tal:logout tal:condition="view/is_logged_in">
-    <h6 i18n:translate="">Forum user controls</h6>
     <form method="post" action="#"
           tal:attributes="action string:${here_url}/service_members/logout">
       <input type="hidden" name="came_from"

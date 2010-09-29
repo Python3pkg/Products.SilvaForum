@@ -2,15 +2,19 @@
 # See also LICENSES.txt
 # $Id$
 
-from silva.core.interfaces import IContent, IContainer
+from zope.interface import Interface
+from silva.core.interfaces import IContent, ISilvaObject, IContainer
 
+class IPostContent(Interface):
+    """Identify all postable/post content.
+    """
 
-class IPostable(IContainer):
+class IPostable(IPostContent, IContainer):
     """Content where you can post content.
     """
 
 
-class IPost(IContent):
+class IPost(IPostContent, ISilvaObject):
     """Posted content.
     """
 
@@ -53,6 +57,6 @@ class ITopic(IPostable, IPost):
         """
 
 
-class IComment(IPost):
+class IComment(IPost, IContent):
     """ A single comment in a forum
     """
