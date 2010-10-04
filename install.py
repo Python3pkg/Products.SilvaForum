@@ -4,7 +4,11 @@
 # Python
 
 from Products.Silva.install import add_fss_directory_view
+from Products.Silva.subscriptionservice import SubscriptionService
 from App.Common import package_home
+from Products.Silva.install import add_helper, pt_add_helper
+from five import grok
+from zope.lifecycleevent.interfaces import IObjectCreatedEvent
 
 import os
 
@@ -129,3 +133,8 @@ def unconfigureMetadata(root):
 
 def is_installed(root):
     return hasattr(root.service_views, 'SilvaForum')
+
+@grok.subscribe(SubscriptionService, IObjectCreatedEvent)
+def add_forum_notification_tempate(service, event):
+    add_helper(
+        service, 'forum_event_template.pt', globals(), pt_add_helper, True)

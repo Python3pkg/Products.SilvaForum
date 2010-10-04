@@ -41,5 +41,6 @@
     />
 
   <grok:grok package=".browser" />
+  <grok:grok package=".install" />
 
 </configure>

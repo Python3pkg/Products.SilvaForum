@@ -260,4 +260,3 @@ class Comment(ForumPost, Content, SimpleItem):
 
     def is_published(self):
         return False # always allow removal of this object from the SMI
-
