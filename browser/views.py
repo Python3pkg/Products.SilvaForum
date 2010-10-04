@@ -28,11 +28,11 @@ MINIMAL_ADD_ROLE = 'Authenticated'
 
 grok.templatedir('templates')
 
-class FindResponseHeaders(HTTPResponseHeaders):
+class ForumResponseHeaders(HTTPResponseHeaders):
     """This reliably set HTTP headers on file serving, for GET and
     HEAD requests.
     """
-    grok.adapts(IBrowserRequest, IPostable)
+    grok.adapts(IPostable, IBrowserRequest)
 
     def cache_headers(self):
         self.disable_cache()

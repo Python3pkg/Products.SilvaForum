@@ -227,6 +227,7 @@ class Topic(ForumContainer, ForumPost, Folder):
             raise ValueError('Reserved id: "%s"' % id)
         comment.set_text(text)
         comment.sec_update_last_author_info()
+        notify_new_comment(comment)
         if anonymous:
             binding = self.get_root().service_metadata.getMetadata(comment)
             binding.setValues('silvaforum-item', {'anonymous': 'yes'})
@@ -260,3 +261,10 @@ class Comment(ForumPost, Content, SimpleItem):
 
     def is_published(self):
         return False # always allow removal of this object from the SMI
+
+
+def notify_new_comment(comment):
+    root = comment.get_root()
+    service = getattr(root, 'service_subscriptions', None)
+    if service is not None:
+        service.send_notification(comment, 'forum_event_template')
