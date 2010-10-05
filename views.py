@@ -40,7 +40,7 @@ def replace_links(text):
     return ABSOLUTE_LINK_RE.sub('<a href="http://www', text)
 
 
-class FindResponseHeaders(HTTPResponseHeaders):
+class ForumResponseHeaders(HTTPResponseHeaders):
     """This reliably set HTTP headers on file serving, for GET and
     HEAD requests.
     """
@@ -315,7 +315,6 @@ class TopicView(ContainerViewBase):
 
     def update(self, title=None, text=None, anonymous=False):
         super(TopicView, self).update()
-
         title = unicode(title or '', 'UTF-8').strip()
         text = unicode(text or '', 'UTF-8').strip()
 
