@@ -25,6 +25,9 @@ input.dialog-closer {
 input[type=text], textarea {
   margin: 0.3em 0;
 }
+input[type=text] {
+  width: 140px;
+}
 input.store, textarea.store {
   width: 98%;
 }
