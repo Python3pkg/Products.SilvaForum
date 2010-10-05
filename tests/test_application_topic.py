@@ -41,7 +41,7 @@ class TopicFunctionalTestCase(SilvaTestCase.SilvaFunctionalTestCase):
         # actually raise a 401 so you have a browser login.
         self.failIf("Post a new comment" in browser.contents)
         self.assertRaises(urllib2.HTTPError,
-            browser.getControl('Login to post a new topic').click)
+            browser.getControl('Login').click)
 
         silva_browser.login()
         browser = silva_browser.browser
@@ -88,24 +88,25 @@ class TopicFunctionalTestCase(SilvaTestCase.SilvaFunctionalTestCase):
             (200, 'http://nohost/root/forum'))
         browser.getLink('Test Topic').click()
 
-        self.failIf("Please provide a title and a text" in browser.contents)
+        self.failIf(
+            "Please provide a message for the new comment" in browser.contents)
 
         browser.getControl("Post comment").click()
 
-        self.failUnless("Please provide a title and a text" in browser.contents)
+        self.failUnless(
+            "Please provide a message for the new comment" in browser.contents)
 
     def test_post_topic_as_anonymous(self):
         """Try to post a new topic as anonymous
         """
 
         silva_browser = SilvaBrowser.SilvaBrowser()
-        browser = silva_browser.browser
         forum_url = silva_browser.get_root_url() + '/forum'
         self.assertEqual(
             silva_browser.go(forum_url),
             (200, 'http://nohost/root/forum'))
-        
-        
+
+
 
     def test_topic_preview_validation(self):
         """Try to preview an empty or incomplete comment.
@@ -120,23 +121,18 @@ class TopicFunctionalTestCase(SilvaTestCase.SilvaFunctionalTestCase):
             (200, 'http://nohost/root/forum'))
         browser.getLink('Test Topic').click()
 
-        self.failIf("Please provide a subject for the new comment" \
-                        in browser.contents)
         self.failIf("Please provide a message for the new comment" \
                         in browser.contents)
 
         browser.getControl('Preview').click()
 
-        self.failUnless("Please provide a subject for the new comment" \
-                        in browser.contents)
         self.failUnless("Please provide a message for the new comment" \
                         in browser.contents)
 
+        self.assertEqual(browser.getControl('Subject').value, 'Test Topic')
         browser.getControl('Subject').value = 'New previewed comment'
         browser.getControl('Preview').click()
 
-        self.failIf("Please provide a subject for the new comment" \
-                        in browser.contents)
         self.failUnless("Please provide a message for the new comment" \
                         in browser.contents)
         self.assertEqual(
@@ -147,8 +143,6 @@ class TopicFunctionalTestCase(SilvaTestCase.SilvaFunctionalTestCase):
         browser.getControl('Message').value = 'New previewed message'
         browser.getControl('Preview').click()
 
-        self.failUnless("Please provide a subject for the new comment" \
-                        in browser.contents)
         self.failIf("Please provide a message for the new comment" \
                         in browser.contents)
         self.assertEqual(

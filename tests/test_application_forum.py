@@ -36,7 +36,7 @@ class ForumFunctionalTestCase(SilvaTestCase.SilvaFunctionalTestCase):
         # actually raise a 401 so you have a browser login.
         self.failIf("Post a new topic" in browser.contents)
         self.assertRaises(urllib2.HTTPError,
-            browser.getControl('Login to post a new topic').click)
+            browser.getControl('Login').click)
 
         silva_browser.login()
         browser = silva_browser.browser
