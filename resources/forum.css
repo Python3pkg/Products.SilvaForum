@@ -46,6 +46,9 @@ div#emoticons {
   float: right;
   padding-right: 0.7em;
 }
+div.field {
+  margin-top: 0.5em;
+}
 div.captcha-field {
   margin-top: 1.2em;
 }
