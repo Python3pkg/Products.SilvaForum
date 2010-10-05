@@ -250,6 +250,8 @@
       </div>
     </tal:post>
 
+    <tal:subscriptions tal:content="structure provider:subscriptions" />
+
   </div>
 
 </tal:block>

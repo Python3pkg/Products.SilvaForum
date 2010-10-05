@@ -18,13 +18,14 @@ from five import grok
 from silva.core.interfaces import ISubscribable
 from silva.core.views import views as silvaviews
 from silva.core.views.httpheaders import HTTPResponseHeaders
-from silva.translations import translate as _
+from zope.i18nmessageid import MessageFactory
 from zeam.utils.batch import batch
 from zeam.utils.batch.interfaces import IBatching
 from zope.component import getMultiAdapter
 from zope.publisher.interfaces.browser import IBrowserRequest
 
 MINIMAL_ADD_ROLE = 'Authenticated'
+_ = MessageFactory('silvaforum')
 
 grok.templatedir('templates')
 
@@ -151,7 +152,7 @@ class ContainerViewBase(ViewBase):
             captcha = getMultiAdapter(
                 (self.context, self.request), name='captcha')
             if not captcha.verify(value):
-                self.messages = [_(u'Invalid captcha value')]
+                self.messages = [_(u'Invalid captcha value.')]
                 return False
             return True
         return self.authenticate()
