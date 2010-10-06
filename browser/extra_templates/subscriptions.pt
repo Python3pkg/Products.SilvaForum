@@ -12,7 +12,6 @@
                     document.getElementById('subscriptions-opener').style.display='none';"
            />
   </div>
-
   <div id="subscriptions-dialog" class="forum-dialog"
        tal:define="display python:show_form and 'block' or 'none'"
        tal:attributes="style string:display:${display}">
@@ -31,8 +30,8 @@
 
       <p i18n:translate="">
         Fill in your email address if you wish to receive email
-        notifications whenever a new comment is posted to this
-        topic. You can cancel your notifications at anytime.
+        notifications whenever an update occurs. You can cancel your
+        notifications at anytime.
       </p>
 
       <p class="form-status"
