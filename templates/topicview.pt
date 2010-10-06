@@ -226,10 +226,16 @@
           <div class="forum-field captcha-field"
                tal:condition="view/need_captcha"
                tal:define="captcha nocall:context/@@captcha">
-            <label for="captcha" i18n:translate="">
-              To post your message enter the characters in this image.
-              You can type them in lower case.
+            <label for="captcha" class="field-label" i18n:translate="">
+              Captcha
             </label>
+            <span class="field-required" i18n:translate="">(required)</span>
+            <br />
+            <span class="field-description" i18n:translate="">
+              To submit please enter the characters displayed in this
+              image. You can type them in lower case.
+            </span>
+            <br />
             <div class="captcha">
               <img tal:replace="structure captcha/image_tag" /><br />
               <input type="text" name="captcha" id="captcha" value="" size="18" />
