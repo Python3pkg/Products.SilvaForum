@@ -28,10 +28,11 @@
           i18n:translate="">
         Subscribe / Unsubscribe
       </h3>
+
       <p i18n:translate="">
-        Fill in your email address if you want to receive an a email
-        notifications whenever a new comment is posted on this topic.
-        You can cancel your notifications as well.
+        Fill in your email address if you wish to receive email
+        notifications whenever a new comment is posted to this
+        topic. You can cancel your notifications at anytime.
       </p>
 
       <p class="form-status"
@@ -49,7 +50,7 @@
           <br />
           <span class="field-description"
                 i18n:translate="">
-            Enter your email on which you wish receive your notifications.
+            Enter your email address where you would like to receive notifications.
           </span>
           <br />
           <tal:error
@@ -75,7 +76,8 @@
           <br />
           <span class="field-description"
                 i18n:translate="">
-            Please retype the captcha below to verify that you are human.
+            Please retype the characters displayed in this image. You
+            can type them in lower case.
           </span>
           <br />
           <span tal:condition="provider/invalid_captcha"

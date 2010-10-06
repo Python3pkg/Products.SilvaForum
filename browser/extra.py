@@ -64,7 +64,7 @@ class Subscriptions(silvaviews.ContentProvider):
                     u"An error happened while subscribing you to the post.")
             else:
                 self.message = _(
-                    u"A confirmation mail have been sent for your subscription.")
+                    u"An email has been sent to confirm your subscription.")
 
     def action_unsubscribe(self):
         if self.extract_email(True) and self.validate_captcha():
@@ -76,7 +76,7 @@ class Subscriptions(silvaviews.ContentProvider):
                     u"An error happened while unsubscribing you to the post.")
             else:
                 self.message = _(
-                    u"A confirmation mail have been sent to unsubscribe you.")
+                    u"An email has been sent to confirm your unsubscribing.")
 
     ACTIONS = {
         'form.action.subscribe': action_subscribe,
