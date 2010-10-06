@@ -131,14 +131,14 @@
           <div class="forum-field captcha-field"
                tal:condition="view/need_captcha"
                tal:define="captcha nocall:context/@@captcha">
-            <div class="captcha">
-              <img tal:replace="structure captcha/image_tag" /><br />
-              <input type="text" name="captcha" id="captcha" value="" size="18" />
-            </div>
             <label for="captcha" class="captcha-hint" i18n:translate="">
               To post your message enter the characters in this image.
               You can type them in lower case.
             </label>
+            <div class="captcha">
+              <img tal:replace="structure captcha/image_tag" /><br />
+              <input type="text" name="captcha" id="captcha" value="" size="18" />
+            </div>
           </div>
 
           <div class="forum-submit">
