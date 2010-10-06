@@ -11,7 +11,7 @@ div.forum-user-controls {
 /* _______ posting forms _______ */
 div.forum-dialog {
   position: relative;
-  margin: 0.5em 0;
+  margin: 1em 0;
   padding: 0.5em;
   border: 1px solid gray;
   display: inline-block;
