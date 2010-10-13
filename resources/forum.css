@@ -81,11 +81,11 @@ div.feedback.warning, div.form-error, span.field-error {
 /* _______ forum content _______ */
 table.forum-content-table {
   width: 100%;
-  margin-bottom: 1em;
+  margin-top: 0.5em;
 }
 div.batchNav {
   text-align: center;
-  margin-top: 0.4em;
+  clear:both;
 }
 div.batchNav a.current {
   font-weight: bold;
@@ -124,7 +124,12 @@ table.forum-content-table p {
   margin: 0;
   text-align: left;
 }
-.subscriptions-handler td, #forum-post-opener {
+ #forum-post-opener {
+  float: left;
+  padding-top: 1.3em;
+  margin-left: 0.3em;
+}
+.subscriptions-handler td {
   padding-top: 1em;
   padding-bottom: 1em;
   margin-left: 0.3em;
@@ -133,11 +138,8 @@ table.forum-content-table p {
   font-size: 13px;
 }
 div.author {
-  margin-top: -0.4em;  
+  margin-top: -0.4em; 
 }
-
-/* move to skin */
-
-p, ul, ol {
-  line-height: 130%;
+.author p {
+  font-size: 11px;
 }

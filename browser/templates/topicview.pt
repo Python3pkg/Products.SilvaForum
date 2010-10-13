@@ -34,8 +34,6 @@
       </a>
     </h2>
 
-    <tal:navigation tal:replace="structure view/navigation" />
-
     <table class="forum-content-table">
       <tal:block>
         <thead>
@@ -67,6 +65,11 @@
         <tr class="subscriptions-handler">
           <td>
             <tal:subscriptions tal:content="structure provider:subscriptions" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <tal:navigation tal:replace="structure view/navigation" />
           </td>
         </tr>
         <tr class="comments" tal:condition="view/comments">
