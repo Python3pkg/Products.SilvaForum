@@ -4,7 +4,7 @@
   <div id="subscriptions-opener" class="dialog-opener"
        tal:define="display python:show_form and 'none' or 'block'"
        tal:attributes="style string:display:${display}">
-    <input type="button" value="Subscribe to topic"
+    <input type="button" id="subscribe-button"  value="Subscribe to topic"
            i18n:attributes="value"
            tal:define="display python:show_form and 'none' or 'block'"
            tal:attributes="style string:display:${display}"

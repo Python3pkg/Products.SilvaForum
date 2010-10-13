@@ -37,7 +37,6 @@
                i18n:attributes="value"
                />
       </div>
-
       <div id="forum-post-dialog" class="forum-dialog"
            tal:define="display python:show_form and 'block' or 'none'"
            tal:attributes="style string:display:${display}">
@@ -107,9 +106,8 @@
             <thead>
               <tr tal:condition="view/topics">
                 <th class="topic" i18n:translate="">Topics</th>
-                <th class="datetime" i18n:translate="">Post date</th>
-                <th class="poster" i18n:translate="">Author</th>
                 <th class="comments" i18n:translate="">Comments</th>
+                <th class="poster" i18n:translate="">Posted</th>
               </tr>
             </thead>
             <tbody>
@@ -118,17 +116,13 @@
                   <p class="topic"
                      tal:content="structure python:view.format_text(view.topic)" />
                 </td>
-                <td class="datetime">
-                  <p i18n:translate="">Now</p>
+                <td class="comments">
+                  <p>0</p>
                 </td>
                 <td class="author">
                   <p tal:content="view/username">current username</p>
                 </td>
-                <td class="comments">
-                  <p>0</p>
-                </td>
               </tr>
-
             </tbody>
           </table>
 
@@ -164,9 +158,8 @@
       <thead>
         <tr tal:condition="view/topics">
           <th class="topic" i18n:translate="">Topics</th>
-          <th class="datetime" i18n:translate="">Post date</th>
-          <th class="poster" i18n:translate="">Author</th>
           <th class="comments" i18n:translate="">Comments</th>
+          <th class="poster" i18n:translate="">Posted</th>
         </tr>
       </thead>
       <tbody>
@@ -181,20 +174,21 @@
                 </a>
               </p>
             </td>
-            <td class="datetime">
-              <p tal:content="python:view.format_datetime(topic['creation_datetime'])"
-                 i18n:translate="">
-                datatime
-              </p>
-            </td>
-            <td class="poster">
-              <p tal:content="topic/creator">
-                author
-              </p>
-            </td>
             <td class="comments">
               <p tal:content="topic/commentlen">
                 number
+              </p>
+            </td>
+            <td class="poster">
+              <p>
+                <span class="datetime"
+                      tal:content="python:view.format_datetime(topic['creation_datetime'])"
+                      i18n:translate="">
+                  datatime
+                </span> <span i18n:translate="">by</span> 
+                <span class="author" tal:content="topic/creator">
+                  author
+                </span>
               </p>
             </td>
           </tr>

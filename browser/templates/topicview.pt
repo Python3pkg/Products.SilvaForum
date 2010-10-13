@@ -26,7 +26,7 @@
     </script>
     <tal:usercontrols tal:replace="structure provider:usercontrols" />
     <h2 tal:define="forum view/get_forum">
-      <a title="up to forum..."
+      <a title="up to forum"
          tal:attributes="href forum/absolute_url"
          tal:content="forum/get_title"
          i18n:attributes="title">
@@ -39,72 +39,74 @@
       <tal:block>
         <thead>
           <tr>
-            <th class="author" i18n:translate="">Author</th>
             <th class="comment" i18n:translate="">Topic</th>
+            <th class="author" i18n:translate="">Posted</th>
           </tr>
         </thead>
       </tal:block>
       <tbody>
         <tr class="topic">
-          <td class="author">
-            <p>
-              <span class="author"
-                    tal:content="context/get_creator">
-                author
-              </span>
-              <span i18n:translate="">
-                posted:
-              </span>
-            </p>
-          </td>
           <td class="topic">
-            <p class="datetime"
-               tal:content="python:view.format_datetime(context.get_creation_datetime())">
-              datetime
-            </p>
             <h4 class="heading" tal:content="structure python:view.format_text(context.get_title())">
               subject
             </h4>
           </td>
+          <td class="author">
+            <p>
+              <span class="datetime"
+                    tal:content="python:view.format_datetime(context.get_creation_datetime())">
+                datetime
+              </span> <span i18n:translate="">by</span> 
+              <span class="author"
+                    tal:content="context/get_creator">
+                author
+              </span>
+            </p>
+          </td>
         </tr>
-        <tr tal:condition="view/comments">
-          <th class="author" i18n:translate="">Author</th>
-          <th class="author" i18n:translate="">Comment</th>
+        <tr>
+          <td colspan="2">
+            <tal:subscriptions tal:content="structure provider:subscriptions" />
+          </td>
+        </tr>
+        <tr class="comments" tal:condition="view/comments">
+          <th class="author" i18n:translate="">Comments</th>
+          <th class="author" i18n:translate="">Posted</th>
         </tr>
         <tal:comments tal:repeat="comment view/comments">
           <tr tal:define="iterate repeat/comment/odd"
-              tal:attributes="class python: iterate and 'even' or 'odd'">
-            <td class="author">
-              <p>
-                <a name="forum-bottom"
-                   tal:condition="repeat/comment/end"
-                   tal:omit-tag="view/preview">
-                </a>
-                <span class="author"
-                      tal:content="comment/creator">author</span>
-                <a title="Link to this message"
-                   tal:attributes="href string:${comment/topic_url}/${comment/id}"
-                   i18n:attributes="title"
-                   i18n:translate="">posted</a>:
-              </p>
-            </td>
-            <td class="comment">
-              <p class="datetime"
-                 tal:content="python:view.format_datetime(comment['creation_datetime'])"
-                 i18n:translate="">
-                datetime
-              </p>
+              tal:attributes="class python: iterate and 'comment even' or 'comment odd'">
+             <td>
               <h5 class="heading"
                   tal:define="subject comment/title"
                   tal:condition="subject"
                   tal:content="structure python:view.format_text(subject)">
                 topic
               </h5>
-              <p class="comment"
+              <p class="comment-message"
                  tal:content="structure python:view.format_text(comment['text'])">
                 comment
               </p>
-            </td>
+             </td>
+             <td class="author">
+               <p>
+                 <a name="forum-bottom"
+                    tal:condition="repeat/comment/end"
+                    tal:omit-tag="view/preview">
+                 </a>
+                 <span class="datetime"
+                       tal:content="python:view.format_datetime(comment['creation_datetime'])"
+                       i18n:translate="">
+                   datetime
+                   </span> <span i18n:translate="">by</span> 
+                   <span class="author"
+                         tal:content="comment/creator">author</span>
+                   (<a title="Link to this comment"
+                      tal:attributes="href string:${comment/topic_url}/${comment/id}"
+                      i18n:attributes="title"
+                      i18n:translate="">link</a>)
+               </p>
+             </td>
           </tr>
         </tal:comments>
       </tbody>
@@ -202,19 +204,12 @@
                  tal:condition="view/preview_validated">
             <thead>
               <tr>
-                <th class="author" i18n:translate="">Author</th>
                 <th class="comment" i18n:translate="">Topic</th>
+                <th class="author" i18n:translate="">Posted</th>
               </tr>
             </thead>
             <tbody>
               <tr class="preview">
-                <td class="author">
-                  <p class="author">
-                    <span class="username"
-                          tal:content="view/username">current username</span>
-                    <tal:posted i18n:translate="">posted</tal:posted>
-                  </p>
-                </td>
                 <td class="comment">
                   <h5 class="heading"
                       tal:condition="view/title"
@@ -223,6 +218,13 @@
                   </h5>
                   <p class="comment"
                      tal:content="structure python:view.format_text(view.text)">
+                  </p>
+                </td>
+                <td class="author">
+                  <p class="author">
+                    <tal:posted i18n:translate="">Just added</tal:posted> <span i18n:translate="">by</span> 
+                    <span class="username"
+                          tal:content="view/username">current username</span>
                   </p>
                 </td>
               </tr>
@@ -254,8 +256,6 @@
         </form>
       </div>
     </tal:post>
-
-    <tal:subscriptions tal:content="structure provider:subscriptions" />
 
   </div>
 

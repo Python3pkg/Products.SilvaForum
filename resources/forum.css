@@ -22,6 +22,9 @@ input, textarea {
 input.dialog-closer {
   border: none;  
 }
+#forum-post, #subscribe-button {
+  float: right;
+}
 input[type=text], textarea {
   margin: 0.3em 0;
 }
@@ -38,9 +41,6 @@ input.dialog-closer {
   position: absolute;
   right: 0.5em;
   top: 0.5em;
-}
-div.dialog-opener {
-  margin: 0.5em 0;
 }
 div#emoticons {
   float: right;
@@ -84,6 +84,7 @@ div.feedback.warning, div.form-error, span.field-error {
 /* _______ forum content _______ */
 table.forum-content-table {
   width: 100%;
+  margin-bottom: 1em;
 }
 div.batchNav {
   text-align: center;
@@ -99,27 +100,27 @@ table.forum-content-table tr {
 table.forum-content-table th {
   color: gray;
   text-align: left;
-  font-size:15px;
+  font-size: 15px;
+  padding-top: 1em;
 }
 table.forum-content-table th.comments, table.forum-content-table td.comments p {
-  text-align: right;
+  text-align: center;
 }
-table.forum-content-table td.topic {
-  padding-bottom: 0.5em;
-}
-table.forum-content-table td.comment {
-  padding-bottom: 1em;
+table.forum-content-table tr.comment td {
+  border-bottom:1px solid #dedede;
 }
 table.forum-content-table h4 {
   margin: 0 0 0.7em;
   font-size: 14px;
 }
 table.forum-content-table h5 {
-  margin: 0.2em 0;
+  margin: 0.2em 0 0.2em;
   font-size: 13px;
 }
 table.forum-content-table p {
   margin: 0;
   text-align: left;
 }
-
+p.comment-message {
+  font-size: 13px;
+}

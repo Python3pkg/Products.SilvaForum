@@ -106,7 +106,7 @@ class ForumFunctionalTestCase(SilvaTestCase.SilvaFunctionalTestCase):
         self.failUnless("Topic added" \
                         in browser.contents)
 
-        regex = re.compile(r'<td class="poster">\s*<p>(.*?)</p>\s*</td>')
+        regex = re.compile(r'<span class="author">(.*?)</span>')
         match = re.search(regex, browser.contents)
         self.failUnless(match is not None)
         author = match.group(1)
@@ -137,7 +137,7 @@ class ForumFunctionalTestCase(SilvaTestCase.SilvaFunctionalTestCase):
 
         self.failUnless("Comment added" in browser.contents)
         self.failUnless("anonymous" in browser.contents)
-        browser.getLink('posted').click()
+        browser.getLink('link').click()
         self.assertEqual(browser.url,
                          "http://nohost/root/forum/topic0/acomment")
         match = re.search(r'by<\/span>\s*(\w+)', browser.contents)

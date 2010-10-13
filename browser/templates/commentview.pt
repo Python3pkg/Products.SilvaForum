@@ -4,14 +4,14 @@
     <p class="up">
       <a href="#"
          tal:attributes="href context/aq_inner/aq_parent/absolute_url"
-         i18n:translate="">Up to topic...</a>
+         i18n:translate="">Up to topic</a>
     </p>
     <table class="forum-content-table comment">
       <tbody>
         <tr class="topic">
           <td class="comment">
             <p>
-              <tal:block content="python:view.format_datetime(context.get_creation_datetime())" />,
+              <tal:block content="python:view.format_datetime(context.get_creation_datetime())" />
               <span i18n:translate="">by</span> <tal:block content="context/get_creator" />
             </p>
             <h5 class="heading"
