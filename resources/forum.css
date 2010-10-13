@@ -22,9 +22,6 @@ input, textarea {
 input.dialog-closer {
   border: none;  
 }
-#forum-post, #subscribe-button {
-  float: right;
-}
 input[type=text], textarea {
   margin: 0.3em 0;
 }
@@ -88,6 +85,7 @@ table.forum-content-table {
 }
 div.batchNav {
   text-align: center;
+  margin-top: 0.4em;
 }
 div.batchNav a.current {
   font-weight: bold;
@@ -101,26 +99,45 @@ table.forum-content-table th {
   color: gray;
   text-align: left;
   font-size: 15px;
-  padding-top: 1em;
 }
-table.forum-content-table th.comments, table.forum-content-table td.comments p {
-  text-align: center;
+table.forum-content-table th {
+  padding-right: 0.5em;
 }
-table.forum-content-table tr.comment td {
-  border-bottom:1px solid #dedede;
+table.forum-content-table tr.even td, table.forum-content-table tr.odd td {
+  border-top: 1px solid #dedede;
+}
+table.forum-content-table tr.comment-message td {
+  padding-bottom: 0.5em;
+}
+table.forum-content-table td.comment-heading {
+  padding-top: 0.5em;
 }
 table.forum-content-table h4 {
-  margin: 0 0 0.7em;
+  margin: 0 0 0.2em;
   font-size: 14px;
 }
 table.forum-content-table h5 {
-  margin: 0.2em 0 0.2em;
+  margin: 0.2em 0 0.5em;
   font-size: 13px;
 }
 table.forum-content-table p {
   margin: 0;
   text-align: left;
 }
-p.comment-message {
+.subscriptions-handler td, #forum-post-opener {
+  padding-top: 1em;
+  padding-bottom: 1em;
+  margin-left: 0.3em;
+}
+.comment-message p {
   font-size: 13px;
+}
+div.author {
+  margin-top: -0.4em;  
+}
+
+/* move to skin */
+
+p, ul, ol {
+  line-height: 130%;
 }

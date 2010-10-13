@@ -116,7 +116,7 @@
                   <p class="topic"
                      tal:content="structure python:view.format_text(view.topic)" />
                 </td>
-                <td class="comments">
+                <td class="comment-count">
                   <p>0</p>
                 </td>
                 <td class="author">

@@ -35,12 +35,12 @@
     </h2>
 
     <tal:navigation tal:replace="structure view/navigation" />
+
     <table class="forum-content-table">
       <tal:block>
         <thead>
           <tr>
             <th class="comment" i18n:translate="">Topic</th>
-            <th class="author" i18n:translate="">Posted</th>
           </tr>
         </thead>
       </tal:block>
@@ -50,68 +50,69 @@
             <h4 class="heading" tal:content="structure python:view.format_text(context.get_title())">
               subject
             </h4>
-          </td>
-          <td class="author">
-            <p>
-              <span class="datetime"
-                    tal:content="python:view.format_datetime(context.get_creation_datetime())">
-                datetime
-              </span> <span i18n:translate="">by</span> 
-              <span class="author"
-                    tal:content="context/get_creator">
-                author
-              </span>
-            </p>
+            <div class="author">
+              <p>
+                <span class="datetime"
+                      tal:content="python:view.format_datetime(context.get_creation_datetime())">
+                  datetime
+                  </span> <span i18n:translate="">by</span> 
+                  <span class="author"
+                        tal:content="context/get_creator">
+                    author
+                  </span>
+              </p>
+            </div>
           </td>
         </tr>
-        <tr>
-          <td colspan="2">
+        <tr class="subscriptions-handler">
+          <td>
             <tal:subscriptions tal:content="structure provider:subscriptions" />
           </td>
         </tr>
         <tr class="comments" tal:condition="view/comments">
           <th class="author" i18n:translate="">Comments</th>
-          <th class="author" i18n:translate="">Posted</th>
         </tr>
         <tal:comments tal:repeat="comment view/comments">
           <tr tal:define="iterate repeat/comment/odd"
               tal:attributes="class python: iterate and 'comment even' or 'comment odd'">
-             <td>
+             <td class="comment-heading">
               <h5 class="heading"
                   tal:define="subject comment/title"
                   tal:condition="subject"
                   tal:content="structure python:view.format_text(subject)">
                 topic
               </h5>
-              <p class="comment-message"
-                 tal:content="structure python:view.format_text(comment['text'])">
-                comment
-              </p>
-             </td>
-             <td class="author">
-               <p>
-                 <a name="forum-bottom"
-                    tal:condition="repeat/comment/end"
-                    tal:omit-tag="view/preview">
-                 </a>
-                 <span class="datetime"
-                       tal:content="python:view.format_datetime(comment['creation_datetime'])"
-                       i18n:translate="">
-                   datetime
+              <div class="author">
+                <p>
+                  <a name="forum-bottom"
+                     tal:condition="repeat/comment/end"
+                     tal:omit-tag="view/preview">
+                  </a>
+                  <span class="datetime"
+                        tal:content="python:view.format_datetime(comment['creation_datetime'])"
+                        i18n:translate="">
+                    datetime
                    </span> <span i18n:translate="">by</span> 
                    <span class="author"
                          tal:content="comment/creator">author</span>
                    (<a title="Link to this comment"
-                      tal:attributes="href string:${comment/topic_url}/${comment/id}"
-                      i18n:attributes="title"
-                      i18n:translate="">link</a>)
-               </p>
+                   tal:attributes="href string:${comment/topic_url}/${comment/id}"
+                   i18n:attributes="title"
+                   i18n:translate="">link</a>)
+                </p>
+              </div>
              </td>
+          </tr>
+          <tr class="comment-message">
+            <td>
+              <p tal:content="structure python:view.format_text(comment['text'])">
+                comment
+              </p>
+            </td>
           </tr>
         </tal:comments>
       </tbody>
     </table>
-    <tal:navigation tal:replace="structure view/navigation" />
 
     <tal:post tal:condition="view/can_post">
       <div id="forum-post-opener" class="dialog-opener"
@@ -205,26 +206,31 @@
             <thead>
               <tr>
                 <th class="comment" i18n:translate="">Topic</th>
-                <th class="author" i18n:translate="">Posted</th>
               </tr>
             </thead>
             <tbody>
               <tr class="preview">
-                <td class="comment">
+                <td class="comment-heading">
                   <h5 class="heading"
                       tal:condition="view/title"
                       tal:content="structure python:view.format_text(view.title)">
                     title
                   </h5>
-                  <p class="comment"
-                     tal:content="structure python:view.format_text(view.text)">
-                  </p>
+                  <div class="author">
+                    <p>
+                      <tal:posted i18n:translate="">Just added</tal:posted> <span i18n:translate="">by</span> 
+                      <span class="username"
+                            tal:content="view/username">current username</span>
+                    </p>
+                  </div>
                 </td>
-                <td class="author">
-                  <p class="author">
-                    <tal:posted i18n:translate="">Just added</tal:posted> <span i18n:translate="">by</span> 
-                    <span class="username"
-                          tal:content="view/username">current username</span>
+              </tr>
+              <tr>
+              </tr>
+              <tr class="comment-message">
+                <td> 
+                  <p tal:content="structure python:view.format_text(view.text)">
+                    comment
                   </p>
                 </td>
               </tr>
@@ -253,9 +259,12 @@
             <input type="submit" name="action.post" value="Post comment"
                    i18n:attributes="value" />
           </div>
+
         </form>
       </div>
     </tal:post>
+
+    <tal:navigation tal:replace="structure view/navigation" />
 
   </div>
 
