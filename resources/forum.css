@@ -17,7 +17,7 @@ div.forum-dialog {
   margin-left: 0.2em;
   margin-right: 0.2em;
 }
-/* in a table de width of the box should be equal to one not in a table */ 
+/* in a table de width of the box should be equal to one not in a table */
 table div.forum-dialog {
   margin-right: 0;
   margin-left: 0;
@@ -26,7 +26,7 @@ input, textarea {
   border: 1px solid #aaa;
 }
 input.dialog-closer {
-  border: none;  
+  border: none;
 }
 input[type=text], textarea {
   margin: 0.3em 0;
@@ -119,12 +119,12 @@ table.forum-content-table td.comment-heading {
   padding-top: 0.5em;
 }
 table.forum-content-table h4 {
-  margin: 0 0 0.2em;
-  font-size: 14px;
+  margin: 0 0 0.4em;
+  font-size: 16px;
 }
 table.forum-content-table h5 {
-  margin: 0.2em 0;
-  font-size: 13px;
+  margin: 0.2em 0 0.4em;
+  font-size: 14px;
 }
 table.forum-content-table p {
   margin: 0;
@@ -155,7 +155,7 @@ table.forum-content-table p {
   font-size: 13px;
 }
 div.author {
-  margin-top: -0.4em; 
+  margin-top: -0.4em;
 }
 .author p {
   font-size: 11px;
