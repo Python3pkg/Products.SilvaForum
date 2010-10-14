@@ -11,10 +11,16 @@ div.forum-user-controls {
 /* _______ posting forms _______ */
 div.forum-dialog {
   position: relative;
-  margin: 1em 0;
   padding: 0.5em;
   border: 1px solid gray;
   display: inline-block;
+  margin-left: 0.2em;
+  margin-right: 0.2em;
+}
+/* in a table de width of the box should be equal to one not in a table */ 
+table div.forum-dialog {
+  margin-right: 0;
+  margin-left: 0;
 }
 input, textarea {
   border: 1px solid #aaa;
@@ -79,10 +85,6 @@ div.feedback.warning, div.form-error, span.field-error {
 }
 
 /* _______ forum content _______ */
-table.forum-content-table {
-  width: 100%;
-  margin-top: 0.5em;
-}
 div.batchNav {
   text-align: center;
   clear:both;
@@ -91,6 +93,10 @@ div.batchNav a.current {
   font-weight: bold;
   text-decoration: none;
   color: #7baa0f;
+}
+table.forum-content-table {
+  width: 100%;
+  margin-top: 0.5em;
 }
 table.forum-content-table tr {
   vertical-align: top;
@@ -117,21 +123,32 @@ table.forum-content-table h4 {
   font-size: 14px;
 }
 table.forum-content-table h5 {
-  margin: 0.2em 0 0.5em;
+  margin: 0.2em 0;
   font-size: 13px;
 }
 table.forum-content-table p {
   margin: 0;
   text-align: left;
 }
+ #forum-post-dialog {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
  #forum-post-opener {
   float: left;
-  padding-top: 1.3em;
   margin-left: 0.3em;
+  margin-bottom: 0.5em;
+  margin-top: 1em;
+}
+ #subscriptions-dialog {
+  margin-bottom: 1em;
+}
+#subscriptions-opener {
+  float: left;
+  margin-bottom: 0.5em;
 }
 .subscriptions-handler td {
-  padding-top: 1em;
-  padding-bottom: 1em;
+  padding-top: 0.5em;
   margin-left: 0.3em;
 }
 .comment-message p {

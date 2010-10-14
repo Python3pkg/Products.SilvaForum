@@ -101,7 +101,7 @@
                    (<a title="Link to this comment"
                    tal:attributes="href string:${comment/topic_url}/${comment/id}"
                    i18n:attributes="title"
-                   i18n:translate="">link</a>)
+                   i18n:translate="">permalink</a>)
                 </p>
               </div>
              </td>
