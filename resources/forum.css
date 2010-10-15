@@ -31,6 +31,7 @@ input.dialog-closer {
 }
 input[type=text], textarea {
   margin: 0.3em 0;
+  padding: 0.1em;
 }
 .forum-dialogue input[type=text] {
   width: 140px;
@@ -40,6 +41,9 @@ input.store, textarea.store {
 }
 input[type=submit] {
   margin: 0.1em 0;
+}
+input[type=checkbox] {
+  margin: 0.2em 0;
 }
 input.dialog-closer {
   position: absolute;
