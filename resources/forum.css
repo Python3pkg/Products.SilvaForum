@@ -2,6 +2,7 @@
 
 /* ______________ Silva Forum selectors ______________ */
 div.forum h3 {
+  margin-top: 0;
   margin-bottom: 0.5em;
   text-transform: none;
 }
