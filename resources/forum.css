@@ -164,3 +164,9 @@ div.author {
 .author p {
   font-size: 11px;
 }
+
+/* form fields */
+
+#form-field-email {
+  width: 16em;
+}
