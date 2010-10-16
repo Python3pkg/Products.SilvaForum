@@ -38,7 +38,7 @@
       <tal:block>
         <thead>
           <tr>
-            <th class="comment" i18n:translate="">Topic</th>
+            <th class="topic" i18n:translate="">Topic</th>
           </tr>
         </thead>
       </tal:block>
