@@ -48,18 +48,16 @@
             <h4 class="heading" tal:content="structure python:view.format_text(context.get_title())">
               subject
             </h4>
-            <div class="author">
-              <p>
-                <span class="datetime"
-                      tal:content="python:view.format_datetime(context.get_creation_datetime())">
-                  datetime
-                  </span> <span i18n:translate="">by</span> 
-                  <span class="author"
-                        tal:content="context/get_creator">
-                    author
-                  </span>
-              </p>
-            </div>
+            <p class="author">
+              <span class="datetime"
+                    tal:content="python:view.format_datetime(context.get_creation_datetime())">
+                datetime
+                </span> <span i18n:translate="">by</span>
+                <span class="author"
+                      tal:content="context/get_creator">
+                  author
+                </span>
+            </p>
           </td>
         </tr>
         <tr class="subscriptions-handler">
@@ -78,33 +76,31 @@
         <tal:comments tal:repeat="comment view/comments">
           <tr tal:define="iterate repeat/comment/odd"
               tal:attributes="class python: iterate and 'comment even' or 'comment odd'">
-             <td class="comment-heading">
+            <td class="comment-heading">
               <h5 class="heading"
                   tal:define="subject comment/title"
                   tal:condition="subject"
                   tal:content="structure python:view.format_text(subject)">
                 topic
               </h5>
-              <div class="author">
-                <p>
-                  <a name="forum-bottom"
-                     tal:condition="repeat/comment/end"
-                     tal:omit-tag="view/preview">
-                  </a>
-                  <span class="datetime"
-                        tal:content="python:view.format_datetime(comment['creation_datetime'])"
-                        i18n:translate="">
-                    datetime
-                   </span> <span i18n:translate="">by</span> 
-                   <span class="author"
-                         tal:content="comment/creator">author</span>
-                   (<a title="Link to this comment"
-                   tal:attributes="href string:${comment/topic_url}/${comment/id}"
-                   i18n:attributes="title"
-                   i18n:translate="">permalink</a>)
-                </p>
-              </div>
-             </td>
+              <p class="author">
+                <a name="forum-bottom"
+                   tal:condition="repeat/comment/end"
+                   tal:omit-tag="view/preview">
+                </a>
+                <span class="datetime"
+                      tal:content="python:view.format_datetime(comment['creation_datetime'])"
+                      i18n:translate="">
+                  datetime
+                 </span> <span i18n:translate="">by</span>
+                 <span class="author"
+                       tal:content="comment/creator">author</span>
+                 (<a title="Link to this comment"
+                 tal:attributes="href string:${comment/topic_url}/${comment/id}"
+                 i18n:attributes="title"
+                 i18n:translate="">permalink</a>)
+              </p>
+            </td>
           </tr>
           <tr class="comment-message">
             <td>
@@ -221,7 +217,7 @@
                   </h5>
                   <div class="author">
                     <p>
-                      <tal:posted i18n:translate="">Just added</tal:posted> <span i18n:translate="">by</span> 
+                      <tal:posted i18n:translate="">Just added</tal:posted> <span i18n:translate="">by</span>
                       <span class="username"
                             tal:content="view/username">current username</span>
                     </p>
@@ -231,7 +227,7 @@
               <tr>
               </tr>
               <tr class="comment-message">
-                <td> 
+                <td>
                   <p tal:content="structure python:view.format_text(view.text)">
                     comment
                   </p>
