@@ -204,7 +204,7 @@
                  tal:condition="view/preview_validated">
             <thead>
               <tr>
-                <th class="comment" i18n:translate="">Topic</th>
+                <th class="comment" i18n:translate="">Comment</th>
               </tr>
             </thead>
             <tbody>
@@ -215,16 +215,12 @@
                       tal:content="structure python:view.format_text(view.title)">
                     title
                   </h5>
-                  <div class="author">
-                    <p>
-                      <tal:posted i18n:translate="">Just added</tal:posted> <span i18n:translate="">by</span>
-                      <span class="username"
-                            tal:content="view/username">current username</span>
-                    </p>
-                  </div>
+                  <p class="author">
+                    <tal:posted i18n:translate="">Just added</tal:posted> <span i18n:translate="">by</span>
+                    <span class="username"
+                          tal:content="view/username">current username</span>
+                  </p>
                 </td>
-              </tr>
-              <tr>
               </tr>
               <tr class="comment-message">
                 <td>

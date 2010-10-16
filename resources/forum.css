@@ -111,6 +111,9 @@ table.forum-content-table th {
   text-align: left;
   font-size: 15px;
 }
+table.forum-content-table th.comment {
+  padding-top: 0.7em;
+}
 table.forum-content-table td {
   padding: 0;
 }
@@ -120,9 +123,6 @@ table.forum-content-table tr.even td, table.forum-content-table tr.odd td {
 }
 table.forum-content-table tr.comment-message td {
   padding-bottom: 0.5em;
-}
-table.forum-content-table td.comment-heading {
-  padding-top: 0.5em;
 }
 table.forum-content-table h4 {
   margin: 0.2em 0 0;
@@ -136,6 +136,10 @@ table.forum-content-table p {
   margin: 0.2em 0 0.5em;
   text-align:left;
 }
+table.forum-content-table tr.comment-message p {
+  margin-top: 0;
+  font-size: 13px;
+}
 table.forum-content-table p.topic {
   font-size: 13px;
 }
@@ -143,13 +147,8 @@ table.forum-content-table p.author {
   margin-top: 0.05em;
   font-size: 11px;
 }
-
-table.forum-content-table tr.comment-message p {
-  margin-top: 0;
-  font-size: 13px;
-}
 #forum-post-dialog {
-  margin: 0.3em 0;
+  margin: 0.3em 0 0.7em;
 }
 #forum-post-opener {
   float: left;
