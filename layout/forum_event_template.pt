@@ -1,12 +1,9 @@
 To: <tal:to tal:replace="structure options/to" />
 From: <tal:from tal:replace="structure options/from" />
-Subject: New comment posted "<tal:title tal:replace="context/get_title_or_id" />"
+Subject: New comment in "<tal:title tal:replace="context/aq_parent/get_title" />"
 Content-Type: text/plain; charset=utf-8
 
-A new comment has been posted on this topic:
-
-URL:
-<tal:url tal:replace="structure context/aq_parent/@@absolute_url" />
+A new comment has been posted:
 
 Subject:
 <tal:title tal:replace="context/get_title_or_id" />
@@ -14,9 +11,12 @@ Subject:
 Message:
 <tal:text tal:replace="context/get_text" />
 
-If you want to cancel your notifications, please follow this link:
+URL:
+<tal:url tal:replace="structure context/aq_parent/@@absolute_url" />
 
+
+If you want to cancel your notifications, please follow this link:
 <tal:title tal:replace="options/service_url" />
 
 --
-Notification from <tal:name tal:replace="options/sitename" /> forum
+Notification from <tal:name tal:replace="options/sitename" /> Forum
