@@ -12,7 +12,7 @@ div.forum-user-controls {
 div.forum-dialog {
   position: relative;
   padding: 0.5em;
-  border: 1px solid gray;
+  border: 1px solid #808080;
   display: inline-block;
   margin: 0;
 }
@@ -106,7 +106,7 @@ table.forum-content-table tr {
 }
 table.forum-content-table th {
   padding: 0.3em 0.5em 0 0;
-  color: gray;
+  color: #808080;
   text-align: left;
   font-size: 15px;
 }
