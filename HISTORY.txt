@@ -1,10 +1,19 @@
 History
 =======
 
-SilvaForum 2.3.1 (unreleased)
------------------------------
+SilvaForum 2.4 (2010/10/18)
+---------------------------
 
-- ...
+- An option have been added to let anonymous people to post. If
+  activated, they have a Captcha to validate their post.
+
+- Subscription now works on topic. You can subscribe to a topic
+  and will receive a mail each time a new comment is posted. This
+  feature is based on default Silva subscriptions.
+
+- Code have been refactored to be completely Groked.
+
+- Tests have been improved.
 
 SilvaForum 2.3 (2010/07/16)
 ---------------------------
