@@ -1,9 +1,6 @@
 /* This css extends selectors in Silva's default StandardIssue theme. */
 
 /* ______________ Silva Forum selectors ______________ */
-div.forum h3 {
-  margin-top: 0;
-}
 div.forum-user-controls {
   float: right;
   margin-right: 0.15em;
@@ -15,11 +12,6 @@ div.forum-dialog {
   border: 1px solid #808080;
   display: inline-block;
   margin: 0;
-}
-/* in a table de width of the box should be equal to one not in a table */
-table div.forum-dialog {
-  margin-right: 0;
-  margin-left: 0;
 }
 input, textarea {
   border: 1px solid #aaa;
@@ -97,54 +89,55 @@ div.batchNav a.current {
   text-decoration: none;
   color: #7baa0f;
 }
-table.forum-content-table {
+.forum-content-table {
   width: 100%;
   margin-top: 0.2em;
 }
-table.forum-content-table tr {
-  vertical-align: top;
+.forum h2 {
+  margin-bottom: 0.2em;
 }
-table.forum-content-table th {
+.forum h3 {
+  margin-top: 0.2em;
+  margin-bottom: 0.4em;
   padding: 0.3em 0.5em 0 0;
   color: #808080;
-  text-align: left;
   font-size: 15px;
+  font-weight: bold;
+  text-transform: none;
 }
-table.forum-content-table th.comment {
+.forum h3.comment {
   padding-top: 0.7em;
 }
-table.forum-content-table td {
-  padding: 0;
+.forum h3.author {
+  margin-bottom: 0.2em;
 }
-table.forum-content-table tr.even td, table.forum-content-table tr.odd td {
-  padding: 0.5em 0.5em 0 0;
-  border-top: 1px solid #dedede;
-}
-table.forum-content-table tr.comment-message td {
-  padding-bottom: 0.5em;
-}
-table.forum-content-table h4 {
-  margin: 0.2em 0 0;
+h4 {
+  margin: 0 0 0.2em;
   font-size: 16px;
 }
-table.forum-content-table h5 {
+h5 {
   margin: 0.2em 0 0;
   font-size: 14px;
 }
-table.forum-content-table p {
+p {
   margin: 0.2em 0 0.5em;
   text-align:left;
 }
-table.forum-content-table tr.comment-message p {
+.comment-message p {
   margin-top: 0;
   font-size: 13px;
+  padding-bottom: 0.5em;
 }
-table.forum-content-table p.topic {
+p.topic {
   font-size: 13px;
 }
-table.forum-content-table p.author {
+p.author {
   margin-top: 0.05em;
   font-size: 11px;
+}
+div.even, div.odd {
+  padding: 0.5em 0.5em 0 0;
+  border-top: 1px solid #dedede;
 }
 #forum-post-dialog {
   margin: 0.3em 0 1em;

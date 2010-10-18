@@ -34,84 +34,77 @@
       </a>
     </h2>
 
-    <table class="forum-content-table">
-      <tal:block>
-        <thead>
-          <tr>
-            <th class="topic" i18n:translate="">Topic</th>
-          </tr>
-        </thead>
-      </tal:block>
-      <tbody>
-        <tr class="topic">
-          <td class="topic">
-            <h4 class="heading" tal:content="structure python:view.format_text(context.get_title())">
-              subject
-            </h4>
-            <p class="author">
-              <span class="datetime"
-                    tal:content="python:view.format_datetime(context.get_creation_datetime())">
-                datetime
-                </span> <span i18n:translate="">by</span>
-                <span class="author"
-                      tal:content="context/get_creator">
-                  author
-                </span>
-            </p>
-          </td>
-        </tr>
-        <tr class="subscriptions-handler">
-          <td>
-            <tal:subscriptions tal:content="structure provider:subscriptions" />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <tal:navigation tal:replace="structure view/navigation" />
-          </td>
-        </tr>
-        <tr class="comments" tal:condition="view/comments">
-          <th class="author" i18n:translate="">Comments</th>
-        </tr>
+    <!--<div class="forum-content-table">-->
+
+      <h3 class="topic" i18n:translate="">Topic</h3>
+
+      <!-- topic view -->
+      <h4 class="heading topic" tal:content="structure python:view.format_text(context.get_title())">
+	subject
+      </h4>
+      <p class="author">
+        <span class="datetime"
+              tal:content="python:view.format_datetime(context.get_creation_datetime())">
+          datetime
+        </span> <span i18n:translate="">by</span>
+        <span class="author"
+              tal:content="context/get_creator">
+          author
+        </span>
+      </p>
+      
+      <!-- subscription handler -->
+      <div class="subscriptions-handler">
+        <tal:subscriptions tal:content="structure provider:subscriptions" />
+      </div>
+
+      <!-- batch navigation -->
+      <tal:navigation tal:replace="structure view/navigation" />
+
+      <!-- comments -->
+      <tal:block tal:condition="view/comments">
+	
+        <h3 class="author" i18n:translate="">Comments</h3>
+
+	<!-- comment batching -->        
         <tal:comments tal:repeat="comment view/comments">
-          <tr tal:define="iterate repeat/comment/odd"
-              tal:attributes="class python: iterate and 'comment even' or 'comment odd'">
-            <td class="comment-heading">
-              <h5 class="heading"
-                  tal:define="subject comment/title"
-                  tal:condition="subject"
-                  tal:content="structure python:view.format_text(subject)">
-                topic
-              </h5>
-              <p class="author">
-                <a name="forum-bottom"
-                   tal:condition="repeat/comment/end"
-                   tal:omit-tag="view/preview">
-                </a>
-                <span class="datetime"
-                      tal:content="python:view.format_datetime(comment['creation_datetime'])"
-                      i18n:translate="">
-                  datetime
-                 </span> <span i18n:translate="">by</span>
-                 <span class="author"
-                       tal:content="comment/creator">author</span>
-                 (<a title="Link to this comment"
-                 tal:attributes="href string:${comment/topic_url}/${comment/id}"
+	  
+          <div tal:define="iterate repeat/comment/odd"
+		     tal:attributes="class python: iterate and 'comment even' or 'comment odd'">
+	    <!-- comment headings -->
+            <h5 class="heading comment-heading"
+                tal:define="subject comment/title"
+                tal:condition="subject"
+                tal:content="structure python:view.format_text(subject)">
+              topic
+            </h5>
+            <p class="author">
+              <a name="forum-bottom"
+                 tal:condition="repeat/comment/end"
+                 tal:omit-tag="view/preview">
+              </a>
+              <span class="datetime"
+                    tal:content="python:view.format_datetime(comment['creation_datetime'])"
+                    i18n:translate="">
+                datetime
+              </span> <span i18n:translate="">by</span>
+              <span class="author"
+                    tal:content="comment/creator">author</span>
+              (<a title="Link to this comment"
+                  tal:attributes="href string:${comment/topic_url}/${comment/id}"
                  i18n:attributes="title"
-                 i18n:translate="">permalink</a>)
-              </p>
-            </td>
-          </tr>
-          <tr class="comment-message">
-            <td>
-              <p tal:content="structure python:view.format_text(comment['text'])">
-                comment
-              </p>
-            </td>
-          </tr>
+                  i18n:translate="">permalink</a>)
+            </p>
+	  </div>
+        
+          <p class="comment-message" 
+	     tal:content="structure python:view.format_text(comment['text'])">
+            comment
+          </p>
+	  
         </tal:comments>
-      </tbody>
-    </table>
+ 
+      </tal:block>
 
     <tal:post tal:condition="view/can_post">
       <div id="forum-post-opener" class="dialog-opener"
@@ -125,6 +118,7 @@
                         document.getElementById('forum-post-opener').style.display='none';"
                />
       </div>
+
       <div id="forum-post-dialog" class="forum-dialog"
            tal:define="display python:show_form and 'block' or 'none'"
            tal:attributes="style string:display:${display}">
@@ -141,41 +135,41 @@
                tal:omit-tag="not:view/preview"
                i18n:translate="">Post a new comment</a>
           </h3>
-          <div class="feedback" tal:condition="view/messages">
-            <span tal:repeat="message view/messages"
-                  tal:content="message">message</span>
-          </div>
-          <div class="forum-field">
-            <label for="title" i18n:translate="">Subject</label>
-            <input type="text" name="title" id="title" size="80" class="store"
-                   onfocus="window.focussed_form_field = this"
-                   tal:attributes="value view/title"
-                   />
-          </div>
-          <div class="forum-field">
-            <div class="feedback warning" tal:condition="view/text_missing">
-              <span i18n:translate="">
-                Please provide a message for the new comment.
-              </span>
-            </div>
-            <div id="emoticons">
-              <span class="emoticons"
-                    tal:repeat="smileydata view/get_smiley_data">
-                <img onclick="add_smiley(this.title)"
-                     alt="add emoticon"
-                     tal:attributes="title smileydata/text;
-                                     src smileydata/href" />
-              </span>
-            </div>
-            <label for="text" i18n:translate="">Message</label>
-            <textarea name="text" id="text" rows="5" cols="68" class="store"
-                      onfocus="window.focussed_form_field = this"
-                      tal:content="view/text">
-            </textarea>
-          </div>
 
-          <div class="forum-field"
-               tal:condition="view/inline_subscription">
+          <tal:block tal:condition="view/messages">
+            <span class="feedback" 
+		  tal:repeat="message view/messages"
+                  tal:content="message">message</span>
+          </tal:block>
+
+          <label for="title" i18n:translate="">Subject</label>
+          <input type="text" name="title" id="title" size="80" class="store"
+                 onfocus="window.focussed_form_field = this"
+                 tal:attributes="value view/title"
+                 />
+	  
+          <tal:block tal:condition="view/text_missing">
+            <span class="feedback warning" i18n:translate="">
+              Please provide a message for the new comment.
+            </span>
+          </tal:block>
+
+          <span class="emoticons"
+                tal:repeat="smileydata view/get_smiley_data">
+            <img onclick="add_smiley(this.title)"
+                 alt="add emoticon"
+                 tal:attributes="title smileydata/text;
+                                     src smileydata/href" />
+          </span>
+
+          <label for="text" i18n:translate="">Message</label>
+          <textarea name="text" id="text" rows="5" cols="68" class="store"
+                    onfocus="window.focussed_form_field = this"
+                    tal:content="view/text">
+          </textarea>
+
+          <tal:block
+             tal:condition="view/inline_subscription">
             <input type="checkbox" name="subscribe" id="subscribe"
                    checked="#"
                    tal:attributes="checked python:view.subscribe and 'checked' or None" />
@@ -183,84 +177,74 @@
               Subscribe me to the topic
             </label>
             (<span tal:replace="view/get_user_email" />)
-          </div>
+          </tal:block>
 
-          <div class="forum-field"
-               tal:condition="view/need_anonymous_option">
+          <tal:block
+             tal:condition="view/need_anonymous_option">
             <input type="checkbox" name="anonymous" id="anonymous"
                    tal:attributes="checked python:view.anonymous and 'checked' or None" />
             <label for="anonymous" i18n:translate="">Post as anonymous</label>
-          </div>
+          </tal:block>
 
-          <div class="forum-submit">
-            <input type="submit" name="action.preview" value="Preview"
-                   i18n:attributes="value" />
-            <input type="submit" name="action.clear" value="Clear"
-                   tal:condition="view/preview"
-                   i18n:attributes="value" />
-          </div>
+          <input type="submit" name="action.preview" value="Preview"
+                 i18n:attributes="value" />
+          <input type="submit" name="action.clear" value="Clear"
+                 tal:condition="view/preview"
+                 i18n:attributes="value" />
 
-          <table class="forum-content-table forum-preview"
-                 tal:condition="view/preview_validated">
-            <thead>
-              <tr>
-                <th class="comment" i18n:translate="">Comment</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="preview">
-                <td class="comment-heading">
-                  <h5 class="heading"
-                      tal:condition="view/title"
-                      tal:content="structure python:view.format_text(view.title)">
-                    title
-                  </h5>
-                  <p class="author">
-                    <tal:posted i18n:translate="">Just added</tal:posted> <span i18n:translate="">by</span>
-                    <span class="username"
-                          tal:content="view/username">current username</span>
-                  </p>
-                </td>
-              </tr>
-              <tr class="comment-message">
-                <td>
-                  <p tal:content="structure python:view.format_text(view.text)">
-                    comment
-                  </p>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+	  <!-- preview -->
+          <tal:block
+             tal:condition="view/preview_validated">
+            <h3 class="comment" i18n:translate="">Comment</h3>
+            <div class="preview">
+              <h5 class="heading comment-heading"
+                  tal:condition="view/title"
+                  tal:content="structure python:view.format_text(view.title)">
+                title
+              </h5>
+              <p class="author">
+                <tal:posted i18n:translate="">Just added</tal:posted> <span i18n:translate="">by</span>
+                <span class="username"
+                      tal:content="view/username">current username</span>
+              </p>
+	      <p class="comment-message"
+		 tal:content="structure python:view.format_text(view.text)">
+                comment
+              </p>
+	    </div>  
+	  </tal:block>
 
-          <div class="forum-field captcha-field"
-               tal:condition="view/need_captcha"
-               tal:define="captcha nocall:context/@@captcha">
+	  <!-- start captcha -->
+          <tal:block
+	       tal:condition="view/need_captcha"
+	       tal:define="captcha nocall:context/@@captcha">
             <label for="captcha" class="field-label" i18n:translate="">
-              Captcha
+	      Captcha
             </label>
             <span class="field-required" i18n:translate="">(required)</span>
             <br />
             <span class="field-description" i18n:translate="">
-              To submit please enter the characters displayed in this image. You can type them in lower case.
+	      To submit please enter the characters displayed in this image. You can type them in lower case.
             </span>
             <br />
-            <div class="captcha">
-              <img tal:replace="structure captcha/image_tag" /><br />
-              <input type="text" name="captcha" id="captcha" value="" size="18" />
-            </div>
-          </div>
 
-          <div class="forum-submit">
-            <input type="submit" name="action.post" value="Post comment"
-                   i18n:attributes="value" />
-          </div>
+            <div class="captcha">
+	      <img tal:replace="structure captcha/image_tag" /><br />
+	      <input type="text" name="captcha" id="captcha" value="" size="18" />
+            </div>
+
+          </tal:block>
+	  <!-- end captcha -->
+
+          <input type="submit" name="action.post" value="Post comment"
+                 i18n:attributes="value" />
 
         </form>
       </div>
     </tal:post>
-
+    
     <tal:navigation tal:replace="structure view/navigation" />
-
-  </div>
+    
+    </div>
 
 </tal:block>
