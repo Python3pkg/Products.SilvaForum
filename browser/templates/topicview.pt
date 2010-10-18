@@ -154,14 +154,15 @@
             </span>
           </tal:block>
 
-          <span class="emoticons"
-                tal:repeat="smileydata view/get_smiley_data">
-            <img onclick="add_smiley(this.title)"
-                 alt="add emoticon"
-                 tal:attributes="title smileydata/text;
-                                     src smileydata/href" />
-          </span>
-
+	  <div id="emoticons">
+            <span class="emoticons"
+                  tal:repeat="smileydata view/get_smiley_data">
+              <img onclick="add_smiley(this.title)"
+                   alt="add emoticon"
+                   tal:attributes="title smileydata/text;
+                                   src smileydata/href" />
+            </span>
+	  </div>
           <label for="text" i18n:translate="">Message</label>
           <textarea name="text" id="text" rows="5" cols="68" class="store"
                     onfocus="window.focussed_form_field = this"
