@@ -185,9 +185,10 @@
                    tal:attributes="checked python:view.anonymous and 'checked' or None" />
             <label for="anonymous" i18n:translate="">Post as anonymous</label>
           </tal:block>
-
+	  <br />
           <input type="submit" name="action.preview" value="Preview"
                  i18n:attributes="value" />
+	  <br />
           <input type="submit" name="action.clear" value="Clear"
                  tal:condition="view/preview"
                  i18n:attributes="value" />
@@ -227,7 +228,6 @@
 	      To submit please enter the characters displayed in this image. You can type them in lower case.
             </span>
             <br />
-
             <div class="captcha">
 	      <img tal:replace="structure captcha/image_tag" /><br />
 	      <input type="text" name="captcha" id="captcha" value="" size="18" />
