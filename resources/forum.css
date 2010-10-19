@@ -28,6 +28,9 @@ input[type=text], textarea {
 input.store, textarea.store {
   width: 98%;
 }
+#text {
+  margin-bottom: 0.1em;
+}
 input[type=submit] {
   margin: 0.1em 0;
 }
@@ -62,7 +65,7 @@ div.captcha img {
 div.forum-submit {
   clear: both;
 }
-span.feedback, p.form-status {
+span.feedback, span.form-status {
   margin-bottom: 0.5em;
   padding: 0.25em;
   border: 1px solid #8fc511;
@@ -80,7 +83,7 @@ span.feedback.warning, span.form-error, span.field-error {
   display: block;
   margin-top: 0.2em;
   margin-bottom: 0.2em;
-  width: 39em;
+  width: 38.8em;
 }
 
 /* _______ forum content _______ */
@@ -115,10 +118,10 @@ div.batchNav a.current {
 .forum h3.author {
   margin-bottom: 0.2em;
 }
-.forum h3.forum-post {
+.forum h3.forum-post, .forum h3.post-subscription {
   color: #3E3E3E;
   font-weight: normal;
-  font-size:15px;
+  font-size: 13px;
   margin-top: 0;
 }
 h4 {
@@ -165,7 +168,6 @@ div.even, div.odd {
 }
 
 /* form fields */
-
 #form-field-email {
   width: 16em;
 }
