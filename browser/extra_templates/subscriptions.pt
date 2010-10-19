@@ -16,14 +16,14 @@
        tal:define="display python:show_form and 'block' or 'none'"
        tal:attributes="style string:display:${display}">
     <input class="dialog-closer" type="image"
-           str="#" width="16" height="16" title="hide post form"
+           title="hide post form"
            onclick="document.getElementById('subscriptions-opener').style.display='block';
                     document.getElementById('subscriptions-dialog').style.display='none';"
            tal:attributes="src string:++resource++Products.SilvaForum.browser/close_window.png"
            i18n:attributes="title" />
     <form method="post" name="post" action="#"
           tal:attributes="action context/@@absolute_url">
-      <h3 class="heading"
+      <h3 class="heading post-subscription"
           i18n:translate="">
         Subscribe / Unsubscribe
       </h3>
@@ -34,9 +34,11 @@
         notifications at anytime.
       </p>
 
-      <p class="form-status"
+      <span class="form-status"
          tal:condition="provider/message"
-         tal:content="provider/message">Status</p>
+         tal:content="provider/message">
+      Status
+      </span>
 
       <div class="fields">
         <div class="field">

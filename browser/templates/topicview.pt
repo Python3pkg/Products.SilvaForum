@@ -54,8 +54,8 @@
       </p>
       
       <!-- subscription handler -->
-      <div class="subscriptions-handler">
-        <tal:subscriptions tal:content="structure provider:subscriptions" />
+      <div class="subscriptions-handler"
+           tal:content="structure provider:subscriptions">subscriptions
       </div>
 
       <!-- batch navigation -->
@@ -123,14 +123,14 @@
            tal:define="display python:show_form and 'block' or 'none'"
            tal:attributes="style string:display:${display}">
         <input id="forum-post-closer" class="dialog-closer" type="image"
-               str="#" width="16" height="16" title="hide post form"
-           onclick="document.getElementById('forum-post-opener').style.display='block';
-                    document.getElementById('forum-post-dialog').style.display='none';"
+               title="hide post form"
+               onclick="document.getElementById('forum-post-opener').style.display='block';
+                        document.getElementById('forum-post-dialog').style.display='none';"
                tal:attributes="src string:++resource++Products.SilvaForum.browser/close_window.png"
                i18n:attributes="title" />
         <form method="post" name="post" action="#"
               tal:attributes="action view/action_url">
-          <h3 class="heading">
+          <h3 class="heading forum-post">
             <a name="forum-bottom"
                tal:omit-tag="not:view/preview"
                i18n:translate="">Post a new comment</a>
@@ -181,15 +181,15 @@
           </tal:block>
 
           <tal:block
-             tal:condition="view/need_anonymous_option">
+            tal:condition="view/need_anonymous_option">
+            <br />
             <input type="checkbox" name="anonymous" id="anonymous"
                    tal:attributes="checked python:view.anonymous and 'checked' or None" />
             <label for="anonymous" i18n:translate="">Post as anonymous</label>
           </tal:block>
-	  <br />
+          <br />
           <input type="submit" name="action.preview" value="Preview"
                  i18n:attributes="value" />
-	  <br />
           <input type="submit" name="action.clear" value="Clear"
                  tal:condition="view/preview"
                  i18n:attributes="value" />
@@ -236,7 +236,7 @@
 
           </tal:block>
 	  <!-- end captcha -->
-
+          <br />
           <input type="submit" name="action.post" value="Post comment"
                  i18n:attributes="value" />
 
