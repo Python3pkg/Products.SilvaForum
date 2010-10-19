@@ -101,7 +101,7 @@ div.batchNav a.current {
   margin-top: 0.2em;
 }
 .forum h2 {
-  margin-bottom: 0.2em;
+  margin-bottom: 0.75em;
 }
 .forum h3 {
   margin-top: 0.2em;
@@ -116,16 +116,15 @@ div.batchNav a.current {
   padding-top: 0.7em;
 }
 .forum h3.author {
-  margin-bottom: 0.2em;
+  margin-bottom: 0.1em;
 }
 .forum h3.forum-post, .forum h3.post-subscription {
   color: #3E3E3E;
   font-weight: normal;
-  font-size: 13px;
   margin-top: 0;
 }
 h4 {
-  margin: 0 0 0.2em;
+  margin: 0;
   font-size: 16px;
 }
 h5 {
@@ -136,7 +135,7 @@ p {
   margin: 0.2em 0 0.5em;
   text-align:left;
 }
-.comment-message p {
+p.comment-message {
   margin-top: 0;
   font-size: 13px;
   padding-bottom: 0.5em;
@@ -145,7 +144,7 @@ p.topic {
   font-size: 13px;
 }
 p.author {
-  margin-top: 0.05em;
+  margin-top: 0;
   font-size: 11px;
 }
 div.even, div.odd {
@@ -153,18 +152,20 @@ div.even, div.odd {
   border-top: 1px solid #dedede;
 }
 #forum-post-dialog {
-  margin: 1.5em 0 1em;
+  margin: 1em 0 1em;
 }
 #forum-post-opener {
   float: left;
-  margin: 0.3em 0 0.5em 0.15em;
+  margin: 0.6em 0 0.5em;
 }
 #subscriptions-dialog {
   margin-bottom: 0.7em;
+  margin-top:0.2em;
 }
 #subscriptions-opener {
   float: left;
-  margin-bottom: 0.5em;
+  margin-bottom: 0.7em;
+  margin-top: 0.15em;
 }
 
 /* form fields */
