@@ -8,7 +8,7 @@ div.forum-user-controls {
 /* _______ posting forms _______ */
 div.forum-dialog {
   position: relative;
-  padding: 0.5em;
+  padding: 0.2em 0.5em 0.5em;
   border: 1px solid #808080;
   display: inline-block;
   margin: 0;
@@ -21,7 +21,6 @@ input.dialog-closer {
 }
 input[type=text], textarea {
   margin: 0.3em 0;
-  padding: 0.1em;
 }
 .forum-dialogue input[type=text] {
   width: 140px;
@@ -63,20 +62,25 @@ div.captcha img {
 div.forum-submit {
   clear: both;
 }
-div.feedback, p.form-status {
+span.feedback, p.form-status {
   margin-bottom: 0.5em;
   padding: 0.25em;
   border: 1px solid #8fc511;
   color: #003448;
   background-color: transparent;
   padding: 0.2em;
-  width: 97%;
+  width: 39em;
+  display: block;
 }
-div.feedback.warning, div.form-error, span.field-error {
+span.feedback.warning, span.form-error, span.field-error {
   border: 1px solid #a00;
   color: #a00;
   background-color: transparent;
   padding: 0.2em;
+  display: block;
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+  width: 39em;
 }
 
 /* _______ forum content _______ */
@@ -110,6 +114,12 @@ div.batchNav a.current {
 }
 .forum h3.author {
   margin-bottom: 0.2em;
+}
+.forum h3.forum-post {
+  color: #3E3E3E;
+  font-weight: normal;
+  font-size:15px;
+  margin-top: 0;
 }
 h4 {
   margin: 0 0 0.2em;
