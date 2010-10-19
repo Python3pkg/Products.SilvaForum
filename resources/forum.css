@@ -1,18 +1,3 @@
-/* This css extends selectors in Silva's default StandardIssue theme. */
-
-/* ______________ Silva Forum selectors ______________ */
-div.forum-user-controls {
-  float: right;
-  margin-right: 0.15em;
-}
-/* _______ posting forms _______ */
-div.forum-dialog {
-  position: relative;
-  padding: 0.2em 0.5em 0.5em;
-  border: 1px solid #808080;
-  display: inline-block;
-  margin: 0;
-}
 input, textarea {
   border: 1px solid #aaa;
 }
@@ -28,9 +13,6 @@ input[type=text], textarea {
 input.store, textarea.store {
   width: 98%;
 }
-#text {
-  margin-bottom: 0.1em;
-}
 input[type=submit] {
   margin: 0.1em 0;
 }
@@ -41,6 +23,17 @@ input.dialog-closer {
   position: absolute;
   right: 0.5em;
   top: 0.5em;
+}
+div.forum-user-controls {
+  float: right;
+  margin-right: 0.15em;
+}
+div.forum-dialog {
+  position: relative;
+  padding: 0.2em 0.5em 0.5em;
+  border: 1px solid #808080;
+  display: inline-block;
+  margin: 0;
 }
 div#emoticons {
   float: right;
@@ -85,8 +78,6 @@ span.feedback.warning, span.form-error, span.field-error {
   margin-bottom: 0.2em;
   width: 38.8em;
 }
-
-/* _______ forum content _______ */
 div.batchNav {
   text-align: center;
   clear:both;
@@ -160,7 +151,7 @@ div.even, div.odd {
 }
 #subscriptions-dialog {
   margin-bottom: 1em;
-  margin-top:0.2em;
+  margin-top: 0.6em;
 }
 #subscriptions-opener {
   float: left;
@@ -168,7 +159,6 @@ div.even, div.odd {
   margin-top: 0.15em;
 }
 
-/* form fields */
 #form-field-email {
   width: 16em;
 }
