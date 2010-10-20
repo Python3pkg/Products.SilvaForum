@@ -11,7 +11,7 @@ input[type=text], textarea {
   width: 140px;
 }
 input.store, textarea.store {
-  width: 98%;
+  width:39.9em;
 }
 input[type=submit] {
   margin: 0.1em 0;
@@ -49,7 +49,6 @@ div.captcha-field-wrapper {
   margin: 0.2em;
 }
 div.captcha {
-  float: left;
   padding-right: 1em;
 }
 div.captcha img {
@@ -65,7 +64,7 @@ span.feedback, span.form-status {
   color: #003448;
   background-color: transparent;
   padding: 0.2em;
-  width: 39em;
+  width:39.5em;
   display: block;
 }
 span.feedback.warning, span.form-error, span.field-error {
@@ -76,7 +75,7 @@ span.feedback.warning, span.form-error, span.field-error {
   display: block;
   margin-top: 0.2em;
   margin-bottom: 0.2em;
-  width: 38.8em;
+  width:39.5em;
 }
 div.batchNav {
   text-align: center;
@@ -87,12 +86,29 @@ div.batchNav a.current {
   text-decoration: none;
   color: #7baa0f;
 }
-.forum-content-table {
+div.forum-content-table, table.forum-content-table {
   width: 100%;
   margin-top: 0.2em;
 }
+/* forum view table styling */
+table.forum-content-table {
+  border-spacing: 0;
+}
+table.forum-content-table th {
+  color: #808080;
+  font-size: 15px;
+  padding: 0.3em 0.5em 0 0;
+  text-align:left;
+}
+table.forum-content-table tr {
+vertical-align:top;
+}
+table.forum-content-table tr td {
+border-top: 1px solid #dedede;
+padding: 0.5em 0.5em 0 0;
+}
 .forum h2 {
-  margin-bottom: 0.75em;
+  margin-bottom: 0.5em;
 }
 .forum h3 {
   margin-top: 0.2em;
@@ -126,6 +142,9 @@ p {
   margin: 0.2em 0 0.5em;
   text-align:left;
 }
+p.up {
+  margin-bottom: 1.2em;
+}
 p.comment-message {
   margin-top: 0;
   font-size: 13px;
@@ -158,14 +177,6 @@ div.even, div.odd {
   margin-bottom: 0.7em;
   margin-top: 0.15em;
 }
-
 #form-field-email {
   width: 16em;
-}
-
-.forum-content-table th {
-  color: #808080;
-  font-size: 15px;
-  padding: 0.3em 0.5em 0 0;
-  text-align:left;
 }
