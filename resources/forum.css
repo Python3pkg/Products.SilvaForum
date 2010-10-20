@@ -1,3 +1,21 @@
+/* forum elemenents */
+#forum-post-dialog {
+  margin: 1em 0 1em;
+}
+#forum-post-opener {
+  float: left;
+  margin: 0.6em 0 0.5em;
+}
+#subscriptions-dialog {
+  margin-bottom: 1em;
+  margin-top: 0.6em;
+}
+#subscriptions-opener {
+  float: left;
+  margin-bottom: 0.7em;
+  margin-top: 0.15em;
+}
+/* input fields */
 input, textarea {
   border: 1px solid #aaa;
 }
@@ -24,89 +42,10 @@ input.dialog-closer {
   right: 0.5em;
   top: 0.5em;
 }
-div.forum-user-controls {
-  float: right;
-  margin-right: 0.15em;
+#form-field-email {
+  width: 16em;
 }
-div.forum-dialog {
-  position: relative;
-  padding: 0.2em 0.5em 0.5em;
-  border: 1px solid #808080;
-  display: inline-block;
-  margin: 0;
-}
-div#emoticons {
-  float: right;
-  padding-right: 0.7em;
-}
-div.field {
-  margin-top: 0.5em;
-}
-div.captcha-field {
-  margin-top: 1.2em;
-}
-div.captcha-field-wrapper {
-  margin: 0.2em;
-}
-div.captcha {
-  padding-right: 1em;
-}
-div.captcha img {
-  margin: 0.3em 0;
-}
-div.forum-submit {
-  clear: both;
-}
-span.feedback, span.form-status {
-  margin-bottom: 0.5em;
-  padding: 0.25em;
-  border: 1px solid #8fc511;
-  color: #003448;
-  background-color: transparent;
-  padding: 0.2em;
-  width:39.5em;
-  display: block;
-}
-span.feedback.warning, span.form-error, span.field-error {
-  border: 1px solid #a00;
-  color: #a00;
-  background-color: transparent;
-  padding: 0.2em;
-  display: block;
-  margin-top: 0.2em;
-  margin-bottom: 0.2em;
-  width:39.5em;
-}
-div.batchNav {
-  text-align: center;
-  clear:both;
-}
-div.batchNav a.current {
-  font-weight: bold;
-  text-decoration: none;
-  color: #7baa0f;
-}
-div.forum-content-table, table.forum-content-table {
-  width: 100%;
-  margin-top: 0.2em;
-}
-/* forum view table styling */
-table.forum-content-table {
-  border-spacing: 0;
-}
-table.forum-content-table th {
-  color: #808080;
-  font-size: 15px;
-  padding: 0.3em 0.5em 0 0;
-  text-align:left;
-}
-table.forum-content-table tr {
-vertical-align:top;
-}
-table.forum-content-table tr td {
-border-top: 1px solid #dedede;
-padding: 0.5em 0.5em 0 0;
-}
+/* general forum styling */
 .forum h2 {
   margin-bottom: 0.5em;
 }
@@ -140,7 +79,7 @@ h5 {
 }
 p {
   margin: 0.2em 0 0.5em;
-  text-align:left;
+  text-align: left;
 }
 p.up {
   margin-bottom: 1.2em;
@@ -161,22 +100,87 @@ div.even, div.odd {
   padding: 0.5em 0.5em 0 0;
   border-top: 1px solid #dedede;
 }
-#forum-post-dialog {
-  margin: 1em 0 1em;
+div.forum-user-controls {
+  float: right;
+  margin-right: 0.15em;
 }
-#forum-post-opener {
-  float: left;
-  margin: 0.6em 0 0.5em;
+/* forum expandable js widget */
+div.forum-dialog {
+  position: relative;
+  padding: 0.2em 0.5em 0.5em;
+  border: 1px solid #808080;
+  display: inline-block;
+  margin: 0;
 }
-#subscriptions-dialog {
-  margin-bottom: 1em;
-  margin-top: 0.6em;
+div#emoticons {
+  float: right;
+  padding-right: 0.7em;
 }
-#subscriptions-opener {
-  float: left;
-  margin-bottom: 0.7em;
-  margin-top: 0.15em;
+div.field {
+  margin-top: 0.5em;
 }
-#form-field-email {
-  width: 16em;
+div.captcha-field {
+  margin-top: 1.2em;
+}
+div.captcha-field-wrapper {
+  margin: 0.2em;
+}
+div.captcha {
+  padding-right: 1em;
+}
+div.captcha img {
+  margin: 0.3em 0;
+}
+div.forum-submit {
+  clear: both;
+}
+/* forum feedback */
+span.feedback, span.form-status {
+  margin-bottom: 0.5em;
+  padding: 0.25em;
+  border: 1px solid #8fc511;
+  color: #003448;
+  background-color: transparent;
+  padding: 0.2em;
+  width:39.5em;
+  display: block;
+}
+span.feedback.warning, span.form-error, span.field-error {
+  border: 1px solid #a00;
+  color: #a00;
+  background-color: transparent;
+  padding: 0.2em;
+  display: block;
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+  width:39.5em;
+}
+/* batched navigation */
+div.batchNav {
+  text-align: center;
+  clear:both;
+}
+div.batchNav a.current {
+  font-weight: bold;
+  text-decoration: none;
+  color: #7baa0f;
+}
+/* forum view table styling */
+table.forum-content-table {
+  border-spacing: 0;
+  width: 100%;
+  margin-top: 0.2em;
+}
+table.forum-content-table th {
+  color: #808080;
+  font-size: 15px;
+  padding: 0.3em 0.5em 0 0;
+  text-align:left;
+}
+table.forum-content-table tr {
+ vertical-align:top;
+}
+table.forum-content-table tr td {
+ border-top: 1px solid #dedede;
+ padding: 0.5em 0.5em 0 0;
 }
