@@ -1,34 +1,24 @@
 <tal:block xmlns:i18n="http://xml.zope.org/namespaces/i18n"
            i18n:domain="silvaforum">
-  <div class="forum">
-    <p class="up">
-      <a href="#"
-         tal:attributes="href context/aq_inner/aq_parent/absolute_url"
-         i18n:translate="">Up to topic</a>
-    </p>
-    <table class="forum-content-table comment">
-      <tbody>
-        <tr class="comment-heading">
-          <td>
-            <h5 class="heading"
-              tal:content="context/get_title">
-              Subject, if it exists
-            </h5>
-            <p class="author">
-              <tal:block content="python:view.format_datetime(context.get_creation_datetime())" />
-              <span i18n:translate="">by</span> <tal:block content="context/get_creator" />
-            </p>
-          </td>
-        </tr>
-        <tr class="comment-message">
-          <td>
-            <p
-              tal:content="structure python:view.format_text(context.get_text())">
-              Comment content
-            </p>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  
+  <p class="up">
+    <a href="#" 
+       tal:attributes="href context/aq_inner/aq_parent/absolute_url" 
+       i18n:translate="">
+    Up to topic
+    </a>
+  </p>
+  <h5 class="heading comment-heading"
+      tal:content="context/get_title">
+    Subject, if it exists
+  </h5>
+  <p class="author">
+    <tal:block content="python:view.format_datetime(context.get_creation_datetime())" />
+        <span i18n:translate="">by</span> <tal:block content="context/get_creator" />
+  </p>
+  <p class="comment-message"
+     tal:content="structure python:view.format_text(context.get_text())">
+    Comment content
+  </p> 
+  
 </tal:block>
