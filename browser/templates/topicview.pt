@@ -3,14 +3,26 @@
   <tal:block
     tal:define="show_form python:view.preview or view.messages or view.text_missing">
     <script type="text/javascript">
-      // <![CDATA[ window.focussed_form_field = null; function
-      add_smiley(text_to_add) { /* add a smiley to the textarea */ var
-      input = window.focussed_form_field; if (!input) { return; }; var
-      content = input.value; var lastchar =
-      content.charAt(content.length - 1); if (lastchar && lastchar != '
-      ' && lastchar != '\t' && lastchar != '\n' && lastchar != '\r') {
-      content += ' '; }; content += text_to_add + ' '; input.value =
-      content; input.focus(); }; // ]]>
+      // <![CDATA[
+      window.focussed_form_field = null;
+      function add_smiley(text_to_add) {
+      /* add a smiley to the textarea
+      */
+      var input = window.focussed_form_field;
+      if (!input) {
+      return;
+      };
+      var content = input.value;
+      var lastchar = content.charAt(content.length - 1);
+      if (lastchar && lastchar != ' ' && lastchar != '\t' && lastchar != '\n'
+      && lastchar != '\r') {
+      content += ' ';
+      };
+      content += text_to_add + ' ';
+      input.value = content;
+      input.focus();
+      };
+      // ]]>
     </script>
     <tal:usercontrols tal:replace="structure provider:usercontrols" />
     <h2 tal:define="forum view/get_forum">
@@ -21,7 +33,7 @@
         forum title
       </a>
     </h2>
-    
+
     <h3 class="topic" i18n:translate="">Topic</h3>
     
     <!-- topic view -->
@@ -43,7 +55,7 @@
     <div class="subscriptions-handler"
          tal:content="structure provider:subscriptions">subscriptions
     </div>
-    
+  
     <!-- batch navigation -->
     <tal:navigation tal:replace="structure view/navigation" />
     
@@ -139,7 +151,7 @@
               Please provide a message for the new comment.
             </span>
           </tal:block>
-          
+
           <div id="emoticons">
             <span class="emoticons"
                   tal:repeat="smileydata view/get_smiley_data">
@@ -156,7 +168,7 @@
           </textarea>
           
           <tal:block
-             tal:condition="view/inline_subscription">
+            tal:condition="view/inline_subscription">
             <input type="checkbox" name="subscribe" id="subscribe"
                    checked="#"
                    tal:attributes="checked python:view.subscribe and 'checked' or None" />
@@ -179,7 +191,7 @@
           <input type="submit" name="action.clear" value="Clear"
                  tal:condition="view/preview"
                  i18n:attributes="value" />
-          
+
           <!-- preview -->
           <tal:block
             tal:condition="view/preview_validated">
@@ -223,7 +235,7 @@
           </tal:block>
           <!-- end captcha -->
           <input type="submit" name="action.post" value="Post comment"
-             i18n:attributes="value" />          
+             i18n:attributes="value" />
         </form>
       </div>
     </tal:post>
