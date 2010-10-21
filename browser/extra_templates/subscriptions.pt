@@ -40,35 +40,34 @@
       Status
       </span>
 
-      <div class="fields">
-        <div class="field">
-          <label class="field-label" for="form-field-email"
-                 i18n:translate="">
-            Email address
-          </label>
-          <span class="field-required"
-                i18n:translate="">(required)</span>
-          <br />
-          <span class="field-description"
-                i18n:translate="">
-            Enter your email address where you would like to receive notifications.
-          </span>
-          <br />
-          <tal:error
-             tal:condition="provider/email_missing">
-            <span class="field-error"
-                  i18n:translate="">
-              Missing required value.
-            </span>
-            <br />
-          </tal:error>
+      <label class="field-label" for="form-field-email"
+             i18n:translate="">
+        Email address
+      </label>
+      <span class="field-required"
+            i18n:translate="">(required)</span>
+      <br />
+      <span class="field-description"
+            i18n:translate="">
+        Enter your email address where you would like to receive notifications.
+      </span>
+      <br />
+      <tal:error
+        tal:condition="provider/email_missing">
+        <span class="field-error"
+              i18n:translate="">
+          Missing required value.
+        </span>
+        <br />
+      </tal:error>
 
-          <input type="text" value="" id="form-field-email"
-                 class="field field-required" name="form.field.email"
-                 tal:attributes="value provider/email"/>
-        </div>
-        <div class="field"
-             tal:condition="provider/need_captcha">
+      <input type="text" value="" id="form-field-email"
+             class="field field-required" name="form.field.email"
+             tal:attributes="value provider/email"/>
+ 
+        <tal:block 
+          tal:condition="provider/need_captcha">
+          <br />
           <label class="field-label" for="form-field-captcha"
                  i18n:translate="">
             Captcha
@@ -77,15 +76,14 @@
           <br />
           <span class="field-description"
                 i18n:translate="">
-            Please retype the characters displayed in this image. You
-            can type them in lower case.
+            To submit please enter the characters displayed in this image. You can type them in lower case.
           </span>
           <br />
           <span tal:condition="provider/invalid_captcha"
                 i18n:translate="">
             Invalid or missing captcha value.
           </span>
-          <div class="field-captcha-wrapper"
+          <div class="captcha"
                tal:define="captcha nocall:context/@@captcha">
             <img tal:replace="structure captcha/image_tag" />
             <br />
@@ -93,24 +91,22 @@
                  class="field field-required" name="form.field.captcha" />
           </div>
 
-        </div>
-      </div>
-      <div class="actions">
-        <div class="action"
-             tal:condition="provider/can_subscribe">
-          <input type="submit" id="form-action-subscribe"
-                 name="form.action.subscribe"
-                 value="Subscribe" class="action"
-                 i18n:attributes="value"/>
-        </div>
-        <div class="action"
-             tal:condition="provider/can_unsubscribe">
+        </tal:block>
+
+      <tal:block
+        tal:condition="provider/can_subscribe">
+        <input type="submit" id="form-action-subscribe"
+               name="form.action.subscribe"
+               value="Subscribe" class="action"
+               i18n:attributes="value"/>
+        <tal:block
+          tal:condition="provider/can_unsubscribe">
           <input type="submit" id="form-action-unsubscribe"
                  name="form.action.unsubscribe"
                  value="Unsubscribe" class="action"
                  i18n:attributes="value" />
-        </div>
-      </div>
+        </tal:block>
+      </tal:block>
     </form>
   </div>
 </tal:provider>

@@ -217,7 +217,7 @@
           <!-- start captcha -->
           <tal:block
             tal:condition="view/need_captcha"
-        tal:define="captcha nocall:context/@@captcha">
+            tal:define="captcha nocall:context/@@captcha">
             <br />
             <label for="captcha" class="field-label" i18n:translate="">
               Captcha
