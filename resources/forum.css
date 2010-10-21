@@ -51,11 +51,13 @@ div.forum h3 {
 div.forum h3.comments {
   padding-top: 0.7em;
 }
+
 div.forum h3.forum-post, div.forum h3.post-subscription {
   padding-right: 0.5em;
   color: #3e3e3e;
   font-weight: normal;
 }
+
 div.forum h4 {
   margin: 0;
   font-size: 16px;

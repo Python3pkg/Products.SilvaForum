@@ -98,6 +98,7 @@
            tal:content="structure python:view.format_text(comment['text'])">
           comment
         </p>
+
         </div>
 
       </tal:comments>
@@ -191,7 +192,7 @@
           <input type="submit" name="action.clear" value="Clear"
                  tal:condition="view/preview"
                  i18n:attributes="value" />
-
+          <br />
           <!-- preview -->
           <tal:block
             tal:condition="view/preview_validated">
