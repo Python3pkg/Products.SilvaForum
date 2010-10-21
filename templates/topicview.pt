@@ -1,7 +1,7 @@
 <tal:block xmlns:i18n="http://xml.zope.org/namespaces/i18n"
            i18n:domain="silvaforum">
   <div class="forum"
-       tal:define="show_form python:view.preview or view.messages or view.text_missing">
+    tal:define="show_form python:view.preview or view.messages or view.text_missing">
     <script type="text/javascript">
       // <![CDATA[
       window.focussed_form_field = null;
@@ -26,7 +26,7 @@
     </script>
     <tal:usercontrols tal:replace="structure provider:usercontrols" />
     <h2 tal:define="forum context/aq_parent">
-      <a title="up to forum..."
+      <a title="up to forum"
          tal:attributes="href forum/@@absolute_url"
          tal:content="forum/get_title"
          i18n:attributes="title">
@@ -34,222 +34,24 @@
       </a>
     </h2>
 
-    <tal:navigation tal:replace="structure view/navigation" />
-    <table class="forum-content-table">
-      <tal:block>
-        <thead>
-          <tr>
-            <th class="author" i18n:translate="">Author</th>
-            <th class="comment" i18n:translate="">Topic</th>
-          </tr>
-        </thead>
-      </tal:block>
-      <tbody>
-        <tr class="topic">
-          <td class="author">
-            <p>
-              <span class="author"
-                    tal:content="context/get_creator">
-                author
-              </span>
-              <span i18n:translate="">
-                posted:
-              </span>
-            </p>
-          </td>
-          <td class="topic">
-            <p class="datetime"
-               tal:content="python:view.format_datetime(context.get_creation_datetime())">
-              datetime
-            </p>
-            <h4 class="heading" tal:content="structure python:view.format_text(context.get_title())">
-              subject
-            </h4>
-          </td>
-        </tr>
-        <tr tal:condition="view/comments">
-          <th class="author" i18n:translate="">Author</th>
-          <th class="author" i18n:translate="">Comment</th>
-        </tr>
-        <tal:comments tal:repeat="comment view/comments">
-          <tr tal:define="iterate repeat/comment/odd"
-              tal:attributes="class python: iterate and 'even' or 'odd'">
-            <td class="author">
-              <p>
-                <a name="forum-bottom"
-                   tal:condition="repeat/comment/end"
-                   tal:omit-tag="view/preview">
-                </a>
-                <span class="author"
-                      tal:content="comment/creator">author</span>
-                <a title="Link to this message"
-                   tal:attributes="href string:${comment/topic_url}/${comment/id}"
-                   i18n:attributes="title"
-                   i18n:translate="">posted</a>:
-              </p>
-            </td>
-            <td class="comment">
-              <p class="datetime"
-                 tal:content="python:view.format_datetime(comment['creation_datetime'])"
-                 i18n:translate="">
-                datetime
-              </p>
-              <h5 class="heading"
-                  tal:define="subject comment/title"
-                  tal:condition="subject"
-                  tal:content="structure python:view.format_text(subject)">
-                topic
-              </h5>
-              <p class="comment"
-                 tal:content="structure python:view.format_text(comment['text'])">
-                comment
-              </p>
-            </td>
-          </tr>
-        </tal:comments>
-      </tbody>
-    </table>
-    <tal:navigation tal:replace="structure view/navigation" />
-
-    <tal:post tal:condition="view/can_post">
-      <div class="dialog-opener"
-           tal:define="display python:show_form and 'none' or 'block'"
-           tal:attributes="style string:display:${display}">
-        <input id="forum-post" type="button" value="Add a comment"
-               i18n:attributes="value"
-               />
-      </div>
-      <div class="forum-dialog forum-post-dialog"
-           tal:define="display python:show_form and 'block' or 'none'"
-           tal:attributes="style string:display:${display}">
-        <input id="forum-post-closer" class="dialog-closer" type="image"
-               str="#" width="16" height="16" title="hide post form"
-               tal:attributes="src static/close_window.png"
-               i18n:attributes="title" />
-        <form method="post" name="post" action="#"
-              tal:attributes="action view/action_url">
-          <h3 class="heading">
-            <a name="forum-bottom"
-               tal:omit-tag="not:view/preview"
-               i18n:translate="">Post a new comment</a>
-          </h3>
-          <div class="feedback" tal:condition="view/messages">
-            <span tal:repeat="message view/messages"
-                  tal:content="message">message</span>
-          </div>
-          <div class="forum-field">
-            <label for="title" i18n:translate="">Subject</label>
-            <input type="text" name="title" id="title" size="80" class="store"
-                   onfocus="window.focussed_form_field = this"
-                   tal:attributes="value view/title"
-                   />
-          </div>
-          <div class="forum-field">
-            <div class="feedback warning" tal:condition="view/text_missing">
-              <span i18n:translate="">
-                Please provide a message for the new comment.
-              </span>
-            </div>
-            <div id="emoticons">
-              <span class="emoticons"
-                    tal:repeat="smileydata view/smileys">
-                <img onclick="add_smiley(this.title)"
-                     alt="add emoticon"
-                     tal:attributes="title smileydata/text;
-                                     src smileydata/href" />
-              </span>
-            </div>
-            <label for="text" i18n:translate="">Message</label>
-            <textarea name="text" id="text" rows="5" cols="68" class="store"
-                      onfocus="window.focussed_form_field = this"
-                      tal:content="view/text">
-            </textarea>
-          </div>
-
-          <div class="forum-field"
-               tal:condition="view/inline_subscription">
-            <input type="checkbox" name="subscribe" id="subscribe"
-                   checked="#"
-                   tal:attributes="checked python:view.subscribe and 'checked' or None" />
-            <label for="subscribe">
-              Subscribe me to the topic
-            </label>
-            (<span tal:replace="view/get_user_email" />)
-          </div>
-
-          <div class="forum-field"
-               tal:condition="view/need_anonymous_option">
-            <input type="checkbox" name="anonymous" id="anonymous"
-                   tal:attributes="checked python:view.anonymous and 'checked' or None" />
-            <label for="anonymous" i18n:translate="">Post as anonymous</label>
-          </div>
-
-          <div class="forum-submit">
-            <input type="submit" name="action.preview" value="Preview"
-                   i18n:attributes="value" />
-            <input type="submit" name="action.clear" value="Clear"
-                   tal:condition="view/preview"
-                   i18n:attributes="value" />
-          </div>
-
-          <table class="forum-content-table forum-preview"
-                 tal:condition="view/preview_validated">
-            <thead>
-              <tr>
-                <th class="author" i18n:translate="">Author</th>
-                <th class="comment" i18n:translate="">Topic</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="preview">
-                <td class="author">
-                  <p class="author">
-                    <span class="username"
-                          tal:content="view/username">current username</span>
-                    <tal:posted i18n:translate="">posted</tal:posted>
-                  </p>
-                </td>
-                <td class="comment">
-                  <h5 class="heading"
-                      tal:condition="view/title"
-                      tal:content="structure python:view.format_text(view.title)">
-                    title
-                  </h5>
-                  <p class="comment"
-                     tal:content="structure python:view.format_text(view.text)">
-                  </p>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
-          <div class="forum-field captcha-field"
-               tal:condition="view/need_captcha"
-               tal:define="captcha nocall:context/@@captcha">
-            <label for="captcha" class="field-label" i18n:translate="">
-              Captcha
-            </label>
-            <span class="field-required" i18n:translate="">(required)</span>
-            <br />
-            <span class="field-description" i18n:translate="">
-              To submit please enter the characters displayed in this
-              image. You can type them in lower case.
-            </span>
-            <br />
-            <div class="captcha">
-              <img tal:replace="structure captcha/image_tag" /><br />
-              <input type="text" name="captcha" id="captcha" value="" size="18" />
-            </div>
-          </div>
-
-          <div class="forum-submit">
-            <input type="submit" name="action.post" value="Post comment"
-                   i18n:attributes="value" />
-          </div>
-        </form>
-      </div>
-    </tal:post>
-
+    <h3 class="topic" i18n:translate="">Topic</h3>
+    
+    <!-- topic view -->
+    <h4 class="heading topic" tal:content="structure python:view.format_text(context.get_title())">
+      subject
+    </h4>
+    <p class="author-topic">
+      <span class="datetime"
+            tal:content="python:view.format_datetime(context.get_creation_datetime())">
+        datetime
+        </span> <span i18n:translate="">by</span>
+        <span class="author"
+              tal:content="context/get_creator">
+          author
+        </span>
+    </p>
+    
+    <!-- subscription handler -->
     <tal:subscriptions tal:condition="view/have_subscriptions">
       <div class="dialog-opener">
         <input id="forum-subscribe" type="button"
@@ -259,13 +61,194 @@
       </div>
       <div class="forum-dialog forum-subscribe-dialog" style="display: none">
         <input id="forum-subscribe-closer" class="dialog-closer" type="image"
-               src="#" width="16" height="16" title="hide subscribe form"
+               title="hide subscribe form"
                tal:attributes="src static/close_window.png"
                i18n:attributes="title" />
         <tal:provider tal:replace="structure provider:subscriptions" />
       </div>
     </tal:subscriptions>
 
-  </div>
+    <!-- batch navigation -->
+    <tal:navigation tal:replace="structure view/navigation" />
+    
+    <!-- comments -->
+    <div class="posts" tal:condition="view/comments">
+      
+      <h3 class="author" i18n:translate="">Comments</h3>
+      
+      <!-- comment batching -->        
+      <tal:comments tal:repeat="comment view/comments"> 
+        <div 
+             tal:define="iterate repeat/comment/odd"
+             tal:attributes="class python: iterate and 'comment even' or 'comment odd'">
+          <!-- comment headings -->
+          <h5 class="heading comment-heading"
+              tal:define="subject comment/title"
+              tal:condition="subject"
+              tal:content="structure python:view.format_text(subject)">
+            topic
+          </h5>
+          <p class="author-comment">
+            <a name="forum-bottom"
+               tal:condition="repeat/comment/end"
+               tal:omit-tag="view/preview">
+            </a>
+            <span class="datetime"
+                  tal:content="python:view.format_datetime(comment['creation_datetime'])"
+                  i18n:translate="">
+              datetime
+              </span> <span i18n:translate="">by</span>
+              <span class="author"
+                    tal:content="comment/creator">author</span>
+              (<a title="Link to this comment"
+              tal:attributes="href string:${comment/topic_url}/${comment/id}"
+              i18n:attributes="title"
+              i18n:translate="">permalink</a>)
+          </p>
+        
+          <p class="comment-message" 
+             tal:content="structure python:view.format_text(comment['text'])">
+            comment
+          </p>
 
+        </div>
+        
+      </tal:comments>
+      
+    </div>
+    
+    <tal:post tal:condition="view/can_post">
+      <div class="dialog-opener"
+           tal:define="display python:show_form and 'none' or 'block'"
+           tal:attributes="style string:display:${display}">
+        <input id="forum-post" type="button" value="Add a comment"
+               i18n:attributes="value"
+               />
+      </div>
+      
+      <div class="forum-dialog forum-post-dialog"
+           tal:define="display python:show_form and 'block' or 'none'"
+           tal:attributes="style string:display:${display}">
+        <input id="forum-post-closer" class="dialog-closer" type="image"
+               title="hide post form"
+               tal:attributes="src static/close_window.png"
+               i18n:attributes="title" />
+        <form method="post" name="post" action="#"
+              tal:attributes="action view/action_url">
+          <h3 class="heading forum-post">
+            <a name="forum-bottom"
+               tal:omit-tag="not:view/preview"
+               i18n:translate="">Post a new comment</a>
+          </h3>
+          
+          <tal:block tal:condition="view/messages">
+            <span class="feedback" 
+                  tal:repeat="message view/messages"
+                  tal:content="message">message</span>
+          </tal:block>
+          
+          <label for="title" i18n:translate="">Subject</label>
+          <input type="text" name="title" id="title" size="80" class="store"
+                 onfocus="window.focussed_form_field = this"
+                 tal:attributes="value view/title"
+                 />
+          
+          <tal:block tal:condition="view/text_missing">
+            <span class="feedback warning" i18n:translate="">
+              Please provide a message for the new comment.
+            </span>
+          </tal:block>
+
+          <div id="emoticons">
+            <span class="emoticons"
+                  tal:repeat="smileydata view/smileys">
+              <img onclick="add_smiley(this.title)"
+                   alt="add emoticon"
+                   tal:attributes="title smileydata/text;
+                                   src smileydata/href" />
+            </span>
+          </div>
+          <label for="text" i18n:translate="">Message</label>
+          <textarea name="text" id="text" rows="5" cols="68" class="store"
+                    onfocus="window.focussed_form_field = this"
+                    tal:content="view/text">
+          </textarea>
+          
+          <tal:block
+            tal:condition="view/inline_subscription">
+            <input type="checkbox" name="subscribe" id="subscribe"
+                   checked="#"
+                   tal:attributes="checked python:view.subscribe and 'checked' or None" />
+            <label for="subscribe">
+              Subscribe me to the topic
+            </label>
+            (<span tal:replace="view/get_user_email" />)
+          </tal:block>
+          
+          <tal:block
+            tal:condition="view/need_anonymous_option">
+            <br />
+            <input type="checkbox" name="anonymous" id="anonymous"
+                   tal:attributes="checked python:view.anonymous and 'checked' or None" />
+            <label for="anonymous" i18n:translate="">Post as anonymous</label>
+          </tal:block>
+          <br />
+          <input type="submit" name="action.preview" value="Preview"
+                 i18n:attributes="value" />
+          <input type="submit" name="action.clear" value="Clear"
+                 tal:condition="view/preview"
+                 i18n:attributes="value" />
+          <br />
+          <!-- preview -->
+          <tal:block
+            tal:condition="view/preview_validated">
+            <h3 class="comment" i18n:translate="">Comment</h3>
+            <div class="preview">
+              <h5 class="heading comment-heading"
+                  tal:condition="view/title"
+                  tal:content="structure python:view.format_text(view.title)">
+                title
+              </h5>
+              <p class="author-comment">
+                <tal:posted i18n:translate="">Just added</tal:posted> <span i18n:translate="">by</span>
+                <span class="username"
+                      tal:content="view/username">current username</span>
+              </p>
+              <p class="comment-message"
+                 tal:content="structure python:view.format_text(view.text)">
+                comment
+              </p>
+            </div>  
+          </tal:block>
+
+          <!-- start captcha -->
+          <tal:block
+            tal:condition="view/need_captcha"
+            tal:define="captcha nocall:context/@@captcha">
+            <div class="captcha">
+
+            <label for="captcha" class="field-label" i18n:translate="">
+              Captcha
+            </label>
+            <span class="field-required" i18n:translate="">(required)</span>
+            <br />
+            <span class="field-description" i18n:translate="">
+              To submit please enter the characters displayed in this image. You can type them in lower case.
+            </span>
+            <br />
+              <img tal:replace="structure captcha/image_tag" /><br />
+              <input type="text" name="captcha" id="captcha" value="" size="18" />
+            </div>
+          </tal:block>
+          <!-- end captcha -->
+          <input type="submit" name="action.post" value="Post comment"
+                 i18n:attributes="value" />
+        </form>
+      </div>
+    </tal:post>
+    
+    <tal:navigation tal:replace="structure view/navigation" />
+    
+  </div>
+  
 </tal:block>
