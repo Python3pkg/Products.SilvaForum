@@ -64,6 +64,8 @@
              class="field field-required" name="form.field.email"
              tal:attributes="value provider/email"/>
  
+        <br tal:condition="not:provider/need_captcha" />
+
         <tal:block 
           tal:condition="provider/need_captcha">
           <br />
@@ -82,20 +84,17 @@
                 i18n:translate="">
             Invalid or missing captcha value.
           </span>
-          <tal:block
-            tal:define="captcha nocall:context/@@captcha">
-            <img tal:replace="structure captcha/image_tag" />
-            <br />
+          <div class="captcha"
+               tal:define="captcha nocall:context/@@captcha">
+            <img tal:replace="structure captcha/image_tag" /><br />
             <input type="text" value="" id="form-field-captcha"
-                 class="field field-required" name="form.field.captcha" />
-          </tal:block>
-
+                   class="field field-required" name="form.field.captcha" />
+          </div>
         </tal:block>
 
       <tal:block
         tal:condition="provider/can_subscribe">
-        <br />
-        <input type="submit" id="form-action-subscribe"
+         <input type="submit" id="form-action-subscribe"
                name="form.action.subscribe"
                value="Subscribe" class="action"
                i18n:attributes="value"/>
