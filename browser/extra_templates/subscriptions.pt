@@ -68,30 +68,31 @@
 
         <tal:block 
           tal:condition="provider/need_captcha">
-          <br />
-          <label class="field-label" for="form-field-captcha"
-                 i18n:translate="">
-            Captcha
-          </label>
-          <span class="field-required">(required)</span>
-          <br />
-          <span class="field-description"
-                i18n:translate="">
-            To submit please enter the characters displayed in this image. You can type them in lower case.
-          </span>
-          <br />
-          <span tal:condition="provider/invalid_captcha"
-                i18n:translate="">
-            Invalid or missing captcha value.
-          </span>
-          <div class="captcha"
-               tal:define="captcha nocall:context/@@captcha">
-            <img tal:replace="structure captcha/image_tag" /><br />
-            <input type="text" value="" id="form-field-captcha"
-                   class="field field-required" name="form.field.captcha" />
+          <div class="captcha">
+               <label class="field-label captcha" for="form-field-captcha"
+                      i18n:translate="">
+                 Captcha
+               </label>
+               <span class="field-required">(required)</span>
+               <br />
+               <span class="field-description"
+                     i18n:translate="">
+                 To submit please enter the characters displayed in this image. You can type them in lower case.
+               </span>
+               <br />
+               <span tal:condition="provider/invalid_captcha"
+                     i18n:translate="">
+                 Invalid or missing captcha value.
+               </span>
+               <tal:block
+                 tal:define="captcha nocall:context/@@captcha">
+                 <img tal:replace="structure captcha/image_tag" /><br />
+                 <input type="text" value="" id="form-field-captcha"
+                        class="field field-required" name="form.field.captcha" />
+               </tal:block>
           </div>
         </tal:block>
-
+        
       <tal:block
         tal:condition="provider/can_subscribe">
          <input type="submit" id="form-action-subscribe"
