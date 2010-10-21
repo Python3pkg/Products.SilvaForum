@@ -41,7 +41,7 @@ input.dialog-closer {
 }
 
 /* general forum styling */
-.forum h3 {
+div.forum h3 {
   margin-top: 0.2em;
   margin-bottom: 0.4em;
   padding: 0.3em 0.5em 0 0;
@@ -50,18 +50,23 @@ input.dialog-closer {
   font-weight: bold;
   text-transform: none;
 }
-.forum h3.comments {
+div.forum h3.comments {
   padding-top: 0.7em;
 }
-h4 {
+div.forum h3.forum-post, div.forum h3.post-subscription {
+  margin-top: 0;
+  color: #3e3e3e;
+  font-weight: normal;
+}
+div.forum h4 {
   margin: 0;
   font-size: 16px;
 }
-h5 {
+div.forum h5 {
   margin: 0.2em 0 0;
   font-size: 14px;
 }
-p {
+div.forum p {
   margin: 0.2em 0 0.5em;
   text-align: left;
 }
