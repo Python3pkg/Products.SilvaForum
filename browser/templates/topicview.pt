@@ -93,12 +93,12 @@
               i18n:attributes="title"
               i18n:translate="">permalink</a>)
           </p>
-        </div>
         
         <p class="comment-message" 
            tal:content="structure python:view.format_text(comment['text'])">
           comment
         </p>
+        </div>
         
       </tal:comments>
       
@@ -219,6 +219,7 @@
             tal:condition="view/need_captcha"
             tal:define="captcha nocall:context/@@captcha">
             <div class="captcha">
+
               <label for="captcha" class="field-label" i18n:translate="">
                 Captcha
               </label>
