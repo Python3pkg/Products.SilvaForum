@@ -33,8 +33,8 @@ input[type=checkbox] {
 }
 input.dialog-closer {
   position: absolute;
-  right: 0.5em;
-  top: 0.5em;
+  right: 0.4em;
+  top: 0.4em;
 }
 #form-field-email {
   width: 16em;
@@ -42,9 +42,7 @@ input.dialog-closer {
 
 /* general forum styling */
 div.forum h3 {
-  margin-top: 0.2em;
-  margin-bottom: 0.4em;
-  padding: 0.3em 0.5em 0 0;
+  margin: 0.2em 0 0.4em 0;
   color: #808080;
   font-size: 15px;
   font-weight: bold;
@@ -54,7 +52,7 @@ div.forum h3.comments {
   padding-top: 0.7em;
 }
 div.forum h3.forum-post, div.forum h3.post-subscription {
-  margin-top: 0;
+  padding-right: 0.5em;
   color: #3e3e3e;
   font-weight: normal;
 }
