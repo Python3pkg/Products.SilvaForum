@@ -1,10 +1,10 @@
 /* forum elements */
 #forum-post-opener {
   float: left;
-  margin: 0.6em 0 0.5em;
+  margin: 0 0 0.5em;
 }
 #forum-post-dialog, #subscriptions-dialog {
-  margin: 1em 0 0.7em;
+  margin: 0.6em 0;
 }
 #subscriptions-opener {
   float: left;
@@ -41,9 +41,6 @@ input.dialog-closer {
 }
 
 /* general forum styling */
-.forum h2 {
-  margin-bottom: 0.5em;
-}
 .forum h3 {
   margin-top: 0.2em;
   margin-bottom: 0.4em;
@@ -53,16 +50,8 @@ input.dialog-closer {
   font-weight: bold;
   text-transform: none;
 }
-.forum h3.comment {
+.forum h3.comments {
   padding-top: 0.7em;
-}
-.forum h3.author {
-  margin-bottom: 0.1em;
-}
-.forum h3.forum-post, .forum h3.post-subscription {
-  color: #3E3E3E;
-  font-weight: normal;
-  margin-top: 0;
 }
 h4 {
   margin: 0;
@@ -166,7 +155,7 @@ table.forum-content-table {
 table.forum-content-table th {
   color: #808080;
   font-size: 15px;
-  padding: 0.3em 0.5em 0 0;
+  padding: 0.3em 0.5em 0.1em 0;
   text-align:left;
 }
 table.forum-content-table tr {
@@ -175,5 +164,5 @@ table.forum-content-table tr {
 
 table.forum-content-table tr td {
  border-top: 1px solid #dedede;
- padding: 0.5em 0.5em 0 0;
+ padding: 0.3em 0.5em 0.1em 0;
 }
