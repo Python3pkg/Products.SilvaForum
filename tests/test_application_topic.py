@@ -10,29 +10,29 @@ from Products.SilvaForum import testing
 
 
 def topic_settings(browser):
-    browser.inspect.add('feedback', '//div[contains(@class, "feedback")]/span')
-    browser.inspect.add('title', '//div[@class="forum"]/descendant::h2')
+    browser.inspect.add('feedback', '//span[@class="feedback"]')
+    browser.inspect.add('feedbackerror', '//span[@class="feedback warning"]')    
+    browser.inspect.add(
+        'title',
+        '//div[@class="forum"]/h2[@class="heading"]')
     browser.inspect.add(
         'subjects',
-        '//table[@class="forum-content-table"]//td[@class="comment"]//h5')
+        '//div[@class="posts"]//h5[contains(@class, "comment-heading")]')
     browser.inspect.add(
         'comments',
-        '//table[@class="forum-content-table"]'
-        '//td[@class="comment"]/p[@class="comment"]')
+        '//div[@class="posts"]//div[contains(@class, "comment")]//p[@class="comment-message"]')
     browser.inspect.add(
         'authors',
-        '(//table[@class="forum-content-table"]//span[@class="author"])'
-        '[position() > 1]')
+        '//div[@class="posts"]//div[contains(@class, "comment")]//p[@class="author-comment"]//span[@class="author"]')
     browser.inspect.add(
         'preview_subject',
-        '//table[contains(@class,"forum-preview")]//td[@class="comment"]/h5')
+        '//div[@class="preview"]/h5[contains(@class, "comment-heading")]')
     browser.inspect.add(
         'preview_comment',
-        '//table[contains(@class,"forum-preview")]'
-        '//td[@class="comment"]/p[@class="comment"]')
+        '//div[@class="preview"]/p[contains(@class, "comment-message")]')
     browser.inspect.add(
         'preview_author',
-        '//table[contains(@class,"forum-preview")]//p[@class="author"]/span')
+        '//div[@class="preview"]//p[@class="author-comment"]//span[@class="username"]')
 
 
 class TopicFunctionalTestCase(unittest.TestCase):
@@ -79,7 +79,7 @@ class TopicFunctionalTestCase(unittest.TestCase):
         self.assertRaises(AssertionError, form.get_control, 'captcha')
         self.assertRaises(AssertionError, form.get_control, 'subscribe')
 
-        # You can now add a topic
+        # You can now add a comment
         form.get_control("title").value = "New Comment"
         form.get_control("text").value = "It's about a product for forum"
         self.assertEqual(form.get_control("action.post").click(), 200)
@@ -93,9 +93,9 @@ class TopicFunctionalTestCase(unittest.TestCase):
             ["It's about a product for forum"])
 
         # And you can visit the comment
-        self.assertEqual(browser.get_link("posted").click(), 200)
+        self.assertEqual(browser.get_link("permalink").click(), 200)
         self.assertEqual(browser.location, "/root/forum/topic/New_Comment")
-        self.assertEqual(browser.get_link("Up to topic...").click(), 200)
+        self.assertEqual(browser.get_link("Up to topic").click(), 200)
         self.assertEqual(browser.location, "/root/forum/topic")
 
     def test_post_as_anonymous(self):
@@ -130,7 +130,7 @@ class TopicFunctionalTestCase(unittest.TestCase):
         self.assertEqual(browser.inspect.comments, ["It's a secret"])
         self.assertEqual(browser.inspect.authors, ["anonymous"])
 
-        self.assertEqual(browser.get_link("posted").click(), 200)
+        self.assertEqual(browser.get_link("permalink").click(), 200)
         self.assertEqual(
             browser.location,
             "/root/forum/topic/Anonymous_Comment")
@@ -316,7 +316,7 @@ class TopicFunctionalTestCase(unittest.TestCase):
         form = browser.get_form('post')
         self.assertEqual(form.get_control("action.post").click(), 200)
         self.assertEqual(
-            browser.inspect.feedback,
+            browser.inspect.feedbackerror,
             ["Please provide a message for the new comment."])
 
         # Noting is created
@@ -347,7 +347,7 @@ class TopicFunctionalTestCase(unittest.TestCase):
         form = browser.get_form('post')
         self.assertEqual(form.get_control("action.preview").click(), 200)
         self.assertEqual(
-            browser.inspect.feedback,
+            browser.inspect.feedbackerror,
             ["Please provide a message for the new comment."])
 
         form = browser.get_form('post')
@@ -355,7 +355,7 @@ class TopicFunctionalTestCase(unittest.TestCase):
         form.get_control('title').value = 'Previewed comment'
         self.assertEqual(form.get_control("action.preview").click(), 200)
         self.assertEqual(
-            browser.inspect.feedback,
+            browser.inspect.feedbackerror,
             ["Please provide a message for the new comment."])
 
         form = browser.get_form('post')

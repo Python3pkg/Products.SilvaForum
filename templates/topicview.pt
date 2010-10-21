@@ -35,7 +35,7 @@
     </h2>
 
     <h3 class="topic" i18n:translate="">Topic</h3>
-    
+
     <!-- topic view -->
     <h4 class="heading topic" tal:content="structure python:view.format_text(context.get_title())">
       subject
@@ -50,7 +50,7 @@
           author
         </span>
     </p>
-    
+
     <!-- subscription handler -->
     <tal:subscriptions tal:condition="view/have_subscriptions">
       <div class="dialog-opener">
@@ -70,16 +70,16 @@
 
     <!-- batch navigation -->
     <tal:navigation tal:replace="structure view/navigation" />
-    
+
     <!-- comments -->
     <div class="posts" tal:condition="view/comments">
-      
-      <h3 class="author" i18n:translate="">Comments</h3>
-      
-      <!-- comment batching -->        
-      <tal:comments tal:repeat="comment view/comments"> 
-        <div 
-             tal:define="iterate repeat/comment/odd"
+
+      <h3 class="comments" i18n:translate="">Comments</h3>
+
+      <!-- comment batching -->
+      <tal:comments tal:repeat="comment view/comments">
+
+        <div tal:define="iterate repeat/comment/odd"
              tal:attributes="class python: iterate and 'comment even' or 'comment odd'">
           <!-- comment headings -->
           <h5 class="heading comment-heading"
@@ -105,18 +105,18 @@
               i18n:attributes="title"
               i18n:translate="">permalink</a>)
           </p>
-        
+
           <p class="comment-message" 
-             tal:content="structure python:view.format_text(comment['text'])">
+           tal:content="structure python:view.format_text(comment['text'])">
             comment
           </p>
 
         </div>
-        
+
       </tal:comments>
-      
+
     </div>
-    
+
     <tal:post tal:condition="view/can_post">
       <div class="dialog-opener"
            tal:define="display python:show_form and 'none' or 'block'"
@@ -125,7 +125,7 @@
                i18n:attributes="value"
                />
       </div>
-      
+
       <div class="forum-dialog forum-post-dialog"
            tal:define="display python:show_form and 'block' or 'none'"
            tal:attributes="style string:display:${display}">
@@ -140,19 +140,19 @@
                tal:omit-tag="not:view/preview"
                i18n:translate="">Post a new comment</a>
           </h3>
-          
+
           <tal:block tal:condition="view/messages">
-            <span class="feedback" 
+            <span class="feedback"
                   tal:repeat="message view/messages"
                   tal:content="message">message</span>
           </tal:block>
-          
+
           <label for="title" i18n:translate="">Subject</label>
           <input type="text" name="title" id="title" size="80" class="store"
                  onfocus="window.focussed_form_field = this"
                  tal:attributes="value view/title"
                  />
-          
+
           <tal:block tal:condition="view/text_missing">
             <span class="feedback warning" i18n:translate="">
               Please provide a message for the new comment.
@@ -173,7 +173,7 @@
                     onfocus="window.focussed_form_field = this"
                     tal:content="view/text">
           </textarea>
-          
+
           <tal:block
             tal:condition="view/inline_subscription">
             <input type="checkbox" name="subscribe" id="subscribe"
@@ -184,7 +184,7 @@
             </label>
             (<span tal:replace="view/get_user_email" />)
           </tal:block>
-          
+
           <tal:block
             tal:condition="view/need_anonymous_option">
             <br />
@@ -218,7 +218,7 @@
                  tal:content="structure python:view.format_text(view.text)">
                 comment
               </p>
-            </div>  
+            </div>
           </tal:block>
 
           <!-- start captcha -->
@@ -246,9 +246,9 @@
         </form>
       </div>
     </tal:post>
-    
+
     <tal:navigation tal:replace="structure view/navigation" />
-    
+
   </div>
-  
+
 </tal:block>
