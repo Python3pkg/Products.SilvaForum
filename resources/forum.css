@@ -22,9 +22,6 @@ input.dialog-closer {
 input[type=text], textarea {
   margin: 0.3em 0;
 }
-.forum-dialogue input[type=text] {
-  width: 140px;
-}
 input.store, textarea.store {
   width:39.9em;
 }
@@ -117,14 +114,11 @@ div#emoticons {
 div.field {
   margin-top: 0.5em;
 }
-div.captcha-field {
-  margin-top: 1.2em;
-}
-div.captcha-field-wrapper {
-  margin: 0.2em;
-}
 div.captcha {
-  padding-right: 1em;
+  margin-top: 1em;
+}
+#subscriptions-dialog div.captcha {
+  margin-top: 0;
 }
 div.captcha img {
   margin: 0.3em 0;
