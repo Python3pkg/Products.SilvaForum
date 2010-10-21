@@ -1,1 +1,1 @@
-SilvaForum 1.1dev UI improvements
+SilvaForum 1.1dev

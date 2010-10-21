@@ -1,6 +1,13 @@
 History
 =======
 
+SilvaForum 1.1 (unreleased)
+---------------------------
+
+- Refactoring of the UI.
+
+- css cleanup.
+
 SilvaForum 1.0 (2010-01-29)
 ---------------------------
 
