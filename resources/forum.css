@@ -11,7 +11,6 @@
   margin-bottom: 0.7em;
   margin-top: 0.15em;
 }
-
 /* input fields */
 input, textarea {
   border: 1px solid #aaa;
@@ -39,7 +38,6 @@ input.dialog-closer {
 #form-field-email {
   width: 16em;
 }
-
 /* general forum styling */
 div.forum h3 {
   margin: 0.2em 0 0.4em 0;
@@ -51,13 +49,11 @@ div.forum h3 {
 div.forum h3.comments {
   padding-top: 0.7em;
 }
-
 div.forum h3.forum-post, div.forum h3.post-subscription {
   padding-right: 0.5em;
   color: #3e3e3e;
   font-weight: normal;
 }
-
 div.forum h4 {
   margin: 0;
   font-size: 16px;
@@ -73,7 +69,7 @@ div.forum p {
 p.up {
   margin-bottom: 1.2em;
 }
-p.comment-message {
+p.message {
   margin-top: 0;
   font-size: 13px;
   padding-bottom: 0.5em;
@@ -119,6 +115,11 @@ div.captcha img {
 }
 div.forum-submit {
   clear: both;
+}
+div.preview {
+  margin-top: 1.3em;
+  padding: 0.4em 0.3em 0;
+  border: 1px solid #8FC511;
 }
 /* forum feedback */
 span.feedback, span.form-status {
@@ -166,7 +167,6 @@ table.forum-content-table th {
 table.forum-content-table tr {
  vertical-align:top;
 }
-
 table.forum-content-table tr td {
  border-top: 1px solid #dedede;
  padding: 0.3em 0.5em 0.1em 0;

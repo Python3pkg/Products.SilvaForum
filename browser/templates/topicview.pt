@@ -66,11 +66,10 @@
 
       <!-- comment batching -->
       <tal:comments tal:repeat="comment view/comments">
-
         <div tal:define="iterate repeat/comment/odd"
              tal:attributes="class python: iterate and 'comment even' or 'comment odd'">
-          <!-- comment headings -->
-          <h5 class="heading comment-heading"
+          <!-- comment -->
+          <h5 class="heading comment"
               tal:define="subject comment/title"
               tal:condition="subject"
               tal:content="structure python:view.format_text(subject)">
@@ -93,14 +92,11 @@
               i18n:attributes="title"
               i18n:translate="">permalink</a>)
           </p>
-
-        <p class="comment-message"
-           tal:content="structure python:view.format_text(comment['text'])">
-          comment
-        </p>
-
+          <p class="message"
+             tal:content="structure python:view.format_text(comment['text'])">
+            message
+          </p>
         </div>
-
       </tal:comments>
 
     </tal:block>
@@ -163,6 +159,7 @@
             </span>
           </div>
           <label for="text" i18n:translate="">Message</label>
+          <span class="field-required">(required)</span>
           <textarea name="text" id="text" rows="5" cols="68" class="store"
                     onfocus="window.focussed_form_field = this"
                     tal:content="view/text">
@@ -196,9 +193,9 @@
           <!-- preview -->
           <tal:block
             tal:condition="view/preview_validated">
-            <h3 class="comment" i18n:translate="">Comment</h3>
             <div class="preview">
-              <h5 class="heading comment-heading"
+              <h3 class="preview" i18n:translate="">Preview</h3>
+              <h5 class="heading comment"
                   tal:condition="view/title"
                   tal:content="structure python:view.format_text(view.title)">
                 title
@@ -208,7 +205,7 @@
                 <span class="username"
                       tal:content="view/username">current username</span>
               </p>
-              <p class="comment-message"
+              <p class="message"
                  tal:content="structure python:view.format_text(view.text)">
                 comment
               </p>
@@ -220,7 +217,6 @@
             tal:condition="view/need_captcha"
             tal:define="captcha nocall:context/@@captcha">
             <div class="captcha">
-
               <label for="captcha" class="field-label" i18n:translate="">
                 Captcha
               </label>
