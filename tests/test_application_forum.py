@@ -18,13 +18,13 @@ def forum_settings(browser):
         type='link')
     browser.inspect.add(
         'authors',
-        '//table[@class="forum-content-table"]//td[@class="poster"]/p')
+        '//table[@class="forum-content-table"]//td[@class="posted"]/p/span[@class="author"]')
     browser.inspect.add(
         'preview_topic',
         '//table[contains(@class,"forum-preview")]//td[@class="topic"]/p')
     browser.inspect.add(
         'preview_author',
-        '//table[contains(@class,"forum-preview")]//td[@class="poster"]/p')
+        '//table[contains(@class,"forum-preview")]//td[@class="posted"]/p/span[@class="author"]')
 
 
 

@@ -32,7 +32,7 @@ def topic_settings(browser):
         '//div[@class="preview"]/p[contains(@class, "comment-message")]')
     browser.inspect.add(
         'preview_author',
-        '//div[@class="preview"]//p[@class="post-info"]//span[@class="username"]')
+        '//div[@class="preview"]//p[@class="post-info"]//span[@class="author"]')
 
 
 class TopicFunctionalTestCase(unittest.TestCase):
@@ -302,7 +302,7 @@ class TopicFunctionalTestCase(unittest.TestCase):
         self.assertEqual(message.charset, 'utf-8')
         self.assertEqual(message.mto, ['dummy@example.com'])
         self.assertEqual(message.mfrom, 'notification@example.com')
-        self.assertEqual(message.subject, 'New comment posted "I am good"')
+        self.assertEqual(message.subject, 'New comment in "Test Topic"')
 
     def test_post_validation(self):
         """Try to add an empty comment.
