@@ -11,7 +11,7 @@ from Products.SilvaForum import testing
 
 def topic_settings(browser):
     browser.inspect.add('feedback', '//span[@class="feedback"]')
-    browser.inspect.add('feedbackerror', '//span[@class="feedback warning"]')    
+    browser.inspect.add('feedbackerror', '//span[@class="feedback warning"]')
     browser.inspect.add(
         'title',
         '//div[@class="forum"]/h2[@class="heading"]')
@@ -23,7 +23,7 @@ def topic_settings(browser):
         '//div[@class="posts"]//div[contains(@class, "comment")]//p[@class="comment-message"]')
     browser.inspect.add(
         'authors',
-        '//div[@class="posts"]//div[contains(@class, "comment")]//p[@class="author-comment"]//span[@class="author"]')
+        '//div[@class="posts"]//div[contains(@class, "comment")]//p[@class="post-info"]//span[@class="author"]')
     browser.inspect.add(
         'preview_subject',
         '//div[@class="preview"]/h5[contains(@class, "comment-heading")]')
@@ -32,7 +32,7 @@ def topic_settings(browser):
         '//div[@class="preview"]/p[contains(@class, "comment-message")]')
     browser.inspect.add(
         'preview_author',
-        '//div[@class="preview"]//p[@class="author-comment"]//span[@class="username"]')
+        '//div[@class="preview"]//p[@class="post-info"]//span[@class="username"]')
 
 
 class TopicFunctionalTestCase(unittest.TestCase):

@@ -1,17 +1,4 @@
 /* forum elements */
-#forum-post-opener {
-  float: left;
-  margin: 0 0 0.5em;
-}
-#forum-post-dialog, #subscriptions-dialog {
-  margin: 0.6em 0;
-}
-#subscriptions-opener {
-  float: left;
-  margin-bottom: 0.7em;
-  margin-top: 0.15em;
-}
-
 /* input fields */
 input, textarea {
   border: 1px solid #aaa;
@@ -39,30 +26,28 @@ input.dialog-closer {
 #form-field-email {
   width: 16em;
 }
-
 /* general forum styling */
 div.forum h3 {
   margin: 0.2em 0 0.4em 0;
-  color: #808080;
+  color: #909090;
   font-size: 15px;
   font-weight: bold;
   text-transform: none;
 }
+/* activate if buttons do not float right
 div.forum h3.comments {
-  padding-top: 0.7em;
-}
-
-div.forum h3.forum-post, div.forum h3.post-subscription {
+  padding-top: 0.2em;
+}*/
+div.forum-dialog h3 { /* dialog heading */
   padding-right: 0.5em;
   color: #3e3e3e;
   font-weight: normal;
 }
-
-div.forum h4 {
+div.forum h4 { /* topic heading */
   margin: 0;
-  font-size: 16px;
+  font-size: 18px;
 }
-div.forum h5 {
+div.forum h5 { /* comment heading */
   margin: 0.2em 0 0;
   font-size: 14px;
 }
@@ -70,20 +55,17 @@ div.forum p {
   margin: 0.2em 0 0.5em;
   text-align: left;
 }
-p.up {
-  margin-bottom: 1.2em;
-}
-p.comment-message {
+div.forum p.comment-message {
   margin-top: 0;
   font-size: 13px;
-  padding-bottom: 0.5em;
+  padding-bottom: 0.3em;
 }
-p.topic {
-  font-size: 13px;
-}
-p.author {
+div.forum p.post-info {
   margin-top: 0;
   font-size: 11px;
+}
+div.forum p.up {
+  margin-bottom: 1.2em;
 }
 div.even, div.odd {
   padding: 0.5em 0.5em 0 0;
@@ -94,12 +76,18 @@ div.forum-user-controls {
   margin-right: 0.15em;
 }
 /* forum expandable js widget */
+div.dialog-opener {
+  margin-bottom: 0.5em;
+  float: right;
+  clear: both;
+}
 div.forum-dialog {
   position: relative;
+  display: inline-block;
+  margin: 0.5em 0 0.5em;
   padding: 0.2em 0.5em 0.5em;
   border: 1px solid #808080;
-  display: inline-block;
-  margin: 0;
+  clear: both;
 }
 div#emoticons {
   float: right;
@@ -108,20 +96,22 @@ div#emoticons {
 div.field {
   margin-top: 0.5em;
 }
+div.captcha-field {
+  margin-top: 1em;
+}
 div.captcha {
   margin-top: 1em;
 }
-div.captcha-field {
-  margin-top: 1.2em;
+div.field-captcha-wrapper img {
+  margin: 0.3em 0 0;
 }
-#subscriptions-dialog div.captcha {
-  margin-top: 0;
+div.preview {
+  margin: 0.3em 0 0.2em;
+  padding: 0.3em 0.3em 0;
+  border: 1px solid #8FC511;
 }
-div.captcha img {
-  margin: 0.3em 0;
-}
-div.forum-submit {
-  clear: both;
+div.forum h3.preview {
+  margin: 0.9em 0 0.4em;
 }
 /* forum feedback */
 span.feedback, span.form-status {
@@ -147,7 +137,7 @@ span.feedback.warning, span.form-error, span.field-error {
 /* batched navigation */
 div.batchNav {
   text-align: center;
-  clear:both;
+  clear: both;
 }
 div.batchNav a.current {
   font-weight: bold;
@@ -169,8 +159,17 @@ table.forum-content-table th {
 table.forum-content-table tr {
  vertical-align:top;
 }
-
 table.forum-content-table tr td {
  border-top: 1px solid #dedede;
  padding: 0.3em 0.5em 0.1em 0;
+}
+table.forum-content-table td.topic p {
+  font-size: 13px;
+}
+table.forum-preview {
+  margin: 0 0 0.2em;
+  padding-bottom:0.2em;
+}
+table.forum-preview td.topic {
+  text-decoration: underline;
 }

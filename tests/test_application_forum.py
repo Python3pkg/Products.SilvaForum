@@ -24,7 +24,7 @@ def forum_settings(browser):
         '//table[contains(@class,"forum-preview")]//td[@class="topic"]/p')
     browser.inspect.add(
         'preview_author',
-        '//table[contains(@class,"forum-preview")]//td[@class="author"]/p')
+        '//table[contains(@class,"forum-preview")]//td[@class="poster"]/p')
 
 
 
