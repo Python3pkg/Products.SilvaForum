@@ -36,7 +36,7 @@ div.forum h3 {
 }
 /* activate if buttons do not float right
 div.forum h3.comments {
-  padding-top: 0.2em;
+  padding-top: 0.7em;
 }*/
 div.forum-dialog h3 { /* dialog heading */
   padding-right: 0.5em;
