@@ -100,6 +100,9 @@ div.captcha-field {
   margin-top: 1em;
 }
 div.captcha {
+  margin-top: 0.3em;
+}
+#forum-post-dialog div.captcha {
   margin-top: 1em;
 }
 div.captcha img {
