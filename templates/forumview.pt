@@ -144,10 +144,8 @@
               image. You can type them in lower case.
             </span>
             <br />
-            <div class="captcha">
-              <img tal:replace="structure captcha/image_tag" /><br />
-              <input type="text" name="captcha" id="captcha" value="" size="18" />
-            </div>
+            <img tal:replace="structure captcha/image_tag" /><br />
+            <input type="text" name="captcha" id="captcha" value="" size="18" />
           </div>
 
           <div class="forum-submit">
