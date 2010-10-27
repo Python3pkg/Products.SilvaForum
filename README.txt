@@ -88,7 +88,7 @@ which we used in the forum views! And the theme of JForum for emoticons
 icons.
 
 For Silva 2.2/2.3 the forum was refactored and vastly improved, with
-the help of the Schweizerischer Erdbebendienst (SED, or Swiss
+the generous help of the Schweizerischer Erdbebendienst (SED, or Swiss
 Seismological Service) and ETH Zurich: http://www.seismo.ethz.ch/
 
 Questions, remarks, etc.
