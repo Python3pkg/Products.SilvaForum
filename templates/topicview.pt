@@ -34,24 +34,25 @@
       </a>
     </h2>
 
-    <h3 class="topic" i18n:translate="">Topic</h3>
-
     <!-- topic view -->
-    <h4 class="topic"
-      tal:content="structure python:view.format_text(context.get_title())">
-      topic
-    </h4>
-    <p class="post-info">
-      <span class="datetime"
-        tal:content="python:view.format_datetime(context.get_creation_datetime())">
-        datetime
-      </span>
-      <span i18n:translate="">by</span>
-      <span class="author"
-        tal:content="context/get_creator">
-        poster
-      </span>
-    </p>
+    <div class="topic">
+      <h3 class="topic" i18n:translate="">Topic</h3>
+      <h4 class="topic"
+        tal:content="structure python:view.format_text(context.get_title())">
+        topic
+      </h4>
+      <p class="post-info">
+        <span class="datetime"
+          tal:content="python:view.format_datetime(context.get_creation_datetime())">
+          datetime
+        </span>
+        <span i18n:translate="">by</span>
+        <span class="author"
+          tal:content="context/get_creator">
+          poster
+        </span>
+      </p>
+    </div>
 
     <!-- subscription handler -->
     <tal:subscriptions tal:condition="view/have_subscriptions">
