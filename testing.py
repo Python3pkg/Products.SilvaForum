@@ -47,15 +47,15 @@ def enable_unauthenticated_posting(content):
 
 
 
-class SilvaForumLayer(SilvaLayer):
+class ForumLayer(SilvaLayer):
     default_products = SilvaLayer.default_products + [
         'SilvaForum',
         ]
 
     def _install_application(self, app):
-        super(SilvaForumLayer, self)._install_application(app)
+        super(ForumLayer, self)._install_application(app)
         app.root.service_extensions.install('SilvaForum')
         transaction.commit()
 
 
-FunctionalLayer = SilvaForumLayer(Products.SilvaForum)
+FunctionalLayer = ForumLayer(Products.SilvaForum)

@@ -10,8 +10,7 @@ from Products.SilvaForum import testing
 
 
 def topic_settings(browser):
-    browser.inspect.add('feedback', '//span[@class="feedback"]')
-    browser.inspect.add('feedbackerror', '//span[@class="feedback warning"]')
+    browser.inspect.add('feedback', '//span[contains(@class, "feedback")]')
     browser.inspect.add(
         'title',
         '//div[@class="forum"]/h2[@class="heading"]')
@@ -316,7 +315,7 @@ class TopicFunctionalTestCase(unittest.TestCase):
         form = browser.get_form('post')
         self.assertEqual(form.get_control("action.post").click(), 200)
         self.assertEqual(
-            browser.inspect.feedbackerror,
+            browser.inspect.feedback,
             ["Please provide a message for the new comment."])
 
         # Noting is created
@@ -347,7 +346,7 @@ class TopicFunctionalTestCase(unittest.TestCase):
         form = browser.get_form('post')
         self.assertEqual(form.get_control("action.preview").click(), 200)
         self.assertEqual(
-            browser.inspect.feedbackerror,
+            browser.inspect.feedback,
             ["Please provide a message for the new comment."])
 
         form = browser.get_form('post')
@@ -355,7 +354,7 @@ class TopicFunctionalTestCase(unittest.TestCase):
         form.get_control('title').value = 'Previewed comment'
         self.assertEqual(form.get_control("action.preview").click(), 200)
         self.assertEqual(
-            browser.inspect.feedbackerror,
+            browser.inspect.feedback,
             ["Please provide a message for the new comment."])
 
         form = browser.get_form('post')
