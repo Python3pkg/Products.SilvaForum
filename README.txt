@@ -21,8 +21,8 @@ topics (subjects) to the forum, and comments (messages) to the
 topics. The topics and comments are accessible from the management
 interface by site managers for editing and moderation purposes.
 
-Managing Forum Access
-=====================
+Managing Access
+===============
 
 Consulting the forum
 --------------------
