@@ -1,7 +1,7 @@
 History
 =======
 
-SilvaForum 2.4 (2010/10/18)
+SilvaForum 2.4 (2010/10/27)
 ---------------------------
 
 - Forum and topic templates have been redesigned.
