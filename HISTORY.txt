@@ -4,6 +4,8 @@ History
 SilvaForum 2.4 (2010/10/18)
 ---------------------------
 
+- Forum and topic templates have been redesigned.
+
 - An option have been added to let anonymous people to post. If
   activated, they have a Captcha to validate their post.
 

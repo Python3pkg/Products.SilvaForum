@@ -5,47 +5,76 @@ SilvaForum
 What is it?
 ===========
 
-SilvaForum is an extension for Silva 2.x that provides a classic
-discussion forum environment. Site visitors can create topics (subjects
-or questions) and add comments to existing topics. SilvaForum can be
-integrated with OpenID authentication and/or a CAPTCHA to prevent
-*spambots* from attempting to post.
+SilvaForum is an extension for Silva that provides a classic
+discussion forum environment. Site visitors can create topics
+(subjects or questions) and add comments to existing
+topics.
 
-Using SilvaForum
-================
 
-Visit the SMI (Silva Management Interface) to create a 'Silva Forum'
-object: this will serve as the root of the forum. The public views of
-the Forum allow site visitors to add topics (subjects) to the
-forum, and comments (messages) to the topics. The topics and comments
-are accessible from the SMI for editing and moderation purposes.
+Using Silva Forum
+=================
 
-Access
-======
+After enabling the Silva Forum extension you can create a *Silva
+Forum* content in the management interface: this will be the
+forum. The public interface of the Forum allow site visitors to add
+topics (subjects) to the forum, and comments (messages) to the
+topics. The topics and comments are accessible from the management
+interface by site managers for editing and moderation purposes.
 
-Forums can be either exposed to the public, with authentication on the
-forms, or they can only be viewed by authorized users.
+Managing Forum Access
+=====================
 
-Probably the forum is already viewable by the public. If not, go to
-the access tab of the forum in the SMI and from the 'public view
-access restrictions' choose the setting 'Anonymous' and click 'set
-restrictions'. This will allow the public to see and navigate the
-forum, however if any form input is submitted the user will be
-prompted for their login.
+Consulting the forum
+--------------------
 
-If the forum should only be viewed by authorized individuals, go to
-the access tab in the SMI and from the 'public view access
-restrictions', choose the setting 'Authorized', and click 'set
-restrictions'. This only allows authorized users to access and view
-the forum and users will be prompted to login when entering the
-forum.
+By default, the forum, topic and comments are viewable by
+unauthenticated people like any other Silva content. If you wish to
+restrain this, you can use the default access restriction feature of
+Silva to do so (in the management interface, the access tab). For more
+information about this, please consult the Silva user documentation.
 
-Logging out with Internet Explorer
-==================================
+Posting new topics and comments
+-------------------------------
 
-Users using Internet Explorer have to explicitly logout with an
-incorrect username and password, otherwise, IE will keep the current
-user logged in.
+By default you need to be authenticated to be able to post a topic or
+a comment.
+
+For unauthenticated visitor, a link on a forum or a topic will let
+them authenticate in order to be able to post.
+
+A site manager can, per forum or per topic, authorize unauthenticated
+people to add post. This is configured in the management interface in
+the section settings of the properties tab). If this option is
+activated, unauthenticated site visitors will be able to post new
+topic or comments after filling a Captcha.
+
+``silva.pas.openid`` can be installed in order to provides
+authentication via OpenID. This authentication will be enough to let
+site visitor to post on forums and topics.
+
+An another option, anonymous posting, can be activated by site manager
+on the same screen than the unauthenticated posting. It will permit
+to authenticated people to hide their names on the topic or comment
+they posted.
+
+Notification
+============
+
+A site manager can, per forum or per topic, activate a subscription
+feature. Activated, this will let people, after subscription, to
+receive notification by email when a new comment is posted on a topic.
+
+If you email is known (i.e. you filled in Silva, or was provided by
+your OpenID provider), you will have the possibility to directly
+subscribe yourself to a topic when you post it, or to a topic when you
+post a comment in it.
+
+Of course people cancel their subscription if they wish to.
+
+This feature is provided by ``silva.app.subscriptions``. To have it,
+you just need to enable subscription for the forum, like you would do
+for an another Silva content. For more information about the
+subscription feature, you can consult the Silva user documentation.
 
 Credits
 =======
