@@ -102,7 +102,7 @@ div.captcha-field {
 div.captcha {
   margin-top: 1em;
 }
-div.field-captcha-wrapper img {
+div.captcha-field img {
   margin: 0.3em 0 0;
 }
 div.preview {
@@ -173,3 +173,4 @@ table.forum-preview {
 table.forum-preview td.topic {
   text-decoration: underline;
 }
+
