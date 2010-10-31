@@ -18,6 +18,7 @@
              value="#"
              tal:attributes="value here_url" />
       <input type="submit" name="logout" value="Logout"
+             tal:attributes="value string:Logout ${view/get_member_fullname}"
              i18n:attributes="value" />
     </form>
   </tal:logout>

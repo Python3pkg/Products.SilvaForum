@@ -129,6 +129,13 @@ class ContainerViewBase(ViewBase):
         userid = getSecurityManager().getUser().getId()
         return self.context.aq_inner.service_members.get_member(userid)
 
+    @cached_method
+    def get_member_fullname(self):
+        member = self.get_member()
+        if member is None:
+            return _('unknown')
+        return member.fullname()
+
     def get_preview_username(self, anonymous):
         if anonymous or self.need_captcha:
             return _('anonymous')
