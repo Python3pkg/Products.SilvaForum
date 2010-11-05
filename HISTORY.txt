@@ -4,9 +4,11 @@ History
 SilvaForum 1.1 (unreleased)
 ---------------------------
 
-- Refactoring of the UI.
+- Refactoring of the UI. The topics view has been un-tabled and changed to
+  divs. Posting forms use jquery to appear and disappear. Typography has
+  been improved.
 
-- css cleanup.
+- CSS refactoring.
 
 SilvaForum 1.0 (2010-01-29)
 ---------------------------
