@@ -108,8 +108,6 @@
            tal:attributes="style string:display:${display}">
         <input id="forum-post" type="button" value="Add a comment"
                i18n:attributes="value"
-               tal:define="display python:show_form and 'none' or 'block'"
-               tal:attributes="style string:display:${display}"
                onclick="document.getElementById('forum-post-dialog').style.display='block';
                         document.getElementById('forum-post-opener').style.display='none';"
                />
