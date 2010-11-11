@@ -4,6 +4,7 @@
 # $Id$
 
 from AccessControl import getSecurityManager
+from Products.Silva import subscriptionerrors as errors
 from Products.SilvaForum.interfaces import IPostable
 from five import grok
 from silva.core.interfaces import ISubscribable
@@ -53,12 +54,15 @@ class Subscriptions(silvaviews.ContentProvider):
                 return False
         return True
 
-
     def action_subscribe(self):
         if self.extract_email(True) and self.validate_captcha():
             service = self.context.aq_inner.service_subscriptions
             try:
                 service.requestSubscription(self.context.aq_inner, self.email)
+            except errors.NotSubscribableError:
+                self.message = _(u"You cannot subscribe to this content.")
+            except errors.AlreadySubscribedError:
+                self.message = _(u"You are already subscribed to this content.")
             except:
                 self.message = _(
                     u"An error happened while subscribing you to the post.")
@@ -71,6 +75,10 @@ class Subscriptions(silvaviews.ContentProvider):
             service = self.context.aq_inner.service_subscriptions
             try:
                 service.requestCancellation(self.context.aq_inner, self.email)
+            except errors.NotSubscribableError:
+                self.message = _(u"You cannot subscribe to this content.")
+            except errors.NotSubscribedError:
+                self.message = _(u"You are not subscribed to this content.")
             except:
                 self.message = _(
                     u"An error happened while unsubscribing you to the post.")
