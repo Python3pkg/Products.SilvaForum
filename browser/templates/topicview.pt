@@ -55,6 +55,7 @@
 
     <!-- subscription handler -->
     <div class="subscriptions-handler"
+         tal:condition="view/inline_subscription"
          tal:content="structure provider:subscriptions">subscriptions
     </div>
 
