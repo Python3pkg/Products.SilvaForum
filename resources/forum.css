@@ -10,7 +10,7 @@ input[type=text], textarea {
   margin: 0.3em 0;
 }
 input.store, textarea.store {
-  width:39.9em;
+  width:99%;
 }
 input[type=submit] {
   margin: 0.1em 0;
@@ -90,7 +90,7 @@ div.forum-dialog {
 }
 div#emoticons {
   float: right;
-  padding-right: 0.7em;
+  padding-right: 0.3em;
 }
 div.field {
   margin-top: 0.5em;
