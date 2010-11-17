@@ -102,7 +102,7 @@ class ForumFunctionalTestCase(unittest.TestCase):
         self.assertEqual(browser.inspect.authors, [])
 
     def test_post_and_preview_as_anonymous(self):
-        """Post a new topic as anonymous
+        """Post a new topic logged in as anonymous
         """
         testing.enable_anonymous_posting(self.root.forum)
 
