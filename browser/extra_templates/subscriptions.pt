@@ -4,7 +4,8 @@
   <div id="subscriptions-opener" class="dialog-opener"
        tal:define="display python:show_form and 'none' or 'block'"
        tal:attributes="style string:display:${display}">
-    <input type="button" id="subscribe-button"  value="Subscribe to topic"
+    <input type="button" id="subscribe-button"
+           value="Subscribe (unsubscribe) to topic"
            i18n:attributes="value"
            tal:define="display python:show_form and 'none' or 'block'"
            tal:attributes="style string:display:${display}"
@@ -63,10 +64,10 @@
       <input type="text" value="" id="form-field-email"
              class="field field-required" name="form.field.email"
              tal:attributes="value provider/email"/>
- 
+
         <br tal:condition="not:provider/need_captcha" />
 
-        <tal:block 
+        <tal:block
           tal:condition="provider/need_captcha">
           <div class="captcha">
                <label class="field-label captcha" for="form-field-captcha"
@@ -92,7 +93,7 @@
                </tal:block>
           </div>
         </tal:block>
-        
+
       <tal:block
         tal:condition="provider/can_subscribe">
          <input type="submit" id="form-action-subscribe"
