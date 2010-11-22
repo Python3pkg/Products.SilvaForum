@@ -5,7 +5,7 @@
        tal:define="display python:show_form and 'none' or 'block'"
        tal:attributes="style string:display:${display}">
     <input type="button" id="subscribe-button"
-           value="Subscribe (unsubscribe) to topic"
+           value="Subscribe / Unsubscribe"
            i18n:attributes="value"
            tal:define="display python:show_form and 'none' or 'block'"
            tal:attributes="style string:display:${display}"
