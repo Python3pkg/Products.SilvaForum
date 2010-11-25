@@ -24,8 +24,8 @@
       <value key="required" type="int" value="1" />
       <value key="description" type="str" value="Allow hiding the name of the creator in topics and comments." />
       <value key="title" type="str" value="anonymous posting allowed" />
-      <value key="items" type="list" value="[('no', 'no'), ('yes', 'yes')]" />
-      <value key="default" type="str" value="no"/>
+      <value key="items" type="list" value="[]" />
+      <value key="default" type="str" value="" />
       <value key="enabled" type="int" value="1" />
       <value key="extra" type="str" value="" />
       <value key="external_validator" type="str" value="" />
@@ -33,13 +33,18 @@
       <value key="alternate_name" type="str" value="" />
     </field_values>
     <field_tales>
+      <value key="items">
+        python: (modules['Products.SilvaForum.hacks'].getCurrentContentMetaType() != 'Silva Forum' and [('not set (acquire setting)', '')] or []) + [('no', 'no'), ('yes', 'yes')]
+      </value>
+      <value key="required">
+        python: int(modules['Products.SilvaForum.hacks'].getCurrentContentMetaType() == 'Silva Forum')
+      </value>
       <value key="extra"></value>
       <value key="description"></value>
       <value key="truncate"></value>
       <value key="title"></value>
       <value key="default"></value>
       <value key="css_class"></value>
-      <value key="required"></value>
       <value key="enabled"></value>
       <value key="display_maxwidth"></value>
       <value key="external_validator"></value>
@@ -79,8 +84,8 @@
       <value key="required" type="int" value="1" />
       <value key="description" type="str" value="Allow unauthenticated user to post. A CAPTCHA is used to prevent spam" />
       <value key="title" type="str" value="unauthenticated posting allowed" />
-      <value key="items" type="list" value="[('no', 'no'), ('yes', 'yes')]" />
-      <value key="default" type="str" value="no"/>
+      <value key="items" type="list" value="[]" />
+      <value key="default" type="str" value="" />
       <value key="enabled" type="int" value="1" />
       <value key="extra" type="str" value="" />
       <value key="external_validator" type="str" value="" />
@@ -88,13 +93,17 @@
       <value key="alternate_name" type="str" value="" />
     </field_values>
     <field_tales>
-      <value key="extra"></value>
+      <value key="items">
+        python: (modules['Products.SilvaForum.hacks'].getCurrentContentMetaType() != 'Silva Forum' and [('not set (acquire setting)', '')] or []) + [('no', 'no'), ('yes', 'yes')]
+      </value>
+      <value key="required">
+        python: int(modules['Products.SilvaForum.hacks'].getCurrentContentMetaType() == 'Silva Forum')
+      </value>
       <value key="description"></value>
       <value key="truncate"></value>
       <value key="title"></value>
       <value key="default"></value>
       <value key="css_class"></value>
-      <value key="required"></value>
       <value key="enabled"></value>
       <value key="display_maxwidth"></value>
       <value key="external_validator"></value>

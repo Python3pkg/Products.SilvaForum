@@ -2,6 +2,9 @@
 # See also LICENSES.txt
 # $Id$
 
+from AccessControl import allow_module
+
+allow_module('Products.SilvaForum.hacks')
 
 def initialize(context):
     from Products.Silva.fssite import registerDirectory

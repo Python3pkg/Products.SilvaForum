@@ -80,7 +80,7 @@ class ForumFunctionalTestCase(SilvaTestCase.SilvaFunctionalTestCase):
         self.failUnless("Please provide a subject" in browser.contents)
 
     def __activate_anonymous_post(self):
-        forum = self.forum
+        forum = self.root.forum
         metadata = forum.service_metadata.getMetadata(forum)
         metadata.setValues('silvaforum-forum', {'anonymous_posting': 'yes'})
 
@@ -115,7 +115,7 @@ class ForumFunctionalTestCase(SilvaTestCase.SilvaFunctionalTestCase):
     def test_forum_comment_as_anonymous(self):
         """Post a new comment as anonymous
         """
-        topic = self.forum.manage_addProduct['SilvaForum']\
+        topic = self.root.forum.manage_addProduct['SilvaForum']\
             .manage_addTopic('topic0', 'this is some topic')
         self.__activate_anonymous_post()
 
