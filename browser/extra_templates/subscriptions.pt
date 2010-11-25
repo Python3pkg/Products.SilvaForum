@@ -100,13 +100,13 @@
                name="form.action.subscribe"
                value="Subscribe" class="action"
                i18n:attributes="value"/>
-        <tal:block
-          tal:condition="provider/can_unsubscribe">
-          <input type="submit" id="form-action-unsubscribe"
-                 name="form.action.unsubscribe"
-                 value="Unsubscribe" class="action"
-                 i18n:attributes="value" />
-        </tal:block>
+      </tal:block>
+      <tal:block
+         tal:condition="provider/can_unsubscribe">
+        <input type="submit" id="form-action-unsubscribe"
+               name="form.action.unsubscribe"
+               value="Unsubscribe" class="action"
+               i18n:attributes="value" />
       </tal:block>
     </form>
   </div>
