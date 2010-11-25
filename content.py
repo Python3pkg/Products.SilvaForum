@@ -12,11 +12,12 @@ from App.class_init import InitializeClass
 from OFS.SimpleItem import SimpleItem
 
 from Products.Silva import mangle
-from Products.SilvaMetadata.interfaces import IMetadataService
 from Products.Silva.Content import Content
-from Products.Silva.Publication import Publication
 from Products.Silva.Folder import Folder
+from Products.Silva.Publication import Publication
+from Products.SilvaMetadata.interfaces import IMetadataService
 
+from silva.core.services.interfaces import ICataloging
 from silva.translations import translate as _
 
 from Products.SilvaForum.interfaces import IForum, ITopic, IComment
@@ -104,6 +105,10 @@ class ForumPost(object):
         super(ForumPost, self).__init__(*args, **kwargs)
         self._text = ''
 
+    security.declareProtected('View', 'fulltext')
+    def fulltext(self):
+        return [self.get_title_or_id(), self.get_text()]
+
     security.declareProtected('View', 'get_text')
     def get_text(self):
         return self._text
@@ -164,6 +169,7 @@ class Forum(ForumContainer, Publication):
             # have automaticly generated number parts if needed.
             raise ValueError('Reserved id: "%s"' % id)
         topic.sec_update_last_author_info()
+        ICataloging(topic).reindex()
         if anonymous:
             metadata = component.getUtility(IMetadataService)
             binding = metadata.getMetadata(topic)
@@ -227,6 +233,7 @@ class Topic(ForumContainer, ForumPost, Folder):
             raise ValueError('Reserved id: "%s"' % id)
         comment.set_text(text)
         comment.sec_update_last_author_info()
+        ICataloging(comment).reindex()
         notify_new_comment(comment)
         if anonymous:
             binding = self.get_root().service_metadata.getMetadata(comment)

@@ -122,6 +122,14 @@ class ForumTest(SilvaForumTestCase):
         topics = self.forum.topics()
         self.assertEquals(topics[0]['creator'], 'test_user_1_')
 
+    def test_topic_indexing(self):
+        topic = self.forum.add_topic('This is a great topic.')
+
+        catalog = self.root.service_catalog
+        brains = catalog.searchResults(fulltext='great')
+        self.assertEqual(len(brains), 1)
+        self.assertEqual(brains[0].getObject(), topic)
+
 
 class TopicTest(SilvaForumTestCase):
 
@@ -179,6 +187,14 @@ class TopicTest(SilvaForumTestCase):
         binding = metadata.getMetadata(comment)
         self.assertEquals(binding.get('silvaforum-item', 'anonymous'), 'yes')
         self.assertEquals(self.topic.comments()[-1]['creator'], 'anonymous')
+
+    def test_comment_indexing(self):
+        comment = self.topic.add_comment('Last comment', 'About indexing')
+
+        catalog = self.root.service_catalog
+        brains = catalog.searchResults(fulltext='indexing')
+        self.assertEqual(len(brains), 1)
+        self.assertEqual(brains[0].getObject(), comment)
 
 
 class TopicViewTest(SilvaForumTestCase):
