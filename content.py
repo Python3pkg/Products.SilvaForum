@@ -106,6 +106,10 @@ class ForumPost(object):
         super(ForumPost, self).__init__(*args, **kwargs)
         self._text = ''
 
+    security.declareProtected('View', 'fulltext')
+    def fulltext(self):
+        return [self.get_title_or_id(), self.get_text()]
+
     security.declareProtected('View', 'get_text')
     def get_text(self):
         return self._text
