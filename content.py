@@ -105,6 +105,9 @@ class ForumPost(object):
         super(ForumPost, self).__init__(*args, **kwargs)
         self._text = ''
 
+    # XXX Silva Find
+    version_status = u'public'
+
     security.declareProtected('View', 'fulltext')
     def fulltext(self):
         return [self.get_title_or_id(), self.get_text()]
