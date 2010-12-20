@@ -1,10 +1,12 @@
 History
 =======
 
-SilvaForum 2.4.1 (unreleased)
+SilvaForum 2.4.1 (2010/12/20)
 -----------------------------
 
-- ...
+- Some CSS changes in the public UI.
+
+- Forum content is indexed.
 
 SilvaForum 2.4 (2010/10/27)
 ---------------------------

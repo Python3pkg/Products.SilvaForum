@@ -1,0 +1,1 @@
+recursive-include Products *.css *.gif *.js *.mo *.png *.po *.pot *.pt *.py *.txt *.xml *.zcml
