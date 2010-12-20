@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US">
+<head>
+<link rel="icon" href="/Products.SilvaForum/static/hgicon.png" type="image/png" />
+<meta name="robots" content="index, nofollow"/>
+<link rel="stylesheet" href="/Products.SilvaForum/static/style-gitweb.css" type="text/css" />
+
+
+<title>Products.SilvaForum: .hgignore@52406f1b9237</title>
+<link rel="alternate" type="application/atom+xml"
+   href="/Products.SilvaForum/atom-log" title="Atom feed for Products.SilvaForum"/>
+<link rel="alternate" type="application/rss+xml"
+   href="/Products.SilvaForum/rss-log" title="RSS feed for Products.SilvaForum"/>
+</head>
+<body>
+
+<div class="page_header">
+<a href="http://mercurial.selenic.com/" title="Mercurial" style="float: right;">Mercurial</a><a href="/Products.SilvaForum/summary">Products.SilvaForum</a> / file revision
+</div>
+
+<div class="page_nav">
+<a href="/Products.SilvaForum/summary">summary</a> |
+<a href="/Products.SilvaForum/shortlog">shortlog</a> |
+<a href="/Products.SilvaForum/log">changelog</a> |
+<a href="/Products.SilvaForum/graph">graph</a> |
+<a href="/Products.SilvaForum/tags">tags</a> |
+<a href="/Products.SilvaForum/branches">branches</a> |
+<a href="/Products.SilvaForum/file/52406f1b9237/">files</a> |
+<a href="/Products.SilvaForum/rev/52406f1b9237">changeset</a> |
+file |
+<a href="/Products.SilvaForum/file/tip/.hgignore">latest</a> |
+<a href="/Products.SilvaForum/log/52406f1b9237/.hgignore">revisions</a> |
+<a href="/Products.SilvaForum/annotate/52406f1b9237/.hgignore">annotate</a> |
+<a href="/Products.SilvaForum/diff/52406f1b9237/.hgignore">diff</a> |
+<a href="/Products.SilvaForum/raw-file/52406f1b9237/.hgignore">raw</a><br/>
+</div>
+
+<div class="title">.hgignore</div>
+
+<div class="title_text">
+<table cellspacing="0">
+<tr>
+ <td>author</td>
+ <td>&#65;&#110;&#116;&#111;&#110;&#105;&#110;&#32;&#65;&#109;&#97;&#110;&#100;&#32;&#60;&#97;&#110;&#116;&#111;&#110;&#105;&#110;&#46;&#97;&#109;&#97;&#110;&#100;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;&#62;</td></tr>
+<tr>
+ <td></td>
+ <td>Mon Dec 20 11:28:57 2010 +0100 (36 minutes ago)</td></tr>
+<tr><td>branch</td><td>SilvaForum-Silva-2.2</td></tr>
+<tr>
+ <td>changeset 594</td>
+ <td style="font-family:monospace"><a class="list" href="/Products.SilvaForum/rev/52406f1b9237">52406f1b9237</a></td></tr>
+
+
+<tr>
+ <td>permissions</td>
+ <td style="font-family:monospace">-rw-r--r--</td></tr>
+</table>
+</div>
+
+<div class="page_path">
+add hg ignore
+</div>
+
+<div class="page_body">
+
+<div style="font-family:monospace" class="parity0">
+<pre><a class="linenr" href="#l1" id="l1">     1</a> .pyo
+</pre>
+</div>
+<div style="font-family:monospace" class="parity1">
+<pre><a class="linenr" href="#l2" id="l2">     2</a> .pyc
+</pre>
+</div>
+<div style="font-family:monospace" class="parity0">
+<pre><a class="linenr" href="#l3" id="l3">     3</a> .cpt.py
+</pre>
+</div>
+<div style="font-family:monospace" class="parity1">
+<pre><a class="linenr" href="#l4" id="l4">     4</a> .egg-info
+</pre>
+</div>
+<div style="font-family:monospace" class="parity0">
+<pre><a class="linenr" href="#l5" id="l5">     5</a> ~
+</pre>
+</div>
+<div style="font-family:monospace" class="parity1">
+<pre><a class="linenr" href="#l6" id="l6">     6</a> #</pre>
+</div>
+</div>
+
+<div class="page_footer">
+<div class="page_footer_text">Products.SilvaForum</div>
+<div class="rss_logo">
+<a href="/Products.SilvaForum/rss-log">RSS</a>
+<a href="/Products.SilvaForum/atom-log">Atom</a>
+</div>
+<br />
+
+</div>
+</body>
+</html>
+
