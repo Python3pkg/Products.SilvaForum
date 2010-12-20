@@ -1,11 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '2.4.1dev'
-
-tests_require = [
-    'Products.Silva [test]',
-    ]
+version = '1.1dev'
 
 def product_path(filename):
     return os.path.join("Products", "SilvaForum", filename)
@@ -31,27 +27,17 @@ setup(name='Products.SilvaForum',
       include_package_data=True,
       zip_safe=False,
       install_requires=[
-        'Products.Silva',
-        'Products.SilvaMetadata',
         'five.grok',
         'setuptools',
-        'silva.app.subscriptions',
         'silva.batch',
         'silva.captcha',
-        'silva.core.conf',
-        'silva.core.interfaces',
-        'silva.core.layout',
-        'silva.core.services',
         'silva.core.views',
-        'silva.resourceinclude',
+        'silva.core.interfaces',
         'silva.translations',
-        'zeam.form.silva',
+        'Products.Silva',
+        'Products.SilvaMetadata',
         'zeam.utils.batch',
         'zope.component',
         'zope.interface',
-        'zope.lifecycleevent',
-        'zope.schema',
         ],
-      tests_require = tests_require,
-      extras_require = {'test': tests_require},
       )
