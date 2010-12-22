@@ -1,8 +1,15 @@
 History
 =======
 
-SilvaForum 1.1 (unreleased)
+SilvaForum 1.1 (2010/12/22)
 ---------------------------
+
+- An option have been added to let anonymous people to post. If activated,
+  they have a Captcha to validate their post.
+
+- Subscription now works on topic. You can subscribe to a topic and will
+  receive a mail each time a new comment is posted. This feature is based
+  on default Silva subscriptions.
 
 - Refactoring of the UI. The topics view has been un-tabled and changed to
   divs. Posting forms use jquery to appear and disappear. Typography has
@@ -10,7 +17,7 @@ SilvaForum 1.1 (unreleased)
 
 - CSS refactoring.
 
-SilvaForum 1.0 (2010-01-29)
+SilvaForum 1.0 (2010/01/29)
 ---------------------------
 
 - Refactor some tests.
@@ -25,7 +32,7 @@ Ported from 0.4:
 - Add functional tests.
 
 
-SilvaForum 0.3.2 (2009-02-09)
+SilvaForum 0.3.2 (2009/02/09)
 -----------------------------
 
 - Fix link in view_comment
