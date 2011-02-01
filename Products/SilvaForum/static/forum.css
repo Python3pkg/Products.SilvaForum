@@ -10,7 +10,7 @@ input[type=text], textarea {
   margin: 0.3em 0;
 }
 input.store, textarea.store {
-  width:39.9em;
+  width:99%;
 }
 input[type=submit] {
   margin: 0.1em 0;
