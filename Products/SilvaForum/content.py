@@ -132,8 +132,9 @@ InitializeClass(ForumPost)
 
 
 class Forum(ForumContainer, Publication):
-    """A Silva Forum is implements as a web forum, where visitors can
-    create topics and comments.
+    """Silva Forum is a web forum component where visitors can create
+       topics, add comments, and carry on discussions. Posters must be
+       logged in or fill in a CAPTCHA in order to participate. 
     """
     grok.implements(IForum)
     meta_type = 'Silva Forum'
