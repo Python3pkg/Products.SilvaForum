@@ -211,6 +211,7 @@ class Topic(ForumContainer, ForumPost, Folder):
     grok.implements(ITopic)
     silvaconf.icon('www/topic.gif')
     meta_type = 'Silva Forum Topic'
+    silvaconf.priority(0)
 
     security = ClassSecurityInfo()
 
