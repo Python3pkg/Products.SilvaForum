@@ -138,6 +138,7 @@ class Forum(ForumContainer, Publication):
     grok.implements(IForum)
     meta_type = 'Silva Forum'
     silvaconf.icon('www/forum.gif')
+    silvaconf.priority(0)
 
     security = ClassSecurityInfo()
 
