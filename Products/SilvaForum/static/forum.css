@@ -1,29 +1,29 @@
 /* forum elements */
 /* input fields */
-input, textarea {
+div.forum input, textarea {
   border: 1px solid #aaa;
 }
-input.dialog-closer {
+div.forum input.dialog-closer {
   border: none;
 }
-input[type=text], textarea {
+div.forum input[type=text], textarea {
   margin: 0.3em 0;
 }
-input.store, textarea.store {
+div.forum input.store, textarea.store {
   width:99%;
 }
-input[type=submit] {
+div.forum input[type=submit] {
   margin: 0.1em 0;
 }
-input[type=checkbox] {
+div.forum input[type=checkbox] {
   margin: 0.2em 0;
 }
-input.dialog-closer {
+div.forum input.dialog-closer {
   position: absolute;
   right: 0.4em;
   top: 0.4em;
 }
-#form-field-email {
+div.forum #form-field-email {
   width: 16em;
 }
 /* general forum styling */
@@ -76,7 +76,7 @@ div.forum-user-controls {
   margin-right: 0.15em;
 }
 /* forum expandable js widget */
-div.dialog-opener {
+div.forum div.dialog-opener {
   margin-bottom: 0.5em;
   float: right;
   clear: both;
@@ -93,19 +93,19 @@ div#emoticons {
   float: right;
   padding-right: 0.7em;
 }
-div.field {
+div.forum div.field {
   margin-top: 0.5em;
 }
-div.captcha-field {
+div.forum div.captcha-field {
   margin-top: 1em;
 }
-div.captcha {
+div.forum div.captcha {
   margin-top: 1em;
 }
-div.captcha-field img {
+div.forum div.captcha-field img {
   margin: 0.3em 0 0;
 }
-div.preview {
+div.forum div.preview {
   margin: 0.3em 0 0.2em;
   padding: 0.3em 0.3em 0;
   border: 1px solid #8FC511;
@@ -114,7 +114,7 @@ div.forum h3.preview {
   margin: 0.9em 0 0.4em;
 }
 /* forum feedback */
-span.feedback, span.form-status {
+div.forum span.feedback, span.form-status {
   margin-bottom: 0.5em;
   padding: 0.25em;
   border: 1px solid #8fc511;
@@ -124,7 +124,7 @@ span.feedback, span.form-status {
   width: 39.5em;
   display: block;
 }
-span.feedback.warning, span.form-error, span.field-error {
+div.forum span.feedback.warning, span.form-error, span.field-error {
   border: 1px solid #a00;
   color: #a00;
   background-color: transparent;
@@ -135,11 +135,11 @@ span.feedback.warning, span.form-error, span.field-error {
   width:39.5em;
 }
 /* batched navigation */
-div.batchNav {
+div.forum div.batchNav {
   text-align: center;
   clear: both;
 }
-div.batchNav a.current {
+div.forum div.batchNav a.current {
   font-weight: bold;
   text-decoration: none;
   color: #7baa0f;
