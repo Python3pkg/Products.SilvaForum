@@ -121,7 +121,7 @@ div.forum span.feedback, span.form-status {
   color: #003448;
   background-color: transparent;
   padding: 0.2em;
-  width: 39.5em;
+  width: 99%;
   display: block;
 }
 div.forum span.feedback.warning, span.form-error, span.field-error {
@@ -132,7 +132,7 @@ div.forum span.feedback.warning, span.form-error, span.field-error {
   display: block;
   margin-top: 0.2em;
   margin-bottom: 0.2em;
-  width:39.5em;
+  width:99%;
 }
 /* batched navigation */
 div.forum div.batchNav {
