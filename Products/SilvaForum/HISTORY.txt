@@ -1,23 +1,21 @@
 History
 =======
 
-SilvaForum 2.4.2 (unreleased)
+SilvaForum 2.4.2 (2010-02-07)
 -----------------------------
 
-- Changed text input widths to 99% so they render properly in other skins.
+- Improve CSS.
 
-- Added silvaconf.priority(0) to SilvaForum and SilvaTopic because they seem
-  to be inheriting this aspect from SilvaFolder. This seems to be a Silva 2.3
-  behavior, making some other changes elsewhere to correct it.
+- Fix content priority for SilvaForum and SilvaTopic.
 
-SilvaForum 2.4.1 (2010/12/20)
+SilvaForum 2.4.1 (2010-12-20)
 -----------------------------
 
 - Some CSS changes in the public UI.
 
 - Forum content is indexed.
 
-SilvaForum 2.4 (2010/10/27)
+SilvaForum 2.4 (2010-10-27)
 ---------------------------
 
 - Forum and topic templates have been redesigned.
