@@ -9,7 +9,6 @@
   <include package="silva.core.conf" />
   <include package="silva.core.views" />
   <include package="silva.core.layout" />
-  <include package="silva.resourceinclude" />
   <include package="zeam.form.silva" />
 
   <include package="silva.app.subscriptions" />
@@ -23,19 +22,19 @@
   <grok:grok package="." />
 
   <!-- Include CSS/JS -->
-  <browser:resourceLayerInclude
-     layer="silva.core.layout.interfaces.ISilvaLayer"
-     context=".interfaces.IPostContent"
-     resources="silva.core.layout.jquery.interfaces.IJQueryResources" />
+<!--   <browser:resourceLayerInclude -->
+<!--      layer="silva.core.layout.interfaces.ISilvaLayer" -->
+<!--      context=".interfaces.IPostContent" -->
+<!--      resources="silva.core.layout.jquery.interfaces.IJQueryResources" /> -->
 
-  <browser:resourceInclude
-     layer="silva.core.layout.interfaces.ISilvaLayer"
-     context=".interfaces.IPostContent"
-     include="forum.css" />
+<!--   <browser:resourceInclude -->
+<!--      layer="silva.core.layout.interfaces.ISilvaLayer" -->
+<!--      context=".interfaces.IPostContent" -->
+<!--      include="forum.css" /> -->
 
-  <browser:resourceInclude
-     layer="silva.core.layout.interfaces.ISilvaLayer"
-     context=".interfaces.IPostContent"
-     include="forum.js" />
+<!--   <browser:resourceInclude -->
+<!--      layer="silva.core.layout.interfaces.ISilvaLayer" -->
+<!--      context=".interfaces.IPostContent" -->
+<!--      include="forum.js" /> -->
 
 </configure>
