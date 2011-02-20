@@ -11,9 +11,10 @@ from Products.Silva import mangle
 from Products.SilvaForum.emoticons import emoticons, smileydata
 from Products.SilvaForum.dtformat import dtformat
 from Products.SilvaForum.interfaces import IForum, ITopic, \
-    IComment, IPostable
+    IComment, IPostable, IForumResources
 
 from five import grok
+from silva.fanstatic import need
 from silva.core.views import views as silvaviews
 from silva.core.views.httpheaders import HTTPResponseHeaders
 from silva.core.services.interfaces import IMemberService
@@ -54,6 +55,7 @@ class ViewBase(silvaviews.View):
     grok.baseclass()
 
     def update(self):
+        need(IForumResources)
         self.emoticons_directory = self.static['emoticons']()
 
     def format_datetime(self, dt):

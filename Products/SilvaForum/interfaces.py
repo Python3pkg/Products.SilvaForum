@@ -2,8 +2,18 @@
 # See also LICENSES.txt
 # $Id$
 
-from zope.interface import Interface
+from js.jquery import jquery
+from silva.core import conf as silvaconf
 from silva.core.interfaces import IContent, ISilvaObject, IContainer
+from zope.interface import Interface
+from zope.publisher.interfaces.browser import IDefaultBrowserLayer
+
+
+class IForumResources(IDefaultBrowserLayer):
+    silvaconf.resource(jquery)
+    silvaconf.resource('forum.js')
+    silvaconf.resource('forum.css')
+
 
 class IPostContent(Interface):
     """Identify all postable/post content.
