@@ -83,7 +83,7 @@ class ForumContainer(object):
             self, 'silvaforum-forum', 'unauthenticated_posting')
         return enabled == 'yes'
 
-    def is_published(self):
+    def is_published(self, update_status=True):
         # always return true to make that the object is always visible
         # in public listings
         return True
@@ -276,7 +276,7 @@ class Comment(ForumPost, Content, SimpleItem):
     silvaconf.icon('www/comment.gif')
     meta_type = 'Silva Forum Comment'
 
-    def is_published(self):
+    def is_published(self, update_status=True):
         return False # always allow removal of this object from the SMI
 
 
