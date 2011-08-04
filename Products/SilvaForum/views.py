@@ -253,7 +253,7 @@ class ForumView(ContainerViewBase):
         # We don't want batch links to include form data.
         navigation = getMultiAdapter(
             (self.context, self.topics, self.request), IBatching)
-        navigation.keep_form_data = False
+        navigation.keep_query_string = False
         self.navigation = navigation()
 
 
@@ -332,7 +332,7 @@ class TopicView(ContainerViewBase):
         # We don't want batch links to include form data.
         navigation = getMultiAdapter(
             (self.context, self.comments, self.request), IBatching)
-        navigation.keep_form_data = False
+        navigation.keep_query_string = False
         self.navigation = navigation()
         self.action_url = navigation.last + '#forum-bottom'
 
