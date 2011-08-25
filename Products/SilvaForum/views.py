@@ -21,8 +21,7 @@ from silva.core.services.interfaces import IMemberService
 from silva.app.subscriptions.interfaces import (
     ISubscriptionService, ISubscriptionManager)
 from silva.translations import translate as _
-from zeam.utils.batch import batch
-from zeam.utils.batch.interfaces import IBatching
+from zeam.utils.batch import Batch, IBatching
 from zope.component import getMultiAdapter, getUtility, queryUtility
 from zope.publisher.interfaces.browser import IBrowserRequest
 
@@ -246,7 +245,7 @@ class ForumView(ContainerViewBase):
                 action(self, topic, anonymous)
                 break
 
-        self.topics = batch(
+        self.topics = Batch(
             self.context.topics(), count=self.context.topic_batch_size,
             name='topics', request=self.request)
 
@@ -325,7 +324,7 @@ class TopicView(ContainerViewBase):
                 action(self, title, text, anonymous)
                 break
 
-        self.comments = batch(
+        self.comments = Batch(
             self.context.comments(), count=self.context.comment_batch_size,
             name='comments', request=self.request)
 
@@ -334,7 +333,7 @@ class TopicView(ContainerViewBase):
             (self.context, self.comments, self.request), IBatching)
         navigation.keep_query_string = False
         self.navigation = navigation()
-        self.action_url = navigation.last + '#forum-bottom'
+        self.action_url = navigation.batch_last['url'] + '#forum-bottom'
 
 
 class CommentView(ViewBase):
