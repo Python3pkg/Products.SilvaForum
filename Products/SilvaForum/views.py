@@ -3,11 +3,11 @@
 # $Id$
 
 import re
+import cgi
 
 from AccessControl import getSecurityManager, Unauthorized
 from DateTime import DateTime
 
-from Products.Silva import mangle
 from Products.SilvaForum.emoticons import emoticons, smileydata
 from Products.SilvaForum.dtformat import dtformat
 from Products.SilvaForum.interfaces import IForum, ITopic, \
@@ -64,8 +64,8 @@ class ViewBase(silvaviews.View):
         if not isinstance(text, unicode):
             text = unicode(text, 'utf-8')
         text = emoticons(
-            replace_links(
-                mangle.entities(text)), self.emoticons_directory)
+            replace_links(cgi.escape(text, 1)),
+            self.emoticons_directory)
         return text.replace('\n', '<br />')
 
 
