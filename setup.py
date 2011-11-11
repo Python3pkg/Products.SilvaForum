@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '2.4.3dev'
+version = '3.0b1'
 
 tests_require = [
     'Products.Silva [test]',
@@ -47,7 +47,7 @@ setup(name='Products.SilvaForum',
         'silva.fanstatic',
         'silva.translations',
         'zeam.form.silva',
-        'zeam.utils.batch',
+        'zeam.utils.batch >= 1.0',
         'zope.component',
         'zope.interface',
         'zope.lifecycleevent',

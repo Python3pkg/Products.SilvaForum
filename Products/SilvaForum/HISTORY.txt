@@ -1,10 +1,12 @@
 History
 =======
 
-SilvaForum 2.4.3 (unreleased)
------------------------------
+3.0b1 (2011/11/11)
+------------------
 
-- ...
+- Update to include CSS/JS with ``fanstatic``.
+
+- Update to the lastest version of ``zeam.form.batch``.
 
 SilvaForum 2.4.2 (2010-02-07)
 -----------------------------
