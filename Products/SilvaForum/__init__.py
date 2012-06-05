@@ -11,9 +11,8 @@ from zope import component
 from zope.interface import Interface
 from zope.lifecycleevent.interfaces import IObjectCreatedEvent
 
-silvaconf.extensionName('SilvaForum')
-silvaconf.extensionTitle('Silva Forum')
-
+silvaconf.extension_name('SilvaForum')
+silvaconf.extension_title('Silva Forum')
 
 class IExtension(Interface):
     """Silva Forum extension.
