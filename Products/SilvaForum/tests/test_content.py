@@ -5,9 +5,8 @@ import unittest
 
 from zope.component import getMultiAdapter, getUtility
 from zope.interface.verify import verifyObject
-from zope.publisher.browser import TestRequest
 
-from Products.Silva.testing import assertTriggersEvents
+from Products.Silva.testing import assertTriggersEvents, TestRequest
 from Products.SilvaForum import interfaces
 from Products.SilvaForum.views import replace_links
 from Products.SilvaForum.testing import FunctionalLayer
@@ -28,9 +27,10 @@ class ForumTest(SilvaForumTestCase):
 
     def test_metadata_installed(self):
         metadata = getUtility(IMetadataService)
-        self.assertRaises(
-            Exception, metadata.getMetadataValue, self.root.forum,
-            'silvaforum-forum', 'thisdoesnotexist')
+        self.assertEquals(
+            metadata.getMetadataValue(
+                self.root.forum, 'silvaforum-forum', 'do_not_exist'),
+            None)
         self.assertEquals(
             metadata.getMetadataValue(
                 self.root.forum, 'silvaforum-forum', 'anonymous_posting'),

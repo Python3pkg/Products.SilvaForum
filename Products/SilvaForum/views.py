@@ -46,8 +46,8 @@ class ForumResponseHeaders(HTTPResponseHeaders):
     """
     grok.adapts(IBrowserRequest, IPostable)
 
-    def cache_headers(self):
-        self.disable_cache()
+    def cachable(self):
+        return False
 
 
 class ViewBase(silvaviews.View):
