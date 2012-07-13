@@ -16,7 +16,7 @@ class SMIFunctionalTestCase(unittest.TestCase):
         self.root = self.layer.get_application()
 
     def test_add(self):
-        browser = self.layer.get_browser(smi_settings)
+        browser = self.layer.get_web_browser(smi_settings)
         browser.login('editor', 'editor')
         self.assertEqual(browser.open('/root/edit'), 200)
 
