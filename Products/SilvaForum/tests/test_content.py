@@ -46,7 +46,7 @@ class ForumTest(SilvaForumTestCase):
         self.assertEqual(0, len(forum.topics()))
 
         factory = forum.manage_addProduct['SilvaForum']
-        with assertTriggersEvents('ObjectCreatedEvent'):
+        with assertTriggersEvents('ContentCreatedEvent'):
             factory.manage_addTopic('topic', 'Topic')
 
         self.assertEqual(1, len(forum.topics()))
@@ -57,7 +57,7 @@ class ForumTest(SilvaForumTestCase):
         self.assertEqual(0, len(forum.objectValues('Silva Forum Topic')))
 
         # use our method to add a topic
-        with assertTriggersEvents('ObjectCreatedEvent'):
+        with assertTriggersEvents('ContentCreatedEvent'):
             newtopic = forum.add_topic('Topic')
 
         # see if the topic has been added properly
@@ -70,9 +70,9 @@ class ForumTest(SilvaForumTestCase):
     def test_generate_id(self):
         forum = self.root.forum
         # test id uniqueness
-        with assertTriggersEvents('ObjectCreatedEvent'):
+        with assertTriggersEvents('ContentCreatedEvent'):
             topic1 = forum.add_topic('this is title one')
-        with assertTriggersEvents('ObjectCreatedEvent'):
+        with assertTriggersEvents('ContentCreatedEvent'):
             topic2 = forum.add_topic('this is title one')
         self.assertNotEqual(topic1.id, topic2.id)
 
@@ -86,15 +86,15 @@ class ForumTest(SilvaForumTestCase):
         gen_id = forum._generate_id(test_id)
         self.assertNotEqual(gen_id, test_id)
 
-        with assertTriggersEvents('ObjectCreatedEvent'):
+        with assertTriggersEvents('ContentCreatedEvent'):
             t1 = forum.add_topic(':) foo :)')
             self.assertEqual('foo_', t1.id)
 
-        with assertTriggersEvents('ObjectCreatedEvent'):
+        with assertTriggersEvents('ContentCreatedEvent'):
             t2 = forum.add_topic(':) foo :)')
             self.assertEqual('foo__2', t2.id)
 
-        with assertTriggersEvents('ObjectCreatedEvent'):
+        with assertTriggersEvents('ContentCreatedEvent'):
             t3 = forum.add_topic(':) foo :)')
             self.assertEqual('foo__3', t3.id)
 
@@ -106,7 +106,7 @@ class ForumTest(SilvaForumTestCase):
         metadata = getUtility(IMetadataService)
         binding = metadata.getMetadata(forum)
         binding.setValues('silvaforum-forum', {'anonymous_posting': 'yes'})
-        with assertTriggersEvents('ObjectCreatedEvent'):
+        with assertTriggersEvents('ContentCreatedEvent'):
             topic = forum.add_topic('Foo bar!', True)
 
         binding = metadata.getMetadata(topic)
@@ -117,7 +117,7 @@ class ForumTest(SilvaForumTestCase):
     def test_not_anonymous(self):
         forum = self.root.forum
         metadata = getUtility(IMetadataService)
-        with assertTriggersEvents('ObjectCreatedEvent'):
+        with assertTriggersEvents('ContentCreatedEvent'):
             topic = forum.add_topic('Spam and eggs')
 
         binding = metadata.getMetadata(topic)
@@ -148,7 +148,7 @@ class TopicTest(SilvaForumTestCase):
         self.assertEquals(0, len(topic.comments()))
 
         factory = topic.manage_addProduct['SilvaForum']
-        with assertTriggersEvents('ObjectCreatedEvent'):
+        with assertTriggersEvents('ContentCreatedEvent'):
             factory.manage_addComment('com', 'Comment')
 
         self.assertEquals(1, len(topic.comments()))
@@ -159,7 +159,7 @@ class TopicTest(SilvaForumTestCase):
         self.assertEqual(0, len(topic.objectValues('Silva Forum Comment')))
 
         # test add_comment method
-        with assertTriggersEvents('ObjectCreatedEvent'):
+        with assertTriggersEvents('ContentCreatedEvent'):
             topic.add_comment('Comment', 'comment text')
 
         # see if the comment has been added properly
