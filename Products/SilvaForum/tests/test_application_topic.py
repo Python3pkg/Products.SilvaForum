@@ -13,10 +13,10 @@ def topic_settings(browser):
     browser.inspect.add('feedback', '//span[contains(@class, "feedback")]')
     browser.inspect.add(
         'title',
-        '//div[@class="forum"]/h2[@class="heading"]')
+        '//div[@class="forum"]/h1')
     browser.inspect.add(
         'subjects',
-        '//div[@class="posts"]//h5[contains(@class, "comment-heading")]')
+        '//div[@class="posts"]//h4[contains(@class, "comment-heading")]')
     browser.inspect.add(
         'comments',
         '//div[@class="posts"]//div[contains(@class, "comment")]//p[@class="comment-message"]')
@@ -25,7 +25,7 @@ def topic_settings(browser):
         '//div[@class="posts"]//div[contains(@class, "comment")]//p[@class="post-info"]//span[@class="author"]')
     browser.inspect.add(
         'preview_subject',
-        '//div[@class="preview"]/h5[contains(@class, "comment-heading")]')
+        '//div[@class="preview"]/h4[contains(@class, "comment-heading")]')
     browser.inspect.add(
         'preview_comment',
         '//div[@class="preview"]/p[contains(@class, "comment-message")]')

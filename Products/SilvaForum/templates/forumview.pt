@@ -22,10 +22,9 @@
     </script>
 
     <tal:usercontrols tal:replace="structure provider:usercontrols" />
-    <h2 class="heading"
-        tal:content="context/get_title">
+    <h1 tal:content="context/get_title">
       Forum Title
-    </h2>
+    </h1>
 
     <tal:post tal:condition="view/can_post">
       <div class="dialog-opener"
@@ -45,7 +44,7 @@
                i18n:attributes="title" />
         <form class="forum-form" method="post" name="post" action="#"
               tal:attributes="action context/@@absolute_url">
-          <h3 class="heading" i18n:translate="">Post a new topic</h3>
+          <h2 i18n:translate="">Post a new topic</h2>
           <div class="feedback"
                tal:condition="view/messages">
             <span tal:repeat="message view/messages"
@@ -99,7 +98,7 @@
           </div>
 
           <tal:preview tal:condition="view/preview_validated">
-            <h3 class="preview" i18n:translate="">Preview</h3>
+            <h2 class="preview" i18n:translate="">Preview</h2>
             <div class="preview">
               <table class="forum-content-table forum-preview">
                 <thead>

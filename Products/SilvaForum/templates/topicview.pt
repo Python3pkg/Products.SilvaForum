@@ -25,22 +25,22 @@
       // ]]>
     </script>
     <tal:usercontrols tal:replace="structure provider:usercontrols" />
-    <h2 tal:define="forum context/aq_parent">
+    <h1 tal:define="forum context/aq_parent">
       <a title="up to forum"
          tal:attributes="href forum/@@absolute_url"
          tal:content="forum/get_title"
          i18n:attributes="title">
         forum title
       </a>
-    </h2>
+    </h1>
 
     <!-- topic view -->
     <div class="topic">
-      <h3 class="topic" i18n:translate="">Topic</h3>
-      <h4 class="topic"
+      <h2 class="topic" i18n:translate="">Topic</h2>
+      <h3 class="topic"
         tal:content="structure python:view.format_text(context.get_title())">
         topic
-      </h4>
+      </h3>
       <p class="post-info">
         <span class="datetime"
           tal:content="python:view.format_datetime(context.get_creation_datetime())">
@@ -83,12 +83,12 @@
       <tal:comments tal:repeat="comment view/comments">
         <div tal:define="iterate repeat/comment/odd"
              tal:attributes="class python: iterate and 'comment even' or 'comment odd'">
-          <h5 class="comment-heading"
+          <h4 class="comment-heading"
               tal:define="subject comment/title"
               tal:condition="subject"
               tal:content="structure python:view.format_text(subject)">
             topic
-          </h5>
+          </h4>
           <p class="post-info">
             <a name="forum-bottom"
                tal:condition="repeat/comment/end"
@@ -133,11 +133,11 @@
                i18n:attributes="title" />
         <form method="post" name="post" action="#"
               tal:attributes="action view/action_url">
-          <h3 class="heading forum-post">
+          <h2 class="heading forum-post">
             <a name="forum-bottom"
                tal:omit-tag="not:view/preview"
                i18n:translate="">Post a new comment</a>
-          </h3>
+          </h2>
 
           <tal:block tal:condition="view/messages">
             <span class="feedback"
@@ -201,13 +201,13 @@
           <!-- preview -->
           <tal:block
             tal:condition="view/preview_validated">
-            <h3 class="preview" i18n:translate="">Preview</h3>
+            <h2 class="preview" i18n:translate="">Preview</h2>
             <div class="preview">
-              <h5 class="comment-heading"
+              <h4 class="comment-heading"
                   tal:condition="view/title"
                   tal:content="structure python:view.format_text(view.title)">
                 title
-              </h5>
+              </h4>
               <p class="post-info">
                 <tal:posted i18n:translate="">Just added</tal:posted> <span i18n:translate="">by</span>
                 <span class="author"

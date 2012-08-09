@@ -8,10 +8,10 @@
       Up to topic
     </a>
   </p>
-  <h5 class="comment-heading"
+  <h4 class="comment-heading"
     tal:content="context/get_title">
     subject, will be filled with topic if empty
-  </h5>
+  </h4>
   <p class="post-info">
     <tal:insert content="python:view.format_datetime(context.get_creation_datetime())" />
     <span i18n:translate="">by</span>

@@ -10,8 +10,12 @@ from silva.app.subscriptions.interfaces import ISubscriptionManager
 
 
 def forum_settings(browser):
-    browser.inspect.add('feedback', '//div[contains(@class, "feedback")]/span')
-    browser.inspect.add('title', '//div[@class="forum"]//h2')
+    browser.inspect.add(
+        'feedback',
+        '//div[contains(@class, "feedback")]/span')
+    browser.inspect.add(
+        'title',
+        '//div[@class="forum"]//h1')
     browser.inspect.add(
         'topics',
         '//table[@class="forum-content-table"]//td[@class="topic"]/p/a',

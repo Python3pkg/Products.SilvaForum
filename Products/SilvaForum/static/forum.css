@@ -27,7 +27,7 @@ div.forum #form-field-email {
   width: 16em;
 }
 /* general forum styling */
-div.forum h3 {
+div.forum h2 {
   margin: 0.2em 0 0.4em 0;
   color: #909090;
   font-size: 15px;
@@ -38,16 +38,16 @@ div.forum h3 {
 div.forum h3.comments {
   padding-top: 0.7em;
 }*/
-div.forum-dialog h3 { /* dialog heading */
+div.forum-dialog h2 { /* dialog heading */
   padding-right: 0.5em;
   color: #3e3e3e;
   font-weight: normal;
 }
-div.forum h4 { /* topic heading */
+div.forum h3 { /* topic heading */
   margin: 0;
   font-size: 18px;
 }
-div.forum h5 { /* comment heading */
+div.forum h4 { /* comment heading */
   margin: 0.2em 0 0;
   font-size: 14px;
 }
@@ -110,7 +110,7 @@ div.forum div.preview {
   padding: 0.3em 0.3em 0;
   border: 1px solid #8FC511;
 }
-div.forum h3.preview {
+div.forum h2.preview {
   margin: 0.9em 0 0.4em;
 }
 /* forum feedback */

@@ -15,7 +15,8 @@ import transaction
 # A set of helpers for the tests
 
 def get_captcha_word(browser):
-    request = TestRequest(HTTP_COOKIE=browser.get_request_header('Cookie'))
+    headers = browser.cookies.get_request_headers()
+    request = TestRequest(HTTP_COOKIE=headers['Cookie'])
     captcha = getMultiAdapter((object(), request), name='captcha')
     return captcha._generate_words()[1]
 
