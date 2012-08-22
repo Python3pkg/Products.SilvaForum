@@ -6,7 +6,7 @@
 import unittest
 
 from Products.SilvaForum.testing import FunctionalLayer
-from Products.Silva.testing import smi_settings
+from Products.Silva.ftesting import smi_settings
 
 
 class SMIFunctionalTestCase(unittest.TestCase):
