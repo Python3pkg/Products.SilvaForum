@@ -125,7 +125,7 @@ class ForumPost(object):
             self, 'silvaforum-item', 'anonymous')
         if anonymous == 'yes':
             return _('anonymous')
-        return self.sec_get_creator_info().fullname()
+        return self.get_creator_info().fullname()
 
 
 InitializeClass(ForumPost)
@@ -134,7 +134,7 @@ InitializeClass(ForumPost)
 class Forum(ForumContainer, Publication):
     """Silva Forum is a web forum component where visitors can create
        topics, add comments, and carry on discussions. Posters must be
-       logged in or fill in a CAPTCHA in order to participate. 
+       logged in or fill in a CAPTCHA in order to participate.
     """
     grok.implements(IForum)
     meta_type = 'Silva Forum'
