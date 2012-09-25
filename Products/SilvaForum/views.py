@@ -1,6 +1,7 @@
-# Copyright (c) 2007-2011 Infrae. All rights reserved.
+# -*- coding: utf-8 -*-
+# Copyright (c) 2007-2012 Infrae. All rights reserved.
+# See also LICENSE.txt
 # See also LICENSES.txt
-# $Id$
 
 import re
 import cgi

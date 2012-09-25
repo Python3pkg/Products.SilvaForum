@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+# Copyright (c) 2012  Infrae. All rights reserved.
+# See also LICENSE.txt
 """Provides a function called 'translate' that *must* be imported as '_':
 
     from Products.SilvaMailing.i18n import translate as _

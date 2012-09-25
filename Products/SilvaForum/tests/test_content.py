@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-# $Id$
+# Copyright (c) 2012  Infrae. All rights reserved.
+# See also LICENSE.txt
 
 import unittest
 

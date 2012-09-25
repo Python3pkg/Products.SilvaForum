@@ -96,3 +96,10 @@ Questions, remarks, etc.
 
 If you have questions, remarks, bug reports or fixes, please send an
 email to info@infrae.com.
+
+Code repository
+===============
+
+You can find the code of this extension in Mercurial:
+https://hg.infrae.com/Products.SilvaForum/.
+
