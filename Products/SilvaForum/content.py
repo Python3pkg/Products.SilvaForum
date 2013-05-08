@@ -12,7 +12,6 @@ from AccessControl import ClassSecurityInfo
 from App.class_init import InitializeClass
 from OFS.SimpleItem import SimpleItem
 
-from Products.Silva import mangle
 from Products.SilvaMetadata.interfaces import IMetadataService
 from Products.Silva.Content import Content
 from Products.Silva.Publication import Publication
@@ -21,6 +20,7 @@ from Products.Silva.Folder import Folder
 from silva.app.subscriptions.interfaces import ISubscriptionService
 from silva.core import conf as silvaconf
 from silva.core.conf.interfaces import ITitledContent
+from silva.core.interfaces import ISilvaNameChooser
 from silva.translations import translate as _
 from zeam.form import silva as silvaforms
 from zope.lifecycleevent.interfaces import IObjectCreatedEvent
@@ -46,7 +46,8 @@ class ForumContainer(object):
         string = string.strip()
         if len(string) > 20:
             string = string[:20]
-        id = str(mangle.Id(self, string).cook())
+        chooser = ISilvaNameChooser(self)
+        id = chooser.chooseName(string, None)
         # regex the cooked id and strip invalid characters
         # replace multiple underscores with single underscores
         # if no string use 'unknown'
