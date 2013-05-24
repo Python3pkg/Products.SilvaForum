@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2007-2012 Infrae. All rights reserved.
+# Copyright (c) 2007-2013 Infrae. All rights reserved.
 # See also LICENSE.txt
 # See also LICENSES.txt
 
