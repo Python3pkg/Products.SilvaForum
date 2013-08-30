@@ -5,6 +5,7 @@
 
 import re
 import cgi
+import transaction
 
 from AccessControl import getSecurityManager, Unauthorized
 from DateTime import DateTime
@@ -225,6 +226,7 @@ class ForumView(ContainerViewBase):
                     message = self.do_subscribe_user(content)
                     if message:
                         self.messages.append(message)
+                    transaction.commit()
                     success = True
         if not success:
             self.topic = topic
@@ -299,10 +301,11 @@ class TopicView(ContainerViewBase):
                     self.messages = [str(e)]
                 else:
                     self.messages = [_('Comment added.')]
-                    success = True
                     message = self.do_subscribe_user(self.context)
                     if message:
                         self.messages.append(message)
+                    transaction.commit()
+                    success = True
 
         if not success:
             self.title = title
