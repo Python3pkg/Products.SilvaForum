@@ -1,10 +1,10 @@
 History
 =======
 
-3.0.2 (unreleased)
+3.0.2 (2013/10/09)
 ------------------
 
-- ...
+- Compatibility fixes regarding the last author API changes.
 
 3.0.1 (2013/05/24)
 ------------------
