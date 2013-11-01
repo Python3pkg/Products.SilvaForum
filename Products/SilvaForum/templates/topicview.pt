@@ -66,6 +66,7 @@
         <input id="forum-subscribe-closer" class="dialog-closer" type="image"
                title="hide subscribe form"
                tal:attributes="src static/close_window.png"
+               alt="Close"
                i18n:attributes="title" />
         <tal:provider tal:replace="structure provider:subscriptions" />
       </div>
@@ -130,6 +131,7 @@
         <input id="forum-post-closer" class="dialog-closer" type="image"
                title="hide post form"
                tal:attributes="src static/close_window.png"
+               alt="Close"
                i18n:attributes="title" />
         <form method="post" name="post" action="#"
               tal:attributes="action view/action_url">

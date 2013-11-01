@@ -4,19 +4,20 @@
        tal:define="show_form python:view.preview or view.messages or view.topic_missing">
     <script type="text/javascript">
       // <![CDATA[
+      window.focussed_form_field = null;
       function add_smiley(text_to_add) {
-      /* add a smiley to the topic field
-      */
-      var topic = document.getElementById('topic');
-      var content = topic.value;
-      var lastchar = content.charAt(content.length - 1);
-      if (lastchar && lastchar != ' ' && lastchar != '\t' && lastchar != '\n'
-          && lastchar != '\r') {
-         content += ' ';
-      };
-      content += text_to_add + ' ';
-      topic.value = content;
-      topic.focus();
+          var input = window.focussed_form_field;
+          if (!input) {
+              return;
+          };
+          var content = input.value;
+          var lastchar = content.charAt(content.length - 1);
+          if (lastchar && lastchar != ' ' && lastchar != '\t' && lastchar != '\n' && lastchar != '\r') {
+              content += ' ';
+          };
+          content += text_to_add + ' ';
+          input.value = content;
+          input.focus();
       };
       // ]]>
     </script>
@@ -41,6 +42,7 @@
         <input id="forum-post-closer" class="dialog-closer" type="image"
                str="#" width="16" height="16" title="hide form"
                tal:attributes="src static/close_window.png"
+               alt="Close"
                i18n:attributes="title" />
         <form class="forum-form" method="post" name="post" action="#"
               tal:attributes="action context/@@absolute_url">
@@ -53,7 +55,7 @@
           <div class="forum-field">
             <div class="feedback warning"
                  tal:condition="view/topic_missing">
-              <span i18n:translate="">
+              <span class="feedback warning" i18n:translate="">
                 Please provide a subject for the new topic.
               </span>
             </div>
@@ -68,9 +70,15 @@
             <label for="topic" i18n:translate="">Subject</label>
             <input class="store" type="text"
                    id="topic" name="topic" size="70"
+                   onfocus="window.focussed_form_field = this"
                    tal:attributes="value view/topic" />
           </div>
-
+          <div class="forum-field">
+            <label for="text" i18n:translate="">Message</label>
+            <textarea name="text" id="text" rows="5" cols="68" class="store"
+                      onfocus="window.focussed_form_field = this" tal:content="view/text">
+            </textarea>
+          </div>
           <div class="forum-field"
                tal:condition="view/inline_subscription">
             <input type="checkbox" name="subscribe" id="subscribe"

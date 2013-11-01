@@ -36,6 +36,7 @@ LINK_RE = re.compile(
     r'\/\/www\.|www\.|mailto\:)\S+[^).\s])')
 ABSOLUTE_LINK_RE = re.compile(r'(<a\shref="www)')
 
+
 def replace_links(text):
     # do regex for links and replace at occurrence
     text = LINK_RE.sub('<a href="\g<1>">\g<1></a>', text)
@@ -105,7 +106,7 @@ class ContainerViewBase(ViewBase):
             email = self.get_user_email()
             if email:
                 if not ISubscriptionManager(
-                    self.context).is_subscribed(email):
+                        self.context).is_subscribed(email):
                     self.inline_subscription = True
 
         self.messages = []
@@ -194,6 +195,7 @@ class ForumView(ContainerViewBase):
     grok.context(IForum)
 
     topic = ''
+    text = ''
     topic_missing = False
     username = ''
     anonymous = False
@@ -201,8 +203,9 @@ class ForumView(ContainerViewBase):
     preview_validated = False
     subscribe = True
 
-    def action_preview(self, topic, anonymous):
+    def action_preview(self, topic, text, anonymous):
         self.topic = topic
+        self.text = text
         self.anonymous = anonymous
         self.username = self.get_preview_username(anonymous)
         self.preview = True
@@ -210,7 +213,7 @@ class ForumView(ContainerViewBase):
         self.topic_missing = not topic
         self.subscribe = 'subscribe' in self.request.form
 
-    def action_post(self, topic, anonymous):
+    def action_post(self, topic, text, anonymous):
         success = False
         if self.authorized_to_post():
             if not topic:
@@ -219,6 +222,8 @@ class ForumView(ContainerViewBase):
                 try:
                     content = self.context.add_topic(
                         topic, self.need_captcha or anonymous)
+                    content.add_comment(
+                        topic, text, self.need_captcha or anonymous)
                 except ValueError, e:
                     self.messages = [str(e)]
                 else:
@@ -230,6 +235,7 @@ class ForumView(ContainerViewBase):
                     success = True
         if not success:
             self.topic = topic
+            self.text = text
             self.anonymous = anonymous
             self.subscribe = 'subscribe' in self.request.form
 
@@ -238,14 +244,15 @@ class ForumView(ContainerViewBase):
         ('action.post', action_post),
         ]
 
-    def update(self, topic=None, anonymous=False):
+    def update(self, topic=None, text=None, anonymous=False):
         super(ForumView, self).update()
 
         topic = unicode(topic or '', 'UTF-8').strip()
+        text = unicode(text or '', 'UTF-8').strip()
 
         for name, action in self.ACTIONS:
             if name in self.request.form:
-                action(self, topic, anonymous)
+                action(self, topic, text, anonymous)
                 break
 
         self.topics = Batch(
