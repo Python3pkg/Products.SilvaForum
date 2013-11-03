@@ -10,7 +10,7 @@ div.forum input[type=text], textarea {
   margin: 0.3em 0;
 }
 div.forum input.store, textarea.store {
-  width:99%;
+  width: 99%;
 }
 div.forum input[type=submit] {
   margin: 0.1em 0.5em 0.1em 0;
@@ -21,7 +21,7 @@ div.forum input[type=checkbox] {
 div.forum input.dialog-closer {
   position: absolute;
   right: 0.4em;
-  top: 0.2em;
+  top: 0.4em;
 }
 div.forum #form-field-email {
   width: 16em;
@@ -84,7 +84,7 @@ div.forum-user-controls {
 }
 /* forum expandable js widget */
 div.forum div.dialog-opener {
-  margin-top: -0.9em;
+  margin-top: -1em;
   float: right;
   clear: both;
 }
@@ -95,6 +95,10 @@ div.forum-dialog {
   padding: 0.4em 0.5em 0.5em;
   border: 1px solid #808080;
   clear: both;
+}
+div.forum div.action {
+  float: left;
+  margin-top: 0.2em;
 }
 div#emoticons {
   float: right;
@@ -189,8 +193,3 @@ div.forum div.field-captcha-wrapper {
 div.forum input.field-captcha {
   width: 136px;
 }
-div.forum div.action {
-  float: left;
-  margin-top: 0.2em;
-}
-
