@@ -1,6 +1,6 @@
 /* forum elements */
 /* input fields */
-div.forum input, textarea {
+div.forum input, div.forum textarea {
   border: 1px solid #aaa;
 }
 div.forum input.dialog-closer {
@@ -13,7 +13,7 @@ div.forum input.store, textarea.store {
   width:99%;
 }
 div.forum input[type=submit] {
-  margin: 0.1em 0;
+  margin: 0.1em 0.5em 0.1em 0;
 }
 div.forum input[type=checkbox] {
   margin: 0.2em 0;
@@ -21,13 +21,13 @@ div.forum input[type=checkbox] {
 div.forum input.dialog-closer {
   position: absolute;
   right: 0.4em;
-  top: 0.4em;
+  top: 0.2em;
 }
 div.forum #form-field-email {
   width: 16em;
 }
 /* general forum styling */
-div.forum h2 {
+div.forum h2 { /* section heading */
   margin: 0.2em 0 0.4em 0;
   color: #909090;
   font-size: 15px;
@@ -38,10 +38,17 @@ div.forum h2 {
 div.forum h3.comments {
   padding-top: 0.7em;
 }*/
-div.forum-dialog h2 { /* dialog heading */
+div.forum-dialog h3 { /* dialog heading */
   padding-right: 0.5em;
   color: #3e3e3e;
   font-weight: normal;
+}
+div.forum h3.comments { /* section heading */
+  margin: 0.2em 0 0.4em 0;
+  color: #909090;
+  font-size: 15px;
+  font-weight: bold;
+  text-transform: none;
 }
 div.forum h3 { /* topic heading */
   margin: 0;
@@ -77,7 +84,7 @@ div.forum-user-controls {
 }
 /* forum expandable js widget */
 div.forum div.dialog-opener {
-  margin-bottom: 0.5em;
+  margin-top: -0.9em;
   float: right;
   clear: both;
 }
@@ -85,7 +92,7 @@ div.forum-dialog {
   position: relative;
   display: inline-block;
   margin: 0.5em 0 0.5em;
-  padding: 0.2em 0.5em 0.5em;
+  padding: 0.4em 0.5em 0.5em;
   border: 1px solid #808080;
   clear: both;
 }
@@ -94,7 +101,7 @@ div#emoticons {
   padding-right: 0.7em;
 }
 div.forum div.field {
-  margin-top: 0.5em;
+  margin: 0.8em 0;
 }
 div.forum div.captcha-field {
   margin-top: 1em;
@@ -172,5 +179,18 @@ table.forum-preview {
 }
 table.forum-preview td.topic {
   text-decoration: underline;
+}
+div.forum div.field-captcha-wrapper {
+  float: none;
+  clear: both;
+  width: 136px;
+  padding-top: 0.5em;
+}
+div.forum input.field-captcha {
+  width: 136px;
+}
+div.forum div.action {
+  float: left;
+  margin-top: 0.2em;
 }
 
