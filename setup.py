@@ -15,7 +15,7 @@ def product_path(filename):
 
 setup(name='Products.SilvaForum',
       version=version,
-      description="Forum for Silva",
+      description="Forum content types for Silva CMS",
       long_description=open(product_path("README.txt")).read() + "\n" + \
           open(product_path("HISTORY.txt")).read(),
       classifiers=[
@@ -27,7 +27,7 @@ setup(name='Products.SilvaForum',
       keywords='forum silva zope2',
       author='Infrae',
       author_email='info@infrae.com',
-      url='http://infrae.com/products/silva',
+      url='https://github.com/silvacms/Products.SilvaForum',
       license='BSD',
       packages=find_packages(exclude=['ez_setup']),
       namespace_packages=['Products'],

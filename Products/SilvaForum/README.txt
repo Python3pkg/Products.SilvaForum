@@ -5,7 +5,7 @@ SilvaForum
 What is it?
 ===========
 
-SilvaForum is an extension for Silva that provides a classic
+SilvaForum is an extension for `Silva`_ that provides a classic
 discussion forum environment. Site visitors can create topics
 (subjects or questions) and add comments to existing
 topics.
@@ -91,15 +91,10 @@ For Silva 2.2/2.3 the forum was refactored and vastly improved, with
 the generous help of the Schweizerischer Erdbebendienst (SED, or Swiss
 Seismological Service) and ETH Zurich: http://www.seismo.ethz.ch/
 
-Questions, remarks, etc.
-========================
-
-If you have questions, remarks, bug reports or fixes, please send an
-email to info@infrae.com.
-
 Code repository
 ===============
 
-You can find the code of this extension in Mercurial:
-https://hg.infrae.com/Products.SilvaForum/.
+You can find the code of this extension in Git:
+https://github.com/silvacms/Products.SilvaForum
 
+.. _Silva: http://silvacms.org
