@@ -1,10 +1,10 @@
 History
 =======
 
-3.0.3 (unreleased)
+3.0.3 (2013/12/16)
 ------------------
 
-- ...
+- Add a first message at the same time than a topic.
 
 3.0.2 (2013/10/09)
 ------------------
