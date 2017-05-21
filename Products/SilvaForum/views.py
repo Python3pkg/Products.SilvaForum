@@ -64,8 +64,8 @@ class ViewBase(silvaviews.View):
         return dtformat(self.request, dt, DateTime())
 
     def format_text(self, text):
-        if not isinstance(text, unicode):
-            text = unicode(text, 'utf-8')
+        if not isinstance(text, str):
+            text = str(text, 'utf-8')
         text = emoticons(
             replace_links(cgi.escape(text, 1)),
             self.emoticons_directory)
@@ -74,11 +74,11 @@ class ViewBase(silvaviews.View):
 
 def cached_method(method):
     def cached(self):
-        key = '_v_cached_method_' + method.func_name
+        key = '_v_cached_method_' + method.__name__
         if key not in self.__dict__:
             self.__dict__[key] = method(self)
         return self.__dict__[key]
-    cached.func_name = method.func_name
+    cached.__name__ = method.__name__
     return cached
 
 
@@ -113,7 +113,7 @@ class ContainerViewBase(ViewBase):
 
     def smileys(self):
         smileys = []
-        for filename, syntaxes in smileydata.items():
+        for filename, syntaxes in list(smileydata.items()):
             smileys.append({
                 'text': syntaxes[0],
                 'href': '/'.join((self.emoticons_directory, filename)),
@@ -154,7 +154,7 @@ class ContainerViewBase(ViewBase):
             captcha = getMultiAdapter(
                 (self.context, self.request), name='captcha')
             if not captcha.verify(value):
-                self.messages = [_(u'Invalid captcha value')]
+                self.messages = [_('Invalid captcha value')]
                 return False
             return True
         return self.authenticate()
@@ -167,10 +167,10 @@ class ContainerViewBase(ViewBase):
                     service.request_subscription(
                         content, self.get_user_email())
                 except:
-                    return _(u"An error happened while subscribing "
-                             u"you to the post.")
-                return _(u"A confirmation mail have been sent "
-                         u"for your subscription.")
+                    return _("An error happened while subscribing "
+                             "you to the post.")
+                return _("A confirmation mail have been sent "
+                         "for your subscription.")
         return None
 
     def action_authenticate(self, *args):
@@ -224,7 +224,7 @@ class ForumView(ContainerViewBase):
                         topic, self.need_captcha or anonymous)
                     content.add_comment(
                         topic, text, self.need_captcha or anonymous)
-                except ValueError, e:
+                except ValueError as e:
                     self.messages = [str(e)]
                 else:
                     self.messages = [_('Topic added.')]
@@ -247,8 +247,8 @@ class ForumView(ContainerViewBase):
     def update(self, topic=None, text=None, anonymous=False):
         super(ForumView, self).update()
 
-        topic = unicode(topic or '', 'UTF-8').strip()
-        text = unicode(text or '', 'UTF-8').strip()
+        topic = str(topic or '', 'UTF-8').strip()
+        text = str(text or '', 'UTF-8').strip()
 
         for name, action in self.ACTIONS:
             if name in self.request.form:
@@ -304,7 +304,7 @@ class TopicView(ContainerViewBase):
                 try:
                     self.context.add_comment(
                         title, text, self.need_captcha or anonymous)
-                except ValueError, e:
+                except ValueError as e:
                     self.messages = [str(e)]
                 else:
                     self.messages = [_('Comment added.')]
@@ -327,8 +327,8 @@ class TopicView(ContainerViewBase):
 
     def update(self, title=None, text=None, anonymous=False):
         super(TopicView, self).update()
-        title = unicode(title or '', 'UTF-8').strip()
-        text = unicode(text or '', 'UTF-8').strip()
+        title = str(title or '', 'UTF-8').strip()
+        text = str(text or '', 'UTF-8').strip()
 
         for name, action in self.ACTIONS:
             if name in self.request.form:

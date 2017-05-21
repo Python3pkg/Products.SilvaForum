@@ -58,7 +58,7 @@ class SMIFunctionalTestCase(unittest.TestCase):
         self.assertEqual(
             form.get_control('editform.field.text').value,
             'Comment text')
-        form.get_control('editform.field.text').value = u'New comment text'
+        form.get_control('editform.field.text').value = 'New comment text'
         self.assertEqual(
             form.get_control('editform.action.save-changes').click(),
             200)
@@ -68,7 +68,7 @@ class SMIFunctionalTestCase(unittest.TestCase):
         self.assertEqual(self.root.forum.topic.number_of_comments(), 1)
         self.assertEqual(
             self.root.forum.topic.com.get_text(),
-            u"New comment text")
+            "New comment text")
 
         # Delete the forum
         self.assertEqual(browser.inspect.breadcrumbs['root'].click(), 200)

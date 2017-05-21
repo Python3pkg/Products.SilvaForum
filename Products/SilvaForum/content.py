@@ -204,7 +204,7 @@ class ForumAddForm(silvaforms.SMIAddForm):
     """Forum Add Form
     """
     grok.context(IForum)
-    grok.name(u"Silva Forum")
+    grok.name("Silva Forum")
 
 
 class Topic(ForumContainer, ForumPost, Folder):
@@ -267,7 +267,7 @@ class TopicAddForm(silvaforms.SMIAddForm):
     """Topic Add Form
     """
     grok.context(ITopic)
-    grok.name(u'Silva Forum Topic')
+    grok.name('Silva Forum Topic')
 
 
 class Comment(ForumPost, Content, SimpleItem):
@@ -284,15 +284,15 @@ class Comment(ForumPost, Content, SimpleItem):
 
 class ICommentSchema(ITitledContent):
     text = schema.Text(
-        title=u"comment",
-        description=u"Comment text")
+        title="comment",
+        description="Comment text")
 
 
 class CommentAddForm(silvaforms.SMIAddForm):
     """Comment Add Form.
     """
     grok.context(IComment)
-    grok.name(u'Silva Forum Comment')
+    grok.name('Silva Forum Comment')
 
     fields = silvaforms.Fields(ICommentSchema)
 

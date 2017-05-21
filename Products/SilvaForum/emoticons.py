@@ -25,7 +25,7 @@ def get_alt_name(imgname):
 
 def flatten_smileydata(d=smileydata):
     ret = []
-    for key, value in d.items():
+    for key, value in list(d.items()):
         for subvalue in value:
             ret.append((key, subvalue))
     ret.sort(lambda a, b: cmp(len(b[1]), len(a[1])))

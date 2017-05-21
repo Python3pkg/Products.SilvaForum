@@ -217,10 +217,10 @@ class TopicViewTest(SilvaForumTestCase):
     def test_unicode_form_save_problems(self):
         view = getMultiAdapter(
             (self.root.forum.topic, TestRequest()),
-            name=u'content.html')
+            name='content.html')
 
-        view.request.form['title'] = u'F\u00fb'.encode('UTF-8')
-        view.request.form['text'] = u'b\u00e4r'.encode('UTF-8')
+        view.request.form['title'] = 'F\u00fb'.encode('UTF-8')
+        view.request.form['text'] = 'b\u00e4r'.encode('UTF-8')
 
         view.update()
 
@@ -257,7 +257,7 @@ class CommentViewTest(SilvaForumTestCase):
     def test_format_text(self):
         view = getMultiAdapter(
             (self.root.forum.topic.com, TestRequest()),
-            name=u'content.html')
+            name='content.html')
         view.update()
 
         self.assertEqual('foo bar', view.format_text('foo bar'))
